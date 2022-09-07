@@ -1,0 +1,16 @@
+/home/mobslicer152/Desktop/ntkrnl/build/CMakeFiles/edit_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/CMakeFiles/rebuild_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/CMakeFiles/edit_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/CMakeFiles/rebuild_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/ntos/CMakeFiles/ntoskrnl.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/ntos/CMakeFiles/edit_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/ntos/CMakeFiles/rebuild_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/ntos/rtl/CMakeFiles/rtl.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/ntos/rtl/CMakeFiles/edit_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/ntos/rtl/CMakeFiles/rebuild_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/hals/CMakeFiles/edit_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/hals/CMakeFiles/rebuild_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/bootvid/CMakeFiles/edit_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/bootvid/CMakeFiles/rebuild_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/ntdll/CMakeFiles/edit_cache.dir
+/home/mobslicer152/Desktop/ntkrnl/build/minkernel/ntdll/CMakeFiles/rebuild_cache.dir

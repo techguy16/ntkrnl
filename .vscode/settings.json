@@ -1,0 +1,30 @@
+{
+    "files.associations": {
+        "*.asm": "masm",
+        "basetsd.h": "c",
+        "nttypes.h": "c",
+        "unistd.h": "c",
+        "wtypes.h": "c",
+        "nturtl.h": "c",
+        "ntos.h": "c",
+        "ntosdef.h": "c",
+        "ex.h": "c",
+        "arc.h": "c",
+        "ke.h": "c",
+        "nt.h": "c",
+        "ntrtl.h": "c",
+        "*.inc": "cpp",
+        "ntrtlp.h": "c",
+        "zwapi.h": "c",
+        "error.h": "c",
+        "string.h": "c",
+        "amd64.h": "c",
+        "immintrin.h": "c",
+        "heappriv.h": "c",
+        "heap.h": "c",
+        "stdio.h": "c",
+        "windows.h": "c",
+        "winpr.h": "c",
+        "windef.h": "c"
+    }
+}
