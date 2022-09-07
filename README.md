@@ -6,7 +6,7 @@ the source for a few of them, such as the compiler, isn't part of the Windows so
 `ntoskrnl.exe` (technically `ntkrnlmp.exe` but whatever) that just works in a slightly modified install of Windows XP/Server 2003 or at least just as a weird combo of the kernel, NTDLL, and some custom Native API programs that acts
 kind of like a minimal Linux system just running BusyBox as the userspace. Please note that this project is entirely based on leaked source code with a tiny little bit of reverse engineered stuff and it is therefore a very bad idea to
 make any attempt to commercialize or open source this. Use of this project is at your own risk and only for personal or research purposes, and you take all responsibility for any shitty stuff that you do or is caused by the use of
-this project. Also credit to Microsoft for building this incredibly monument to technology.
+this project. Also credit to Microsoft (especially Dave Cutler) for building this incredible and historic piece of technology.
 
 ## Main challenges in this foolhardy endeavour
 OBVIOUSLY there are gonna be quite a few issues with this, namely:
