@@ -60,7 +60,7 @@ CcFrame ends
 
         NESTED_ENTRY RtlCaptureContext, _TEXT$00
 
-        push_eflags                     ; save processor flags
+        pushf                     ; save processor flags
 
         END_PROLOGUE
 
@@ -160,9 +160,9 @@ RcFrame ends
 
         NESTED_ENTRY RtlRestoreContext, _TEXT$00
 
-        push_reg rbp                    ; save nonvolatile registers
-        push_reg rsi                    ;
-        push_reg rdi                    ;
+        push rbp                    ; save nonvolatile registers
+        push rsi                    ;
+        push rdi                    ;
         alloc_stack (sizeof RcFrame)    ; allocate stack frame
         set_frame rbp, 0                ; set frame pointer
 

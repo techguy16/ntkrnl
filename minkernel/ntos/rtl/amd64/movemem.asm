@@ -62,8 +62,8 @@ include ksamd64.inc
 
         NESTED_ENTRY RtlCompareMemory, _TEXT$00
 
-        push_reg rdi                    ; save nonvolatile registers
-        push_reg rsi                    ;
+        push rdi                    ; save nonvolatile registers
+        push rsi                    ;
 
         END_PROLOGUE
 
@@ -163,7 +163,7 @@ RlCM60: mov     rax, r8                 ;
 
         NESTED_ENTRY RtlCompareMemoryUlong, _TEXT$00
 
-        push_reg rdi                    ; save nonvolatile register
+        push rdi                    ; save nonvolatile register
 
         END_PROLOGUE
 
@@ -212,8 +212,8 @@ RlCU10: lea     rax, [rdx*4]            ; compute successful compare in bytes
 
         NESTED_ENTRY RtlCopyMemory, _TEXT$00
 
-        push_reg rdi                    ; save nonvolatile registers
-        push_reg rsi                    ;
+        push rdi                    ; save nonvolatile registers
+        push rsi                    ;
 
         END_PROLOGUE
 
@@ -364,8 +364,8 @@ RlCP70: mov     rcx, r8                 ; compute number of 2-byte blocks
 
         NESTED_ENTRY RtlCopyMemoryNonTemporal, _TEXT$00
 
-        push_reg rdi                    ; save nonvolatile registers
-        push_reg rsi                    ;
+        push rdi                    ; save nonvolatile registers
+        push rsi                    ;
 
         END_PROLOGUE
 
@@ -467,7 +467,7 @@ RlNT60: sfence                          ; make sure all stores complete
 
         NESTED_ENTRY RtlFillMemory, _TEXT$00
 
-        push_reg rdi                    ; save nonvolatile register
+        push rdi                    ; save nonvolatile register
 
         END_PROLOGUE
 
@@ -547,8 +547,8 @@ RlFM30: pop     rdi                     ; restore nonvolatile register
 
         NESTED_ENTRY RtlMoveMemory, _TEXT$00
 
-        push_reg rdi                    ; save nonvolatile registers
-        push_reg rsi                    ;
+        push rdi                    ; save nonvolatile registers
+        push rsi                    ;
 
         END_PROLOGUE
 

@@ -214,7 +214,7 @@ Pop20:  mov     rax, rdx                ; set address of next entry
         shl     r9, 63 - 42             ; shift address into position
         mov     rax, [rcx]              ; get address, sequence, and depth
 
-if DBG
+ifdef DBG
 
         test    dl, 0fh                 ; test if entry 16-byte aligned
         jz      short Push10            ; if z, entry is 16-byte aligned
@@ -373,13 +373,13 @@ Fl20:   mov     rax, rdx                ; set address of first entry
 
         NESTED_ENTRY InterlockedPushListSList, _TEX$00
 
-        push_reg rsi                    ; save nonvolatile register
+        push rsi                    ; save nonvolatile register
 
         END_PROLOGUE
 
         mov     rax, [rcx]              ; get address, sequence, and depth
 
-if DBG
+ifdef DBG
 
         test    dl, 0fh                 ; test if entry 16-byte aligned
         jnz     short Pshl10            ; if nz, entry not 16-byte aligned

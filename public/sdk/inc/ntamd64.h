@@ -25,6 +25,10 @@ Revision History:
 #pragma once
 #endif
 
+#ifdef __clang__
+#include <intrin.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -106,6 +110,7 @@ extern "C" {
 #define InterlockedBitTestAndSet64 _interlockedbittestandset64
 #define InterlockedBitTestAndReset64 _interlockedbittestandreset64
 
+#ifndef __clang__
 BOOLEAN
 _bittest (
     IN CONST LONG *Base,
@@ -177,6 +182,7 @@ _interlockedbittestandreset64 (
     IN LONG64 volatile *Base,
     IN LONG64 Offset
     );
+#endif
 
 #pragma intrinsic(_bittest)
 #pragma intrinsic(_bittestandcomplement)
@@ -201,6 +207,7 @@ _interlockedbittestandreset64 (
 #define BitScanForward64 _BitScanForward64
 #define BitScanReverse64 _BitScanReverse64
 
+#ifndef __clang__
 BOOLEAN
 _BitScanForward (
     OUT ULONG *Index,
@@ -224,6 +231,7 @@ _BitScanReverse64 (
     OUT ULONG *Index,
     IN ULONG64 Mask
     );
+#endif
 
 #pragma intrinsic(_BitScanForward)
 #pragma intrinsic(_BitScanReverse)
@@ -273,10 +281,12 @@ _mm_prefetch(
     );
 
 /* constants for use with _mm_prefetch */
+#ifndef __clang__
 #define _MM_HINT_T0     1
 #define _MM_HINT_T1     2
 #define _MM_HINT_T2     3
 #define _MM_HINT_NTA    0
+#endif
 
 #pragma intrinsic(_mm_prefetch)
 #pragma intrinsic(_mm_lfence)
@@ -324,6 +334,7 @@ __rdtsc (
 // Define functions to move strings as bytes, words, dwords, and qwords.
 //
 
+#ifndef __clang__
 VOID
 __movsb (
     IN PUCHAR Destination,
@@ -351,6 +362,7 @@ __movsq (
     IN PULONGLONG Source,
     IN SIZE_T Count
     );
+#endif
 
 #pragma intrinsic(__movsb)
 #pragma intrinsic(__movsw)
@@ -420,6 +432,7 @@ UnsignedMultiplyHigh (
 // Define functions to read and write the uer TEB and the system PCR/PRCB.
 //
 
+#ifndef __clang__
 UCHAR
 __readgsbyte (
     IN ULONG Offset
@@ -463,6 +476,7 @@ __writegsqword (
     IN ULONG Offset,
     IN ULONG64 Data
     );
+#endif
 
 #pragma intrinsic(__readgsbyte)
 #pragma intrinsic(__readgsword)

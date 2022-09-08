@@ -326,7 +326,7 @@ typedef void * POINTER_64 PVOID64;
 #define VOID void
 typedef char CHAR;
 typedef short SHORT;
-typedef int LONG;
+typedef long LONG;
 #endif
 
 //
@@ -424,7 +424,7 @@ typedef QUAD *PQUAD;
 
 typedef unsigned char UCHAR;
 typedef unsigned short USHORT;
-typedef unsigned int ULONG;
+typedef unsigned long ULONG;
 typedef QUAD UQUAD;
 
 //

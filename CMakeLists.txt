@@ -30,6 +30,6 @@ set(DS_INC_PATH ${CMAKE_SOURCE_DIR}/public/internal/ds/inc)
 set(SDKTOOLS_INC_PATH ${CMAKE_SOURCE_DIR}/public/internal/sdktools/inc)
 set(MINKERNEL_INC_PATH ${CMAKE_SOURCE_DIR}/public/internal/minkernel/inc)
 
-add_compile_definitions(DEVL=1)
+add_compile_definitions(DEVL=1 DBG=1)
 
 add_subdirectory(minkernel)

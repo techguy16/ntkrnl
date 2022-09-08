@@ -21,11 +21,9 @@ Revision History:
 #ifndef __amd64_
 #define __amd64_
 
-/*#ifdef __clang__
-#undef __STDC_HOSTED__
-#include <x86intrin.h>
-#define __STDC_HOSTED__ 1
-#endif*/
+#ifdef __clang__
+#include <intrin.h>
+#endif
 
 #if !(defined(_NTDRIVER_) || defined(_NTDDK_) || defined(_NTIFS_) || defined(_NTHAL_) || defined(_NTOSP_)) && !defined(_BLDR_)
 
@@ -406,18 +404,20 @@ extern "C" {
 
 
 #define ReadCR0() __readcr0()
+#define WriteCR0(Data) __writecr0(Data)
 
+#ifndef __clang__
 ULONG64
 __readcr0 (
     VOID
     );
 
-#define WriteCR0(Data) __writecr0(Data)
 
 VOID
 __writecr0 (
     IN ULONG64 Data
     );
+#endif
 
 #pragma intrinsic(__readcr0)
 #pragma intrinsic(__writecr0)
@@ -427,18 +427,20 @@ __writecr0 (
 //
 
 #define ReadCR3() __readcr3()
+#define WriteCR3(Data) __writecr3(Data)
 
+#ifndef __clang__
 ULONG64
 __readcr3 (
     VOID
     );
 
-#define WriteCR3(Data) __writecr3(Data)
 
 VOID
 __writecr3 (
     IN ULONG64 Data
     );
+#endif
 
 #pragma intrinsic(__readcr3)
 #pragma intrinsic(__writecr3)
@@ -463,18 +465,19 @@ __writecr3 (
 //
 
 #define ReadCR4() __readcr4()
+#define WriteCR4(Data) __writecr4(Data)
 
+#ifndef __clang__
 ULONG64
 __readcr4 (
     VOID
     );
 
-#define WriteCR4(Data) __writecr4(Data)
-
 VOID
 __writecr4 (
     IN ULONG64 Data
     );
+#endif
 
 #pragma intrinsic(__readcr4)
 #pragma intrinsic(__writecr4)
@@ -486,18 +489,20 @@ __writecr4 (
 //
 
 #define ReadCR8() __readcr8()
+#define WriteCR8(Data) __writecr8(Data)
 
+#ifndef __clang__
 ULONG64
 __readcr8 (
     VOID
     );
 
-#define WriteCR8(Data) __writecr8(Data)
 
 VOID
 __writecr8 (
     IN ULONG64 Data
     );
+#endif
 
 #pragma intrinsic(__readcr8)
 #pragma intrinsic(__writecr8)

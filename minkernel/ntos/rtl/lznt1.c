@@ -355,6 +355,9 @@ Return Value:
 --*/
 
 {
+    // The assembly doesn't work with current MASM
+    return STATUS_NOT_SUPPORTED;
+
     NTSTATUS Status;
 
     PLZNT1_MATCH_FUNCTION MatchFunction;
