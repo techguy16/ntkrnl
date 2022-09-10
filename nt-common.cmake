@@ -17,6 +17,14 @@ set(CMAKE_C_CREATE_SHARED_LIBRARY "${CMAKE_C_LINK_EXECUTABLE} -dll")
 set(CMAKE_CXX_CREATE_SHARED_LIBRARY "${CMAKE_C_LINK_EXECUTABLE} -dll")
 set(CMAKE_AR llvm-ar)
 
+if (NOT "${CMAKE_HOST_SYSTEM_NAME}" MATCHES "Windows")
+	find_program(CMAKE_ASM_MASM_COMPILER uasm)
+	if ("${CMAKE_ASM_MASM_COMPILER}" STREQUAL "CMAKE_ASM_MASM_COMPILER-NOTFOUND")
+		message(FATAL_ERROR "uasm assembler required, it's in the AUR and probably other places")
+	endif()
+	set(NT_UASM TRUE)
+endif()
+
 set(CMAKE_C_COMPILER_WORKS TRUE)
 set(CMAKE_CXX_COMPILER_WORKS TRUE)
 

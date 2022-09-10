@@ -9,3 +9,8 @@ if ("${CMAKE_SOURCE_DIR}" MATCHES "CMakeTmp")
 else()
     include(nt-common.cmake)
 endif()
+
+if (DEFINED NT_UASM)
+	set(CMAKE_ASM_MASM_FLAGS_INIT "-win64")
+endif()
+
