@@ -398,8 +398,9 @@ typedef enum
     WMI_ENABLE_COLLECTION = 6,
     WMI_DISABLE_COLLECTION = 7,
     WMI_REGINFO = 8,
-    WMI_EXECUTE_METHOD = 9
+    WMI_EXECUTE_METHOD = 9,
 #endif
+        _ = -1
 } WMIDPREQUESTCODE;
 
 #if defined(_WINNT_) || defined(WINNT)

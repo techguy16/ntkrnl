@@ -32,6 +32,8 @@ Revision History:
 #include "parseini.h"
 #include "geninst.h"
 
+#define CM_GENINST_TAG 420420420
+
 typedef
 BOOLEAN
 (* PFN_INFRULE)(

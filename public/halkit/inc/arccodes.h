@@ -21,10 +21,32 @@ Revision History:
 
 #ifndef _ARCCODES_
 #define _ARCCODES_
-
+
 //
 // Define ARC status codes.
 //
+
+#undef E2BIG
+#undef EACCES
+#undef EAGAIN
+#undef EBADF
+#undef EBUSY
+#undef EFAULT
+#undef EINVAL
+#undef EIO
+#undef EISDIR
+#undef EMFILE
+#undef EMLINK
+#undef ENAMETOOLONG
+#undef ENODEV
+#undef ENOENT
+#undef ENOEXEC
+#undef ENOMEM
+#undef ENOSPC
+#undef ENOTDIR
+#undef ENOTTY
+#undef ENXIO
+#undef EROFS
 
 typedef enum _ARC_CODES {
     ESUCCESS,       //  0
@@ -50,6 +72,6 @@ typedef enum _ARC_CODES {
     ENXIO,          // 20
     EROFS,          // 21
     EMAXIMUM        // 22
-    } ARC_CODES;
+} ARC_CODES;
 
 #endif // ARCCODES

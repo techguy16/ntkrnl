@@ -1,10 +1,10 @@
-/*********************************************************/
-/**               Microsoft LAN Manager                 **/
-/**       Copyright (c) Microsoft Corporation. All rights reserved.
-/**                                                     **/
-/**     Rpc Error Codes from the compiler and runtime   **/
-/**                                                     **/
-/*********************************************************/
+/*********************************************************************/
+/**               Microsoft LAN Manager                             **/
+/**   Copyright (c) Microsoft Corporation. All rights reserved.     **/
+/**                                                                 **/
+/**     Rpc Error Codes from the compiler and runtime               **/
+/**                                                                 **/
+/*********************************************************************/
 
 /*
 If you change this file, you must also change rpcerr.h.

@@ -83,7 +83,7 @@ set(RTL_amd64_SOURCES amd64/capture.asm
                       amd64/xcptmisc.asm)
 
 add_library(rtl STATIC ${RTL_HEADER} ${RTL_SOURCES} ${RTL_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${RTL_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
-target_include_directories(rtl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/ ${minkernelinc} ${NTOSINC} ${SDK_INC_PATH} ${SDK_INC_PATH}/crt ${DS_INC_PATH}
+target_include_directories(rtl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${minkernelinc} ${NTOSINC} ${SDK_INC_PATH} ${SDK_INC_PATH}/crt ${DS_INC_PATH}
                                        ${MINKERNEL_INC_PATH} ${SDKTOOLS_INC_PATH} ${CMAKE_SYSTEM_PROCESSOR})
 target_compile_definitions(rtl PRIVATE ${NT_DEFS})
 if (NOT DEFINED RTL_USER)

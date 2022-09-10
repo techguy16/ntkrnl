@@ -4877,15 +4877,17 @@ KdpSendTraceData(
 
 VOID
 KdReportTraceData(
-    IN struct _WMI_BUFFER_HEADER* Buffer,
+    IN PVOID VoidBuffer,
     IN PVOID Context
     )
 {
+    PWMI_BUFFER_HEADER Buffer;
     BOOLEAN Enable;
     STRING Data;
 
     UNREFERENCED_PARAMETER (Context);
 
+    Buffer = VoidBuffer;
     Data.Buffer = (PCHAR)Buffer;
     if (Buffer->Wnode.BufferSize > 0xffff) {
         Data.Length = 0xffff;

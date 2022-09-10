@@ -60,6 +60,7 @@ extern UNICODE_STRING CmRegistryMachineSystemCurrentControlSetControlSafeBoot;
                             // \REGISTRY\MACHINE\SYSTEM\CURRENTCONTROLSET\CONTROL\SAFEBOOT
 extern UNICODE_STRING CmRegistryMachineSystemCurrentControlSetControlSessionManagerMemoryManagement;
                             // \REGISTRY\MACHINE\SYSTEM\CURRENTCONTROLSET\CONTROL\SESSION MANAGER\MEMORY MANAGEMENT
+extern UNICODE_STRING CmRegistryMachineSystemCurrentControlSetControlBiosInfo;
 extern UNICODE_STRING CmRegistryMachineSystemCurrentControlSetControlBootLog;
                             // \REGISTRY\MACHINE\SYSTEM\CURRENTCONTROLSET\CONTROL\BOOTLOG
 extern UNICODE_STRING CmRegistryMachineSystemCurrentControlSetServicesEventLog;

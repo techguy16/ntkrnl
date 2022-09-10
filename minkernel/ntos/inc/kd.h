@@ -276,7 +276,7 @@ extern ULONG Kd_WIN2000_Mask;
 
 VOID
 KdReportTraceData(
-    IN struct _WMI_BUFFER_HEADER* Buffer,
+    IN PVOID Buffer,
     IN PVOID Context
     );
 

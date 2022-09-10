@@ -196,7 +196,7 @@ Return Value:
         *ValueCached = TRUE;
         if (CMP_IS_CELL_CACHED(CachedList[Index])) {
             pchild = CMP_GET_CACHED_KEYVALUE(CachedList[Index]);
-            *ContainingList = &((PCM_CACHED_VALUE) CachedList[Index]);
+            *ContainingList = ((PCM_CACHED_VALUE) &CachedList[Index]);
         } else {
             pchild = (PCM_KEY_VALUE) HvGetCell(Hive, List->u.KeyList[Index]);
             if( pchild == NULL ) {
@@ -241,7 +241,7 @@ Return Value:
                 // Trying to catch the BAD guy who writes over our pool.
                 CmpMakeSpecialPoolReadOnly(CachedValue);
 
-                *ContainingList = &((PCM_CACHED_VALUE) CachedList[Index]);
+                *ContainingList = ((PPCM_CACHED_VALUE) &CachedList[Index]);
                 //
                 // Now we have the stuff cached, use the cache data.
                 //

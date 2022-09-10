@@ -53,7 +53,7 @@ SOURCES=..\cmapi.c     \
         ..\cmsecache.c \
         ..\cmdown.c    \
         ..\cmalloc.c   \
-        ..\cmhook.c        \
+        ..\cmhook.c    \
         ..\hivebin.c   \
         ..\hivecell.c  \
         ..\hivechek.c  \

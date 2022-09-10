@@ -31,6 +31,8 @@ Revision History:
 #include "stdlib.h"
 #include "parseini.h"
 
+#define CM_PARSEINI_TAG 696969
+
 typedef struct _value   VALUE,      *PVALUE;
 typedef struct _line    LINE,       *PLINE;
 typedef struct _section SECTION,    *PSECTION;
@@ -1839,7 +1841,7 @@ CmpCloseInfFile(
 
 LOGICAL
 CmpSearchInfSection(
-    IN PINF  pInf,
+    IN PVOID  InfHandle,
     IN PCHAR Section
     )
 
@@ -1862,7 +1864,7 @@ CmpSearchInfSection(
 --*/
 
 {
-    return (CmpSearchSectionByName(pInf, Section) != NULL);
+    return (CmpSearchSectionByName(InfHandle, Section) != NULL);
 }
 
 PCHAR
