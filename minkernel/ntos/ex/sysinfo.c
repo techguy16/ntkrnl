@@ -1611,6 +1611,17 @@ Arguments:
                     the system turbo mode is currently disabled which is
                     requested to obtain more processor speed.
 
+        SystemClangInformation - Data type is SYSTEM_CLANG_INFORMATION
+            SYSTEM_CLANG_INFORMATION Structure
+                BOOLEAN BuiltWithClang - Whether the rest of the fields in the
+                    structure mean anything
+                ULONG ClangMajorVersion - The major version of the Clang compiler
+                    used to build the system
+                ULONG ClangMinorVersion - The minor version of the Clang compiler
+                    used to build the system
+                BOOLEAN WasThisATerribleIdea - Whether it was a bad idea to compile
+                    the NT kernel with Clang (always TRUE)
+
     SystemInformationLength - Specifies the length in bytes of the system
         information buffer.
 
@@ -1663,6 +1674,7 @@ Return Value:
     PSYSTEM_SESSION_POOLTAG_INFORMATION SessionPoolTagInformation;
     PSYSTEM_SESSION_MAPPED_VIEW_INFORMATION SessionMappedViewInformation;
     ULONG SessionPoolTagInformationLength;
+    PSYSTEM_CLANG_INFORMATION ClangInformation;
 
     NTSTATUS Status;
     PKPRCB Prcb;
@@ -2914,6 +2926,32 @@ Return Value:
                          &Length);
             if (ARGUMENT_PRESENT(ReturnLength)) {
                 *ReturnLength = Length;
+            }
+            break;
+
+        case SystemClangInformation:
+
+            if (SystemInformationLength < sizeof(SYSTEM_CLANG_INFORMATION)) {
+                return STATUS_INFO_LENGTH_MISMATCH;
+            }
+
+            ClangInformation = (PSYSTEM_CLANG_INFORMATION)SystemInformation;
+
+            ClangInformation->WasThisATerribleIdea = TRUE;
+#ifdef __clang__
+            ClangInformation->BuiltWithClang = TRUE;
+            ClangInformation->ClangMajorVersion = __clang_major__;
+            ClangInformation->ClangMinorVersion = __clang_minor__;
+            ClangInformation->ClangPatchVersion = __clang_patchlevel__;
+#else
+            ClangInformation->BuiltWithClang = FALSE;
+            ClangInformation->ClangMajorVersion = 0;
+            ClangInformation->ClangMinorVersion = 0;
+            ClangInformation->ClangPatchVersion = 0;
+#endif
+
+            if (ARGUMENT_PRESENT(ReturnLength)) {
+                *ReturnLength = sizeof(PSYSTEM_CLANG_INFORMATION);
             }
             break;
 

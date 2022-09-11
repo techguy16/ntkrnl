@@ -1987,7 +1987,7 @@ alldone:
 
 NTSTATUS
 MmGetFileNameForSection (
-    IN PSECTION SectionObject,
+    IN PVOID VoidSectionObject,
     OUT PSTRING FileName
     )
 
@@ -2018,8 +2018,11 @@ Environment:
     POBJECT_NAME_INFORMATION FileNameInfo;
     ULONG whocares;
     NTSTATUS Status;
+    PSECTION SectionObject;
 
 #define xMAX_NAME 1024
+
+    SectionObject = VoidSectionObject;
 
     if (SectionObject->u.Flags.Image == 0) {
         return STATUS_SECTION_NOT_IMAGE;

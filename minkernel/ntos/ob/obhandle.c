@@ -47,7 +47,7 @@ ObpIncrementHandleDataBase (
 
 NTSTATUS
 ObpCaptureHandleInformation (
-    IN OUT PSYSTEM_HANDLE_TABLE_ENTRY_INFO *HandleEntryInfo,
+    IN OUT PVOID VoidHandleEntryInfo,
     IN HANDLE UniqueProcessId,
     IN PVOID HandleTableEntry,
     IN HANDLE HandleIndex,
@@ -57,7 +57,7 @@ ObpCaptureHandleInformation (
 
 NTSTATUS
 ObpCaptureHandleInformationEx (
-    IN OUT PSYSTEM_HANDLE_TABLE_ENTRY_INFO_EX *HandleEntryInfo,
+    IN OUT PVOID HandleEntryInfo,
     IN HANDLE UniqueProcessId,
     IN PHANDLE_TABLE_ENTRY ObjectTableEntry,
     IN HANDLE HandleIndex,
@@ -1017,9 +1017,9 @@ Return Value:
 
 NTSTATUS
 ObpCaptureHandleInformation (
-    IN OUT PSYSTEM_HANDLE_TABLE_ENTRY_INFO *HandleEntryInfo,
+    IN OUT PVOID VoidHandleEntryInfo,
     IN HANDLE UniqueProcessId,
-    IN PHANDLE_TABLE_ENTRY ObjectTableEntry,
+    IN PVOID VoidObjectTableEntry,
     IN HANDLE HandleIndex,
     IN ULONG Length,
     IN OUT PULONG RequiredLength
@@ -1062,6 +1062,11 @@ Return Value:
 {
     NTSTATUS Status;
     POBJECT_HEADER ObjectHeader;
+    PSYSTEM_HANDLE_TABLE_ENTRY_INFO *HandleEntryInfo;
+    PHANDLE_TABLE_ENTRY ObjectTableEntry;
+
+    HandleEntryInfo = VoidHandleEntryInfo;
+    ObjectTableEntry = VoidObjectTableEntry;
 
     //
     //  Figure out who much size we really need to contain this extra record
@@ -1118,7 +1123,7 @@ Return Value:
 
 NTSTATUS
 ObpCaptureHandleInformationEx (
-    IN OUT PSYSTEM_HANDLE_TABLE_ENTRY_INFO_EX *HandleEntryInfo,
+    IN OUT PVOID VoidHandleEntryInfo,
     IN HANDLE UniqueProcessId,
     IN PHANDLE_TABLE_ENTRY ObjectTableEntry,
     IN HANDLE HandleIndex,
@@ -1163,6 +1168,9 @@ Return Value:
 {
     NTSTATUS Status;
     POBJECT_HEADER ObjectHeader;
+    PSYSTEM_HANDLE_TABLE_ENTRY_INFO *HandleEntryInfo;
+
+    HandleEntryInfo = VoidHandleEntryInfo;
 
     //
     //  Figure out who much size we really need to contain this extra record

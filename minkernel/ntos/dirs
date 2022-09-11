@@ -18,7 +18,7 @@ DIRS= \
     raw        \
     fstub      \
     fsrtl      \
-    vdm        \
+    vdm{x86}   \
     verifier   \
     wmi        \
     perf       \

@@ -1109,6 +1109,7 @@ typedef enum _SYSTEM_INFORMATION_CLASS {
     SystemWatchdogTimerHandler,
     SystemWatchdogTimerInformation,
     SystemLogicalProcessorInformation,
+    SystemClangInformation,
     MaxSystemInfoClass  // MaxSystemInfoClass should always be the last enum
 } SYSTEM_INFORMATION_CLASS;
 
@@ -1749,6 +1750,14 @@ typedef struct _SYSTEM_WATCHDOG_TIMER_INFORMATION {
     ULONG                       DataValue;
 } SYSTEM_WATCHDOG_TIMER_INFORMATION, *PSYSTEM_WATCHDOG_TIMER_INFORMATION;
 
+
+typedef struct _SYSTEM_CLANG_INFORMATION {
+    BOOLEAN WasThisATerribleIdea;
+    BOOLEAN BuiltWithClang;
+    ULONG ClangMajorVersion;
+    ULONG ClangMinorVersion;
+    ULONG ClangPatchVersion;
+} SYSTEM_CLANG_INFORMATION, *PSYSTEM_CLANG_INFORMATION;
 
 #if _MSC_VER >= 1200
 #pragma warning(push)

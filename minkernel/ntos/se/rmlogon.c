@@ -1659,7 +1659,7 @@ Return Value:
 
 VOID 
 SepAddTokenLogonSession(
-    IN PTOKEN Token
+    IN PVOID VoidToken
     )
 
 /*++
@@ -1682,6 +1682,7 @@ Return Value
     ULONG SessionArrayIndex;
     PSEP_LOGON_SESSION_REFERENCES Current;
     PSEP_LOGON_SESSION_TOKEN TokenTrack = NULL;
+    PTOKEN Token = VoidToken;
     PLUID LogonId = &Token->AuthenticationId;
 
     PAGED_CODE();
@@ -1734,7 +1735,7 @@ Return Value
 
 VOID
 SepRemoveTokenLogonSession(
-    IN PTOKEN Token
+    IN PVOID VoidToken
     )
 
 /*++
@@ -1757,6 +1758,7 @@ Return Value
     ULONG SessionArrayIndex;
     PSEP_LOGON_SESSION_REFERENCES Current;
     PSEP_LOGON_SESSION_TOKEN TokenTrack = NULL;
+    PTOKEN Token = VoidToken;
     PLUID LogonId = &Token->AuthenticationId;
     PLIST_ENTRY ListEntry;
     

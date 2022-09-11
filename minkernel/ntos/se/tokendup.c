@@ -700,7 +700,7 @@ Return Value:
 
     while (Index > 0) {
 
-        (ULONG_PTR) UserAndGroups->Sid += FieldOffset;
+        *(PULONG_PTR)&UserAndGroups->Sid += FieldOffset;
 
         Index -= 1;
         UserAndGroups++;
@@ -719,7 +719,7 @@ Return Value:
                 (ULONG_PTR)(&(ExistingToken->VariablePart)) );
 
 
-        (ULONG_PTR) RestrictedSids += FieldOffset;
+        *(PULONG_PTR)&RestrictedSids += FieldOffset;
         NewToken->RestrictedSids = RestrictedSids;
 
         //
@@ -731,7 +731,7 @@ Return Value:
 
         while (Index > 0) {
 
-            (ULONG_PTR) RestrictedSids->Sid += FieldOffset;
+            *(PULONG_PTR)&RestrictedSids->Sid += FieldOffset;
             RestrictedSids++;
 
             Index -= 1;
@@ -748,7 +748,7 @@ Return Value:
         ASSERT( (ULONG_PTR)(ExistingToken->Privileges) >=
                 (ULONG_PTR)(&(ExistingToken->VariablePart)) );
 
-        (ULONG_PTR) NewToken->Privileges = (ULONG_PTR) ExistingToken->Privileges + FieldOffset;
+        *(PULONG_PTR)&NewToken->Privileges = (ULONG_PTR) ExistingToken->Privileges + FieldOffset;
 
     } else {
 
@@ -799,7 +799,7 @@ Return Value:
                 (ULONG_PTR)(ExistingToken->DynamicPart) );
 
 
-        (ULONG_PTR) NewToken->DefaultDacl += FieldOffset;
+        *(PULONG_PTR)&NewToken->DefaultDacl += FieldOffset;
 
     }
 
@@ -813,7 +813,7 @@ Return Value:
             (ULONG_PTR)(ExistingToken->DynamicPart) );
 
 
-    (ULONG_PTR) NewToken->PrimaryGroup = (ULONG_PTR) ExistingToken->PrimaryGroup + FieldOffset;
+    *(PULONG_PTR)&NewToken->PrimaryGroup = (ULONG_PTR) ExistingToken->PrimaryGroup + FieldOffset;
 
     //
     // Release the source token.

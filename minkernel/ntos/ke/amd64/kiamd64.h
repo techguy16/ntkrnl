@@ -278,7 +278,7 @@ typedef struct _UNEXPECTED_INTERRUPT {
     ULONG Array[4];
 } UNEXPECTED_INTERRUPT, *PUNEXPECTED_INTERRUPT;
 
-UNEXPECTED_INTERRUPT KxUnexpectedInterrupt0[];
+UNEXPECTED_INTERRUPT KxUnexpectedInterrupt0[1];
 
 #define PPI_BITS    2
 #define PDI_BITS    9

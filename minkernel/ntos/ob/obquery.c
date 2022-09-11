@@ -1779,7 +1779,7 @@ Return Value:
 
 BOOLEAN
 ObpSetHandleAttributes (
-    IN OUT PHANDLE_TABLE_ENTRY ObjectTableEntry,
+    IN OUT PVOID VoidObjectTableEntry,
     IN ULONG_PTR Parameter
     )
 
@@ -1807,7 +1807,9 @@ Return Value:
 {
     POBP_SET_HANDLE_ATTRIBUTES ObjectInformation;
     POBJECT_HEADER ObjectHeader;
+    PHANDLE_TABLE_ENTRY ObjectTableEntry;
 
+    ObjectTableEntry = VoidObjectTableEntry;
     ObjectInformation = (POBP_SET_HANDLE_ATTRIBUTES)Parameter;
 
     //
