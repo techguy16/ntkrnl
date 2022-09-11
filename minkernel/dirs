@@ -1,4 +1,8 @@
-DIRS=        \
-     ntos    \
-     hals    \
-     bootvid
+DIRS=          \
+     published \
+     ntos      \
+     hals      \
+     bootvid   \
+     kdcom     \
+     fs        \
+     ntdll

@@ -370,6 +370,10 @@ Return Value:
 
 {
 
+#ifdef __clang__
+    KdPrint(("Initializing LLVM built NT\n"));
+#endif
+
     switch ( InitializationPhase ) {
 
     case 0:
@@ -561,12 +565,13 @@ Return Value:
 VOID
 static
 ExpWatchLicenseInfoWork(
-    PEXP_LICENSE_INFO LicenseInfo
+    PVOID VoidLicenseInfo
     )
 {
 
     NTSTATUS Status;
 
+    PEXP_LICENSE_INFO LicenseInfo;
     KEY_FULL_INFORMATION KeyInfo;
     OBJECT_ATTRIBUTES ObjectAttributes;
     UNICODE_STRING LimitValueName;
@@ -578,6 +583,8 @@ ExpWatchLicenseInfoWork(
     SIZE_T Size;
 
     PKEY_BASIC_INFORMATION KeyBuffer;
+
+    LicenseInfo = VoidLicenseInfo;
 
     if (!ExpSetupModeDetected) {
 

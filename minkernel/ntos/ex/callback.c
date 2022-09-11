@@ -622,7 +622,7 @@ Return Value:
 
 VOID
 ExNotifyCallback (
-    IN PCALLBACK_OBJECT     CallbackObject,
+    IN PVOID                VoidCallbackObject,
     IN PVOID                Argument1,
     IN PVOID                Argument2
     )
@@ -650,8 +650,11 @@ Return Value:
 
 {
     PLIST_ENTRY             Link;
+    PCALLBACK_OBJECT        CallbackObject;
     PCALLBACK_REGISTRATION  CallbackRegistration;
     KIRQL                   OldIrql;
+
+    CallbackObject = VoidCallbackObject;
 
     if (CallbackObject == NULL || IsListEmpty (&CallbackObject->RegisteredCallbacks)) {
         return ;
