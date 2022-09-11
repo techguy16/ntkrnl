@@ -5,12 +5,13 @@ set(CLANGARCH x86_64-msvc-windows)
 set(ARCHDEFS "-D_AMD64_ -D_WIN64")
 
 if ("${CMAKE_SOURCE_DIR}" MATCHES "CMakeTmp")
-    include(../../../nt-common.cmake)
+    set(root ${CMAKE_SOURCE_DIR}/../../..)
 else()
-    include(nt-common.cmake)
+    set(root ${CMAKE_SOURCE_DIR})
 endif()
+include(${root}/nt-common.cmake)
 
-if (DEFINED NT_UASM)
-	set(CMAKE_ASM_MASM_FLAGS_INIT "-win64")
+if (DEFINED NT_WINE_MASM)
+	set(CMAKE_ASM_MASM_COMPILER ${root}/tools/masm64.sh)
 endif()
 

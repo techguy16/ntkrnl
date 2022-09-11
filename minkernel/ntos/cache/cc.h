@@ -28,7 +28,7 @@ Revision History:
 #pragma warning(disable:4115)   // named type definition in parentheses
 
 #include <ntos.h>
-#include <NtIoLogc.h>
+#include <ntiologc.h>
 
 #ifdef MEMPRINT
 #include <memprint.h>
@@ -90,7 +90,7 @@ Revision History:
 #define LIST_DBG 0
 #endif
 
-#include <FsRtl.h>
+#include <fsrtl.h>
 
 //
 //  Peek at number of available pages.

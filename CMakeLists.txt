@@ -21,6 +21,7 @@ function(wrap_linkopts out)
 endfunction()
 
 set(NT TRUE)
+set(toolsdir ${CMAKE_SOURCE_DIR}/tools)
 set(NTOSINC ${CMAKE_SOURCE_DIR}/minkernel/ntos/inc)
 set(PUBLISHEDDIR ${CMAKE_SOURCE_DIR}/minkernel/published)
 set(DDK_INC_PATH ${CMAKE_SOURCE_DIR}/public/ddk/inc)
