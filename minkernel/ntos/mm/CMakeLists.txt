@@ -67,5 +67,4 @@ set(MM_amd64_SOURCES amd64/dataamd.c
 
 add_library(mm STATIC ${MM_HEADERS} ${MM_SOURCES} ${MM_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${MM_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
 target_compile_definitions(mm PRIVATE ${NT_DEFS})
-target_include_directories(mm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NTOSINC} ${SDK_INC_PATH} ${SDK_INC_PATH}/crt
-                                      ${ntos}/ke ${ntos}/kd64 ${MINKERNEL_INC_PATH} ${SDKTOOLS_INC_PATH})
+target_include_directories(mm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${ntos}/ke ${ntos}/kd64)

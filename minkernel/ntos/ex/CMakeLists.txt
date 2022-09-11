@@ -45,6 +45,5 @@ set(EX_amd64_SOURCES amd64/hifreqlk.asm
 
 add_library(ex STATIC ${EX_HEADERS} ${EX_SOURCES} ${EX_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${EX_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
 target_compile_definitions(ex PRIVATE ${NT_DEFS})
-target_include_directories(ex PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${SDK_INC_PATH} ${SDK_INC_PATH}/crt ${ntos}/ke ${ntos}/kd64
-                                      ${SDKTOOLS_INC_PATH} ${HALKIT_INC_PATH} ${minkernel}/fs/fastfat ${MINKERNEL_INC_PATH}
-                                      ${NTOSINC})
+target_include_directories(ex PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${ntos}/ke ${ntos}/kd64
+                                      ${HALKIT_INC_PATH} ${minkernel}/fs/fastfat)
