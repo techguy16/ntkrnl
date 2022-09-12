@@ -2008,7 +2008,7 @@ extern PFN_NUMBER MmSystemLockPagesCount;
 #if DBG
 
 #define MI_LOCK_ID_COUNTER_MAX 64
-ULONG MiLockIds[MI_LOCK_ID_COUNTER_MAX];
+extern ULONG MiLockIds[MI_LOCK_ID_COUNTER_MAX];
 
 #define MI_MARK_PFN_AS_LOCK_CHARGED(Pfn, CallerId)      \
          ASSERT (Pfn->u4.LockCharged == 0);          \
@@ -7687,7 +7687,7 @@ typedef struct _MM_SESSION_MEMORY_COUNTERS {
 
 #define MM_SESSION_FAILURE_CAUSES                   11
 
-ULONG MmSessionFailureCauses[MM_SESSION_FAILURE_CAUSES];
+extern ULONG MmSessionFailureCauses[MM_SESSION_FAILURE_CAUSES];
 
 #define MM_BUMP_SESSION_FAILURES(_index) MmSessionFailureCauses[_index] += 1;
 

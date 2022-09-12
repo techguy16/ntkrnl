@@ -72,14 +72,11 @@ set(RTL_amd64_SOURCES amd64/capture.asm
                       amd64/context.c
                       amd64/debugstb.asm
                       amd64/exdsptch.c
-                      amd64/lznt1_amd64.c
-                    # amd64/lzntx86.asm # seems to not really be ported to amd64, leading to loads of fun errors (that I do not intend to resolve)
                       amd64/misalign.c
                       amd64/movemem.asm
                       amd64/raise.c
                       amd64/slist.asm
                       amd64/stkwalk.c
-                      amd64/trampoln.asm
                       amd64/xcptmisc.asm)
 
 add_library(rtl STATIC ${RTL_HEADER} ${RTL_SOURCES} ${RTL_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${RTL_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})

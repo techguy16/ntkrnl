@@ -23,7 +23,7 @@ Revision History:
 #include "mi.h"
 
 #if DBG
-PEPROCESS MmWatchProcess;
+extern PEPROCESS MmWatchProcess;
 #endif // DBG
 
 const ULONG MMVADKEY = ' daV'; //Vad

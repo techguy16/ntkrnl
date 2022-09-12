@@ -35,6 +35,25 @@ GENERAL_LOOKASIDE ObpCreateInfoLookasideList;
 GENERAL_LOOKASIDE ObpNameBufferLookasideList;
 
 //
+// Variables that should be extern from obp.h
+//
+
+EX_PUSH_LOCK ObpLock;
+KEVENT ObpDefaultObject;
+WORK_QUEUE_ITEM ObpRemoveObjectWorkItem;
+PVOID ObpRemoveObjectList;
+KGUARDED_MUTEX ObpDeviceMapLock;
+POBJECT_TYPE ObpObjectTypes[ OBP_MAX_DEFINED_OBJECT_TYPES ];
+POBJECT_TYPE ObpTypeObjectType;
+POBJECT_TYPE ObpDirectoryObjectType;
+POBJECT_TYPE ObpSymbolicLinkObjectType;
+POBJECT_TYPE ObpDeviceMapObjectType;
+POBJECT_DIRECTORY ObpRootDirectoryObject;
+POBJECT_DIRECTORY ObpTypeDirectoryObject;
+ERESOURCE SecurityDescriptorCacheLock;
+PHANDLE_TABLE ObpKernelHandleTable;
+
+//
 //  Form some default access masks for the various object types
 //
 

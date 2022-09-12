@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.22)
 
-set(CONFIG_HEADERS )
-set(CONFIG_SOURCES cmapi.c     
+set(CONFIG_HEADERS cmp.h
+                   cmpbug.h
+                   cmplock.h
+                   hive.h)
+set(CONFIG_SOURCES cmapi.c
                    cmapi2.c
                    cmboot.c
                    cmchek.c

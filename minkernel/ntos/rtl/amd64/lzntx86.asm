@@ -81,8 +81,8 @@ Test&AdjustLabel&bit:
 
 	xor	ecx,ecx
 	mov	cx,word ptr [esi+bit+1] ; (ecx) = encoded length:offset
-	lea	rdx,[rsi+1]		; (edx) = next token location
-	mov	Temp,rdx
+	lea	edx,[esi+1]		; (edx) = next token location
+	mov	Temp,edx
 
 	mov	esi,ecx 		; (esi) = encoded length:offset
 	and	ecx,MaskTab[ebx*4]	; (ecx) = length
@@ -91,9 +91,9 @@ Test&AdjustLabel&bit:
 	xchg	ebx,ecx 		; (ebx) = width, (ecx) = length
 
 	neg	esi			; (esi) = negative real offset
-	lea	rsi,[esi+edi-1] 	; (esi) = pointer to previous string
+	lea	esi,[esi+edi-1] 	; (esi) = pointer to previous string
 
-        cmp     rsi,UncompressedBuffer  ; off front of buffer?
+        cmp     esi,UncompressedBuffer  ; off front of buffer?
         jb      DOA                     ; yes, error
 
 	add	ecx,3			; (ecx) = real length
@@ -124,10 +124,10 @@ endm
 
 AdjustWidth macro   l,i
 Adjust&l&i:
-	dec	rbx			; (ebx) = new width pointer
-	mov	rdx,UncompressedBuffer	; (edx) = pointer to dest buffer
-	add	rdx,WidthTab[rbx*4]	; (edx) = new width boundary
-	mov	WidthBoundary,rdx	; save boundary for comparison
+	dec	ebx			; (ebx) = new width pointer
+	mov	edx,UncompressedBuffer	; (edx) = pointer to dest buffer
+	add	edx,WidthTab[ebx*4]	; (edx) = new width boundary
+	mov	WidthBoundary,edx	; save boundary for comparison
 	jmp	Test&l&i
 
 endm
@@ -298,10 +298,10 @@ FinalUncompressedChunkSize    equ qword ptr [rsp + (9 * 8)]
 
         NESTED_ENTRY _LZNT1DecompressChunk, _TEXT$00
 
-        push rsi                    ; save nonvolatile registers
-        push rdi                    ;
-        push rbx                    ;
-        push rbp                    ;
+        push_reg rsi                    ; save nonvolatile registers
+        push_reg rdi                    ;
+        push_reg rbx                    ;
+        push_reg rbp                    ;
 
         END_PROLOGUE
 
@@ -315,9 +315,9 @@ FinalUncompressedChunkSize    equ qword ptr [rsp + (9 * 8)]
 	mov	WidthBoundary, rdi	; force initial width mismatch
 	mov	ebx, 13			; initial width of output
 
-Top:	cmp	rsi,EndOfCompressedBufferPlus1	; Will this be the last tag group in source?
+Top:	cmp	esi,EndOfCompressedBufferPlus1	; Will this be the last tag group in source?
 	jae	DoTail			; yes, go handle specially
-	cmp	rdi,EndOfSpecialDest	; are we too close to end of buffer?
+	cmp	edi,EndOfSpecialDest	; are we too close to end of buffer?
 	jae	DoTail			; yes, go skip to end
 
 	mov	al,byte ptr [esi]	; (al) = tag byte, (esi) points to token
@@ -410,7 +410,7 @@ Final:	pop     rbp                     ; restore nonvolatile registers
         pop     rbx                     ;
         pop     rdi                     ;
         pop     rsi                     ;
-        ret                             ;
+        retq                            ;
 
         NESTED_END _LZNT1DecompressChunk, _TEXT$00
 

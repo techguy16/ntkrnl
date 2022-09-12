@@ -84,7 +84,11 @@ PVOID       ExpWdHandlerContext = NULL;
 const static UNICODE_STRING KeyName = RTL_CONSTANT_STRING  (COMPLUS_PACKAGE_KEYPATH);
 static UNICODE_STRING KeyValueName = RTL_CONSTANT_STRING  (COMPLUS_PACKAGE_ENABLE64BIT);
 
-
+ULONG ExpNtExpirationData[3];
+BOOLEAN ExpSetupModeDetected;
+LARGE_INTEGER ExpSetupSystemPrefix;
+HANDLE ExpSetupKey;
+BOOLEAN ExpSystemPrefixValid;
 
 NTSTATUS
 ExpValidateLocale(

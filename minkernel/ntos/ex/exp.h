@@ -283,11 +283,11 @@ ExApplyCodePatch(
     );
 
 
-ULONG ExpNtExpirationData[3];
-BOOLEAN ExpSetupModeDetected;
-LARGE_INTEGER ExpSetupSystemPrefix;
-HANDLE ExpSetupKey;
-BOOLEAN ExpSystemPrefixValid;
+extern ULONG ExpNtExpirationData[3];
+extern BOOLEAN ExpSetupModeDetected;
+extern LARGE_INTEGER ExpSetupSystemPrefix;
+extern HANDLE ExpSetupKey;
+extern BOOLEAN ExpSystemPrefixValid;
 
 
 #ifdef _PNP_POWER_

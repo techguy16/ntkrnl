@@ -13,5 +13,7 @@ include(${root}/nt-common.cmake)
 
 if (DEFINED NT_WINE_MASM)
 	set(CMAKE_ASM_MASM_COMPILER ${root}/tools/masm64.sh)
+else()
+    set(CMAKE_ASM_MASM_COMPILER ${root}/tools/ml64.exe)
 endif()
 

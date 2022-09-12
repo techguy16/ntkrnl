@@ -29,7 +29,7 @@ Revision History:
 // Audit Log Information
 //
 
-POLICY_AUDIT_LOG_INFO SepAdtLogInformation;
+extern POLICY_AUDIT_LOG_INFO SepAdtLogInformation;
 
 extern BOOLEAN SepAdtAuditingEnabled;
 

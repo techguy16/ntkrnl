@@ -22,6 +22,8 @@ Revision History:
 
 #include "mi.h"
 
+ULONG MiLockIds[MI_LOCK_ID_COUNTER_MAX];
+
 #ifdef ALLOC_PRAGMA
 #pragma alloc_text(PAGE,NtLockVirtualMemory)
 #pragma alloc_text(PAGE,NtUnlockVirtualMemory)

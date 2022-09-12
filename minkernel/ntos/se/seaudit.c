@@ -29,6 +29,8 @@ Revision History:
 
 #pragma hdrstop
 
+extern POLICY_AUDIT_LOG_INFO SepAdtLogInformation;
+
 VOID
 SepProbeAndCaptureString_U (
     IN PUNICODE_STRING SourceString,

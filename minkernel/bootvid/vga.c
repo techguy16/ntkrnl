@@ -790,13 +790,13 @@ BitBlt(
 
                     while (count > 31) {
 
-                        WRITE_REGISTER_ULONG(((PULONG)pDstTemp)++, (ULONG)((*((PULONG)pSrcTemp)++) & ulColorMask));
+                        WRITE_REGISTER_ULONG((*(PULONG*)&pDstTemp)++, (ULONG)((*(*(PULONG*)&pSrcTemp)++) & ulColorMask));
                         count -= 32;
                     }
 
                     while (count > 15) {
 
-                        WRITE_REGISTER_USHORT(((PUSHORT)pDstTemp)++, (USHORT)((*((PUSHORT)pSrcTemp)++) & usColorMask));
+                        WRITE_REGISTER_USHORT((*(PSHORT*)&pDstTemp)++, (USHORT)((*(*(PUSHORT*)&pSrcTemp)++) & usColorMask));
                         count -= 16;
                     }
 

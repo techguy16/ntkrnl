@@ -130,7 +130,7 @@ ULONG ExResourceTimeoutCount = 648000;
 // Global spinlock to guard access to resource lists.
 //
 
-KSPIN_LOCK ExpResourceSpinLock;
+extern KSPIN_LOCK ExpResourceSpinLock;
 
 //
 // Resource list used to record all resources in the system.

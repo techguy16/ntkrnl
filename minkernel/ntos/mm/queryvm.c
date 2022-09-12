@@ -38,7 +38,7 @@ MiCaptureSystemPte (
     );
 
 #if DBG
-PEPROCESS MmWatchProcess;
+extern PEPROCESS MmWatchProcess;
 #endif // DBG
 
 ULONG

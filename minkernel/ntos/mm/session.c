@@ -44,6 +44,8 @@ ULONG MiSessionBigPoolPages;
 
 ULONG MiSessionCreateCharge;
 
+ULONG MmSessionFailureCauses[MM_SESSION_FAILURE_CAUSES];
+
 //
 // Note that actually the SUM of the two maximums below is currently
 // MM_ALLOCATION_GRANULARITY / PAGE_SIZE.

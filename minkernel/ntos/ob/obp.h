@@ -102,11 +102,11 @@ struct _OBJECT_BODY_HEADER;
 //  This global lock protects the granted access lists when we are collecting stack traces
 //
 
-EX_PUSH_LOCK ObpLock;
+extern EX_PUSH_LOCK ObpLock;
 
-KEVENT ObpDefaultObject;
-WORK_QUEUE_ITEM ObpRemoveObjectWorkItem;
-PVOID ObpRemoveObjectList;
+extern KEVENT ObpDefaultObject;
+extern WORK_QUEUE_ITEM ObpRemoveObjectWorkItem;
+extern PVOID ObpRemoveObjectList;
 
 //
 //  This global lock is used to protect the device map tear down and build up
@@ -118,7 +118,7 @@ PVOID ObpRemoveObjectList;
 
 #define OB_NAMESPACE_POOL_TYPE PagedPool
 
-KGUARDED_MUTEX ObpDeviceMapLock;
+extern KGUARDED_MUTEX ObpDeviceMapLock;
 
 #define OBP_DECLARE_OLDIRQL
 
@@ -263,7 +263,7 @@ extern BOOLEAN ObpTraceEnabled;
 //
 
 #define OBP_MAX_DEFINED_OBJECT_TYPES 48
-POBJECT_TYPE ObpObjectTypes[ OBP_MAX_DEFINED_OBJECT_TYPES ];
+extern POBJECT_TYPE ObpObjectTypes[ OBP_MAX_DEFINED_OBJECT_TYPES ];
 
 
 //
@@ -423,12 +423,12 @@ typedef struct _OBP_SWEEP_CONTEXT {
 //  Global data
 //
 
-POBJECT_TYPE ObpTypeObjectType;
-POBJECT_TYPE ObpDirectoryObjectType;
-POBJECT_TYPE ObpSymbolicLinkObjectType;
-POBJECT_TYPE ObpDeviceMapObjectType;
-POBJECT_DIRECTORY ObpRootDirectoryObject;
-POBJECT_DIRECTORY ObpTypeDirectoryObject;
+extern POBJECT_TYPE ObpTypeObjectType;
+extern POBJECT_TYPE ObpDirectoryObjectType;
+extern POBJECT_TYPE ObpSymbolicLinkObjectType;
+extern POBJECT_TYPE ObpDeviceMapObjectType;
+extern POBJECT_DIRECTORY ObpRootDirectoryObject;
+extern POBJECT_DIRECTORY ObpTypeDirectoryObject;
 
 typedef union {
     WCHAR Name[sizeof(ULARGE_INTEGER)/sizeof(WCHAR)];
@@ -439,7 +439,7 @@ extern const ALIGNEDNAME ObpDosDevicesShortNamePrefix;
 extern const ALIGNEDNAME ObpDosDevicesShortNameRoot;
 extern const UNICODE_STRING ObpDosDevicesShortName;
 
-ERESOURCE SecurityDescriptorCacheLock;
+extern ERESOURCE SecurityDescriptorCacheLock;
 
 //
 //  Define date structures for the object creation information region.
@@ -460,7 +460,7 @@ extern GENERAL_LOOKASIDE ObpNameBufferLookasideList;
 //  and only in kernel mode
 //
 
-PHANDLE_TABLE ObpKernelHandleTable;
+extern PHANDLE_TABLE ObpKernelHandleTable;
 
 //
 //  The following macros are used to test and manipulate special kernel
