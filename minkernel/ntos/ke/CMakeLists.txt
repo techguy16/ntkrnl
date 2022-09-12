@@ -33,8 +33,7 @@ set(KE_SOURCES apcobj.c
         waitsup.c
         xipi.c
         yield.c)
-set(KE_amd64_HEADERS keamd64.h
-        kiamd64.h)
+set(KE_amd64_HEADERS amd64/kiamd64.h)
 set(KE_amd64_SOURCES amd64/allproc.c
         amd64/apcuser.c
         amd64/callback.c
@@ -69,8 +68,9 @@ set(KE_amd64_SOURCES amd64/allproc.c
         amd64/threadbg.asm
         amd64/trap.asm
         amd64/zero.asm
-        amd64/xcpt4.c)
+      #  amd64/xcpt4.c # test, crashes Clang
+        )
 
 add_library(ke STATIC ${KE_HEADERS} ${KE_SOURCES} ${KE_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${KE_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
 target_compile_definitions(ke PRIVATE ${NT_DEFS})
-target_include_directories(ke PRIVATE ${NT_INCDIRS})
+target_include_directories(ke PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS})

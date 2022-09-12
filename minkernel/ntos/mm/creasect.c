@@ -354,7 +354,7 @@ retry:
 
     ControlArea = ((PSECTION)Section)->Segment->ControlArea;
 
-#if DBG
+#if 0//DBG
     if (MmDebug & MM_DBG_SECTIONS) {
         DbgPrint ("inserting section %p control %p\n", Section, ControlArea);
     }
