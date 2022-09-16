@@ -378,7 +378,7 @@ Return Value:
 NTSTATUS
 PopInvokeSystemStateHandler (
     IN POWER_STATE_HANDLER_TYPE Type,
-    IN PPOP_HIBER_CONTEXT HiberContext
+    IN PVOID VoidHiberContext
     )
 /*++
 
@@ -406,6 +406,7 @@ Return Value:
     POWER_STATE_HANDLER ShutdownHandler;
     KAFFINITY           ActiveProcessors;
     ULONG               result;
+    PPOP_HIBER_CONTEXT  HiberContext;
 
     //
     // No spinlocks can be held when this call is made
@@ -416,6 +417,8 @@ Return Value:
     //
     // Get system state handler
     //
+
+    HiberContext = VoidHiberContext;
 
     RtlZeroMemory (&Context, sizeof(Context));
     RtlZeroMemory (&ShutdownHandler, sizeof(ShutdownHandler));

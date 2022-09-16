@@ -23,11 +23,3 @@ endif()
 
 set(CMAKE_C_COMPILER_WORKS TRUE)
 set(CMAKE_CXX_COMPILER_WORKS TRUE)
-
-set(CMAKE_EXECUTABLE_SUFFIX .exe)
-set(CMAKE_SHARED_LIBRARY_PREFIX)
-set(CMAKE_SHARED_LIBRARY_SUFFIX .dll)
-
-# CMake seems to give zero fucks about this variable when I try to use it
-set(CMAKE_STATIC_LIBRARY_PREFIX)
-set(CMAKE_STATIC_LIBRARY_SUFFIX .lib)

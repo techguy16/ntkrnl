@@ -9,5 +9,6 @@ set(BOOTVID_SOURCES bootdata.c
 
 add_library(bootvid SHARED ${BOOTVID_HEADERS} ${BOOTVID_SOURCES})
 target_compile_definitions(bootvid PRIVATE ${MINKERNEL_DEFS})
-target_include_directories(bootvid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${DDK_INC_PATH} ${HALKIT_INC_PATH} ${SDK_INC_PATH} ${MINKERNEL_INC_PATH} ${NTOSINC})
-target_link_options(bootvid PRIVATE /DEF:bootvid.def)
+target_include_directories(bootvid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${DDK_INC_PATH} ${HALKIT_INC_PATH} ${MINKERNEL_INCDIRS})
+target_link_options(bootvid PRIVATE /DEF:${CMAKE_CURRENT_SOURCE_DIR}/bootvid.def)
+target_link_libraries(bootvid PRIVATE hal ntoskrnl)
