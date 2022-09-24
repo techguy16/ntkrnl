@@ -243,7 +243,7 @@ include ksamd64.inc
 
         mov     ax, LfControlWord[rcx]  ; save current control word
         mov     word ptr LfControlWord[rcx], 03fh ; set to mask all exceptions
-        frstord [rcx]                   ; restore legacy floating state
+        frstor  [ecx]                   ; restore legacy floating state
         mov     LfControlWord[rcx], ax  ; restore control word
         fldcw   word ptr LfControlWord[rcx] ; load legacy control word
         ret                             ; return
@@ -274,7 +274,7 @@ include ksamd64.inc
 
         LEAF_ENTRY KeSaveLegacyFloatingPointState, _TEXT$00
 
-        fnsaved [rcx]                   ; save legacy floating state
+        fnsave  [ecx]                   ; save legacy floating state
         ret                             ;
 
         LEAF_END KeSaveLegacyFloatingPointState, _TEXT$00

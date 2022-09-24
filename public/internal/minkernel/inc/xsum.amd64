@@ -216,7 +216,7 @@ combine:                                ;
         add     ax, bx                  ; combine checksums
         adc     eax, 0                  ; add carry to low 16-bits
         pop     rbx                     ; restore nonvolatile register
-        retq                            ; return
+        ret                             ; return
 
         NESTED_END tcpxsum, _TEXT$00
 

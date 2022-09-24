@@ -346,7 +346,7 @@ KiSC05: stmxcsr SwMxCsr[rsp]            ; save kernel mode XMM control/status
         cmp     byte ptr ThNpxState[rdi], LEGACY_STATE_SWITCH ; check if switched
         jne     short KiSC10            ; if ne, legacy state not switched
         mov     rbp, ThInitialStack[rdi] ; get previous thread initial stack
-        fnsaved [rbp]                   ; save full legacy floating point state
+        fnsave  [ebp]                   ; save full legacy floating point state
 
 ;
 ; Switch kernel stacks.
@@ -445,7 +445,7 @@ endif
         je      KiSC30                  ; if e, kernel thread
         mov     cx, LfControlWord[rbp]  ; save current control word
         mov     word ptr LfControlWord[rbp], 03fh ; set to mask all exceptions
-        frstord [rbp]                   ; restore legacy floating point state
+        frstor  [ebp]                   ; restore legacy floating point state
         mov     LfControlWord[rbp], cx  ; restore control word
         fldcw   word ptr LfControlWord[rbp] ; load legacy control word
 

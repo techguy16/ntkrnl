@@ -1152,11 +1152,11 @@ KiXE20: mov     r10, TrRip[rbp]         ; set parameter 5 to exception address
         mov     r8, gs:[PcTss]          ; get address of task state segment
         mov     r9, rsp                 ; save user stack pointer
         mov     rsp, TssRsp0[r8]        ; set kernel stack pointer
-        pushq   KGDT64_R3_DATA or RPL_MASK ; push dummy SS selector
+        push    KGDT64_R3_DATA or RPL_MASK ; push dummy SS selector
         push    r9                      ; push user stack pointer
-        pushq   r11                     ; push previous EFLAGS
-        pushq   KGDT64_R3_CODE or RPL_MASK ; push dummy 64-bit CS selector
-        pushq   rcx                     ; push return address
+        push    r11                     ; push previous EFLAGS
+        push    KGDT64_R3_CODE or RPL_MASK ; push dummy 64-bit CS selector
+        push    rcx                     ; push return address
 
         GENERATE_TRAP_FRAME             ; generate trap frame
 
@@ -1381,11 +1381,11 @@ KiSH40: mov     rcx, ThTrapFrame[rax]   ; get current frame pointer address
         mov     rcx, gs:[PcTss]         ; get address of task state segment
         mov     r11, rsp                ; save user stack pointer
         mov     rsp, TssRsp0[rcx]       ; set kernel stack pointer
-        pushq   KGDT64_R3_DATA or RPL_MASK ; push dummy SS selector
+        push    KGDT64_R3_DATA or RPL_MASK ; push dummy SS selector
         push    r11                     ; push user stack pointer
-        pushq   gs:[PcSavedR11]         ; push previous EFLAGS
-        pushq   KGDT64_R3_CODE or RPL_MASK ; push dummy 64-bit CS selector
-        pushq   gs:[PcSavedRcx]         ; push return address
+        push    gs:[PcSavedR11]         ; push previous EFLAGS
+        push    KGDT64_R3_CODE or RPL_MASK ; push dummy 64-bit CS selector
+        push    gs:[PcSavedRcx]         ; push return address
         mov     rcx, r10                ; set first argument value
 
 ;
@@ -1680,10 +1680,10 @@ KiSS60: mov     eax, STATUS_INVALID_SYSTEM_SERVICE ; set return status
 
         lea     rsi, (KTRAP_FRAME_LENGTH - 128)[rbp] ; get legacy save address
         cli                             ; disable interrupts
-        fnsaved [rsi]                   ; save legacy floating state
+        fnsave  [esi]                   ; save legacy floating state
         mov     di, LfControlWord[rsi]  ; save current control word
         mov     word ptr LfControlWord[rsi], 03fh ; set to mask all exceptions
-        frstord [rsi]                   ; restore legacy floating point state
+        frstor  [esi]                   ; restore legacy floating point state
         mov     LfControlWord[rsi], di  ; restore control word
         fldcw   word ptr LfControlWord[rsi] ; load legacy control word
         sti                             ; enable interrupts

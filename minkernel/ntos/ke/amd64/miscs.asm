@@ -86,10 +86,10 @@ include ksamd64.inc
 
         lea     rsi, (KTRAP_FRAME_LENGTH - 128)[rbp] ; get legacy save address
         cli                             ; disable interrupts
-        fnsaved [rsi]                   ; save legacy floating state
+        fnsave  [esi]                   ; save legacy floating state
         mov     di, LfControlWord[rsi]  ; save current control word
         mov     word ptr LfControlWord[rsi], 03fh ; set to mask all exceptions
-        frstord [rsi]                   ; restore legacy floating point state
+        frstor  [esi]                   ; restore legacy floating point state
         mov     LfControlWord[rsi], di  ; restore control word
         fldcw   word ptr LfControlWord[rsi] ; load legacy control word
         sti                             ; enable interrupt
@@ -128,7 +128,7 @@ KiCO20: cmp     byte ptr ThNpxState[rbx],LEGACY_STATE_SWITCH ; check if switched
         jne     short KiCO30            ; if ne, legacy state not switched
         mov     di, LfControlWord[rsi]  ; save current control word
         mov     word ptr LfControlWord[rsi], 03fh ; set to mask all exceptions
-        frstord [rsi]                    ; restore legacy floating state
+        frstor  [esi]                    ; restore legacy floating state
         mov     LfControlWord[rsi], di   ; restore control word
         fldcw   word ptr LfControlWord[rsi] ; load legacy control word
 KiCO30: jmp     KiExceptionExit         ;
@@ -205,10 +205,10 @@ KiCO40: RESTORE_EXCEPTION_STATE         ; restore exception state/deallocate
 
         lea     rsi, (KTRAP_FRAME_LENGTH - 128)[rbp] ; get legacy save address
         cli                             ; disable interrupts
-        fnsaved [rsi]                   ; save legacy floating state
+        fnsave  [esi]                   ; save legacy floating state
         mov     di, LfControlWord[rsi]  ; save current control word
         mov     word ptr LfControlWord[rsi], 03fh ; set to mask all exceptions
-        frstord [rsi]                   ; restore legacy floating point state
+        frstor  [esi]                   ; restore legacy floating point state
         mov     LfControlWord[rsi], di  ; restore control word
         fldcw   word ptr LfControlWord[rsi] ; load legacy control word
         sti                             ; enabel interrupts

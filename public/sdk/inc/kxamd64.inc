@@ -25,7 +25,7 @@
 
 push_reg macro Reg
 
-        pushq   Reg
+        push   Reg
         .pushreg Reg
 
         endm
@@ -53,7 +53,7 @@ save_reg macro Reg, Offset
 
 save_xmm macro Reg, Offset
 
-        movq    Offset[rsp], Reg
+        mov    Offset[rsp], Reg
         .savexmm Reg, Offset
 
         endm
@@ -79,7 +79,7 @@ if Offset
 
 else
 
-        mov     reg, rsp
+        mov     Reg, rsp
 
 endif
 
@@ -335,6 +335,7 @@ ALTERNATE_ENTRY macro Name
 Name:
 
         endm
+
 ;
 ; Define function entry/end macros.
 ;
@@ -408,16 +409,16 @@ RESTORE_EXCEPTION_STATE macro Flag
 
 ifdif <Flag>, <NoFp>
 
-        movdqa  xmm6, qword ptr ExXmm6[rsp] ; restore nonvolatile xmm registers
-        movdqa  xmm7, qword ptr ExXmm7[rsp] ;
-        movdqa  xmm8, qword ptr ExXmm8[rsp] ;
-        movdqa  xmm9, qword ptr ExXmm9[rsp] ;
-        movdqa  xmm10, qword ptr ExXmm10[rsp] ;
-        movdqa  xmm11, qword ptr ExXmm11[rsp] ;
-        movdqa  xmm12, qword ptr ExXmm12[rsp] ;
-        movdqa  xmm13, qword ptr ExXmm13[rsp] ;
-        movdqa  xmm14, qword ptr ExXmm14[rsp] ;
-        movdqa  xmm15, qword ptr ExXmm15[rsp] ;
+        movdqa  xmm6, oword ptr ExXmm6[rsp] ; restore nonvolatile xmm registers
+        movdqa  xmm7, oword ptr ExXmm7[rsp] ;
+        movdqa  xmm8, oword ptr ExXmm8[rsp] ;
+        movdqa  xmm9, oword ptr ExXmm9[rsp] ;
+        movdqa  xmm10, oword ptr ExXmm10[rsp] ;
+        movdqa  xmm11, oword ptr ExXmm11[rsp] ;
+        movdqa  xmm12, oword ptr ExXmm12[rsp] ;
+        movdqa  xmm13, oword ptr ExXmm13[rsp] ;
+        movdqa  xmm14, oword ptr ExXmm14[rsp] ;
+        movdqa  xmm15, oword ptr ExXmm15[rsp] ;
 
 endif
 
@@ -578,12 +579,12 @@ ifidn <State>, <Service>
         mov     TrR10[rbp], rax         ;
         mov     TrR11[rbp], rax         ;
         pxor    xmm0, xmm0              ; scrub volatile floating registers
-        movdqa  qword ptr TrXmm0[rbp], xmm0 ;
-        movdqa  qword ptr TrXmm1[rbp], xmm0 ;
-        movdqa  qword ptr TrXmm2[rbp], xmm0 ;
-        movdqa  qword ptr TrXmm3[rbp], xmm0 ;
-        movdqa  qword ptr TrXmm4[rbp], xmm0 ;
-        movdqa  qword ptr TrXmm5[rbp], xmm0 ;
+        movdqa  oword ptr TrXmm0[rbp], xmm0 ;
+        movdqa  oword ptr TrXmm1[rbp], xmm0 ;
+        movdqa  oword ptr TrXmm2[rbp], xmm0 ;
+        movdqa  oword ptr TrXmm3[rbp], xmm0 ;
+        movdqa  oword ptr TrXmm4[rbp], xmm0 ;
+        movdqa  oword ptr TrXmm5[rbp], xmm0 ;
 
 endif
 
@@ -629,12 +630,12 @@ second:                                 ;
 
 ifidn <State>, <Volatile>
 
-        movdqa  xmm0, qword ptr TrXmm0[rbp] ; restore volatile XMM registers
-        movdqa  xmm1, qword ptr TrXmm1[rbp] ;
-        movdqa  xmm2, qword ptr TrXmm2[rbp] ;
-        movdqa  xmm3, qword ptr TrXmm3[rbp] ;
-        movdqa  xmm4, qword ptr TrXmm4[rbp] ;
-        movdqa  xmm5, qword ptr TrXmm5[rbp] ;
+        movdqa  xmm0, oword ptr TrXmm0[rbp] ; restore volatile XMM registers
+        movdqa  xmm1, oword ptr TrXmm1[rbp] ;
+        movdqa  xmm2, oword ptr TrXmm2[rbp] ;
+        movdqa  xmm3, oword ptr TrXmm3[rbp] ;
+        movdqa  xmm4, oword ptr TrXmm4[rbp] ;
+        movdqa  xmm5, oword ptr TrXmm5[rbp] ;
 
         mov     r11, TrR11[rbp]         ; restore volatile integer state
         mov     r10, TrR10[rbp]         ;
@@ -673,12 +674,12 @@ endif
 
 ifidn <State>, <Volatile>
 
-third:  movdqa  xmm0, qword ptr TrXmm0[rbp] ; restore volatile XMM registers
-        movdqa  xmm1, qword ptr TrXmm1[rbp] ;
-        movdqa  xmm2, qword ptr TrXmm2[rbp] ;
-        movdqa  xmm3, qword ptr TrXmm3[rbp] ;
-        movdqa  xmm4, qword ptr TrXmm4[rbp] ;
-        movdqa  xmm5, qword ptr TrXmm5[rbp] ;
+third:  movdqa  xmm0, oword ptr TrXmm0[rbp] ; restore volatile XMM registers
+        movdqa  xmm1, oword ptr TrXmm1[rbp] ;
+        movdqa  xmm2, oword ptr TrXmm2[rbp] ;
+        movdqa  xmm3, oword ptr TrXmm3[rbp] ;
+        movdqa  xmm4, oword ptr TrXmm4[rbp] ;
+        movdqa  xmm5, oword ptr TrXmm5[rbp] ;
 
         mov     r11, TrR11[rbp]         ; restore volatile integer state
         mov     r10, TrR10[rbp]         ;
@@ -751,7 +752,7 @@ ifb <Service>
 
 endif
 
-        stmxcsr TrMxCsr[rbp]            ; save XMM control/status
+        stmxcsr dword ptr TrMxCsr[rbp]            ; save XMM control/status
         ldmxcsr dword ptr gs:[PcMxCsr]  ; set default XMM control/status
         mov     r10, gs:[PcCurrentThread] ; get current thread address
         xor     r11, r11                ; clear register
@@ -789,12 +790,12 @@ third:  cld                             ; clear direction flag
 
 ifb <Service>
 
-        movdqa  qword ptr TrXmm0[rbp], xmm0 ; save volatile xmm registers
-        movdqa  qword ptr TrXmm1[rbp], xmm1 ;
-        movdqa  qword ptr TrXmm2[rbp], xmm2 ;
-        movdqa  qword ptr TrXmm3[rbp], xmm3 ;
-        movdqa  qword ptr TrXmm4[rbp], xmm4 ;
-        movdqa  qword ptr TrXmm5[rbp], xmm5 ;
+        movdqa  oword ptr TrXmm0[rbp], xmm0 ; save volatile xmm registers
+        movdqa  oword ptr TrXmm1[rbp], xmm1 ;
+        movdqa  oword ptr TrXmm2[rbp], xmm2 ;
+        movdqa  oword ptr TrXmm3[rbp], xmm3 ;
+        movdqa  oword ptr TrXmm4[rbp], xmm4 ;
+        movdqa  oword ptr TrXmm5[rbp], xmm5 ;
 
 endif
 
@@ -834,11 +835,11 @@ GENERATE_INTERRUPT_FRAME macro Vector
 
 ifnb <Vector>
 
-        mov     eax, TrErrorCode[rbp]   ; return vector number
+        mov     rax, TrErrorCode[rbp]   ; return vector number
 
 endif
 
-        inc     dword ptr gs:[PcInterruptCount] ; increment interrupt count
+        inc     qword ptr gs:[PcInterruptCount] ; increment interrupt count
 
         endm
 

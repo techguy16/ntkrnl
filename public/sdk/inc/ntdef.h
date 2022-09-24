@@ -29,7 +29,6 @@ Revision History:
 
 // begin_ntminiport begin_ntndis begin_ntminitape
 
-#ifdef __clang__
 #undef try
 #define try __try
 #undef except
@@ -37,7 +36,10 @@ Revision History:
 #undef finally
 #define finally __finally
 #undef leave
+#ifdef __clang__
 #define leave
+#else
+#define leave __leave
 #endif
 
 #ifndef IN

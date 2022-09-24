@@ -19,7 +19,7 @@ You need Clang, LLVM, and CMake.
 
 To compile things, this should work:
 ```shell
-cmake -S. -Bbuild -DCMAKE_TOOLCHAIN_FILE=nt-amd64.cmake # AMD64 is the only supported platform
+cmake -S. -Bbuild -DCMAKE_TOOLCHAIN_FILE=nt-amd64.cmake # AMD64 is the only supported platform, but i386 support is quite far from impossible, and if I'm really in a mood I might port to other platforms some day
 cmake --build build -j14
 ```
 

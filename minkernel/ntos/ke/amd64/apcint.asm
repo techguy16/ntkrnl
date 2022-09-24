@@ -116,10 +116,10 @@ include ksamd64.inc
 
         lea     rsi, (KTRAP_FRAME_LENGTH - 128)[rbp] ; get legacy save address
         cli                             ; disable interrupts
-        fnsaved [rsi]                   ; save legacy floating state
+        fnsave  [esi]                   ; save legacy floating state
         mov     di, LfControlWord[rsi]  ; save current control word
         mov     word ptr LfControlWord[rsi], 03fh ; set to mask all exceptions
-        frstord [rsi]                   ; restore legacy floating point state
+        frstor  [esi]                   ; restore legacy floating point state
         mov     LfControlWord[rsi], di  ; restore control word
         fldcw   word ptr LfControlWord[rsi] ; load legacy control word
         sti                             ; enable interrupts

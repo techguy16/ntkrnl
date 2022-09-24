@@ -64,11 +64,11 @@ endif
         cli                             ; disable interrupts
         mov	rax, rsp		; save stack address
         sub     rsp, 16                 ; alignment and dummy SS selector
-        pushq   rax                     ; save previous stack pointer
-        pushfq                          ; push EFLAGS on stack
-        pushq   KGDT64_R0_CODE          ; push CS selector
+        push    rax                     ; save previous stack pointer
+        pushf                           ; push EFLAGS on stack
+        push    KGDT64_R0_CODE          ; push CS selector
         lea     rax, KiServiceLinkage   ; push service linkage RIP
-        pushq   rax                     ; push return address
+        push    rax                     ; push return address
         mov     eax, ServiceNumber      ; set service number
         jmp     KiSystemService         ; finish in service dispatcher
         push_frame                      ; mark machine frame push

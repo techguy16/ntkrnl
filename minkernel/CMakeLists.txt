@@ -6,6 +6,8 @@ set(MINKERNEL_DEFS _WINNT_=1 WINNT=1 _WIN32_WINNT=0x0609)
 set(MINKERNEL_INCDIRS ${SDK_INC_PATH} ${SDK_INC_PATH}/crt ${MINKERNEL_INC_PATH} ${NTOSINC} ${SDKTOOLS_INC_PATH} ${PUBLISHEDDIR}
         ${PUBLISHEDDIR}/${CMAKE_SYSTEM_PROCESSOR})
 
+add_subdirectory(crts)
+add_subdirectory(urtl)
 add_subdirectory(ntos)
 add_subdirectory(hals)
 add_subdirectory(bootvid)

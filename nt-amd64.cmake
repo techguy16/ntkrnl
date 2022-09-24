@@ -13,6 +13,8 @@ include(${root}/nt-common.cmake)
 
 if (DEFINED NT_WINE_MASM)
 	set(CMAKE_ASM_MASM_COMPILER ${root}/tools/masm64.sh)
+elseif (NOT "${CMAKE_HOST_SYSTEM_NAME}" MATCHES "Windows" AND NOT DEFINED NT_WINE_MASM)
+	set(CMAKE_ASM_MASM_FLAGS_INIT "-win64")
 else()
     set(CMAKE_ASM_MASM_COMPILER ${root}/tools/ml64.exe)
 endif()
