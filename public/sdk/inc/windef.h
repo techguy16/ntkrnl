@@ -163,6 +163,7 @@ typedef unsigned int        UINT;
 typedef unsigned int        *PUINT;
 
 #ifndef NT_INCLUDED
+#undef _WINNT_
 #include <winnt.h>
 #endif /* NT_INCLUDED */
 

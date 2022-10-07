@@ -73,6 +73,10 @@
 #error ERROR: Use of C runtime library internal header file.
 #endif  /* _CRTBLD */
 
+#ifdef _NT
+#undef _MT
+#endif
+
 #if     defined(_SYSCRT) && defined(_WIN64)
 #define _USE_OLD_STDCPP 1
 #endif

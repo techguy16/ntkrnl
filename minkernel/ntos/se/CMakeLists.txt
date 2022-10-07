@@ -38,3 +38,4 @@ set(SE_SOURCES accessck.c
 add_library(se STATIC ${SE_HEADERS} ${SE_SOURCES})
 target_compile_definitions(se PRIVATE ${NT_DEFS})
 target_include_directories(se PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NTOSINC} ${DS_INC_PATH} ${NT_INCDIRS})
+set_property(TARGET se PROPERTY FOLDER "Kernel")

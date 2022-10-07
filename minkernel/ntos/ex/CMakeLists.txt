@@ -47,3 +47,4 @@ add_library(ex STATIC ${EX_HEADERS} ${EX_SOURCES} ${EX_${CMAKE_SYSTEM_PROCESSOR}
 target_compile_definitions(ex PRIVATE ${NT_DEFS})
 target_include_directories(ex PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${ntos}/ke ${ntos}/kd64
                                       ${HALKIT_INC_PATH} ${minkernel}/fs/fastfat)
+set_property(TARGET ex PROPERTY FOLDER "Kernel")

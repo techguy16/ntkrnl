@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+cmake_policy(SET CMP0091 NEW) # MSVC_RUNTIME_LIBRARY
 
 project(ntkrnl VERSION 6.9 LANGUAGES C ASM_MASM)
 
-if (NOT "${CMAKE_TOOLCHAIN_FILE}" MATCHES "nt-amd64.cmake")
+if (NOT "${CMAKE_TOOLCHAIN_FILE}" MATCHES "nt-(amd64|i386).cmake")
 	message(FATAL_ERROR "Use the toolchain file (set CMAKE_TOOLCHAIN_FILE)")
 endif()
 
@@ -12,6 +13,8 @@ set(CMAKE_C_STANDARD 90)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 set(CMAKE_CXX_STANDARD 03)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
 set(CMAKE_EXECUTABLE_SUFFIX .exe)
@@ -39,5 +42,7 @@ set(SDKTOOLS_INC_PATH ${CMAKE_SOURCE_DIR}/public/internal/sdktools/inc)
 set(MINKERNEL_INC_PATH ${CMAKE_SOURCE_DIR}/public/internal/minkernel/inc)
 
 add_compile_definitions(DEVL=1 DBG=1)
+
+set_property(GLOBAL PROPERTY MSVC_RUNTIME_LIBRARY "")
 
 add_subdirectory(minkernel)

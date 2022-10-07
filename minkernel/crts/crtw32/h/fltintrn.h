@@ -113,22 +113,22 @@ extern "C" {
  * instructions when copying and pushing [long] double values
  */
 
-#ifndef DOUBLE
+#ifndef DOUBLEHACK
 
 typedef struct {
         double x;
-} DOUBLE;
+} DOUBLEHACK;
 
 #endif
 
-#ifndef LONGDOUBLE
+#ifndef LONGDOUBLEHACK
 
 typedef struct {
         /*
          * Assume there is a long double type
          */
         long double x;
-} LONGDOUBLE;
+} LONGDOUBLEHACK;
 
 #endif
 
@@ -168,12 +168,12 @@ void __cdecl _fptostr(char *, int, STRFLT);
 
 #ifdef  _MT
 
-STRFLT  __cdecl _fltout2( DOUBLE, STRFLT, char * );
+STRFLT  __cdecl _fltout2( DOUBLEHACK, STRFLT, char * );
 FLT     __cdecl _fltin2( FLT , const char *, int, int, int );
 
 #else
 
-STRFLT  __cdecl _fltout( DOUBLE );
+STRFLT  __cdecl _fltout( DOUBLEHACK);
 FLT     __cdecl _fltin( const char *, int, int, int );
 
 #endif
@@ -193,7 +193,7 @@ FLT     __cdecl _fltin( const char *, int, int, int );
 typedef void (* PFV)(void);
 extern PFV _cfltcvt_tab[6];
 
-typedef void (* PF0)(DOUBLE*, char*, int, int, int);
+typedef void (* PF0)(DOUBLEHACK*, char*, int, int, int);
 #define _cfltcvt(a,b,c,d,e) (*((PF0)_cfltcvt_tab[0]))(a,b,c,d,e)
 
 typedef void (* PF1)(char*);
@@ -205,10 +205,10 @@ typedef void (* PF2)(int, char*, char*);
 typedef void (* PF3)(char*);
 #define _forcdecpt(a)       (*((PF3)_cfltcvt_tab[3]))(a)
 
-typedef int (* PF4)(DOUBLE*);
+typedef int (* PF4)(DOUBLEHACK*);
 #define _positive(a)        (*((PF4)_cfltcvt_tab[4]))(a)
 
-typedef void (* PF5)(LONGDOUBLE*, char*, int, int, int);
+typedef void (* PF5)(LONGDOUBLEHACK*, char*, int, int, int);
 #define _cldcvt(a,b,c,d,e)  (*((PF5)_cfltcvt_tab[5]))(a,b,c,d,e)
 
 

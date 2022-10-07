@@ -31,8 +31,8 @@
 #include <ieverp.h>
 #else
 
-#define VER_PRODUCTMAJORVERSION     6
-#define VER_PRODUCTMINORVERSION     9
+#define VER_PRODUCTMAJORVERSION     12
+#define VER_PRODUCTMINORVERSION     0
 
 #define VER_PRODUCTBETA_STR         /* NT */     ""
 
@@ -45,15 +45,15 @@
 #define LVER_PRODUCTVERSION_STRING  LVER_PRODUCTVERSION_MAJORMINOR1(VER_PRODUCTMAJORVERSION, VER_PRODUCTMINORVERSION)
 
 #define VER_PRODUCTVERSION          VER_PRODUCTMAJORVERSION,VER_PRODUCTMINORVERSION,VER_PRODUCTBUILD,VER_PRODUCTBUILD_QFE
-#define VER_PRODUCTVERSION_W        (0x0609)
-#define VER_PRODUCTVERSION_DW       (0x06090000 | VER_PRODUCTBUILD)
+#define VER_PRODUCTVERSION_W        (0x1200)
+#define VER_PRODUCTVERSION_DW       (0x12000000 | VER_PRODUCTBUILD)
 
 /*--------------------------------------------------------------*/
 /* this value is used by third party drivers build with the DDK */
 /* and internally, to avoid version number conflicts.           */
 /*--------------------------------------------------------------*/
-#define VER_DDK_PRODUCTVERSION       6,09
-#define VER_DDK_PRODUCTVERSION_STR  "6.09"
+#define VER_DDK_PRODUCTVERSION       12,00
+#define VER_DDK_PRODUCTVERSION_STR  "12.00"
 
 #endif
 
@@ -130,6 +130,6 @@
 #define VER_PRODUCTNAME_STR         "Microsoft\256 Windows\256 Operating System (MobSlicer152 edition)"
 #endif
 #define VER_LEGALTRADEMARKS_STR     \
-"Microsoft\256 is a registered trademark of Microsoft Corporation. Windows\256 is a registered trademark of Microsoft Corporation."
+"Microsoft\256 is a registered trademark of Microsoft Corporation. Windows\256 is a registered trademark of Microsoft Corporation. Additional modifications have been made by MobSlicer152"
 #endif
 // @@END_DDKSPLIT

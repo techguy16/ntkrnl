@@ -74,3 +74,4 @@ set(KE_amd64_SOURCES amd64/allproc.c
 add_library(ke STATIC ${KE_HEADERS} ${KE_SOURCES} ${KE_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${KE_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
 target_compile_definitions(ke PRIVATE ${NT_DEFS})
 target_include_directories(ke PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS})
+set_property(TARGET ke PROPERTY FOLDER "Kernel")

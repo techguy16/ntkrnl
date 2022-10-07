@@ -71,3 +71,4 @@ add_library(config STATIC ${CONFIG_HEADERS} ${CONFIG_SOURCES} ${CONFIG_${CMAKE_S
 target_include_directories(config PRIVATE ${NTOSINC} ${ntos}/ke ${PUBLISHEDDIR} ${PUBLISHEDDIR}/${CMAKE_SYSTEM_PROCESSOR} ${HALKIT_INC_PATH} ${SDK_INC_PATH}
                                           ${SDK_INC_PATH}/crt ${MINKERNEL_INC_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_definitions(config PRIVATE ${NT_DEFS})
+set_property(TARGET config PROPERTY FOLDER "Kernel")
