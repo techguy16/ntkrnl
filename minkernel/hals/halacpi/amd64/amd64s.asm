@@ -403,11 +403,11 @@ HalpLMIdentityStubEnd::
         
         mov     rsp, [rdi] + PsbProcessorState + PsContextFrame + CxRsp
         
-        pushq   [rdi] + PsbProcessorState + PsContextFrame + CxEflags
-        popfq
+        push   [rdi] + PsbProcessorState + PsContextFrame + CxEflags
+        popf
         
-        pushq   [rdi] + PsbProcessorState + PsContextFrame + CxRip
-        pushq   [rdi] + PsbProcessorState + PsContextFrame + CxRdi
+        push   [rdi] + PsbProcessorState + PsContextFrame + CxRip
+        push   [rdi] + PsbProcessorState + PsContextFrame + CxRdi
         
         mov     rax, [rdi] + PsbProcessorState + PsContextFrame + CxRax
         mov     rbx, [rdi] + PsbProcessorState + PsContextFrame + CxRbx

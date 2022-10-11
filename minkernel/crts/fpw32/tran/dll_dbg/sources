@@ -1,2 +1,0 @@
-BUILD_DEBUG_CRTS= 
-!include ..\dll\sources 

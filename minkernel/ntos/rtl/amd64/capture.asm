@@ -110,7 +110,7 @@ CcFrame ends
 
 ifndef NTOS_KERNEL_RUNTIME
 
-        fnsaved CxFltSave[rcx]          ; save legacy floating state
+        fnsave  CxFltSave[rcx]          ; save legacy floating state
 
 endif
 

@@ -1,0 +1,60 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\encapi.obj \
+    $(_OBJ_DIR)\i386\encdata.obj \
+    $(_OBJ_DIR)\i386\init.obj \
+    $(_OBJ_DIR)\i386\encstats.obj \
+    $(_OBJ_DIR)\i386\enctree.obj \
+    $(_OBJ_DIR)\i386\tree.obj \
+    $(_OBJ_DIR)\i386\bsearch.obj \
+    $(_OBJ_DIR)\i386\optenc.obj \
+    $(_OBJ_DIR)\i386\block.obj \
+    $(_OBJ_DIR)\i386\blkinit.obj \
+    $(_OBJ_DIR)\i386\io.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\encapi.obj \
+    $(_OBJ_DIR)\ia64\encdata.obj \
+    $(_OBJ_DIR)\ia64\init.obj \
+    $(_OBJ_DIR)\ia64\encstats.obj \
+    $(_OBJ_DIR)\ia64\enctree.obj \
+    $(_OBJ_DIR)\ia64\tree.obj \
+    $(_OBJ_DIR)\ia64\bsearch.obj \
+    $(_OBJ_DIR)\ia64\optenc.obj \
+    $(_OBJ_DIR)\ia64\block.obj \
+    $(_OBJ_DIR)\ia64\blkinit.obj \
+    $(_OBJ_DIR)\ia64\io.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\encapi.obj \
+    $(_OBJ_DIR)\amd64\encdata.obj \
+    $(_OBJ_DIR)\amd64\init.obj \
+    $(_OBJ_DIR)\amd64\encstats.obj \
+    $(_OBJ_DIR)\amd64\enctree.obj \
+    $(_OBJ_DIR)\amd64\tree.obj \
+    $(_OBJ_DIR)\amd64\bsearch.obj \
+    $(_OBJ_DIR)\amd64\optenc.obj \
+    $(_OBJ_DIR)\amd64\block.obj \
+    $(_OBJ_DIR)\amd64\blkinit.obj \
+    $(_OBJ_DIR)\amd64\io.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\encapi.obj \
+    $(_OBJ_DIR)\arm\encdata.obj \
+    $(_OBJ_DIR)\arm\init.obj \
+    $(_OBJ_DIR)\arm\encstats.obj \
+    $(_OBJ_DIR)\arm\enctree.obj \
+    $(_OBJ_DIR)\arm\tree.obj \
+    $(_OBJ_DIR)\arm\bsearch.obj \
+    $(_OBJ_DIR)\arm\optenc.obj \
+    $(_OBJ_DIR)\arm\block.obj \
+    $(_OBJ_DIR)\arm\blkinit.obj \
+    $(_OBJ_DIR)\arm\io.obj
+
+PASS0_ARM_OBJECTS=
+

@@ -1,0 +1,168 @@
+
+LIBRARY HAL
+
+EXPORTS
+
+
+
+    HalGetInterruptVector
+    HalAdjustResourceList
+    HalAssignSlotResources
+    HalAcquireDisplayOwnership
+    HalDisplayString
+    HalSetDisplayParameters
+    HalQueryDisplayParameters
+    HalMakeBeep
+    HalGetAdapter
+    HalGetBusData
+    HalSetBusData
+    HalAllocateAdapterChannel
+    HalAllocateCommonBuffer
+    HalFlushCommonBuffer
+    HalFreeCommonBuffer
+    HalReadDmaCounter
+    IoFlushAdapterBuffers
+    IoFreeAdapterChannel
+    IoFreeMapRegisters
+    IoMapTransfer
+    IoSetPartitionInformation=HalpSetPartitionInformation PRIVATE
+    IoReadPartitionTable=HalpReadPartitionTable           PRIVATE
+    IoWritePartitionTable=HalpWritePartitionTable         PRIVATE
+    IoAssignDriveLetters=HalpAssignDriveLetters           PRIVATE
+
+
+
+    
+    
+    
+    
+
+    HalSetBusDataByOffset 
+    HalGetBusDataByOffset 
+
+
+    HalAllocateCrashDumpRegisters
+    HalAllProcessorsStarted
+    HalCalibratePerformanceCounter
+    HalDisableSystemInterrupt
+    HalEnableSystemInterrupt
+    HalGetEnvironmentVariable
+    HalInitializeProcessor
+    HalInitSystem
+    HalProcessorIdle
+    HalQueryRealTimeClock
+    HalReportResourceUsage
+    HalRequestIpi
+    HalReturnToFirmware
+    HalSetEnvironmentVariable
+    HalSetProfileInterval
+    HalSetRealTimeClock
+    HalSetTimeIncrement
+    HalStartNextProcessor
+    HalStartProfileInterrupt
+    HalStopProfileInterrupt
+    HalTranslateBusAddress
+
+    KeFlushWriteBuffer
+    KeQueryPerformanceCounter
+    KeStallExecutionProcessor
+
+
+
+    KeRaiseIrql
+    KeLowerIrql
+    KfRaiseIrql
+    KfLowerIrql
+    KeRaiseIrqlToDpcLevel
+    KeRaiseIrqlToSynchLevel
+    KeGetCurrentIrql
+    KeAcquireSpinLock
+    KeReleaseSpinLock
+    KfAcquireSpinLock
+    KfReleaseSpinLock
+    KeAcquireSpinLockRaiseToSynch
+    KeAcquireQueuedSpinLock
+    KeAcquireQueuedSpinLockRaiseToSynch
+    KeReleaseQueuedSpinLock
+    KeAcquireInStackQueuedSpinLock
+    KeAcquireInStackQueuedSpinLockRaiseToSynch
+    KeReleaseInStackQueuedSpinLock
+    KeTryToAcquireQueuedSpinLock
+    KeTryToAcquireQueuedSpinLockRaiseToSynch
+    ExAcquireFastMutex
+    ExTryToAcquireFastMutex
+    ExReleaseFastMutex
+
+
+
+
+
+    HalClearSoftwareInterrupt
+    HalRequestSoftwareInterrupt
+    HalSystemVectorDispatchEntry
+    HalBeginSystemInterrupt
+    HalEndSystemInterrupt
+    HalHandleNMI
+
+
+
+
+
+
+
+
+
+
+
+
+    READ_PORT_UCHAR
+    READ_PORT_USHORT
+    READ_PORT_ULONG
+    READ_PORT_BUFFER_UCHAR
+    READ_PORT_BUFFER_USHORT
+    READ_PORT_BUFFER_ULONG
+    WRITE_PORT_UCHAR
+    WRITE_PORT_USHORT
+    WRITE_PORT_ULONG
+    WRITE_PORT_BUFFER_UCHAR
+    WRITE_PORT_BUFFER_USHORT
+    WRITE_PORT_BUFFER_ULONG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    KdComPortInUse CONSTANT             

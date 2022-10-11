@@ -1,0 +1,60 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\decinit.obj \
+    $(_OBJ_DIR)\i386\maketbl.obj \
+    $(_OBJ_DIR)\i386\decapi.obj \
+    $(_OBJ_DIR)\i386\decverb.obj \
+    $(_OBJ_DIR)\i386\decalign.obj \
+    $(_OBJ_DIR)\i386\dectree.obj \
+    $(_OBJ_DIR)\i386\decxlat.obj \
+    $(_OBJ_DIR)\i386\decin.obj \
+    $(_OBJ_DIR)\i386\decout.obj \
+    $(_OBJ_DIR)\i386\decuncmp.obj \
+    $(_OBJ_DIR)\i386\decblk.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\decinit.obj \
+    $(_OBJ_DIR)\ia64\maketbl.obj \
+    $(_OBJ_DIR)\ia64\decapi.obj \
+    $(_OBJ_DIR)\ia64\decverb.obj \
+    $(_OBJ_DIR)\ia64\decalign.obj \
+    $(_OBJ_DIR)\ia64\dectree.obj \
+    $(_OBJ_DIR)\ia64\decxlat.obj \
+    $(_OBJ_DIR)\ia64\decin.obj \
+    $(_OBJ_DIR)\ia64\decout.obj \
+    $(_OBJ_DIR)\ia64\decuncmp.obj \
+    $(_OBJ_DIR)\ia64\decblk.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\decinit.obj \
+    $(_OBJ_DIR)\amd64\maketbl.obj \
+    $(_OBJ_DIR)\amd64\decapi.obj \
+    $(_OBJ_DIR)\amd64\decverb.obj \
+    $(_OBJ_DIR)\amd64\decalign.obj \
+    $(_OBJ_DIR)\amd64\dectree.obj \
+    $(_OBJ_DIR)\amd64\decxlat.obj \
+    $(_OBJ_DIR)\amd64\decin.obj \
+    $(_OBJ_DIR)\amd64\decout.obj \
+    $(_OBJ_DIR)\amd64\decuncmp.obj \
+    $(_OBJ_DIR)\amd64\decblk.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\decinit.obj \
+    $(_OBJ_DIR)\arm\maketbl.obj \
+    $(_OBJ_DIR)\arm\decapi.obj \
+    $(_OBJ_DIR)\arm\decverb.obj \
+    $(_OBJ_DIR)\arm\decalign.obj \
+    $(_OBJ_DIR)\arm\dectree.obj \
+    $(_OBJ_DIR)\arm\decxlat.obj \
+    $(_OBJ_DIR)\arm\decin.obj \
+    $(_OBJ_DIR)\arm\decout.obj \
+    $(_OBJ_DIR)\arm\decuncmp.obj \
+    $(_OBJ_DIR)\arm\decblk.obj
+
+PASS0_ARM_OBJECTS=
+

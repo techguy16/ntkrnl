@@ -40,10 +40,10 @@ extern "C" {
 /* Define _CRTIMP */
 
 #ifndef _CRTIMP
-#ifdef  _DLL
+#ifndef _CRTBLD
 #define _CRTIMP __declspec(dllimport)
 #else   /* ndef _DLL */
-#define _CRTIMP
+#define _CRTIMP __declspec(dllexport)
 #endif  /* _DLL */
 #endif  /* _CRTIMP */
 
@@ -87,14 +87,15 @@ typedef unsigned short wchar_t;
 
 /* Function prototypes */
 
-        void *  __cdecl memcpy(void *, const void *, size_t);
-        int     __cdecl memcmp(const void *, const void *, size_t);
-        void *  __cdecl memset(void *, int, size_t);
-        char *  __cdecl _strset(char *, int);
-        char *  __cdecl strcpy(char *, const char *);
-        char *  __cdecl strcat(char *, const char *);
-        int     __cdecl strcmp(const char *, const char *);
-        size_t  __cdecl strlen(const char *);
+_CRTIMP void *  __cdecl memcpy(void *, const void *, size_t);
+_CRTIMP int     __cdecl memcmp(const void *, const void *, size_t);
+_CRTIMP void *  __cdecl memset(void *, int, size_t);
+_CRTIMP char *  __cdecl _strset(char *, int);
+_CRTIMP char *  __cdecl strcpy(char *, const char *);
+_CRTIMP char *  __cdecl strcat(char *, const char *);
+_CRTIMP int     __cdecl strcmp(const char *, const char *);
+_CRTIMP size_t  __cdecl strlen(const char *);
+
 _CRTIMP void *  __cdecl _memccpy(void *, const void *, int, size_t);
 _CRTIMP void *  __cdecl memchr(const void *, int, size_t);
 _CRTIMP int     __cdecl _memicmp(const void *, const void *, size_t);

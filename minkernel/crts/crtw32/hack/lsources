@@ -1,4 +1,0 @@
-CURDIR = hack
-
-OBJS=\
-        $(OBJDIR)\stubs.obj

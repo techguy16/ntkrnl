@@ -1,2 +1,0 @@
-#define LIBRARYNAME  msvcirt
-#include "..\..\..\libw32\msvcirt.src"

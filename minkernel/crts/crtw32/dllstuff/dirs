@@ -1,6 +1,0 @@
-DIRS=   dll    \
-        dll_dbg \
-	dlllib \
-	dlllib_dbg \
-	dll_ios
-

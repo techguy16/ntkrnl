@@ -48,10 +48,10 @@ extern "C" {
 /* Define _CRTIMP */
 
 #ifndef _CRTIMP
-#ifdef  _DLL
+#ifndef _CRTBLD
 #define _CRTIMP __declspec(dllimport)
 #else   /* ndef _DLL */
-#define _CRTIMP
+#define _CRTIMP __declspec(dllexport)
 #endif  /* _DLL */
 #endif  /* _CRTIMP */
 

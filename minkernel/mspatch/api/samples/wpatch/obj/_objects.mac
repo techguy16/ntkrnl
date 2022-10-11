@@ -1,0 +1,24 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\wpatch.res \
+    $(_OBJ_DIR)\i386\wpatch.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\wpatch.res \
+    $(_OBJ_DIR)\ia64\wpatch.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\wpatch.res \
+    $(_OBJ_DIR)\amd64\wpatch.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\wpatch.res \
+    $(_OBJ_DIR)\arm\wpatch.obj
+
+PASS0_ARM_OBJECTS=
+

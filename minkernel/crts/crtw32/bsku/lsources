@@ -1,4 +1,0 @@
-CURDIR = bsku
-
-OBJS=\
-        $(OBJDIR)\bsku.obj

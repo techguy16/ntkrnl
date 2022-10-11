@@ -1,0 +1,32 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\kd1394.res \
+    $(_OBJ_DIR)\i386\kd1394.obj \
+    $(_OBJ_DIR)\i386\kd1394io.obj \
+    $(_OBJ_DIR)\i386\ohci1394.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\kd1394.res \
+    $(_OBJ_DIR)\ia64\kd1394.obj \
+    $(_OBJ_DIR)\ia64\kd1394io.obj \
+    $(_OBJ_DIR)\ia64\ohci1394.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\kd1394.res \
+    $(_OBJ_DIR)\amd64\kd1394.obj \
+    $(_OBJ_DIR)\amd64\kd1394io.obj \
+    $(_OBJ_DIR)\amd64\ohci1394.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\kd1394.res \
+    $(_OBJ_DIR)\arm\kd1394.obj \
+    $(_OBJ_DIR)\arm\kd1394io.obj \
+    $(_OBJ_DIR)\arm\ohci1394.obj
+
+PASS0_ARM_OBJECTS=
+

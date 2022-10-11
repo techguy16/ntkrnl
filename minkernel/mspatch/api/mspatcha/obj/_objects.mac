@@ -1,0 +1,44 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\mspatcha.res \
+    $(_OBJ_DIR)\i386\patchapi.obj \
+    $(_OBJ_DIR)\i386\patchlzx.obj \
+    $(_OBJ_DIR)\i386\pestuff.obj \
+    $(_OBJ_DIR)\i386\redblack.obj \
+    $(_OBJ_DIR)\i386\misc.obj \
+    $(_OBJ_DIR)\i386\md5.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\mspatcha.res \
+    $(_OBJ_DIR)\ia64\patchapi.obj \
+    $(_OBJ_DIR)\ia64\patchlzx.obj \
+    $(_OBJ_DIR)\ia64\pestuff.obj \
+    $(_OBJ_DIR)\ia64\redblack.obj \
+    $(_OBJ_DIR)\ia64\misc.obj \
+    $(_OBJ_DIR)\ia64\md5.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\mspatcha.res \
+    $(_OBJ_DIR)\amd64\patchapi.obj \
+    $(_OBJ_DIR)\amd64\patchlzx.obj \
+    $(_OBJ_DIR)\amd64\pestuff.obj \
+    $(_OBJ_DIR)\amd64\redblack.obj \
+    $(_OBJ_DIR)\amd64\misc.obj \
+    $(_OBJ_DIR)\amd64\md5.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\mspatcha.res \
+    $(_OBJ_DIR)\arm\patchapi.obj \
+    $(_OBJ_DIR)\arm\patchlzx.obj \
+    $(_OBJ_DIR)\arm\pestuff.obj \
+    $(_OBJ_DIR)\arm\redblack.obj \
+    $(_OBJ_DIR)\arm\misc.obj \
+    $(_OBJ_DIR)\arm\md5.obj
+
+PASS0_ARM_OBJECTS=
+

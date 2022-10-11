@@ -1,0 +1,36 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\kdcom.res \
+    $(_OBJ_DIR)\i386\kdcom.obj \
+    $(_OBJ_DIR)\i386\kdcomio.obj \
+    $(_OBJ_DIR)\i386\ixkdcom.obj \
+    $(_OBJ_DIR)\i386\xxkdsup.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\kdcom.res \
+    $(_OBJ_DIR)\ia64\kdcom.obj \
+    $(_OBJ_DIR)\ia64\kdcomio.obj \
+    $(_OBJ_DIR)\ia64\ixkdcom.obj \
+    $(_OBJ_DIR)\ia64\xxkdsup.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\kdcom.res \
+    $(_OBJ_DIR)\amd64\kdcom.obj \
+    $(_OBJ_DIR)\amd64\kdcomio.obj \
+    $(_OBJ_DIR)\amd64\ixkdcom.obj \
+    $(_OBJ_DIR)\amd64\xxkdsup.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\kdcom.res \
+    $(_OBJ_DIR)\arm\kdcom.obj \
+    $(_OBJ_DIR)\arm\kdcomio.obj \
+    $(_OBJ_DIR)\arm\ixkdcom.obj \
+    $(_OBJ_DIR)\arm\xxkdsup.obj
+
+PASS0_ARM_OBJECTS=
+

@@ -232,35 +232,10 @@ KdSetDbgPrintBufferSize(
     );
 
 
-__inline
 VOID
 KdCheckForDebugBreak(
     VOID
-    )
-/*++
-
-Routine Description:
-
-    If necessary, poll for a request to break-in from the debugger.
-    This function should be called by routines that run at an IRQL
-    above clock level that want to be broken in by CTRL-C requests
-    from the debugger. Crashdump and hiber, for example, run at
-    HIGH_LEVEL and explicitly need to poll for breaking.
-
-Arguments:
-
-    None.
-
-Return Value:
-
-    None.
-
---*/
-{
-    if (KdDebuggerEnabled && KdPollBreakIn()) {
-        DbgBreakPointWithStatus (DBG_STATUS_CONTROL_C);
-    }
-}
+    );
 
 
 //

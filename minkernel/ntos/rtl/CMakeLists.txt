@@ -79,10 +79,14 @@ set(RTL_amd64_SOURCES amd64/capture.asm
                       amd64/stkwalk.c
                       amd64/xcptmisc.asm)
 
-add_library(rtl STATIC ${RTL_HEADER} ${RTL_SOURCES} ${RTL_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${RTL_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
-target_include_directories(rtl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${minkernelinc} ${NT_INCDIRS} ${DS_INC_PATH} ${CMAKE_SYSTEM_PROCESSOR})
-target_compile_definitions(rtl PRIVATE ${NT_DEFS})
-if (NOT DEFINED RTL_USER)
-    target_compile_definitions(rtl PRIVATE NTOS_KERNEL_RUNTIME=1)
-endif()
-set_property(TARGET rtl PROPERTY FOLDER "Kernel")
+add_library(ntosrtl STATIC ${RTL_HEADER} ${RTL_SOURCES} ${RTL_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${RTL_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
+target_include_directories(ntosrtl PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${minkernelinc} ${NT_INCDIRS} ${DS_INC_PATH} ${CMAKE_SYSTEM_PROCESSOR})
+target_compile_definitions(ntosrtl PRIVATE ${NT_DEFS})
+target_compile_definitions(ntosrtl PRIVATE NTOS_KERNEL_RUNTIME=1)
+set_property(TARGET ntosrtl PROPERTY FOLDER "Kernel")
+
+add_library(ntosrtluser STATIC ${RTL_HEADER} ${RTL_SOURCES} ${RTL_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${RTL_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
+target_include_directories(ntosrtluser PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${minkernelinc} ${NT_INCDIRS} ${DS_INC_PATH} ${DS_INC_PATH}/crypto
+                                               ${CMAKE_SYSTEM_PROCESSOR} ${minkernel}/ntdll/wow6432)
+target_compile_definitions(ntosrtluser PRIVATE ${NT_DEFS})
+target_compile_options(ntosrtluser PRIVATE -U_CRTIMP)
