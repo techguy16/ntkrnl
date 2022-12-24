@@ -19,7 +19,7 @@ add_subdirectory(io)
 
 add_library(ntoskrnl SHARED init/ntkrnlmp.c init/ntoskrnl.rc)
 target_include_directories(ntoskrnl PRIVATE ${ntos}/nls/obj/${CMAKE_SYSTEM_PROCESSOR})
-target_link_libraries(ntoskrnl PRIVATE ntosrtl config kd64 ex ob se mm ke po ps arb io iomgr
+target_link_libraries(ntoskrnl PRIVATE ntosrtl config kd64 ex ob se mm ke po ps arb io iomgr pnpmgr
                                        ${SDK_LIB_PATH}/libcntpr.lib ${DDK_LIB_PATH}/hal.lib ${HALKIT_LIB_PATH}/kdcom.lib)
 target_link_options(ntoskrnl PRIVATE -subsystem:native,12.0 -entry:KiSystemStartup -map -merge:PAGECONST=PAGE
                                      -merge:INITCONST=INIT -merge:INITDATA=INIT -merge:PAGELKCONST=PAGELK
