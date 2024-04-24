@@ -79,11 +79,13 @@ set(HAL_amd64_SOURCES amd64/amd64s.asm
                            amd64/pmstall.c
                            amd64/pmtimer.c)
 
-add_library(hal SHARED ${hal_HEADERS} ${HAL_SOURCES} ${HAL_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
+add_library(hal SHARED ${HAL_HEADERS} ${HAL_SOURCES} ${HAL_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
 target_compile_definitions(hal PRIVATE ${HAL_DEFS} APIC_HAL=1 ACPI_HAL=1 _HALPAE_=1 SPEEDY_BOOT=1 NO_PM_KEQPC=1)
 target_include_directories(hal PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/i386 
                                             ${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_SYSTEM_PROCESSOR} ${HAL_INCDIRS}
                                             ${HALKIT_INC_PATH}/i386 ${WDM_INC_PATH} ${hals}/x86new)
-target_link_options(hal PRIVATE -merge:PAGECONST=PAGE -merge:INITCONST=INIT /LARGEADDRESSAWARE -noentry)
+                                        target_link_options(hal PRIVATE -merge:PAGECONST=PAGE -merge:INITCONST=INIT /LARGEADDRESSAWARE -noentry -def:${CMAKE_CURRENT_BINARY_DIR}/hal.def)
 target_link_libraries(hal PRIVATE ${HALKIT_LIB_PATH}/kdcom.lib x86new ${DDK_LIB_PATH}/ntoskrnl.lib)
+
+add_custom_command(PRE_LINK hal COMMAND ${CMAKE_C_COMPILER} -EP ${hals}/hal.src ${CMAKE_C_FLAGS} / ${CMAKE_CURRENT_BINARY_DIR}/hal.def VERBATIM)
 set_property(TARGET hal PROPERTY FOLDER "Hardware Abstraction Layer")

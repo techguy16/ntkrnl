@@ -8,18 +8,12 @@ kind of like a minimal Linux system just running BusyBox as the userspace. Pleas
 make any attempt to commercialize or open source this. Use of this project is at your own risk and only for personal or research purposes, and you take all responsibility for any shitty stuff that you do or is caused by the use of
 this project. Also credit to Microsoft (especially Dave Cutler) for building this incredible and historic piece of technology.
 
-## Main challenges in this foolhardy endeavour
-OBVIOUSLY there are gonna be quite a few issues with this, namely:
-- ~~Clang is LP64 but Windows is LLP64, so that sucks~~ Nope, turns out it was just some fuckery with some headers declaring intrinsic functions in a way Clang doesn't like
-- The code relies heavily on MSVC-only features. Clang is a lot better at MSVC compatibility than GCC could be and in my opinion is much better in tons of other ways too, and the Windows headers do define macros (I don't know for but I'm pretty sure they're slightly designed to be portable between compilers) so this is less of an issue than it could be
-- There are likely to be issues related to the binary being unsigned (probably fixable) and LLVM generating the binary differently that will cause issues with the bootloader and stuff, but if that's the case in theory if I replace those other components too (more work, but there aren't many of them) then they'll work fine and the rest of the system won't know the difference through the power of dynamic linking.
-
 ## Instructions
 You need Clang, LLVM, and CMake.
 
 To compile things, this should work:
 ```shell
-cmake -S. -Bbuild -DCMAKE_TOOLCHAIN_FILE=nt-amd64.cmake # AMD64 is the only supported platform, but i386 support is quite far from impossible, and if I'm really in a mood I might port to other platforms some day
+cmake -S. -Bbuild -DCMAKE_TOOLCHAIN_FILE=nt.cmake
 cmake --build build -j14
 ```
 
