@@ -40,7 +40,7 @@ BOOLEAN HalpPowerDownFlag;
 
 VOID
 HalReturnToFirmware(
-    IN FIRMWARE_ENTRY Routine
+    IN FIRMWARE_REENTRY Routine
     )
 
 /*++

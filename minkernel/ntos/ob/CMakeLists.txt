@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.29)
 
 set(OB_HEADERS obp.h
                obvutil.h)

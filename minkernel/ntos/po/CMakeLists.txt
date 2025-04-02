@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.29)
 
 set(PO_HEADERS pop.h)
 set(PO_SOURCES attrib.c
@@ -25,7 +25,7 @@ set(PO_SOURCES attrib.c
                thermal.c
                throttle.c
                volume.c)
-set(PO_amd64_SOURCES amd64/xsum.asm)
+set(PO_AMD64_SOURCES amd64/xsum.asm)
 
 add_library(po STATIC ${PO_HEADERS} ${PO_SOURCES} ${PO_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
 target_compile_definitions(po PRIVATE ${NT_DEFS})

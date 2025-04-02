@@ -59,7 +59,7 @@ VfUtilIsMemoryRangeReadable(
             }
         }
 
-        ((PCHAR) Location)++;
+        (*(PCHAR*) &Location)++;
         Length--;
     }
 
@@ -81,7 +81,7 @@ VfUtilIsMemoryRangeReadable(
             }
         }
 
-        ((PCHAR) Location) += sizeof(ULONG_PTR);
+        (*(PCHAR*) &Location) += sizeof(ULONG_PTR);
         Length -= sizeof(ULONG_PTR);
     }
 
@@ -103,7 +103,7 @@ VfUtilIsMemoryRangeReadable(
             }
         }
 
-        ((PCHAR) Location)++;
+        (*(PCHAR*) &Location)++;
         Length--;
     }
 

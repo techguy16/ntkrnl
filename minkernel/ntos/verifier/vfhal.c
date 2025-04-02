@@ -2281,7 +2281,7 @@ VfGetScatterGatherList (
     IN PMDL Mdl,
     IN PVOID CurrentVa,
     IN ULONG Length,
-    IN PDRIVER_LIST_CONTROL ExecutionRoutine,
+    IN PVOID ExecutionRoutineRaw,
     IN PVOID Context,
     IN BOOLEAN WriteToDevice
     )
@@ -2321,6 +2321,8 @@ Return Value:
     PVF_WAIT_CONTEXT_BLOCK_EX waitBlock = NULL;
     PMAP_REGISTER_FILE mapRegisterFileCopy = NULL;
 
+
+    PDRIVER_LIST_CONTROL ExecutionRoutine = ExecutionRoutineRaw;
 
     getScatterGatherList =  (PGET_SCATTER_GATHER_LIST)
         ViGetRealDmaOperation(

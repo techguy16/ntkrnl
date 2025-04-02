@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.29)
 
 set(X86NEW_HEADERS emulate.h
 		   x86new.h
 		   xm86.h)
-set(X86NEW_amd64_SOURCES emulate.c
+set(X86NEW_AMD64_SOURCES emulate.c
                          addops.c
                          asciiops.c
                          bitops.c
@@ -31,5 +31,6 @@ set(X86NEW_amd64_SOURCES emulate.c
 add_library(x86new STATIC ${X86NEW_HEADERS} ${X86NEW_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
 target_compile_definitions(x86new PRIVATE ${HAL_DEFS})
 target_include_directories(x86new PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${HAL_INCDIRS})
+target_link_libraries(x86new PRIVATE clang)
 set_property(TARGET x86new PROPERTY FOLDER "Hardware Abstraction Layer")
 

@@ -3715,6 +3715,7 @@ IoGetInitialStack(
     VOID
     );
 
+#define IoGetStackLimits RtlpGetStackLimits
 NTKERNELAPI
 VOID
 IoGetStackLimits (
@@ -5339,21 +5340,21 @@ NTKERNELAPI
 NTSTATUS
 IoCreateDisk(
     IN PDEVICE_OBJECT DeviceObject,
-    IN struct _CREATE_DISK* Disk
+    IN PVOID DiskInfo
     );
 
 NTKERNELAPI
 NTSTATUS
 IoReadPartitionTableEx(
     IN PDEVICE_OBJECT DeviceObject,
-    IN struct _DRIVE_LAYOUT_INFORMATION_EX** DriveLayout
+    IN PVOID* DriveLayout
     );
 
 NTKERNELAPI
 NTSTATUS
 IoWritePartitionTableEx(
     IN PDEVICE_OBJECT DeviceObject,
-    IN struct _DRIVE_LAYOUT_INFORMATION_EX* DriveLayout
+    IN PVOID DriveLayout
     );
 
 NTKERNELAPI
@@ -5361,15 +5362,15 @@ NTSTATUS
 IoSetPartitionInformationEx(
     IN PDEVICE_OBJECT DeviceObject,
     IN ULONG PartitionNumber,
-    IN struct _SET_PARTITION_INFORMATION_EX* PartitionInfo
+    IN PVOID PartitionInfo
     );
 
 NTKERNELAPI
 NTSTATUS
 IoUpdateDiskGeometry(
     IN PDEVICE_OBJECT DeviceObject,
-    IN struct _DISK_GEOMETRY_EX* OldDiskGeometry,
-    IN struct _DISK_GEOMETRY_EX* NewDiskGeometry
+    IN PVOID OldDiskGeometry,
+    IN PVOID NewDiskGeometry
     );
 
 NTKERNELAPI

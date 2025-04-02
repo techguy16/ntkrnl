@@ -4153,7 +4153,7 @@ Return Value:
                          Status,
                          SharedCacheMap->FileObject);
                 DbgBreakPoint();
-#endif TOMM
+#endif // TOMM
             }
         }
     }

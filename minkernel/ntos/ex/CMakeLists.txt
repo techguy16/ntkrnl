@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.29)
 
 set(EX_HEADERS exp.h)
 set(EX_SOURCES callback.c
@@ -39,7 +39,7 @@ set(EX_SOURCES callback.c
                pushlock.c
                xipdisp.c
                keyedevent.c)
-set(EX_amd64_SOURCES amd64/hifreqlk.asm
+set(EX_AMD64_SOURCES amd64/hifreqlk.asm
                      amd64/intrlock.asm
                      amd64/wowinfo.c)
 

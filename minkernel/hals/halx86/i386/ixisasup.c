@@ -2414,7 +2414,7 @@ Return Value:
 
                 }
 
-                (PCCHAR) CurrentVa += partialLength;
+                CurrentVa = (PCCHAR) CurrentVa + partialLength;
                 partialLength = PAGE_SIZE;
 
                 //

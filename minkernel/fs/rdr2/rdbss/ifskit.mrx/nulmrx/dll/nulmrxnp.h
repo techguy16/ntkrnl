@@ -26,19 +26,19 @@ Notes:
 
 extern DWORD NulMRxNpDebugLevel;
 
-#define TRACE_CALL(Args)    \
+#define TRACE_CALL(...)    \
             if (NulMRxNpDebugLevel & NULMRXNP_DEBUG_CALL) {    \
-                DbgPrint##Args;                 \
+                DbgPrint(__VA_ARGS__);                 \
             }
 
-#define TRACE_ERROR(Args)    \
+#define TRACE_ERROR(...)    \
             if (NulMRxNpDebugLevel & NULMRXNP_DEBUG_ERROR) {    \
-                DbgPrint##Args;                 \
+                DbgPrint(__VA_ARGS__);                 \
             }
 
-#define TRACE_INFO(Args)    \
+#define TRACE_INFO(...)    \
             if (NulMRxNpDebugLevel & NULMRXNP_DEBUG_INFO) {    \
-                DbgPrint##Args;                 \
+                DbgPrint(__VA_ARGS__);                 \
             }
 
 typedef struct _NULMRXNP_ENUMERATION_HANDLE_ {

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.29)
 
 set(CONFIG_HEADERS cmp.h
                    cmpbug.h
@@ -58,10 +58,10 @@ set(CONFIG_SOURCES cmapi.c
                    hivehint.c
                    ntapi.c
                    hwprofil.c)
-set(CONFIG_amd64_HEADERS i386/geninst.h
+set(CONFIG_AMD64_HEADERS i386/geninst.h
                          i386/parseini.h
                          i386/rules.h)
-set(CONFIG_amd64_SOURCES i386/geninst.c
+set(CONFIG_AMD64_SOURCES i386/geninst.c
                          i386/init386.c
                          i386/initdat.c
                          i386/parseini.c

@@ -25,7 +25,7 @@ extern ULONG VfSpewLevel;
 #define VERIFIER_DBGPRINT(txt,level) \
 { \
     if (VfSpewLevel>(level)) { \
-        DbgPrint##txt; \
+        DbgPrint txt; \
     }\
 }
 #else

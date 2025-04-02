@@ -1,0 +1,84 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\sdbapi.obj \
+    $(_OBJ_DIR)\i386\read.obj \
+    $(_OBJ_DIR)\i386\findtag.obj \
+    $(_OBJ_DIR)\i386\hash.obj \
+    $(_OBJ_DIR)\i386\dbaccess.obj \
+    $(_OBJ_DIR)\i386\attributes.obj \
+    $(_OBJ_DIR)\i386\index.obj \
+    $(_OBJ_DIR)\i386\guid.obj \
+    $(_OBJ_DIR)\i386\sdbapiplus.obj \
+    $(_OBJ_DIR)\i386\dbaccessplus.obj \
+    $(_OBJ_DIR)\i386\msitransform.obj \
+    $(_OBJ_DIR)\i386\ntbase.obj \
+    $(_OBJ_DIR)\i386\ntbaseplus.obj \
+    $(_OBJ_DIR)\i386\ntver.obj \
+    $(_OBJ_DIR)\i386\grabmiapi.obj \
+    $(_OBJ_DIR)\i386\write.obj \
+    $(_OBJ_DIR)\i386\apphelp.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\sdbapi.obj \
+    $(_OBJ_DIR)\ia64\read.obj \
+    $(_OBJ_DIR)\ia64\findtag.obj \
+    $(_OBJ_DIR)\ia64\hash.obj \
+    $(_OBJ_DIR)\ia64\dbaccess.obj \
+    $(_OBJ_DIR)\ia64\attributes.obj \
+    $(_OBJ_DIR)\ia64\index.obj \
+    $(_OBJ_DIR)\ia64\guid.obj \
+    $(_OBJ_DIR)\ia64\sdbapiplus.obj \
+    $(_OBJ_DIR)\ia64\dbaccessplus.obj \
+    $(_OBJ_DIR)\ia64\msitransform.obj \
+    $(_OBJ_DIR)\ia64\ntbase.obj \
+    $(_OBJ_DIR)\ia64\ntbaseplus.obj \
+    $(_OBJ_DIR)\ia64\ntver.obj \
+    $(_OBJ_DIR)\ia64\grabmiapi.obj \
+    $(_OBJ_DIR)\ia64\write.obj \
+    $(_OBJ_DIR)\ia64\apphelp.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\sdbapi.obj \
+    $(_OBJ_DIR)\amd64\read.obj \
+    $(_OBJ_DIR)\amd64\findtag.obj \
+    $(_OBJ_DIR)\amd64\hash.obj \
+    $(_OBJ_DIR)\amd64\dbaccess.obj \
+    $(_OBJ_DIR)\amd64\attributes.obj \
+    $(_OBJ_DIR)\amd64\index.obj \
+    $(_OBJ_DIR)\amd64\guid.obj \
+    $(_OBJ_DIR)\amd64\sdbapiplus.obj \
+    $(_OBJ_DIR)\amd64\dbaccessplus.obj \
+    $(_OBJ_DIR)\amd64\msitransform.obj \
+    $(_OBJ_DIR)\amd64\ntbase.obj \
+    $(_OBJ_DIR)\amd64\ntbaseplus.obj \
+    $(_OBJ_DIR)\amd64\ntver.obj \
+    $(_OBJ_DIR)\amd64\grabmiapi.obj \
+    $(_OBJ_DIR)\amd64\write.obj \
+    $(_OBJ_DIR)\amd64\apphelp.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\sdbapi.obj \
+    $(_OBJ_DIR)\arm\read.obj \
+    $(_OBJ_DIR)\arm\findtag.obj \
+    $(_OBJ_DIR)\arm\hash.obj \
+    $(_OBJ_DIR)\arm\dbaccess.obj \
+    $(_OBJ_DIR)\arm\attributes.obj \
+    $(_OBJ_DIR)\arm\index.obj \
+    $(_OBJ_DIR)\arm\guid.obj \
+    $(_OBJ_DIR)\arm\sdbapiplus.obj \
+    $(_OBJ_DIR)\arm\dbaccessplus.obj \
+    $(_OBJ_DIR)\arm\msitransform.obj \
+    $(_OBJ_DIR)\arm\ntbase.obj \
+    $(_OBJ_DIR)\arm\ntbaseplus.obj \
+    $(_OBJ_DIR)\arm\ntver.obj \
+    $(_OBJ_DIR)\arm\grabmiapi.obj \
+    $(_OBJ_DIR)\arm\write.obj \
+    $(_OBJ_DIR)\arm\apphelp.obj
+
+PASS0_ARM_OBJECTS=
+

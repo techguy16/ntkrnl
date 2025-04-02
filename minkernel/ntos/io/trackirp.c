@@ -399,12 +399,12 @@ IovpCallDriver1(
     //
     if (DeviceObject == NULL) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_NULL_DEVOBJ_FORWARDED,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             CallerAddress,
             irp
-            ));
+            );
     }
 
     //
@@ -498,12 +498,12 @@ IovpCallDriver1(
         //
         if (irp->CancelRoutine) {
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_CANCELROUTINE_FORWARDED,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 irp
-                ));
+                );
 
             irp->CancelRoutine = NULL;
         }
@@ -521,12 +521,12 @@ IovpCallDriver1(
         // This particular caller is trying to forward an IRP he doesn't own,
         // and we didn't actually end up with an untouchable irp.
         //
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_QUEUED_IRP_FORWARDED,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             CallerAddress,
             irp
-            ));
+            );
     }
 
     //
@@ -888,13 +888,13 @@ IovpCallDriver2(
                 //
                 if (lowerDevObj) {
 
-                    WDM_FAIL_ROUTINE((
+                    WDM_FAIL_ROUTINE(
                         DCERROR_SHOULDVE_DETACHED,
                         DCPARAM_IRPSNAP + DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                         IofCallDriverStackData->DispatchRoutine,
                         &IofCallDriverStackData->IrpSnapshot,
                         DeviceObject
-                        ));
+                        );
                 }
 
                 //
@@ -902,13 +902,13 @@ IovpCallDriver2(
                 //
                 if (!IovUtilIsDeviceObjectMarked(DeviceObject, MARKTYPE_DELETED)) {
 
-                    WDM_FAIL_ROUTINE((
+                    WDM_FAIL_ROUTINE(
                         DCERROR_SHOULDVE_DELETED,
                         DCPARAM_IRPSNAP + DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                         IofCallDriverStackData->DispatchRoutine,
                         &IofCallDriverStackData->IrpSnapshot,
                         DeviceObject
-                        ));
+                        );
                 }
 
             } else if (removalOption == PPVREMOVAL_SHOULDNT_DELETE) {
@@ -926,13 +926,13 @@ IovpCallDriver2(
                     //
                     if (IovUtilIsDeviceObjectMarked(DeviceObject, MARKTYPE_DELETED)) {
 
-                        WDM_FAIL_ROUTINE((
+                        WDM_FAIL_ROUTINE(
                             DCERROR_DELETED_PRESENT_PDO,
                             DCPARAM_IRPSNAP + DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                             IofCallDriverStackData->DispatchRoutine,
                             &IofCallDriverStackData->IrpSnapshot,
                             DeviceObject
-                            ));
+                            );
                     }
 
                 } else if (!IovUtilIsDeviceObjectMarked(DeviceObject, MARKTYPE_DELETED)) {
@@ -946,13 +946,13 @@ IovpCallDriver2(
                         //
                         // Oops, it detached. Baad bus filter...
                         //
-                        WDM_FAIL_ROUTINE((
+                        WDM_FAIL_ROUTINE(
                             DCERROR_BUS_FILTER_ERRONEOUSLY_DETACHED,
                             DCPARAM_IRPSNAP + DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                             IofCallDriverStackData->DispatchRoutine,
                             &IofCallDriverStackData->IrpSnapshot,
                             DeviceObject
-                            ));
+                            );
                     }
 
                     if (IovUtilIsDeviceObjectMarked(DeviceObject, MARKTYPE_DELETED)) {
@@ -960,13 +960,13 @@ IovpCallDriver2(
                         //
                         // It deleted itself. Also very bad...
                         //
-                        WDM_FAIL_ROUTINE((
+                        WDM_FAIL_ROUTINE(
                             DCERROR_BUS_FILTER_ERRONEOUSLY_DELETED,
                             DCPARAM_IRPSNAP + DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                             IofCallDriverStackData->DispatchRoutine,
                             &IofCallDriverStackData->IrpSnapshot,
                             DeviceObject
-                            ));
+                            );
                     }
                 }
             }
@@ -1007,13 +1007,13 @@ IovpCallDriver2(
                     //
                     // We will address all this stuff next release.
                     //
-                    WDM_FAIL_ROUTINE((
+                    WDM_FAIL_ROUTINE(
                         DCERROR_PENDING_MARKED_NOT_RETURNED,
                         DCPARAM_IRPSNAP + DCPARAM_ROUTINE + DCPARAM_STATUS,
                         IofCallDriverStackData->DispatchRoutine,
                         &IofCallDriverStackData->IrpSnapshot,
                         *FinalStatus
-                        ));
+                        );
                 }
 
                 iovSessionData->SessionFlags |= SESSIONFLAG_MARKED_INCONSISTANT;
@@ -1037,13 +1037,13 @@ IovpCallDriver2(
                 //
                 // We will address all this stuff next release.
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_PENDING_RETURNED_NOT_MARKED_2,
                     DCPARAM_IRPSNAP + DCPARAM_ROUTINE + DCPARAM_STATUS,
                     IofCallDriverStackData->DispatchRoutine,
                     &IofCallDriverStackData->IrpSnapshot,
                     *FinalStatus
-                    ));
+                    );
             }
 
             iovSessionData->SessionFlags |= SESSIONFLAG_MARKED_INCONSISTANT;
@@ -1065,14 +1065,14 @@ IovpCallDriver2(
                 //
                 // The completion routine and the return value don't match. Hey!
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_INCONSISTANT_STATUS,
                     DCPARAM_IRPSNAP + DCPARAM_ROUTINE + DCPARAM_STATUS*2,
                     IofCallDriverStackData->DispatchRoutine,
                     &IofCallDriverStackData->IrpSnapshot,
                     IofCallDriverStackData->ExpectedStatus,
                     *FinalStatus
-                    ));
+                    );
             }
 
             iovSessionData->SessionFlags |= SESSIONFLAG_UNWOUND_INCONSISTANT;
@@ -1085,12 +1085,12 @@ IovpCallDriver2(
                 // This status value is illegal. If we see it, we probably have
                 // an uninitialized variable...
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_UNINITIALIZED_STATUS,
                     DCPARAM_IRPSNAP + DCPARAM_ROUTINE,
                     IofCallDriverStackData->DispatchRoutine,
                     &IofCallDriverStackData->IrpSnapshot
-                    ));
+                    );
             }
         }
 
@@ -1119,12 +1119,12 @@ IovpCallDriver2(
                 // legal as long as STATUS_PENDING was returned (it was not),
                 // so it's bug time. Note that the IRP may not be safe to touch.
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_IRP_RETURNED_WITHOUT_COMPLETION,
                     DCPARAM_IRPSNAP + DCPARAM_ROUTINE,
                     IofCallDriverStackData->DispatchRoutine,
                     &IofCallDriverStackData->IrpSnapshot
-                    ));
+                    );
             }
 
             iovPacket->Flags |= TRACKFLAG_UNWOUND_BADLY;
@@ -1265,12 +1265,12 @@ IovpCompleteRequest1(
         //
         // We are probably going to die now. Anyway, it was a good life...
         //
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_QUEUED_IRP_COMPLETED,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             callerAddress,
             Irp
-            ));
+            );
     }
 
     //
@@ -1285,12 +1285,12 @@ IovpCompleteRequest1(
     //
     if (Irp->CurrentLocation == ((CCHAR) Irp->StackCount + 1)) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_UNFORWARDED_IRP_COMPLETED,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             callerAddress,
             Irp
-            ));
+            );
     }
 
     //
@@ -1300,12 +1300,12 @@ IovpCompleteRequest1(
 
         if (VfSettingsIsOptionEnabled(iovSessionData->VerifierSettings, VERIFIER_OPTION_VERIFY_CANCEL_LOGIC)) {
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_CANCELROUTINE_AFTER_COMPLETION,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 callerAddress,
                 Irp
-                ));
+                );
         }
     }
 
@@ -1526,13 +1526,13 @@ IovpCompleteRequest2(
                         //
                         // We will address all this stuff next release.
                         //
-                        WDM_FAIL_ROUTINE((
+                        WDM_FAIL_ROUTINE(
                             DCERROR_PENDING_RETURNED_NOT_MARKED,
                             DCPARAM_IRP + DCPARAM_ROUTINE + DCPARAM_STATUS,
                             iovCurrentStackLocation->LastDispatch,
                             Irp,
                             status
-                            ));
+                            );
                     }
 
                     iovSessionData->SessionFlags |= SESSIONFLAG_MARKED_INCONSISTANT;
@@ -1747,12 +1747,12 @@ IovpCompleteRequest3(
             //    CompletionPacket->LocationsAdvanced
             //    );
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_COMPLETION_ROUTINE_PAGABLE,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 Routine,
                 Irp
-                ));
+                );
         }
     }
 
@@ -1878,12 +1878,12 @@ IovpCompleteRequest4(
             irpSp = IoGetCurrentIrpStackLocation(Irp);
             if (!(irpSp->Control & SL_PENDING_RETURNED )) {
 
-                 WDM_FAIL_ROUTINE((
+                 WDM_FAIL_ROUTINE(
                      DCERROR_PENDING_BIT_NOT_MIGRATED,
                      DCPARAM_IRP + DCPARAM_ROUTINE,
                      routine,
                      Irp
-                     ));
+                     );
 
                  //
                  // This will keep the IRP above from erroneously asserting (and
@@ -2286,12 +2286,12 @@ IovpExamineIrpStackForwarding(
             IovPacket->LastLocation != Irp->CurrentLocation) {
 
 #if 0
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_NEXTIRPSP_DIRTY,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 Irp
-                ));
+                );
 #endif
         }
 
@@ -2357,12 +2357,12 @@ IovpExamineIrpStackForwarding(
                         // while not properly zeroing the control field is enough
                         // to make me believe the caller has made a vexing mistake.
                         //
-                        WDM_FAIL_ROUTINE((
+                        WDM_FAIL_ROUTINE(
                             DCERROR_IRPSP_COPIED,
                             DCPARAM_IRP + DCPARAM_ROUTINE,
                             CallerAddress,
                             Irp
-                            ));
+                            );
 
                         //
                         // Repair the stack
@@ -2377,12 +2377,12 @@ IovpExamineIrpStackForwarding(
                         VfSettingsIsOptionEnabled(NULL, VERIFIER_OPTION_FLAG_UNNECCESSARY_COPIES)
                         ) {
 
-                        WDM_FAIL_ROUTINE((
+                        WDM_FAIL_ROUTINE(
                             DCERROR_UNNECCESSARY_COPY,
                             DCPARAM_IRP + DCPARAM_ROUTINE,
                             CallerAddress,
                             Irp
-                            ));
+                            );
                     }
 
                     IoSetCompletionRoutine(
@@ -2402,12 +2402,12 @@ IovpExamineIrpStackForwarding(
 
                 if (Irp->CurrentLocation<=2) {
 
-                    WDM_FAIL_ROUTINE((
+                    WDM_FAIL_ROUTINE(
                         DCERROR_INSUFFICIENT_STACK_LOCATIONS,
                         DCPARAM_IRP + DCPARAM_ROUTINE,
                         CallerAddress,
                         Irp
-                        ));
+                        );
 
                 } else {
 
@@ -2642,12 +2642,12 @@ IovpInternalDeferredCompletion(
 
         if (MmIsSystemAddressLocked(irpSpNext->CompletionRoutine) == FALSE) {
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_COMPLETION_ROUTINE_PAGABLE,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 irpSpNext->CompletionRoutine,
                 Irp
-                ));
+                );
         }
     }
 
@@ -2982,12 +2982,12 @@ IovpCancelIrp(
 
         if (Irp->CancelRoutine) {
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_CANCELROUTINE_ON_FORWARDED_IRP,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 Irp->CancelRoutine,
                 Irp
-                ));
+                );
 
             //
             // We will ignore this routine. As we should...

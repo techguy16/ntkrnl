@@ -352,7 +352,7 @@ Return Value:
         TranslationEntry->VirtualAddress = MapBufferVirtualAddress;
         TranslationEntry->PhysicalAddress = MapBufferPhysicalAddress;
         TranslationEntry++;
-        (PCCHAR) MapBufferVirtualAddress += PAGE_SIZE;
+        MapBufferVirtualAddress = (PCCHAR) MapBufferVirtualAddress + PAGE_SIZE;
         MapBufferPhysicalAddress += PAGE_SIZE;
 
     }

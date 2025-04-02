@@ -38,10 +38,10 @@ extern LONG         IovpInitCalled;
 #define DCPARAM_ULONG           0x00008000
 #define DCPARAM_PVOID           0x00040000
 
-#define WDM_FAIL_ROUTINE(ParenWrappedParamList) \
+#define WDM_FAIL_ROUTINE(...) \
 { \
     if (IovpInitCalled) { \
-        VfBugcheckThrowIoException##ParenWrappedParamList;\
+        VfBugcheckThrowIoException(__VA_ARGS__);\
     } \
 }
 

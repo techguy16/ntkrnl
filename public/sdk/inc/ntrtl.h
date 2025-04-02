@@ -975,7 +975,7 @@ typedef RTL_SPLAY_LINKS *PRTL_SPLAY_LINKS;
 //
 
 #define RtlParent(Links) (           \
-    (PRTL_SPLAY_LINKS)(Links)->Parent \
+    *(PRTL_SPLAY_LINKS*)&(Links)->Parent \
     )
 
 //
@@ -990,7 +990,7 @@ typedef RTL_SPLAY_LINKS *PRTL_SPLAY_LINKS;
 //
 
 #define RtlLeftChild(Links) (           \
-    (PRTL_SPLAY_LINKS)(Links)->LeftChild \
+    *(PRTL_SPLAY_LINKS*)&(Links)->LeftChild \
     )
 
 //
@@ -1006,7 +1006,7 @@ typedef RTL_SPLAY_LINKS *PRTL_SPLAY_LINKS;
 //
 
 #define RtlRightChild(Links) (           \
-    (PRTL_SPLAY_LINKS)(Links)->RightChild \
+    *(PRTL_SPLAY_LINKS*)&(Links)->RightChild \
     )
 
 //
@@ -4421,10 +4421,10 @@ RtlCompareMemoryUlong (
 
 #define RtlFillMemoryUlong(Destination, Length, Pattern)                    \
     __stosd((PULONG)(Destination), Pattern, (Length) / 4)
-     
+
 #define RtlFillMemoryUlonglong(Destination, Length, Pattern)                \
     __stosq((PULONG64)(Destination), Pattern, (Length) / 8)
-     
+
 #else
 
 NTSYSAPI

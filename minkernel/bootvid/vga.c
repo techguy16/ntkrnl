@@ -1035,7 +1035,7 @@ Notes:
     //
 
     pDst = Buffer;
-    memset(pDst, 0, lDelta * height);
+    RtlZeroMemory(pDst, lDelta * height);
 
     for (Plane=0; Plane<4; Plane++) {
 

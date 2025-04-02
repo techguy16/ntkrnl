@@ -467,7 +467,7 @@ typedef struct _MDL {
 #define PAGED_CODE() NOP_FUNCTION;
 #endif
 
-#define NTKERNELAPI DECLSPEC_IMPORT     
+#define NTKERNELAPI DECLSPEC_IMPORT
 #if !defined(_NTHAL_) && !defined(_BLDR_)
 
 #define NTHALAPI DECLSPEC_IMPORT            // wdm ntndis ntifs ntosp
@@ -597,29 +597,29 @@ UCHAR
 __readfsbyte (
     IN ULONG Offset
     );
- 
+
 USHORT
 __readfsword (
     IN ULONG Offset
     );
- 
+
 ULONG
 __readfsdword (
     IN ULONG Offset
     );
- 
+
 VOID
 __writefsbyte (
     IN ULONG Offset,
     IN UCHAR Data
     );
- 
+
 VOID
 __writefsword (
     IN ULONG Offset,
     IN USHORT Data
     );
- 
+
 VOID
 __writefsdword (
     IN ULONG Offset,
@@ -629,7 +629,7 @@ __writefsdword (
 #ifdef __cplusplus
 }
 #endif
- 
+
 #pragma intrinsic(__readfsbyte)
 #pragma intrinsic(__readfsword)
 #pragma intrinsic(__readfsdword)
@@ -687,7 +687,7 @@ MemoryBarrier (
 // PreFetchCacheLine level defines.
 //
 
-#define PF_TEMPORAL_LEVEL_1 
+#define PF_TEMPORAL_LEVEL_1
 #define PF_NON_TEMPORAL_LEVEL_ALL
 #endif
 
@@ -1038,10 +1038,10 @@ VOID
 _mm_sfence (
     VOID
     );
-        
-void 
+
+void
 _mm_prefetch(
-    CHAR CONST *a, 
+    CHAR CONST *a,
     int sel
     );
 
@@ -1056,7 +1056,7 @@ _mm_prefetch(
 #pragma intrinsic(_mm_mfence)
 #pragma intrinsic(_mm_sfence)
 
-#define YieldProcessor() 
+#define YieldProcessor()
 #define MemoryBarrier _mm_mfence
 #define PreFetchCacheLine(l, a)  _mm_prefetch((CHAR CONST *) a, l)
 
@@ -1092,6 +1092,8 @@ __rdtsc (
     );
 
 #pragma intrinsic(__rdtsc)
+
+#ifndef __clang__
 
 //
 // Define functions to move strings as bytes, words, dwords, and qwords.
@@ -1166,6 +1168,8 @@ __stosq (
 #pragma intrinsic(__stosw)
 #pragma intrinsic(__stosd)
 #pragma intrinsic(__stosq)
+
+#endif
 
 //
 // Define functions to capture the high 64-bits of a 128-bit multiply.
@@ -1248,7 +1252,7 @@ __writegsqword (
 
 #ifdef __cplusplus
 }
-#endif 
+#endif
 
 #endif // defined(_M_AMD64) && !defined(RC_INVOKED) && !defined(MIDL_PASS)
 
@@ -1538,7 +1542,7 @@ typedef struct DECLSPEC_ALIGN(16) _CONTEXT {
 #define KADDRESS_BASE ((ULONGLONG)KREGION_INDEX << 61)
 
 
-void 
+void
 __yield(
    void
    );
@@ -1548,15 +1552,15 @@ __mf(
     void
     );
 
-void 
+void
 __lfetch(
-    int Level, 
+    int Level,
     VOID CONST *Address
     );
 
-void 
+void
 __lfetchfault(
-    int Level, 
+    int Level,
     VOID CONST *Address
     );
 
@@ -1938,19 +1942,19 @@ typedef struct _PLABEL_DESCRIPTOR {
 //  to tokens.
 //
 
-typedef PVOID PACCESS_TOKEN;            
+typedef PVOID PACCESS_TOKEN;
 
 //
 // Pointer to a SECURITY_DESCRIPTOR  opaque data type.
 //
 
-typedef PVOID PSECURITY_DESCRIPTOR;     
+typedef PVOID PSECURITY_DESCRIPTOR;
 
 //
 // Define a pointer to the Security ID data type (an opaque data type)
 //
 
-typedef PVOID PSID;     
+typedef PVOID PSID;
 
 typedef ULONG ACCESS_MASK;
 typedef ACCESS_MASK *PACCESS_MASK;
@@ -2858,14 +2862,14 @@ RtlCheckRegistryKey(
 #define RTL_REGISTRY_HANDLE       0x40000000    // Low order bits are registry handle
 #define RTL_REGISTRY_OPTIONAL     0x80000000    // Indicates the key node is optional
 
-NTSYSAPI                                            
-NTSTATUS                                            
-NTAPI                                               
-RtlCharToInteger (                                  
-    PCSZ String,                                    
-    ULONG Base,                                     
-    PULONG Value                                    
-    );                                              
+NTSYSAPI
+NTSTATUS
+NTAPI
+RtlCharToInteger (
+    PCSZ String,
+    ULONG Base,
+    PULONG Value
+    );
 
 NTSYSAPI
 NTSTATUS
@@ -5370,9 +5374,9 @@ typedef enum _DPFLTR_TYPE {
 // Define share access rights to files and directories
 //
 
-#define FILE_SHARE_READ                 0x00000001  
-#define FILE_SHARE_WRITE                0x00000002  
-#define FILE_SHARE_DELETE               0x00000004  
+#define FILE_SHARE_READ                 0x00000001
+#define FILE_SHARE_WRITE                0x00000002
+#define FILE_SHARE_DELETE               0x00000004
 #define FILE_SHARE_VALID_FLAGS          0x00000007
 
 //
@@ -5392,24 +5396,24 @@ typedef enum _DPFLTR_TYPE {
 //        individually.  The order of these flags should not be changed!
 //
 
-#define FILE_ATTRIBUTE_READONLY             0x00000001  
-#define FILE_ATTRIBUTE_HIDDEN               0x00000002  
-#define FILE_ATTRIBUTE_SYSTEM               0x00000004  
+#define FILE_ATTRIBUTE_READONLY             0x00000001
+#define FILE_ATTRIBUTE_HIDDEN               0x00000002
+#define FILE_ATTRIBUTE_SYSTEM               0x00000004
 //OLD DOS VOLID                             0x00000008
 
-#define FILE_ATTRIBUTE_DIRECTORY            0x00000010  
-#define FILE_ATTRIBUTE_ARCHIVE              0x00000020  
-#define FILE_ATTRIBUTE_DEVICE               0x00000040  
-#define FILE_ATTRIBUTE_NORMAL               0x00000080  
+#define FILE_ATTRIBUTE_DIRECTORY            0x00000010
+#define FILE_ATTRIBUTE_ARCHIVE              0x00000020
+#define FILE_ATTRIBUTE_DEVICE               0x00000040
+#define FILE_ATTRIBUTE_NORMAL               0x00000080
 
-#define FILE_ATTRIBUTE_TEMPORARY            0x00000100  
-#define FILE_ATTRIBUTE_SPARSE_FILE          0x00000200  
-#define FILE_ATTRIBUTE_REPARSE_POINT        0x00000400  
-#define FILE_ATTRIBUTE_COMPRESSED           0x00000800  
+#define FILE_ATTRIBUTE_TEMPORARY            0x00000100
+#define FILE_ATTRIBUTE_SPARSE_FILE          0x00000200
+#define FILE_ATTRIBUTE_REPARSE_POINT        0x00000400
+#define FILE_ATTRIBUTE_COMPRESSED           0x00000800
 
-#define FILE_ATTRIBUTE_OFFLINE              0x00001000  
-#define FILE_ATTRIBUTE_NOT_CONTENT_INDEXED  0x00002000  
-#define FILE_ATTRIBUTE_ENCRYPTED            0x00004000  
+#define FILE_ATTRIBUTE_OFFLINE              0x00001000
+#define FILE_ATTRIBUTE_NOT_CONTENT_INDEXED  0x00002000
+#define FILE_ATTRIBUTE_ENCRYPTED            0x00004000
 
 #define FILE_ATTRIBUTE_VALID_FLAGS          0x00007fb7
 #define FILE_ATTRIBUTE_VALID_SET_FLAGS      0x000031a7
@@ -5630,61 +5634,61 @@ typedef enum _FILE_INFORMATION_CLASS {
 // Define the various structures which are returned on query operations
 //
 
-typedef struct _FILE_BASIC_INFORMATION {                    
-    LARGE_INTEGER CreationTime;                             
-    LARGE_INTEGER LastAccessTime;                           
-    LARGE_INTEGER LastWriteTime;                            
-    LARGE_INTEGER ChangeTime;                               
-    ULONG FileAttributes;                                   
-} FILE_BASIC_INFORMATION, *PFILE_BASIC_INFORMATION;         
-                                                            
-typedef struct _FILE_STANDARD_INFORMATION {                 
-    LARGE_INTEGER AllocationSize;                           
-    LARGE_INTEGER EndOfFile;                                
-    ULONG NumberOfLinks;                                    
-    BOOLEAN DeletePending;                                  
-    BOOLEAN Directory;                                      
-} FILE_STANDARD_INFORMATION, *PFILE_STANDARD_INFORMATION;   
-                                                            
-typedef struct _FILE_POSITION_INFORMATION {                 
-    LARGE_INTEGER CurrentByteOffset;                        
-} FILE_POSITION_INFORMATION, *PFILE_POSITION_INFORMATION;   
-                                                            
-typedef struct _FILE_ALIGNMENT_INFORMATION {                
-    ULONG AlignmentRequirement;                             
-} FILE_ALIGNMENT_INFORMATION, *PFILE_ALIGNMENT_INFORMATION; 
-                                                            
-typedef struct _FILE_NAME_INFORMATION {                     
-    ULONG FileNameLength;                                   
-    WCHAR FileName[1];                                      
-} FILE_NAME_INFORMATION, *PFILE_NAME_INFORMATION;           
-                                                            
-typedef struct _FILE_NETWORK_OPEN_INFORMATION {                 
-    LARGE_INTEGER CreationTime;                                 
-    LARGE_INTEGER LastAccessTime;                               
-    LARGE_INTEGER LastWriteTime;                                
-    LARGE_INTEGER ChangeTime;                                   
-    LARGE_INTEGER AllocationSize;                               
-    LARGE_INTEGER EndOfFile;                                    
-    ULONG FileAttributes;                                       
-} FILE_NETWORK_OPEN_INFORMATION, *PFILE_NETWORK_OPEN_INFORMATION;   
-                                                                
-typedef struct _FILE_ATTRIBUTE_TAG_INFORMATION {               
-    ULONG FileAttributes;                                       
-    ULONG ReparseTag;                                           
-} FILE_ATTRIBUTE_TAG_INFORMATION, *PFILE_ATTRIBUTE_TAG_INFORMATION;  
-                                                                
-typedef struct _FILE_DISPOSITION_INFORMATION {                  
-    BOOLEAN DeleteFile;                                         
-} FILE_DISPOSITION_INFORMATION, *PFILE_DISPOSITION_INFORMATION; 
-                                                                
-typedef struct _FILE_END_OF_FILE_INFORMATION {                  
-    LARGE_INTEGER EndOfFile;                                    
-} FILE_END_OF_FILE_INFORMATION, *PFILE_END_OF_FILE_INFORMATION; 
-                                                                
-typedef struct _FILE_VALID_DATA_LENGTH_INFORMATION {                                    
-    LARGE_INTEGER ValidDataLength;                                                      
-} FILE_VALID_DATA_LENGTH_INFORMATION, *PFILE_VALID_DATA_LENGTH_INFORMATION;             
+typedef struct _FILE_BASIC_INFORMATION {
+    LARGE_INTEGER CreationTime;
+    LARGE_INTEGER LastAccessTime;
+    LARGE_INTEGER LastWriteTime;
+    LARGE_INTEGER ChangeTime;
+    ULONG FileAttributes;
+} FILE_BASIC_INFORMATION, *PFILE_BASIC_INFORMATION;
+
+typedef struct _FILE_STANDARD_INFORMATION {
+    LARGE_INTEGER AllocationSize;
+    LARGE_INTEGER EndOfFile;
+    ULONG NumberOfLinks;
+    BOOLEAN DeletePending;
+    BOOLEAN Directory;
+} FILE_STANDARD_INFORMATION, *PFILE_STANDARD_INFORMATION;
+
+typedef struct _FILE_POSITION_INFORMATION {
+    LARGE_INTEGER CurrentByteOffset;
+} FILE_POSITION_INFORMATION, *PFILE_POSITION_INFORMATION;
+
+typedef struct _FILE_ALIGNMENT_INFORMATION {
+    ULONG AlignmentRequirement;
+} FILE_ALIGNMENT_INFORMATION, *PFILE_ALIGNMENT_INFORMATION;
+
+typedef struct _FILE_NAME_INFORMATION {
+    ULONG FileNameLength;
+    WCHAR FileName[1];
+} FILE_NAME_INFORMATION, *PFILE_NAME_INFORMATION;
+
+typedef struct _FILE_NETWORK_OPEN_INFORMATION {
+    LARGE_INTEGER CreationTime;
+    LARGE_INTEGER LastAccessTime;
+    LARGE_INTEGER LastWriteTime;
+    LARGE_INTEGER ChangeTime;
+    LARGE_INTEGER AllocationSize;
+    LARGE_INTEGER EndOfFile;
+    ULONG FileAttributes;
+} FILE_NETWORK_OPEN_INFORMATION, *PFILE_NETWORK_OPEN_INFORMATION;
+
+typedef struct _FILE_ATTRIBUTE_TAG_INFORMATION {
+    ULONG FileAttributes;
+    ULONG ReparseTag;
+} FILE_ATTRIBUTE_TAG_INFORMATION, *PFILE_ATTRIBUTE_TAG_INFORMATION;
+
+typedef struct _FILE_DISPOSITION_INFORMATION {
+    BOOLEAN DeleteFile;
+} FILE_DISPOSITION_INFORMATION, *PFILE_DISPOSITION_INFORMATION;
+
+typedef struct _FILE_END_OF_FILE_INFORMATION {
+    LARGE_INTEGER EndOfFile;
+} FILE_END_OF_FILE_INFORMATION, *PFILE_END_OF_FILE_INFORMATION;
+
+typedef struct _FILE_VALID_DATA_LENGTH_INFORMATION {
+    LARGE_INTEGER ValidDataLength;
+} FILE_VALID_DATA_LENGTH_INFORMATION, *PFILE_VALID_DATA_LENGTH_INFORMATION;
 
 typedef struct _FILE_FULL_EA_INFORMATION {
     ULONG NextEntryOffset;
@@ -5713,11 +5717,11 @@ typedef enum _FSINFOCLASS {
     FileFsMaximumInformation
 } FS_INFORMATION_CLASS, *PFS_INFORMATION_CLASS;
 
-typedef struct _FILE_FS_DEVICE_INFORMATION {                    
-    DEVICE_TYPE DeviceType;                                     
-    ULONG Characteristics;                                      
-} FILE_FS_DEVICE_INFORMATION, *PFILE_FS_DEVICE_INFORMATION;     
-                                                                
+typedef struct _FILE_FS_DEVICE_INFORMATION {
+    DEVICE_TYPE DeviceType;
+    ULONG Characteristics;
+} FILE_FS_DEVICE_INFORMATION, *PFILE_FS_DEVICE_INFORMATION;
+
 
 //
 // Define segement buffer structure for scatter/gather read/write.
@@ -6154,11 +6158,11 @@ typedef enum _KEY_VALUE_INFORMATION_CLASS {
 
 #define SYMBOLIC_LINK_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED | 0x1)
 
-typedef struct _OBJECT_NAME_INFORMATION {               
-    UNICODE_STRING Name;                                
-} OBJECT_NAME_INFORMATION, *POBJECT_NAME_INFORMATION;   
-#define DUPLICATE_CLOSE_SOURCE      0x00000001  
-#define DUPLICATE_SAME_ACCESS       0x00000002  
+typedef struct _OBJECT_NAME_INFORMATION {
+    UNICODE_STRING Name;
+} OBJECT_NAME_INFORMATION, *POBJECT_NAME_INFORMATION;
+#define DUPLICATE_CLOSE_SOURCE      0x00000001
+#define DUPLICATE_SAME_ACCESS       0x00000002
 #define DUPLICATE_SAME_ATTRIBUTES   0x00000004
 
 //
@@ -6190,31 +6194,31 @@ typedef enum _SECTION_INHERIT {
 
 #define SEGMENT_ALL_ACCESS SECTION_ALL_ACCESS
 
-#define PAGE_NOACCESS          0x01     
-#define PAGE_READONLY          0x02     
-#define PAGE_READWRITE         0x04     
-#define PAGE_WRITECOPY         0x08     
-#define PAGE_EXECUTE           0x10     
-#define PAGE_EXECUTE_READ      0x20     
-#define PAGE_EXECUTE_READWRITE 0x40     
-#define PAGE_EXECUTE_WRITECOPY 0x80     
-#define PAGE_GUARD            0x100     
-#define PAGE_NOCACHE          0x200     
-#define PAGE_WRITECOMBINE     0x400     
+#define PAGE_NOACCESS          0x01
+#define PAGE_READONLY          0x02
+#define PAGE_READWRITE         0x04
+#define PAGE_WRITECOPY         0x08
+#define PAGE_EXECUTE           0x10
+#define PAGE_EXECUTE_READ      0x20
+#define PAGE_EXECUTE_READWRITE 0x40
+#define PAGE_EXECUTE_WRITECOPY 0x80
+#define PAGE_GUARD            0x100
+#define PAGE_NOCACHE          0x200
+#define PAGE_WRITECOMBINE     0x400
 
-#define MEM_COMMIT           0x1000     
-#define MEM_RESERVE          0x2000     
-#define MEM_DECOMMIT         0x4000     
-#define MEM_RELEASE          0x8000     
-#define MEM_FREE            0x10000     
-#define MEM_PRIVATE         0x20000     
-#define MEM_MAPPED          0x40000     
-#define MEM_RESET           0x80000     
-#define MEM_TOP_DOWN       0x100000     
-#define MEM_LARGE_PAGES  0x20000000     
-#define MEM_4MB_PAGES    0x80000000     
-#define SEC_RESERVE       0x4000000     
-#define PROCESS_DUP_HANDLE        (0x0040)  
+#define MEM_COMMIT           0x1000
+#define MEM_RESERVE          0x2000
+#define MEM_DECOMMIT         0x4000
+#define MEM_RELEASE          0x8000
+#define MEM_FREE            0x10000
+#define MEM_PRIVATE         0x20000
+#define MEM_MAPPED          0x40000
+#define MEM_RESET           0x80000
+#define MEM_TOP_DOWN       0x100000
+#define MEM_LARGE_PAGES  0x20000000
+#define MEM_4MB_PAGES    0x80000000
+#define SEC_RESERVE       0x4000000
+#define PROCESS_DUP_HANDLE        (0x0040)
 #define PROCESS_ALL_ACCESS        (STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | \
                                    0xFFF)
 
@@ -6237,8 +6241,8 @@ typedef enum _SECTION_INHERIT {
 // Thread Specific Access Rights
 //
 
-#define THREAD_TERMINATE               (0x0001)  
-#define THREAD_SET_INFORMATION         (0x0020)  
+#define THREAD_TERMINATE               (0x0001)
+#define THREAD_SET_INFORMATION         (0x0020)
 
 #define THREAD_ALL_ACCESS         (STANDARD_RIGHTS_REQUIRED | SYNCHRONIZE | \
                                    0x3FF)
@@ -6642,8 +6646,8 @@ NtOpenProcess (
     IN POBJECT_ATTRIBUTES ObjectAttributes,
     IN PCLIENT_ID ClientId OPTIONAL
     );
-#define NtCurrentProcess() ( (HANDLE)(LONG_PTR) -1 )  
-#define ZwCurrentProcess() NtCurrentProcess()         
+#define NtCurrentProcess() ( (HANDLE)(LONG_PTR) -1 )
+#define ZwCurrentProcess() NtCurrentProcess()
 NTSYSCALLAPI
 NTSTATUS
 NTAPI
@@ -6654,8 +6658,8 @@ NtQueryInformationProcess(
     IN ULONG ProcessInformationLength,
     OUT PULONG ReturnLength OPTIONAL
     );
-#define NtCurrentThread() ( (HANDLE)(LONG_PTR) -2 )   
-#define ZwCurrentThread() NtCurrentThread()           
+#define NtCurrentThread() ( (HANDLE)(LONG_PTR) -2 )
+#define ZwCurrentThread() NtCurrentThread()
 
 #ifndef _PO_DDK_
 #define _PO_DDK_
@@ -6814,8 +6818,8 @@ typedef ULONG PFN_NUMBER, *PPFN_NUMBER;
 
 #define ALLOC_DATA_PRAGMA 1
 
-#define NORMAL_DISPATCH_LENGTH 106                  
-#define DISPATCH_LENGTH NORMAL_DISPATCH_LENGTH      
+#define NORMAL_DISPATCH_LENGTH 106
+#define DISPATCH_LENGTH NORMAL_DISPATCH_LENGTH
 //
 // Interrupt Request Level definitions
 //
@@ -6832,7 +6836,7 @@ typedef ULONG PFN_NUMBER, *PPFN_NUMBER;
 #define POWER_LEVEL 30              // Power failure level
 #define HIGH_LEVEL 31               // Highest interrupt level
 
-#define SYNCH_LEVEL (IPI_LEVEL-2)   
+#define SYNCH_LEVEL (IPI_LEVEL-2)
 
 //
 // I/O space read and write macros.
@@ -7242,7 +7246,7 @@ extern ULONG *MmUserProbeAddress;
 #define MmGetProcedureAddress(Address) (Address)
 #define MmLockPagableCodeSection(Address) MmLockPagableDataSection(Address)
 
-#define KIP0PCRADDRESS              0xffdff000  
+#define KIP0PCRADDRESS              0xffdff000
 
 #define KI_USER_SHARED_DATA         0xffdf0000
 #define SharedUserData  ((KUSER_SHARED_DATA * const) KI_USER_SHARED_DATA)
@@ -7332,7 +7336,7 @@ Exfi386InterlockedExchangeUlong (
     IN ULONG Value
     );
 
-#if !defined(_WINBASE_) && !defined(NONTOSPINTERLOCK) 
+#if !defined(_WINBASE_) && !defined(NONTOSPINTERLOCK)
 #if !defined(MIDL_PASS) // wdm
 #if defined(NO_INTERLOCKED_INTRINSICS) || defined(_CROSS_PLATFORM_)
 
@@ -7642,7 +7646,7 @@ InterlockedOr (
 #endif
 #pragma warning(disable:4035)               // re-enable below
 
-    #define _PCR   fs:[0]                   
+    #define _PCR   fs:[0]
 
 //
 // Get current IRQL.
@@ -8117,9 +8121,9 @@ typedef ULONG64 PFN_NUMBER, *PPFN_NUMBER;
 #define ALLOC_PRAGMA 1
 #define ALLOC_DATA_PRAGMA 1
 
-#define NORMAL_DISPATCH_LENGTH 106                  
-#define DISPATCH_LENGTH NORMAL_DISPATCH_LENGTH      
-                                                    
+#define NORMAL_DISPATCH_LENGTH 106
+#define DISPATCH_LENGTH NORMAL_DISPATCH_LENGTH
+
 //
 // Interrupt Request Level definitions
 //
@@ -8135,7 +8139,7 @@ typedef ULONG64 PFN_NUMBER, *PPFN_NUMBER;
 #define PROFILE_LEVEL 15                // timer used for profiling.
 #define HIGH_LEVEL 15                   // Highest interrupt level
 
-#define SYNCH_LEVEL (IPI_LEVEL-2)       
+#define SYNCH_LEVEL (IPI_LEVEL-2)
 
 //
 // I/O space read and write macros.
@@ -8467,7 +8471,7 @@ WRITE_PORT_BUFFER_ULONG (
 
 #define KeQuerySystemTime(CurrentCount)                                     \
     *((PULONG64)(CurrentCount)) = *((volatile ULONG64 *)(SharedSystemTime))
-    
+
 #define KeQueryTickCount(CurrentCount)                                      \
     *((PULONG64)(CurrentCount)) = *((volatile ULONG64 *)(SharedTickCount))
 
@@ -9738,7 +9742,7 @@ _ReadWriteBarrier (
 //
 // Routine Description:
 //
-//    This function cases ordering of memory acceses as generated by the compiler and 
+//    This function cases ordering of memory acceses as generated by the compiler and
 //    as seen by other processors.
 //
 //
@@ -10215,17 +10219,17 @@ extern NTKERNELAPI ULONG_PTR MmUserProbeAddress;
 //
 
 #define EVENT_QUERY_STATE       0x0001
-#define EVENT_MODIFY_STATE      0x0002  
-#define EVENT_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED|SYNCHRONIZE|0x3) 
+#define EVENT_MODIFY_STATE      0x0002
+#define EVENT_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED|SYNCHRONIZE|0x3)
 
 //
 // Semaphore Specific Access Rights.
 //
 
 #define SEMAPHORE_QUERY_STATE       0x0001
-#define SEMAPHORE_MODIFY_STATE      0x0002  
+#define SEMAPHORE_MODIFY_STATE      0x0002
 
-#define SEMAPHORE_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED|SYNCHRONIZE|0x3) 
+#define SEMAPHORE_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED|SYNCHRONIZE|0x3)
 
 //
 // Timer APC routine definition.
@@ -10273,17 +10277,17 @@ typedef struct _DRIVER_VERIFIER_THUNK_PAIRS {
 // Defined processor features
 //
 
-#define PF_FLOATING_POINT_PRECISION_ERRATA  0   
-#define PF_FLOATING_POINT_EMULATED          1   
-#define PF_COMPARE_EXCHANGE_DOUBLE          2   
-#define PF_MMX_INSTRUCTIONS_AVAILABLE       3   
-#define PF_PPC_MOVEMEM_64BIT_OK             4   
-#define PF_ALPHA_BYTE_INSTRUCTIONS          5   
-#define PF_XMMI_INSTRUCTIONS_AVAILABLE      6   
-#define PF_3DNOW_INSTRUCTIONS_AVAILABLE     7   
-#define PF_RDTSC_INSTRUCTION_AVAILABLE      8   
-#define PF_PAE_ENABLED                      9   
-#define PF_XMMI64_INSTRUCTIONS_AVAILABLE   10   
+#define PF_FLOATING_POINT_PRECISION_ERRATA  0
+#define PF_FLOATING_POINT_EMULATED          1
+#define PF_COMPARE_EXCHANGE_DOUBLE          2
+#define PF_MMX_INSTRUCTIONS_AVAILABLE       3
+#define PF_PPC_MOVEMEM_64BIT_OK             4
+#define PF_ALPHA_BYTE_INSTRUCTIONS          5
+#define PF_XMMI_INSTRUCTIONS_AVAILABLE      6
+#define PF_3DNOW_INSTRUCTIONS_AVAILABLE     7
+#define PF_RDTSC_INSTRUCTION_AVAILABLE      8
+#define PF_PAE_ENABLED                      9
+#define PF_XMMI64_INSTRUCTIONS_AVAILABLE   10
 
 typedef enum _ALTERNATIVE_ARCHITECTURE_TYPE {
     StandardDesign,                 // None == 0 == standard design
@@ -10794,11 +10798,11 @@ typedef struct _CM_PARTIAL_RESOURCE_DESCRIPTOR {
         } Generic;
 
         //
-        
+
         // Range of port numbers, inclusive. These are physical, bus
         // relative. The value should be the same as the one passed to
         // HalTranslateBusAddress().
-        
+
         //
 
         struct {
@@ -10807,10 +10811,10 @@ typedef struct _CM_PARTIAL_RESOURCE_DESCRIPTOR {
         } Port;
 
         //
-        
+
         // IRQL and vector. Should be same values as were passed to
         // HalGetInterruptVector().
-        
+
         //
 
         struct {
@@ -11978,41 +11982,41 @@ KeReleaseSemaphore (
     IN BOOLEAN Wait
     );
 
-NTKERNELAPI                                         
-NTSTATUS                                            
-KeDelayExecutionThread (                            
-    IN KPROCESSOR_MODE WaitMode,                    
-    IN BOOLEAN Alertable,                           
-    IN PLARGE_INTEGER Interval                      
-    );                                              
-                                                    
-NTKERNELAPI                                         
-KPRIORITY                                           
-KeQueryPriorityThread (                             
-    IN PKTHREAD Thread                              
-    );                                              
-                                                    
-NTKERNELAPI                                         
-ULONG                                               
-KeQueryRuntimeThread (                              
-    IN PKTHREAD Thread,                             
-    OUT PULONG UserTime                             
-    );                                              
-                                                    
-NTKERNELAPI                                         
-LONG                                                
-KeSetBasePriorityThread (                           
-    IN PKTHREAD Thread,                             
-    IN LONG Increment                               
-    );                                              
-                                                    
-NTKERNELAPI                                         
-KPRIORITY                                           
-KeSetPriorityThread (                               
-    IN PKTHREAD Thread,                             
-    IN KPRIORITY Priority                           
-    );                                              
-                                                    
+NTKERNELAPI
+NTSTATUS
+KeDelayExecutionThread (
+    IN KPROCESSOR_MODE WaitMode,
+    IN BOOLEAN Alertable,
+    IN PLARGE_INTEGER Interval
+    );
+
+NTKERNELAPI
+KPRIORITY
+KeQueryPriorityThread (
+    IN PKTHREAD Thread
+    );
+
+NTKERNELAPI
+ULONG
+KeQueryRuntimeThread (
+    IN PKTHREAD Thread,
+    OUT PULONG UserTime
+    );
+
+NTKERNELAPI
+LONG
+KeSetBasePriorityThread (
+    IN PKTHREAD Thread,
+    IN LONG Increment
+    );
+
+NTKERNELAPI
+KPRIORITY
+KeSetPriorityThread (
+    IN PKTHREAD Thread,
+    IN KPRIORITY Priority
+    );
+
 
 #if ((defined(_NTDRIVER_) || defined(_NTDDK_) || defined(_NTIFS_) ||defined(_NTHAL_)) && !defined(_NTSYSTEM_DRIVER_) || defined(_NTOSP_))
 
@@ -12166,7 +12170,7 @@ VOID
 NTAPI
 KeInitializeSpinLock (
     IN PKSPIN_LOCK SpinLock
-    ) 
+    )
 {
     *SpinLock = 0;
 }
@@ -12677,7 +12681,7 @@ typedef enum _POOL_TYPE {
     NonPagedPoolCacheAlignedMustS,
     MaxPoolType
 
-    
+
     ,
     //
     // Note these per session types are carefully chosen so that the appropriate
@@ -12692,7 +12696,7 @@ typedef enum _POOL_TYPE {
     PagedPoolCacheAlignedSession = NonPagedPoolCacheAlignedSession + 1,
     NonPagedPoolCacheAlignedMustSSession = PagedPoolCacheAlignedSession + 1,
 
-    
+
 
     } POOL_TYPE;
 
@@ -14338,7 +14342,7 @@ typedef enum _REG_NOTIFY_CLASS {
     RegNtPreKeyHandleClose = RegNtKeyHandleClose,
     //
     // .Net only
-    //    
+    //
     RegNtPostDeleteKey,
     RegNtPostSetValueKey,
     RegNtPostDeleteValueKey,
@@ -15629,12 +15633,12 @@ SeValidSecurityDescriptor(
     IN PSECURITY_DESCRIPTOR SecurityDescriptor
     );
 
-NTKERNELAPI                                                     
-BOOLEAN                                                         
-SeSinglePrivilegeCheck(                                         
-    LUID PrivilegeValue,                                        
-    KPROCESSOR_MODE PreviousMode                                
-    );                                                          
+NTKERNELAPI
+BOOLEAN
+SeSinglePrivilegeCheck(
+    LUID PrivilegeValue,
+    KPROCESSOR_MODE PreviousMode
+    );
 //
 // System Thread and Process Creation and Termination
 //
@@ -16582,7 +16586,7 @@ typedef struct _DMA_ADAPTER *PADAPTER_OBJECT;
 // Define object type specific fields of various objects used by the I/O system
 //
 
-typedef struct _ADAPTER_OBJECT *PADAPTER_OBJECT; 
+typedef struct _ADAPTER_OBJECT *PADAPTER_OBJECT;
 
 #endif // USE_DMA_MACROS && (_NTDDK_ || _NTDRIVER_ || _NTOSP_)
 
@@ -16618,21 +16622,21 @@ typedef struct _CONTROLLER_OBJECT {
 //
 // Define Device Object (DO) flags
 //
-#define DO_VERIFY_VOLUME                0x00000002      
-#define DO_BUFFERED_IO                  0x00000004      
-#define DO_EXCLUSIVE                    0x00000008      
-#define DO_DIRECT_IO                    0x00000010      
-#define DO_MAP_IO_BUFFER                0x00000020      
-#define DO_DEVICE_HAS_NAME              0x00000040      
-#define DO_DEVICE_INITIALIZING          0x00000080      
-#define DO_SYSTEM_BOOT_PARTITION        0x00000100      
-#define DO_LONG_TERM_REQUESTS           0x00000200      
-#define DO_NEVER_LAST_DEVICE            0x00000400      
-#define DO_SHUTDOWN_REGISTERED          0x00000800      
-#define DO_BUS_ENUMERATED_DEVICE        0x00001000      
-#define DO_POWER_PAGABLE                0x00002000      
-#define DO_POWER_INRUSH                 0x00004000      
-#define DO_LOW_PRIORITY_FILESYSTEM      0x00010000      
+#define DO_VERIFY_VOLUME                0x00000002
+#define DO_BUFFERED_IO                  0x00000004
+#define DO_EXCLUSIVE                    0x00000008
+#define DO_DIRECT_IO                    0x00000010
+#define DO_MAP_IO_BUFFER                0x00000020
+#define DO_DEVICE_HAS_NAME              0x00000040
+#define DO_DEVICE_INITIALIZING          0x00000080
+#define DO_SYSTEM_BOOT_PARTITION        0x00000100
+#define DO_LONG_TERM_REQUESTS           0x00000200
+#define DO_NEVER_LAST_DEVICE            0x00000400
+#define DO_SHUTDOWN_REGISTERED          0x00000800
+#define DO_BUS_ENUMERATED_DEVICE        0x00001000
+#define DO_POWER_PAGABLE                0x00002000
+#define DO_POWER_INRUSH                 0x00004000
+#define DO_LOW_PRIORITY_FILESYSTEM      0x00010000
 //
 // Device Object structure definition
 //
@@ -16676,7 +16680,7 @@ typedef struct DECLSPEC_ALIGN(MEMORY_ALLOCATION_ALIGNMENT) _DEVICE_OBJECT {
     PVOID  Reserved;
 } DEVICE_OBJECT;
 
-typedef struct _DEVICE_OBJECT *PDEVICE_OBJECT; 
+typedef struct _DEVICE_OBJECT *PDEVICE_OBJECT;
 
 
 struct  _DEVICE_OBJECT_POWER_EXTENSION;
@@ -16809,7 +16813,7 @@ typedef struct _DRIVER_OBJECT {
     PDRIVER_DISPATCH MajorFunction[IRP_MJ_MAXIMUM_FUNCTION + 1];
 
 } DRIVER_OBJECT;
-typedef struct _DRIVER_OBJECT *PDRIVER_OBJECT; 
+typedef struct _DRIVER_OBJECT *PDRIVER_OBJECT;
 
 
 
@@ -16893,7 +16897,7 @@ typedef struct _FILE_OBJECT {
     KEVENT Event;
     PIO_COMPLETION_CONTEXT CompletionContext;
 } FILE_OBJECT;
-typedef struct _FILE_OBJECT *PFILE_OBJECT; 
+typedef struct _FILE_OBJECT *PFILE_OBJECT;
 
 //
 // Define I/O Request Packet (IRP) flags
@@ -18261,15 +18265,15 @@ IoFreeMdl(
     IN PMDL Mdl
     );
 
-NTKERNELAPI                                 
-PDEVICE_OBJECT                              
-IoGetAttachedDeviceReference(               
-    IN PDEVICE_OBJECT DeviceObject          
-    );                                      
-                                            
-NTKERNELAPI                                 
-PCONFIGURATION_INFORMATION                  
-IoGetConfigurationInformation( VOID );      
+NTKERNELAPI
+PDEVICE_OBJECT
+IoGetAttachedDeviceReference(
+    IN PDEVICE_OBJECT DeviceObject
+    );
+
+NTKERNELAPI
+PCONFIGURATION_INFORMATION
+IoGetConfigurationInformation( VOID );
 
 //++
 //
@@ -19190,11 +19194,11 @@ IoUpdateShareAccess(
     IN OUT PSHARE_ACCESS ShareAccess
     );
 
-NTKERNELAPI                                     
-VOID                                            
-IoWriteErrorLogEntry(                           
-    IN PVOID ElEntry                            
-    );                                          
+NTKERNELAPI
+VOID
+IoWriteErrorLogEntry(
+    IN PVOID ElEntry
+    );
 
 typedef struct _IO_WORKITEM *PIO_WORKITEM;
 
@@ -20722,8 +20726,8 @@ HalAcquireDisplayOwnership (
     IN PHAL_RESET_DISPLAY_PARAMETERS  ResetDisplayParameters
     );
 
-#if defined(_IA64_)                             
-                                                
+#if defined(_IA64_)
+
 DECLSPEC_DEPRECATED_DDK                 // Use GetDmaRequirement
 NTHALAPI
 ULONG
@@ -20731,19 +20735,19 @@ HalGetDmaAlignmentRequirement (
     VOID
     );
 
-#endif                                          
-                                                
-#if defined(_M_IX86) || defined(_M_AMD64)       
-                                                
-#define HalGetDmaAlignmentRequirement() 1L      
-#endif                                          
-                                                
-NTHALAPI                                        
-VOID                                            
-KeFlushWriteBuffer (                            
-    VOID                                        
-    );                                          
-                                                
+#endif
+
+#if defined(_M_IX86) || defined(_M_AMD64)
+
+#define HalGetDmaAlignmentRequirement() 1L
+#endif
+
+NTHALAPI
+VOID
+KeFlushWriteBuffer (
+    VOID
+    );
+
 //
 // I/O driver configuration functions.
 //
@@ -22280,16 +22284,16 @@ typedef struct _OBJECT_HANDLE_INFORMATION {
     ACCESS_MASK GrantedAccess;
 } OBJECT_HANDLE_INFORMATION, *POBJECT_HANDLE_INFORMATION;
 
-NTKERNELAPI                                                     
-NTSTATUS                                                        
-ObReferenceObjectByHandle(                                      
-    IN HANDLE Handle,                                           
-    IN ACCESS_MASK DesiredAccess,                               
-    IN POBJECT_TYPE ObjectType OPTIONAL,                        
-    IN KPROCESSOR_MODE AccessMode,                              
-    OUT PVOID *Object,                                          
-    OUT POBJECT_HANDLE_INFORMATION HandleInformation OPTIONAL   
-    );                                                          
+NTKERNELAPI
+NTSTATUS
+ObReferenceObjectByHandle(
+    IN HANDLE Handle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_TYPE ObjectType OPTIONAL,
+    IN KPROCESSOR_MODE AccessMode,
+    OUT PVOID *Object,
+    OUT POBJECT_HANDLE_INFORMATION HandleInformation OPTIONAL
+    );
 
 #define ObDereferenceObject(a)                                     \
         ObfDereferenceObject(a)
@@ -22633,7 +22637,7 @@ typedef struct _PCI_PM_CAPABILITY {
 // AGP Capability
 //
 typedef struct _PCI_AGP_CAPABILITY {
-    
+
     PCI_CAPABILITIES_HEADER Header;
 
     USHORT  Minor:4;
@@ -23118,7 +23122,7 @@ typedef struct _PCI_BUS_INTERFACE_STANDARD {
 // Search parameters structure for IsDevicePresentEx
 //
 typedef struct _PCI_DEVICE_PRESENCE_PARAMETERS {
-    
+
     ULONG Size;
     ULONG Flags;
 
@@ -23164,7 +23168,7 @@ typedef struct _PCI_DEVICE_PRESENT_INTERFACE {
     // pci device info
     //
     PPCI_IS_DEVICE_PRESENT IsDevicePresent;
-    
+
     PPCI_IS_DEVICE_PRESENT_EX IsDevicePresentEx;
 
 } PCI_DEVICE_PRESENT_INTERFACE, *PPCI_DEVICE_PRESENT_INTERFACE;

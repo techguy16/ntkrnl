@@ -138,12 +138,12 @@ VfPnpVerifyNewRequest(
         if ((IrpSp->MinorFunction != IRP_MN_FILTER_RESOURCE_REQUIREMENTS) &&
             (!(IovPacket->Flags & TRACKFLAG_BOGUS))) {
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_PNP_IRP_BAD_INITIAL_STATUS,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 irp
-                ));
+                );
         }
 
         //
@@ -169,12 +169,12 @@ VfPnpVerifyNewRequest(
                 //
                 // Whoops, it didn't initialize the version correctly!
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_PNP_QUERY_CAP_BAD_VERSION,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     CallerAddress,
                     irp
-                    ));
+                    );
             }
 
             if (deviceCapabilities->Size < sizeof(DEVICE_CAPABILITIES)) {
@@ -182,12 +182,12 @@ VfPnpVerifyNewRequest(
                 //
                 // Whoops, it didn't initialize the size field correctly!
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_PNP_QUERY_CAP_BAD_SIZE,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     CallerAddress,
                     irp
-                    ));
+                    );
             }
 
             if (deviceCapabilities->Address != (ULONG) -1) {
@@ -195,12 +195,12 @@ VfPnpVerifyNewRequest(
                 //
                 // Whoops, it didn't initialize the address field correctly!
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_PNP_QUERY_CAP_BAD_ADDRESS,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     CallerAddress,
                     irp
-                    ));
+                    );
             }
 
             if (deviceCapabilities->UINumber != (ULONG) -1) {
@@ -208,12 +208,12 @@ VfPnpVerifyNewRequest(
                 //
                 // Whoops, it didn't initialize the UI number field correctly!
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_PNP_QUERY_CAP_BAD_UI_NUM,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     CallerAddress,
                     irp
-                    ));
+                    );
             }
         }
     }
@@ -294,12 +294,12 @@ VfPnpVerifyIrpStackDownward(
 
         case SKIPPED_A_DO:
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_SKIPPED_DEVICE_OBJECT,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 irp
-                ));
+                );
 
             break;
 
@@ -339,12 +339,12 @@ VfPnpVerifyIrpStackDownward(
 
         RequestHeadLocationData->Flags |= STACKFLAG_BOGUS_IRP_TOUCHED;
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_MISSING_DISPATCH_FUNCTION,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             driverObject->DriverInit,
             irp
-            ));
+            );
 
         StackLocationData->Flags |= STACKFLAG_NO_HANDLER;
     }
@@ -362,12 +362,12 @@ VfPnpVerifyIrpStackDownward(
     if ((!NT_SUCCESS(currentStatus)) && (currentStatus != STATUS_NOT_SUPPORTED) &&
         (!(RequestHeadLocationData->Flags & STACKFLAG_FAILURE_FORWARDED))) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_PNP_FAILURE_FORWARDED,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             CallerAddress,
             irp
-            ));
+            );
 
         //
         // Don't blame anyone else for this driver's mistakes...
@@ -382,12 +382,12 @@ VfPnpVerifyIrpStackDownward(
     if ((currentStatus == STATUS_NOT_SUPPORTED)&&statusChanged&&
         (!(RequestHeadLocationData->Flags & STACKFLAG_FAILURE_FORWARDED))) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_PNP_IRP_STATUS_RESET,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             CallerAddress,
             irp
-            ));
+            );
 
         //
         // Don't blame anyone else for this driver's mistakes...
@@ -508,30 +508,30 @@ VfPnpVerifyIrpStackUpward(
             //
             if (IovPacket->Flags&TRACKFLAG_BOGUS) {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_BOGUS_PNP_IRP_COMPLETED,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     routine,
                     irp
-                    ));
+                    );
 
             } else if (NT_SUCCESS(currentStatus)) {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_SUCCESSFUL_PNP_IRP_NOT_FORWARDED,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     routine,
                     irp
-                    ));
+                    );
 
             } else if (currentStatus == STATUS_NOT_SUPPORTED) {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_UNTOUCHED_PNP_IRP_NOT_FORWARDED,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     routine,
                     irp
-                    ));
+                    );
             }
         }
     }
@@ -585,12 +585,12 @@ VfPnpVerifyIrpStackUpward(
 
         if (NT_SUCCESS(currentStatus)&&(!referencesTaken)) {
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_TARGET_RELATION_NEEDS_REF,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 routine,
                 irp
-                ));
+                );
         }
     }
 
@@ -605,12 +605,12 @@ VfPnpVerifyIrpStackUpward(
         // Status of a PnP or Power IRP may not be converted from success to
         // STATUS_NOT_SUPPORTED on the way down.
         //
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_PNP_IRP_STATUS_RESET,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             routine,
             irp
-            ));
+            );
 
         //
         // Don't blame anyone else for this driver's mistakes...
@@ -692,13 +692,13 @@ VfPnpVerifyIrpStackUpward(
 
                 } else if (!IovUtilIsPdo(IrpSp->DeviceObject)) {
 
-                    WDM_FAIL_ROUTINE((
+                    WDM_FAIL_ROUTINE(
                         DCERROR_DETACHED_IN_SURPRISE_REMOVAL,
                         DCPARAM_IRP + DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                         routine,
                         iovSessionData->BestVisibleIrp,
                         IrpSp->DeviceObject
-                        ));
+                        );
                 }
 
                 //
@@ -707,13 +707,13 @@ VfPnpVerifyIrpStackUpward(
                 //
                 if (IovUtilIsDeviceObjectMarked(IrpSp->DeviceObject, MARKTYPE_DELETED)) {
 
-                    WDM_FAIL_ROUTINE((
+                    WDM_FAIL_ROUTINE(
                         DCERROR_DELETED_IN_SURPRISE_REMOVAL,
                         DCPARAM_IRP + DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                         routine,
                         iovSessionData->BestVisibleIrp,
                         IrpSp->DeviceObject
-                        ));
+                        );
                 }
             }
 
@@ -1176,12 +1176,12 @@ ViPnpVerifyMinorWasProcessedProperly(
                 break;
             }
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_PNP_IRP_NEEDS_HANDLING,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 Irp
-                ));
+                );
 
             break;
 
@@ -1199,12 +1199,12 @@ ViPnpVerifyMinorWasProcessedProperly(
                 break;
             }
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_PNP_IRP_NEEDS_HANDLING,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 Irp
-                ));
+                );
 
             break;
 
@@ -1217,24 +1217,24 @@ ViPnpVerifyMinorWasProcessedProperly(
             //
             if (HowProcessed == NOT_PROCESSED) {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_PNP_IRP_NEEDS_HANDLING,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     CallerAddress,
                     Irp
-                    ));
+                    );
 
             } else if ((HowProcessed == DEFINITELY_PROCESSED) &&
                        (!NT_SUCCESS(Irp->IoStatus.Status)) &&
                        (VfSettingsIsOptionEnabled(VerifierSnapshot,
                         VERIFIER_OPTION_EXTENDED_REQUIRED_IRPS))) {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_NON_FAILABLE_IRP,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     CallerAddress,
                     Irp
-                    ));
+                    );
             }
 
             break;
@@ -1250,34 +1250,34 @@ ViPnpVerifyMinorWasProcessedProperly(
                             break;
                         }
 
-                        WDM_FAIL_ROUTINE((
+                        WDM_FAIL_ROUTINE(
                             DCERROR_PNP_IRP_HANDS_OFF,
                             DCPARAM_IRP + DCPARAM_ROUTINE,
                             CallerAddress,
                             Irp
-                            ));
+                            );
 
                     } else {
 
                         if (HowProcessed == NOT_PROCESSED) {
 
-                            WDM_FAIL_ROUTINE((
+                            WDM_FAIL_ROUTINE(
                                 DCERROR_PNP_IRP_NEEDS_PDO_HANDLING,
                                 DCPARAM_IRP + DCPARAM_ROUTINE,
                                 CallerAddress,
                                 Irp
-                                ));
+                                );
 
                         } else if (NT_SUCCESS(Irp->IoStatus.Status)) {
 
                             if (Irp->IoStatus.Information == (ULONG_PTR) NULL) {
 
-                                WDM_FAIL_ROUTINE((
+                                WDM_FAIL_ROUTINE(
                                     DCERROR_TARGET_RELATION_LIST_EMPTY,
                                     DCPARAM_IRP + DCPARAM_ROUTINE,
                                     CallerAddress,
                                     Irp
-                                    ));
+                                    );
                             }
 
                             //
@@ -1370,13 +1370,13 @@ ViPnpVerifyMinorWasProcessedProperly(
                             //
                             // Fail the appropriate driver.
                             //
-                            WDM_FAIL_ROUTINE((
+                            WDM_FAIL_ROUTINE(
                                 DCERROR_NON_PDO_RETURNED_IN_RELATION,
                                 DCPARAM_IRP + DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                                 CallerAddress,
                                 Irp,
                                 relationObject
-                                ));
+                                );
                         }
 
                         //
@@ -1416,12 +1416,12 @@ ViPnpVerifyMinorWasProcessedProperly(
                 break;
             }
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_PNP_IRP_HANDS_OFF,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 Irp
-                ));
+                );
 
             break;
 
@@ -1439,12 +1439,12 @@ ViPnpVerifyMinorWasProcessedProperly(
                         break;
                     }
 
-                    WDM_FAIL_ROUTINE((
+                    WDM_FAIL_ROUTINE(
                         DCERROR_PNP_IRP_HANDS_OFF,
                         DCPARAM_IRP + DCPARAM_ROUTINE,
                         CallerAddress,
                         Irp
-                        ));
+                        );
 
                     break;
                 default:
@@ -1463,12 +1463,12 @@ ViPnpVerifyMinorWasProcessedProperly(
                 break;
             }
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_PNP_IRP_NEEDS_HANDLING,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 Irp
-                ));
+                );
 
             break;
 

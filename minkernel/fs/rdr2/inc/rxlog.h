@@ -131,7 +131,7 @@ extern PUCHAR RxContxOperationNames[];
 #endif // _RDBSSLOG_INCLUDED_
 
 #if DBG
-#define RxDbgPrint(Args) DbgPrint##Args
+#define RxDbgPrint(...) DbgPrint(__VA_ARGS__)
 #else
 #define RxDbgPrint(Args) NOTHING
 #endif

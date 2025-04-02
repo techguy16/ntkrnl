@@ -640,6 +640,8 @@ Return Value:
         UCHAR Bytes[4];
     } Tmp;
 
+    PUCHAR BufferUchar = (PUCHAR)Buffer;
+
     ASSERT(!(Offset & ~0xff));
     ASSERT(Length);
     ASSERT((Offset + Length) <= 256);
@@ -679,7 +681,7 @@ Return Value:
         if (!(Tmp.Bytes[2] & 0x80)) { // if the Header type field's multi-function bit is not set
 
             for (i = 0; i < Length; i++) {
-                *((PUCHAR)Buffer)++ = 0xff; // Make this read as if the device isn't populated
+                *BufferUchar++ = 0xff; // Make this read as if the device isn't populated
             }
 
             return Length;
@@ -692,7 +694,7 @@ Return Value:
         WRITE_PORT_ULONG((PULONG)PCI_TYPE1_ADDR_PORT, ConfigAddress.u.AsULONG);
         Tmp.All = READ_PORT_ULONG((PULONG)PCI_TYPE1_DATA_PORT);
         while ( (i < 4) && Length) {
-            *((PUCHAR)Buffer)++ = Tmp.Bytes[i];
+            *BufferUchar++ = Tmp.Bytes[i];
             i++;
             Length--;
         }

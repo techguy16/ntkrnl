@@ -108,12 +108,12 @@ VfWmiVerifyNewRequest(
     //
     if (currentStatus!=STATUS_NOT_SUPPORTED) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_WMI_IRP_BAD_INITIAL_STATUS,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             CallerAddress,
             irp
-            ));
+            );
 
         //
         // Don't blame anyone else for this guy's mistake.
@@ -152,12 +152,12 @@ VfWmiVerifyIrpStackDownward(
     //
     if (iovSessionData->ForwardMethod == SKIPPED_A_DO) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_SKIPPED_DEVICE_OBJECT,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             CallerAddress,
             irp
-            ));
+            );
     }
 
     //
@@ -169,12 +169,12 @@ VfWmiVerifyIrpStackDownward(
 
         RequestHeadLocationData->Flags |= STACKFLAG_BOGUS_IRP_TOUCHED;
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_MISSING_DISPATCH_FUNCTION,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             driverObject->DriverInit,
             irp
-            ));
+            );
 
         StackLocationData->Flags |= STACKFLAG_NO_HANDLER;
     }
@@ -230,13 +230,13 @@ VfWmiVerifyIrpStackUpward(
         mustPassDown &= ((PDEVICE_OBJECT) IrpSp->Parameters.WMI.ProviderId != IrpSp->DeviceObject);
         if (mustPassDown) {
 
-             WDM_FAIL_ROUTINE((
+             WDM_FAIL_ROUTINE(
                  DCERROR_WMI_IRP_NOT_FORWARDED,
                  DCPARAM_IRP + DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                  routine,
                  irp,
                  IrpSp->Parameters.WMI.ProviderId
-                 ));
+                 );
         }
     }
 }

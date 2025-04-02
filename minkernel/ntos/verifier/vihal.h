@@ -27,9 +27,9 @@ Revision History:
 
 
 
-// 
+//
 // Bugcheck codes -- the major code is HAL_VERIFIER_DETECTED_VIOLATION --
-// the sub-code is the HV_* 
+// the sub-code is the HV_*
 //
 #define HAL_VERIFIER_DETECTED_VIOLATION	 0xE6
 
@@ -75,7 +75,7 @@ Revision History:
 #define HVC_WARN			0x02	// Print message # continue
 #define HVC_ASSERT			0x04	// Print message # break
 #define HVC_BUGCHECK		0x08	// Print message # bugcheck
-#define HVC_ONCE			0x10	// combined with another code, 
+#define HVC_ONCE			0x10	// combined with another code,
 
 #define HAL_VERIFIER_POOL_TAG 'VlaH' // HalV backwards //
 
@@ -87,7 +87,7 @@ Revision History:
 
 
 //
-// Since we hook the "MapRegisterBase" with a MapRegisterFile, we sign 
+// Since we hook the "MapRegisterBase" with a MapRegisterFile, we sign
 // the first four bytes so we can tell the difference between the HAL's
 // map register base and our map register file.
 //
@@ -150,7 +150,7 @@ typedef struct _TIMER64  {
 //
 // Since we can't do a 64 bit atomic operation
 // without a spinlock, we have to monkey around a bit
-// This method comes from the acpi timer code. 
+// This method comes from the acpi timer code.
 //
 #define SAFE_READ_TIMER64(WriteLargeInteger, ReadTimer64) 					\
 								 											\
@@ -183,21 +183,21 @@ typedef struct _TIMER64  {
 #endif // !_IA64_
 
 //
-// Alpha or IA64 can do atomic 64 bit read/writes. 
+// Alpha or IA64 can do atomic 64 bit read/writes.
 //
 typedef LARGE_INTEGER TIMER64;
 
 
 #define SAFE_READ_TIMER64(WriteLargeInteger, ReadTimer64)		\
     InterlockedExchangePointer(                  \
-    &((PVOID) (WriteLargeInteger).QuadPart ),   \
+    ((PVOID*) &(WriteLargeInteger).QuadPart ),   \
     (PVOID) (ReadTimer64).QuadPart              \
     );
 #define SAFE_WRITE_TIMER64(WriteTimer64, ReadLargeInteger)		\
     InterlockedExchangePointer(                 \
-    &((PVOID) (WriteTimer64).QuadPart ),        \
+    ((PVOID*) &(WriteTimer64).QuadPart ),        \
     (PVOID) (ReadLargeInteger).QuadPart         \
-    );	
+    );
 
 // ! defined (_X86_) //
 #endif
@@ -238,24 +238,24 @@ typedef struct _TIMER_TICK {
 	ULONG Reserved;
 	LARGE_INTEGER TimeStampCounter;
 	LARGE_INTEGER PerformanceCounter;
-	LARGE_INTEGER TimerTick;	
+	LARGE_INTEGER TimerTick;
 } TIMER_TICK, *PTIMER_TICK;
 
 typedef struct _VF_TIMER_INFORMATION {
-	KDPC RefreshDpc;    
-	KTIMER RefreshTimer;    
+	KDPC RefreshDpc;
+	KTIMER RefreshTimer;
 
 	TIMER64 LastPerformanceCounter;
 	TIMER64 UpperBound;
     TIMER64 LastTickCount;
     TIMER64 LastKdStartTime;
-	
+
 	LARGE_INTEGER PerformanceFrequency;
 
 	ULONG CountsPerTick;
-	
+
 	ULONG CurrentCounter;
-	TIMER_TICK SavedTicks[MAX_COUNTERS];	
+	TIMER_TICK SavedTicks[MAX_COUNTERS];
 
 
 } VF_TIMER_INFORMATION, *PVF_TIMER_INFORMATION;
@@ -274,7 +274,7 @@ typedef struct _HAL_VERIFIER_BUFFER {
 	ULONG RealLength;
 	ULONG AdvertisedLength;
 
-	PVOID RealStartAddress;	
+	PVOID RealStartAddress;
     PVOID AdvertisedStartAddress;
 
 	PHYSICAL_ADDRESS RealLogicalStartAddress;
@@ -284,7 +284,7 @@ typedef struct _HAL_VERIFIER_BUFFER {
 	LIST_ENTRY ListEntry;
 } HAL_VERIFIER_BUFFER, *PHAL_VERIFIER_BUFFER;
 
-typedef struct _MAP_REGISTER {    
+typedef struct _MAP_REGISTER {
 	PVOID MappedToSa;
     ULONG BytesMapped;
     ULONG Flags;
@@ -294,10 +294,10 @@ typedef struct _MAP_REGISTER {
 
 typedef struct _MAP_REGISTER_FILE {
 	ULONG Signature;
-	LIST_ENTRY ListEntry;	    
-    BOOLEAN ContiguousMap;    
+	LIST_ENTRY ListEntry;
+    BOOLEAN ContiguousMap;
     BOOLEAN ScatterGather;
-	ULONG NumberOfMapRegisters;    
+	ULONG NumberOfMapRegisters;
 	ULONG NumberOfRegistersMapped;
 
     PVOID MapRegisterBaseFromHal;
@@ -306,7 +306,7 @@ typedef struct _MAP_REGISTER_FILE {
    PVOID OriginalBuffer;
 	KSPIN_LOCK AllocationLock;
 	MAP_REGISTER MapRegisters[1];
-	
+
 	// Rest of the map registers go here
 	//
 } MAP_REGISTER_FILE, *PMAP_REGISTER_FILE;
@@ -326,7 +326,7 @@ typedef struct _VF_WAIT_CONTEXT_BLOCK {
     PSCATTER_GATHER_LIST ScatterGatherList;
     LIST_ENTRY ListEntry;
 
-    PMAP_REGISTER_FILE MapRegisterFile;	
+    PMAP_REGISTER_FILE MapRegisterFile;
 
 
 } VF_WAIT_CONTEXT_BLOCK, *PVF_WAIT_CONTEXT_BLOCK;
@@ -342,23 +342,23 @@ typedef struct _VF_WAIT_CONTEXT_BLOCK_EX {
 
 //
 // Store a list of the real dma operations used by an adapter ...
-// when the driver allocates the adapter, we're going to replace all of its 
+// when the driver allocates the adapter, we're going to replace all of its
 // dma operations with ours
 //
-typedef struct _ADAPTER_INFORMATION {	
+typedef struct _ADAPTER_INFORMATION {
 	LIST_ENTRY ListEntry;
 	PDMA_ADAPTER DmaAdapter;
 	PDEVICE_OBJECT DeviceObject;
 
-	BOOLEAN DeferredRemove; 	    
+	BOOLEAN DeferredRemove;
 	BOOLEAN UseContiguousBuffers;
 	BOOLEAN UseDmaChannel;
-	BOOLEAN Inactive; 
+	BOOLEAN Inactive;
 
 	PVOID CallingAddress;
 
 	PDMA_OPERATIONS RealDmaOperations;
-	
+
 	HAL_VERIFIER_LOCKED_LIST ScatterGatherLists;
 	HAL_VERIFIER_LOCKED_LIST CommonBuffers;
 	HAL_VERIFIER_LOCKED_LIST MapRegisterFiles;
@@ -378,7 +378,7 @@ typedef struct _ADAPTER_INFORMATION {
 	ULONG FreedAdapterChannels;
 
 	ULONG MappedTransferWithoutFlushing;
-	DEVICE_DESCRIPTION DeviceDescription; 
+	DEVICE_DESCRIPTION DeviceDescription;
 
 	ULONG AdapterChannelMapRegisters;
 
@@ -393,7 +393,7 @@ typedef struct _ADAPTER_INFORMATION {
 
    ULONG  AllocationStorage[MAX_CONTIGUOUS_MAP_REGISTERS / (sizeof(ULONG) * 8)];  // bitmask for allocator routines
 
-   RTL_BITMAP AllocationMap;  
+   RTL_BITMAP AllocationMap;
 
    ULONG  ContiguousMapRegisters; // allocated among ContiguousBufers
    ULONG  NonContiguousMapRegisters; // allocated from non-Paged Pool
@@ -483,7 +483,7 @@ ULONG
 VfGetDmaAlignment(
     IN struct _DMA_ADAPTER * DmaAdapter
     );
-    
+
 
 ULONG
 VfReadDmaCounter(
@@ -580,14 +580,14 @@ VfHalAllocateMapRegisters(
 
 
 // ==============================
-// Hal verifier internal routines 
+// Hal verifier internal routines
 // ==============================
 
 PADAPTER_INFORMATION
 ViHookDmaAdapter(
 	IN PDMA_ADAPTER DmaAdapter,
 	IN PDEVICE_DESCRIPTION DeviceDescription,
-	IN ULONG NumberOfMapRegisters	
+	IN ULONG NumberOfMapRegisters
 	);
 
 VOID
@@ -600,9 +600,9 @@ ViGetAdapterInformation(
 	IN PDMA_ADAPTER DmaAdapter
 	);
 
-PVOID 
+PVOID
 ViGetRealDmaOperation(
-	IN PDMA_ADAPTER DmaAdapter, 
+	IN PDMA_ADAPTER DmaAdapter,
 	IN ULONG AdapterInformationOffset
 	);
 
@@ -634,16 +634,16 @@ VfInjectDmaFailure (
 // Hal verfier special routines to track allocations
 // =================================================
 
-PVOID 
+PVOID
 ViSpecialAllocateCommonBuffer(
 	IN PALLOCATE_COMMON_BUFFER AllocateCommonBuffer,
 	IN PADAPTER_INFORMATION AdapterInformation,
 	IN PVOID CallingAddress,
 	IN ULONG Length,
-	IN OUT PPHYSICAL_ADDRESS LogicalAddress,	
+	IN OUT PPHYSICAL_ADDRESS LogicalAddress,
 	IN LOGICAL CacheEnabled
 	);
-LOGICAL 
+LOGICAL
 ViSpecialFreeCommonBuffer(
 	IN PFREE_COMMON_BUFFER FreeCommonBuffer,
 	IN PADAPTER_INFORMATION AdapterInformation,
@@ -657,28 +657,28 @@ ViSpecialFreeCommonBuffer(
 
 PMAP_REGISTER_FILE
 ViAllocateMapRegisterFile(
-	IN PADAPTER_INFORMATION AdapterInformation,		
-	IN ULONG NumberOfMapRegisters	
+	IN PADAPTER_INFORMATION AdapterInformation,
+	IN ULONG NumberOfMapRegisters
 	);
 LOGICAL
 ViFreeMapRegisterFile(
-	IN PADAPTER_INFORMATION AdapterInformation,	
-	IN PMAP_REGISTER_FILE MapRegisterFile	
+	IN PADAPTER_INFORMATION AdapterInformation,
+	IN PMAP_REGISTER_FILE MapRegisterFile
 	);
 
 ULONG
 ViMapDoubleBuffer(
     IN PMAP_REGISTER_FILE MapRegisterFile,
-	IN OUT PMDL   Mdl,	
+	IN OUT PMDL   Mdl,
 	IN OUT PVOID CurrentVa,
 	IN ULONG Length,
 	IN BOOLEAN WriteToDevice
 	);
 
-LOGICAL 
+LOGICAL
 ViFlushDoubleBuffer(
     IN PMAP_REGISTER_FILE MapRegisterFile,
-	IN PMDL  Mdl,	
+	IN PMDL  Mdl,
 	IN PVOID CurrentVa,
 	IN ULONG Length,
 	IN BOOLEAN WriteToDevice
@@ -696,42 +696,42 @@ ViAllocateMapRegistersFromFile(
 
 LOGICAL
 ViFreeMapRegistersToFile(
-	IN PMAP_REGISTER_FILE MapRegisterFile, 	
-	IN PVOID CurrentSa, 
+	IN PMAP_REGISTER_FILE MapRegisterFile,
+	IN PVOID CurrentSa,
 	IN ULONG Length
 	);
 
 PMAP_REGISTER
 ViFindMappedRegisterInFile(
-	IN PMAP_REGISTER_FILE MapRegisterFile, 
+	IN PMAP_REGISTER_FILE MapRegisterFile,
 	IN PVOID CurrentSa,
     OUT PULONG MapRegisterNumber OPTIONAL
 	);
 
 LOGICAL
-ViSwap(IN OUT PVOID * MapRegisterBase, 
+ViSwap(IN OUT PVOID * MapRegisterBase,
         IN OUT PMDL  * Mdl,
         IN OUT PVOID * CurrentVa
         );
 
 VOID
-ViCheckAdapterBuffers( 
-    IN PADAPTER_INFORMATION AdapterInformation 
+ViCheckAdapterBuffers(
+    IN PADAPTER_INFORMATION AdapterInformation
     );
 
 VOID
-ViTagBuffer(    
-    IN PVOID  AdvertisedBuffer, 
+ViTagBuffer(
+    IN PVOID  AdvertisedBuffer,
     IN ULONG  AdvertisedLength,
     IN USHORT WhereToTag
     );
 
 VOID
-ViCheckTag(    
-    IN PVOID   AdvertisedBuffer, 
+ViCheckTag(
+    IN PVOID   AdvertisedBuffer,
     IN ULONG   AdvertisedLength,
     IN BOOLEAN RemoveTag,
-    IN USHORT  WhereToCheck 
+    IN USHORT  WhereToCheck
     );
 
 
@@ -739,7 +739,7 @@ VOID
 ViInitializePadding(
     IN PVOID RealBufferStart,
     IN ULONG RealBufferLength,
-    IN PVOID AdvertisedBufferStart, OPTIONAL 
+    IN PVOID AdvertisedBufferStart, OPTIONAL
     IN ULONG AdvertisedBufferLength OPTIONAL
     );
 
@@ -747,7 +747,7 @@ VOID
 ViCheckPadding(
     IN PVOID RealBufferStart,
     IN ULONG RealBufferLength,
-    IN PVOID AdvertisedBufferStart, OPTIONAL 
+    IN PVOID AdvertisedBufferStart, OPTIONAL
     IN ULONG AdvertisedBufferLength OPTIONAL
     );
 
@@ -760,7 +760,7 @@ ViHasBufferBeenTouched(
 
 VOID
 VfAssert(
-    IN LOGICAL     Condition,    
+    IN LOGICAL     Condition,
     IN ULONG       Code,
     IN OUT PULONG  Enable
     );
@@ -797,7 +797,7 @@ ViFreeToContiguousMemory (
     IN OUT PADAPTER_INFORMATION AdapterInformation,
     IN     PVOID Address,
     IN     ULONG HintIndex
-    ); 
+    );
 
 LOGICAL
 VfIsPCIBus (
@@ -850,13 +850,13 @@ ViCopyBackModifiedBuffer (
     }                                                   \
 }
 
-// 
+//
 // Old favorite:
 //
 // Control macro (used like a for loop) which iterates over all entries in
-// a standard doubly linked list.  Head is the list head and the entries 
-// are of type Type.  A member called ListEntry is assumed to be the 
-// LIST_ENTRY structure linking the entries together. Current contains a 
+// a standard doubly linked list.  Head is the list head and the entries
+// are of type Type.  A member called ListEntry is assumed to be the
+// LIST_ENTRY structure linking the entries together. Current contains a
 // pointer to each entry in turn.
 //
 #define FOR_ALL_IN_LIST(Type, Head, Current)                            \
@@ -868,7 +868,7 @@ ViCopyBackModifiedBuffer (
        )
 
 
-#ifndef MIN	
+#ifndef MIN
     #define MIN(a,b) ( ( (ULONG) (a)<(ULONG) (b))?(a):(b) )
 #endif
 
@@ -904,8 +904,8 @@ ViCopyBackModifiedBuffer (
 }
 
 #define VF_REMOVE_FROM_LOCKED_LIST_DONT_LOCK(LockedList, RemoveMe)		\
-	RemoveEntryList(&(RemoveMe)->ListEntry);							
-		
+	RemoveEntryList(&(RemoveMe)->ListEntry);
+
 
 //
 // This is a bit of a hack so that reference counting for adapters will work.
@@ -986,7 +986,7 @@ ViCopyBackModifiedBuffer (
 // return the corresponding mapped address as an index into the map register file's
 // MDL (i.e virtual address).
 //
-	
+
 #define MAP_REGISTER_VIRTUAL_ADDRESS(MapRegisterFile, DriverCurrentSa, MapRegisterNumber)   \
 	(PUCHAR) MmGetMdlVirtualAddress((MapRegisterFile)->MapRegisterMdl) +                    \
     ( (MapRegisterNumber) << PAGE_SHIFT ) +                                                 \
@@ -1003,7 +1003,7 @@ ViCopyBackModifiedBuffer (
 // just warn them.
 //
 
-__inline 
+__inline
 VOID
 VF_ASSERT_SPECIAL_IRQL(IN KIRQL Irql)
 {
@@ -1012,14 +1012,14 @@ VF_ASSERT_SPECIAL_IRQL(IN KIRQL Irql)
 	VF_ASSERT(
 		currentIrql == Irql,
 		HV_BAD_IRQL_JUST_WARN,
-		("**** Bad IRQL -- needed %x, got %x ****", 
+		("**** Bad IRQL -- needed %x, got %x ****",
         (ULONG) Irql, (ULONG) currentIrql)
 	);
-	
+
 } // VF_ASSERT_IRQL //
 
 
-__inline 
+__inline
 VOID
 VF_ASSERT_IRQL(IN KIRQL Irql)
 {
@@ -1027,71 +1027,71 @@ VF_ASSERT_IRQL(IN KIRQL Irql)
 	VF_ASSERT(
 		currentIrql == Irql,
 		HV_BAD_IRQL,
-		("**** Bad IRQL -- needed %x, got %x ****", 
+		("**** Bad IRQL -- needed %x, got %x ****",
         (ULONG) Irql, (ULONG) currentIrql)
 	);
-	
+
 } // VF_ASSERT_IRQL //
 
-__inline 
-VOID 
+__inline
+VOID
 VF_ASSERT_MAX_IRQL(IN KIRQL MaxIrql)
 {
 	KIRQL currentIrql = KeGetCurrentIrql();
-	
+
 	VF_ASSERT(
 		currentIrql <= MaxIrql,
 		HV_BAD_IRQL,
-		("**** Bad IRQL -- needed %x or less, got %x ****", 
+		("**** Bad IRQL -- needed %x or less, got %x ****",
         (ULONG) MaxIrql, (ULONG) currentIrql)
-	);	
+	);
 }
 
 // =========================================
 // Inlined functions to help with accounting
 // =========================================
-__inline 
-VOID 
+__inline
+VOID
 ADD_MAP_REGISTERS(
-	IN PADAPTER_INFORMATION AdapterInformation, 
+	IN PADAPTER_INFORMATION AdapterInformation,
 	IN ULONG NumberOfMapRegisters,
     IN BOOLEAN ScatterGather
 	)
 {
-	ULONG activeMapRegisters = 
+	ULONG activeMapRegisters =
 	InterlockedExchangeAdd(
 			&AdapterInformation->ActiveMapRegisters,
 			NumberOfMapRegisters
 			) + NumberOfMapRegisters;
-		
-   InterlockedExchangeAdd((PLONG)(&AdapterInformation->AllocatedMapRegisters), 
+
+   InterlockedExchangeAdd((PLONG)(&AdapterInformation->AllocatedMapRegisters),
                           NumberOfMapRegisters);
-	    
+
 	VF_ASSERT(
 		NumberOfMapRegisters <= AdapterInformation->MaximumMapRegisters,
 		HV_TOO_MANY_MAP_REGISTERS,
-		( "Allocating too many map registers at a time: %x (max %x)", 
+		( "Allocating too many map registers at a time: %x (max %x)",
 			NumberOfMapRegisters,
-			AdapterInformation->MaximumMapRegisters )	
+			AdapterInformation->MaximumMapRegisters )
 		);
-	
+
     if (! ScatterGather ) {
         VF_ASSERT(
             activeMapRegisters <= AdapterInformation->MaximumMapRegisters,
             HV_OUT_OF_MAP_REGISTERS,
-            ( "Allocated too many map registers : %x (max %x)", 
+            ( "Allocated too many map registers : %x (max %x)",
                activeMapRegisters,
                AdapterInformation->MaximumMapRegisters	)
             );
     }
 
-	
+
 } // ADD_MAP_REGISTERS //
 
-__inline 
-VOID 
+__inline
+VOID
 SUBTRACT_MAP_REGISTERS(
-	IN PADAPTER_INFORMATION AdapterInformation, 
+	IN PADAPTER_INFORMATION AdapterInformation,
 	IN ULONG NumberOfMapRegisters
 	)
 {
@@ -1100,181 +1100,181 @@ SUBTRACT_MAP_REGISTERS(
 			&AdapterInformation->ActiveMapRegisters,
 			-((LONG) NumberOfMapRegisters)
 			) - NumberOfMapRegisters;
-	
-	
+
+
 	VF_ASSERT(
 		activeMapRegisters >= 0,
 		HV_FREED_TOO_MANY_MAP_REGISTERS,
-		( "Freed too many map registers: %x", 
+		( "Freed too many map registers: %x",
 			activeMapRegisters )
 		);
-	
-    InterlockedExchange((PLONG)(&AdapterInformation->MappedTransferWithoutFlushing), 
-                        0);    
+
+    InterlockedExchange((PLONG)(&AdapterInformation->MappedTransferWithoutFlushing),
+                        0);
 
 } // SUBTRACT_MAP_REGISTERS //
 
 
-__inline 
-VOID 
+__inline
+VOID
 INCREMENT_COMMON_BUFFERS(
 	IN PADAPTER_INFORMATION AdapterInformation
 	)
-{	
+{
 	InterlockedIncrement((PLONG)(&AdapterInformation->AllocatedCommonBuffers) );
 
 } // INCREMENT_COMMON_BUFFERS //
 
-__inline 
-VOID 
+__inline
+VOID
 DECREMENT_COMMON_BUFFERS(
 	IN PADAPTER_INFORMATION AdapterInformation
 	)
 {
-	ULONG commonBuffersFreed = 
-		(ULONG) InterlockedIncrement( 
+	ULONG commonBuffersFreed =
+		(ULONG) InterlockedIncrement(
         (PLONG)(&AdapterInformation->FreedCommonBuffers) );
-	
-	
+
+
 	VF_ASSERT(
 		commonBuffersFreed <= AdapterInformation->AllocatedCommonBuffers,
 		HV_FREED_TOO_MANY_COMMON_BUFFERS,
 		("Freed too many common buffers")
-		);			
-	
+		);
+
 } // DECREMENT_COMMON_BUFFERS //
 
-__inline 
-VOID 
+__inline
+VOID
 INCREASE_MAPPED_TRANSFER_BYTE_COUNT(
-	IN PADAPTER_INFORMATION AdapterInformation,	
+	IN PADAPTER_INFORMATION AdapterInformation,
 	IN ULONG Length
 	)
-{	
+{
 	ULONG mappedTransferCount;
    ULONG maxMappedTransfer;
 
    maxMappedTransfer = AdapterInformation->ActiveMapRegisters << PAGE_SHIFT;
 
    mappedTransferCount =
-		InterlockedExchangeAdd( 
+		InterlockedExchangeAdd(
             (PLONG)(&AdapterInformation->MappedTransferWithoutFlushing),
 			(LONG) Length
 			) + Length;
 
-	
+
 
 	VF_ASSERT(
 		mappedTransferCount <= maxMappedTransfer,
 		HV_DID_NOT_FLUSH_ADAPTER_BUFFERS,
 		("Driver did not flush adapter buffers -- bytes mapped: %x (%x max)",
 			mappedTransferCount,
-			maxMappedTransfer 
+			maxMappedTransfer
 		));
-	
+
 } // INCREASE_MAPPED_TRANSFER_BYTE_COUNT //
 
-__inline 
-VOID 
+__inline
+VOID
 DECREASE_MAPPED_TRANSFER_BYTE_COUNT(
-	IN PADAPTER_INFORMATION AdapterInformation,	
+	IN PADAPTER_INFORMATION AdapterInformation,
 	IN ULONG Length
 	)
-{	
+{
     UNREFERENCED_PARAMETER (Length);
 
-	InterlockedExchange( 
+	InterlockedExchange(
 		(PLONG)(&AdapterInformation->MappedTransferWithoutFlushing),
 		0);
 
-		
+
 } // DECREASE_MAPPED_TRANSFER_BYTE_COUNT //
 
 
 
-__inline 
-VOID 
+__inline
+VOID
 INCREMENT_ADAPTER_CHANNELS(
 	IN PADAPTER_INFORMATION AdapterInformation
 	)
 {
 
 	ULONG allocatedAdapterChannels = (ULONG)
-			InterlockedIncrement( 
+			InterlockedIncrement(
             (PLONG)(&AdapterInformation->AllocatedAdapterChannels) );
 
 	VF_ASSERT(
-		allocatedAdapterChannels == 
+		allocatedAdapterChannels ==
             AdapterInformation->FreedAdapterChannels + 1,
 		HV_TOO_MANY_ADAPTER_CHANNELS,
 		( "Driver has allocated too many simultaneous adapter channels"
 		));
-	
-	
+
+
 } // INCREMENT_ADAPTER_CHANNELS //
 
 
-__inline 
-VOID 
+__inline
+VOID
 DECREMENT_ADAPTER_CHANNELS(
 	IN PADAPTER_INFORMATION AdapterInformation
 	)
 {
 	ULONG adapterChannelsFreed = (ULONG)
 		InterlockedIncrement( (PLONG)(&AdapterInformation->FreedAdapterChannels) );
-	
+
 	VF_ASSERT(
 		adapterChannelsFreed == AdapterInformation->AllocatedAdapterChannels,
 		HV_FREED_TOO_MANY_ADAPTER_CHANNELS,
 		( "Driver has freed too many simultaneous adapter channels"
 		));
-	
+
 } // DECREMENT_ADAPTER_CHANNELS //
 
 
-_inline 
-VOID 
+_inline
+VOID
 INCREMENT_SCATTER_GATHER_LISTS(
 	IN PADAPTER_INFORMATION AdapterInformation
 	)
-{	
+{
 	InterlockedIncrement( (PLONG)(&AdapterInformation->AllocatedScatterGatherLists) );
    InterlockedIncrement( &AdapterInformation->ActiveScatterGatherLists);
 
 } // INCREMENT_SCATTER_GATHER_LISTS //
 
-__inline 
-VOID 
+__inline
+VOID
 DECREMENT_SCATTER_GATHER_LISTS (
 	IN PADAPTER_INFORMATION AdapterInformation
 	)
 {
-	LONG activeScatterGatherLists = InterlockedDecrement( 
+	LONG activeScatterGatherLists = InterlockedDecrement(
               &AdapterInformation->ActiveScatterGatherLists );
-	
+
 
 	VF_ASSERT(
 		activeScatterGatherLists >= 0,
 		HV_FREED_TOO_MANY_SCATTER_GATHER_LISTS,
 		( "Driver has freed too many scatter gather lists %x allocated, %x freed",
-        AdapterInformation->AllocatedScatterGatherLists, 
-        AdapterInformation->AllocatedScatterGatherLists - 
+        AdapterInformation->AllocatedScatterGatherLists,
+        AdapterInformation->AllocatedScatterGatherLists -
         activeScatterGatherLists)
 		);
 
 } // DECREMENT_SCATTER_GATHER_LISTS //
 
-__inline 
-VOID 
+__inline
+VOID
 VERIFY_BUFFER_LOCKED(
-	IN PMDL Mdl	
+	IN PMDL Mdl
 	)
-{    	
+{
 	VF_ASSERT(
 		MmAreMdlPagesLocked(Mdl),
 		HV_DMA_BUFFER_NOT_LOCKED,
 		( "DMA Pages Not Locked! MDL %p for DMA not locked",  Mdl)
-		);			
+		);
 
 
 } // VERIFY_BUFFER_LOCKED //
@@ -1284,7 +1284,7 @@ VERIFY_BUFFER_LOCKED(
 __inline
 PHAL_VERIFIER_BUFFER
 VF_FIND_BUFFER (
-	IN PHAL_VERIFIER_LOCKED_LIST LockedList, 
+	IN PHAL_VERIFIER_LOCKED_LIST LockedList,
 	IN PVOID AdvertisedStartAddress
 	)
 {
@@ -1292,11 +1292,11 @@ VF_FIND_BUFFER (
 	KIRQL OldIrql;
 
 	VF_LOCK_LIST(LockedList, OldIrql);
-	FOR_ALL_IN_LIST(HAL_VERIFIER_BUFFER, 
-        &LockedList->ListEntry, 
+	FOR_ALL_IN_LIST(HAL_VERIFIER_BUFFER,
+        &LockedList->ListEntry,
         verifierBuffer ) {
 
-		if ((PUCHAR) verifierBuffer->RealStartAddress + 
+		if ((PUCHAR) verifierBuffer->RealStartAddress +
                verifierBuffer->PrePadBytes == AdvertisedStartAddress) {
 			VF_UNLOCK_LIST(LockedList, OldIrql);
 			return verifierBuffer;
@@ -1341,7 +1341,7 @@ VF_FIND_INACTIVE_ADAPTER(
 	VF_LOCK_LIST(&ViAdapterList, OldIrql);
 	FOR_ALL_IN_LIST(ADAPTER_INFORMATION, &ViAdapterList.ListEntry, adapterInformation) {
 
-		if (adapterInformation->DeviceObject == DeviceObject && 
+		if (adapterInformation->DeviceObject == DeviceObject &&
           (adapterInformation->Inactive == TRUE ||
            adapterInformation->DeferredRemove == TRUE)) {
 			VF_UNLOCK_LIST(&ViAdapterList, OldIrql);
@@ -1376,10 +1376,10 @@ VF_MARK_FOR_DEFERRED_REMOVE(
 } // VF_MARK_FOR_DEFERRED_REMOVE //
 
 
-__inline 
-VOID 
+__inline
+VOID
 VF_ASSERT_MAP_REGISTERS_CAN_BE_FREED(
-	IN PADAPTER_INFORMATION AdapterInformation,								  
+	IN PADAPTER_INFORMATION AdapterInformation,
 	IN PMAP_REGISTER_FILE MapRegisterFile
 	)
 {
@@ -1389,7 +1389,7 @@ VF_ASSERT_MAP_REGISTERS_CAN_BE_FREED(
 	VF_ASSERT(
 		MapRegisterFile->NumberOfRegistersMapped,
 		HV_CANNOT_FREE_MAP_REGISTERS,
-		( "Cannot free map registers -- %x registers still mapped", 
+		( "Cannot free map registers -- %x registers still mapped",
             MapRegisterFile->NumberOfMapRegisters)
 		);
 } // VF_ASSERT_MAP_REGISTERS_CAN_BE_FREED

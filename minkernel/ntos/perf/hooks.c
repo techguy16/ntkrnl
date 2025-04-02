@@ -18,6 +18,7 @@ Revision History:
 
 --*/
 
+#include <math.h>
 #include "perfp.h"
 #include "zwapi.h"
 
@@ -116,7 +117,7 @@ Routine description:
     that the flush routine can know if it has a valid buffer.
 
 Arguments:
-    
+
     Source - Type of profile interrupt
 
     InstructionPointer - IP at the time of the interrupt
@@ -274,13 +275,13 @@ Routine description:
     This routine logs data with UniCode string at the end of the hook.
 
 Arguments:
-    
+
     HookId - Hook Id.
 
     SourceData - Pointer to the data to be copied
 
     SourceByteCount - Number of bytes to be copied.
-    
+
     String - The string to be logged.
 
 Return Value:
@@ -411,14 +412,14 @@ Return Value:
 BOOLEAN
 PerfInfoAddToFileHash(
     PPERFINFO_ENTRY_TABLE HashTable,
-    PFILE_OBJECT ObjectPointer
+    PVOID ObjectPointerRaw
     )
 /*++
 
 Routine Description:
 
     This routine add a FileObject into the specified
-    hash table if it is not already there. 
+    hash table if it is not already there.
 
 Arguments:
 
@@ -439,6 +440,7 @@ Return Value:
     LONG TableSize = HashTable->NumberOfEntries;
     PVOID *Table;
 
+    PFILE_OBJECT ObjectPointer = ObjectPointerRaw;
     ASSERT (ObjectPointer != NULL);
 
     Table = HashTable->Table;
@@ -707,8 +709,8 @@ retry:
             }
             ByteCount = FIELD_OFFSET(WMI_PROCESS_INFORMATION, Sid) + SidLength + NameLength;
 
-            Status = PerfInfoReserveBytes(&Hook, 
-                                          WMI_LOG_TYPE_PROCESS_DC_START, 
+            Status = PerfInfoReserveBytes(&Hook,
+                                          WMI_LOG_TYPE_PROCESS_DC_START,
                                           ByteCount);
 
             if (NT_SUCCESS(Status)){
@@ -724,10 +726,10 @@ retry:
 
                 AuxPtr += SidLength;
                 if (NameLength > 1) {
-    
+
                     ProcessName.Buffer = AuxPtr;
                     ProcessName.MaximumLength = (USHORT) NameLength;
-    
+
                     RtlUnicodeStringToAnsiString( &ProcessName,
                                                 (PUNICODE_STRING) &ProcessInfo->ImageName,
                                                 FALSE);
@@ -744,8 +746,8 @@ retry:
             ThreadInfo = (PSYSTEM_EXTENDED_THREAD_INFORMATION) (ProcessInfo + 1);
 
             for (i=0; i < ProcessInfo->NumberOfThreads; i++) {
-                Status = PerfInfoReserveBytes(&Hook, 
-                                              WMI_LOG_TYPE_THREAD_DC_START, 
+                Status = PerfInfoReserveBytes(&Hook,
+                                              WMI_LOG_TYPE_THREAD_DC_START,
                                               sizeof(WMI_EXTENDED_THREAD_INFORMATION));
                 if (NT_SUCCESS(Status)){
                     WmiThreadInfo = PERFINFO_HOOK_HANDLE_TO_DATA(Hook, PWMI_EXTENDED_THREAD_INFORMATION);
@@ -772,7 +774,7 @@ retry:
                 ProcessInfo = (PSYSTEM_PROCESS_INFORMATION) &Buffer[TotalOffset];
             }
         }
-    } 
+    }
 
     ExFreePool(Buffer);
     return Status;
@@ -840,7 +842,7 @@ retry:
 
             RtlInitAnsiString( &AstrModuleName, (PCSZ) ModuleInfo->FullPathName);
             SizeModuleName = sizeof(WCHAR) * (AstrModuleName.Length) + sizeof(WCHAR);
-            ByteCount = FIELD_OFFSET(WMI_IMAGELOAD_INFORMATION, FileName) 
+            ByteCount = FIELD_OFFSET(WMI_IMAGELOAD_INFORMATION, FileName)
                         + SizeModuleName;
 
             Status = PerfInfoReserveBytes(&Hook, WMI_LOG_TYPE_PROCESS_LOAD_IMAGE, ByteCount);
@@ -851,7 +853,7 @@ retry:
                 ImageLoadInfo->ImageSize = ModuleInfo->ImageSize;
                 ImageLoadInfo->ProcessId = HandleToUlong(NULL);
                 WstrModuleName.Buffer    = (LPWSTR) &ImageLoadInfo->FileName[0];
-                WstrModuleName.MaximumLength = (USHORT) SizeModuleName; 
+                WstrModuleName.MaximumLength = (USHORT) SizeModuleName;
                 Status = RtlAnsiStringToUnicodeString(&WstrModuleName, & AstrModuleName, FALSE);
                 if (!NT_SUCCESS(Status)){
                     ImageLoadInfo->FileName[0] = UNICODE_NULL;
@@ -861,7 +863,7 @@ retry:
             }
         }
 
-    } 
+    }
 
     ExFreePool(Buffer);
     return Status;

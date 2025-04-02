@@ -55,7 +55,7 @@ Revision History:
 
 
 #define DBGKP_FIELD_FROM_IMAGE_OPTIONAL_HEADER(hdrs,field) \
-            ((hdrs)->OptionalHeader.##field)
+            ((hdrs)->OptionalHeader.field)
 
 typedef struct _DEBUG_EVENT {
     LIST_ENTRY EventList;      // Queued to event object through this

@@ -36,6 +36,10 @@ extern int curr_y;
 PUCHAR VgaBase;
 PUCHAR VgaRegisterBase;
 
+void _DllMainCRTStartup()
+{
+}
+
 NTSTATUS
 InitBusCallback(
     IN PVOID Context,

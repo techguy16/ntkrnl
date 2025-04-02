@@ -139,7 +139,7 @@ Return Value:
     PVOID pmStubStart;
     ULONG startupBlockPhysical;
     PVOID pmStub;
-    PCHAR dst;
+    PUCHAR dst;
     BOOLEAN processorStarted;
 
     C_ASSERT(PSB_GDT32_CODE64 == KGDT64_R0_CODE);

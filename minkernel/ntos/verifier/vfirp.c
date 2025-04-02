@@ -666,12 +666,12 @@ VerifierIoFreeIrp(
 
         if (VfSettingsIsOptionEnabled(iovPacket->VerifierSettings, VERIFIER_OPTION_POLICE_IRPS)) {
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_FREE_OF_THREADED_IRP,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 callerAddress,
                 Irp
-                ));
+                );
         }
 
         //
@@ -693,12 +693,12 @@ VerifierIoFreeIrp(
         if (VfSettingsIsOptionEnabled(iovPacket->VerifierSettings, VERIFIER_OPTION_POLICE_IRPS) &&
             (!(iovPacket->Flags&TRACKFLAG_UNWOUND_BADLY))) {
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_FREE_OF_INUSE_IRP,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 callerAddress,
                 Irp
-                ));
+                );
         }
 
         //
@@ -847,12 +847,12 @@ VerifierIoInitializeIrp(
             //
             // Don't let us leak quota now!
             //
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_REINIT_OF_ALLOCATED_IRP_WITH_QUOTA,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 callerAddress,
                 Irp
-                ));
+                );
 
         } else {
 

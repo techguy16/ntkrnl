@@ -1041,7 +1041,7 @@ Environment:
 
 VOID
 CcPfParametersWatcher(
-    IN PCCPF_PREFETCHER_PARAMETERS PrefetcherParameters
+    IN PVOID RawPrefetcherParameters
     )
 
 /*++
@@ -1072,6 +1072,8 @@ Environment:
     PKTHREAD CurrentThread;
     HANDLE TempHandle;
     BOOLEAN HoldingParametersLock;
+
+    PCCPF_PREFETCHER_PARAMETERS PrefetcherParameters = RawPrefetcherParameters;
 
     //
     // Initialize locals.

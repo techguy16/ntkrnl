@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.29)
 
 set(RTL_HEADERS add2strt.h
                 heappagi.h
@@ -66,8 +66,8 @@ set(RTL_SOURCES acledit.c
                 tracedb.c 
                 version.c 
                 xencode.c)
-set(RTL_amd64_HEADERS amd64/ntrtlamd64.h)
-set(RTL_amd64_SOURCES amd64/capture.asm
+set(RTL_AMD64_HEADERS amd64/ntrtlamd64.h)
+set(RTL_AMD64_SOURCES amd64/capture.asm
                       amd64/chkstk.asm
                       amd64/context.c
                       amd64/debugstb.asm

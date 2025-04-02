@@ -96,7 +96,7 @@ Revision History:
 NTSTATUS
 IoCreateDisk(
     IN PDEVICE_OBJECT DeviceObject,
-    IN PCREATE_DISK DiskInfo
+    IN PVOID DiskInfoRaw
     )
 
 /*++
@@ -130,6 +130,8 @@ Return Values:
     PAGED_CODE ();
 
     ASSERT ( DeviceObject != NULL );
+
+    PCREATE_DISK DiskInfo = DiskInfoRaw;
 
     //
     // If DiskInfo is NULL, we default to RAW.
@@ -170,7 +172,7 @@ Return Values:
 NTSTATUS
 IoWritePartitionTableEx(
     IN PDEVICE_OBJECT DeviceObject,
-    IN PDRIVE_LAYOUT_INFORMATION_EX DriveLayout
+    IN PVOID DriveLayoutRaw
     )
 
 /*++
@@ -197,6 +199,8 @@ Return Values:
     PDISK_INFORMATION Disk;
 
     PAGED_CODE ();
+
+    PDRIVE_LAYOUT_INFORMATION_EX DriveLayout = DriveLayoutRaw;
 
     ASSERT ( DeviceObject != NULL );
     ASSERT ( DriveLayout != NULL );
@@ -375,7 +379,7 @@ Return Values:
 NTSTATUS
 IoReadPartitionTableEx(
     IN PDEVICE_OBJECT DeviceObject,
-    IN PDRIVE_LAYOUT_INFORMATION_EX* DriveLayout
+    IN PVOID* DriveLayoutRaw
     )
 
 /*++
@@ -412,6 +416,8 @@ Return Values:
     PARTITION_STYLE Style;
 
     PAGED_CODE ();
+
+    PDRIVE_LAYOUT_INFORMATION_EX* DriveLayout = DriveLayoutRaw;
 
     ASSERT ( DeviceObject != NULL );
     ASSERT ( DriveLayout != NULL );
@@ -521,7 +527,7 @@ NTSTATUS
 IoSetPartitionInformationEx(
     IN PDEVICE_OBJECT DeviceObject,
     IN ULONG PartitionNumber,
-    IN PSET_PARTITION_INFORMATION_EX PartitionInfo
+    IN PVOID PartitionInfoRaw
     )
 
 /*++
@@ -549,6 +555,8 @@ Return Values:
     NTSTATUS Status;
     PDISK_INFORMATION Disk;
     PARTITION_STYLE Style;
+
+    PSET_PARTITION_INFORMATION_EX PartitionInfo = PartitionInfoRaw;
 
     ASSERT ( DeviceObject != NULL );
     ASSERT ( PartitionInfo != NULL );
@@ -622,8 +630,8 @@ done:
 NTSTATUS
 IoUpdateDiskGeometry(
     IN PDEVICE_OBJECT DeviceObject,
-    IN PDISK_GEOMETRY_EX OldDiskGeometry,
-    IN PDISK_GEOMETRY_EX NewDiskGeometry
+    IN PVOID OldDiskGeometryRaw,
+    IN PVOID NewDiskGeometryRaw
     )
 
 /*++
@@ -659,10 +667,13 @@ Return Value:
 
     PAGED_CODE ();
 
+    PDISK_GEOMETRY_EX OldDiskGeometry = OldDiskGeometryRaw;
+    PDISK_GEOMETRY_EX NewDiskGeometry = NewDiskGeometryRaw;
 
     ASSERT ( DeviceObject != NULL );
     ASSERT ( OldDiskGeometry != NULL );
     ASSERT ( NewDiskGeometry != NULL );
+
 
     //
     // Initialization.

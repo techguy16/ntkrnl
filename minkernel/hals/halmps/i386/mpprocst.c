@@ -255,7 +255,7 @@ HalpStoreFreeCr3 (
         // via MmFreeContiguousMemory()
         //
 
-        (ULONG_PTR)page |= 1;
+        page = (PVOID)((ULONG_PTR)page | 1);
 
     }
 
@@ -855,7 +855,7 @@ HalpFreeTiledCR3Worker(
         if (((ULONG_PTR)page & 1 ) == 0) {
             ExFreePool(page);
         } else {
-            (ULONG_PTR)page ^= 1;
+            page = (PVOID)((ULONG_PTR) page ^ 1);
             MmFreeContiguousMemory(page);
         }
 
@@ -865,11 +865,11 @@ HalpFreeTiledCR3Worker(
 
 VOID
 HalpFreeTiledCR3WorkRoutine(
-    IN PFREE_TILED_CR3_CONTEXT Context
+    IN PVOID Context
     ) 
 {
-    HalpFreeTiledCR3Worker(Context->ProcNum);
-    ExFreePool((PVOID)Context);
+    HalpFreeTiledCR3Worker(((PFREE_TILED_CR3_CONTEXT)Context)->ProcNum);
+    ExFreePool(Context);
 }
 
 VOID

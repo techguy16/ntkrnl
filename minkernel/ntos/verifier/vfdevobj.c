@@ -72,12 +72,12 @@ VerifierIoDetachDevice(
             callerAddress = NULL;
         }
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_DETACH_NOT_ATTACHED,
             DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
             callerAddress,
             LowerDevice
-            ));
+            );
     }
 
     IovUtilFlushStackCache(LowerDevice, DATABASELOCKSTATE_HELD);
@@ -105,11 +105,11 @@ VerifierIoDeleteDevice(
     //
     if (IovUtilIsDeviceObjectMarked(DeviceObject, MARKTYPE_DELETED)) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_DOUBLE_DELETION,
             DCPARAM_ROUTINE,
             callerAddress
-            ));
+            );
     }
 
     IovUtilMarkDeviceObject(DeviceObject, MARKTYPE_DELETED);
@@ -117,11 +117,11 @@ VerifierIoDeleteDevice(
     IovUtilGetLowerDeviceObject(DeviceObject, &deviceBelow);
     if (deviceBelow) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_DELETE_WHILE_ATTACHED,
             DCPARAM_ROUTINE,
             callerAddress
-            ));
+            );
 
         ObDereferenceObject(deviceBelow);
     }
@@ -274,12 +274,12 @@ VfDevObjPostAddDevice(
             // Both direct I/O and buffered I/O are set. These are mutually
             // exclusive.
             //
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_INCONSISTANT_DO_FLAGS,
                 DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                 PhysicalDeviceObject->DriverObject->DriverExtension->AddDevice,
                 PhysicalDeviceObject
-                ));
+                );
         }
 
         //
@@ -311,12 +311,12 @@ VfDevObjPostAddDevice(
                 // Both direct I/O and buffered I/O are set. These are mutually
                 // exclusive.
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_INCONSISTANT_DO_FLAGS,
                     DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                     AddDeviceFunction,
                     deviceAbove
-                    ));
+                    );
             }
 
             if (deviceAbove->Flags & DO_DEVICE_INITIALIZING) {
@@ -325,12 +325,12 @@ VfDevObjPostAddDevice(
                 // A device didn't clear the DO_DEVICE_INITIALIZING flag during
                 // AddDevice. Fail it now.
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_DO_INITIALIZING_NOT_CLEARED,
                     DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                     AddDeviceFunction,
                     deviceAbove
-                    ));
+                    );
 
                 //
                 // Clean up the mess.
@@ -347,12 +347,12 @@ VfDevObjPostAddDevice(
                     // We have caught a driver bug. deviceAbove didn't inherit the
                     // DO_POWER_PAGABLE flag.
                     //
-                    WDM_FAIL_ROUTINE((
+                    WDM_FAIL_ROUTINE(
                         DCERROR_POWER_PAGABLE_NOT_INHERITED,
                         DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                         AddDeviceFunction,
                         deviceAbove
-                        ));
+                        );
 
                     //
                     // Don't blame anyone else.
@@ -369,12 +369,12 @@ VfDevObjPostAddDevice(
                 //
                 // Buffered I/O flag not copied. Broken filter!
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_DO_FLAG_NOT_COPIED,
                     DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                     AddDeviceFunction,
                     deviceAbove
-                    ));
+                    );
             }
 
             if ((deviceBelow->Flags & DO_DIRECT_IO) &&
@@ -383,12 +383,12 @@ VfDevObjPostAddDevice(
                 //
                 // Direct I/O flag not copied. Broken filter!
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_DO_FLAG_NOT_COPIED,
                     DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                     AddDeviceFunction,
                     deviceAbove
-                    ));
+                    );
             }
 
             if ((deviceBelow->DeviceType != FILE_DEVICE_UNKNOWN) &&
@@ -397,12 +397,12 @@ VfDevObjPostAddDevice(
                 //
                 // The device type wasn't copied by a filter!
                 //
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_DEVICE_TYPE_NOT_COPIED,
                     DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                     AddDeviceFunction,
                     deviceAbove
-                    ));
+                    );
             }
 
             //

@@ -49,7 +49,7 @@ typedef VOID (*PFN_IRPDBEVENT_CALLBACK)(
     IN  IRP_DATABASE_EVENT      Event
     );
 
-typedef struct _IOV_DATABASE_HEADER {
+struct _IOV_DATABASE_HEADER {
 
     PIRP                    TrackedIrp;     // Tracked IRP
     KSPIN_LOCK              HeaderLock;     // Spinlock on data structure

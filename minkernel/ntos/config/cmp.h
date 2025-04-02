@@ -142,6 +142,7 @@ Revision History:
 #include "wchar.h"
 #include "zwapi.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <profiles.h>
 
 // bugcheck description and defines

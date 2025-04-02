@@ -22,6 +22,10 @@ Revision History:
 #ifndef _NTOS_
 #define _NTOS_
 
+#ifdef __clang__
+#include <ntclang.h>
+#endif
+
 #include <nt.h>
 #include <ntrtl.h>
 #include "ntosdef.h"

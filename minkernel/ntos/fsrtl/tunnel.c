@@ -287,11 +287,11 @@ Return Value:
     } else {
 
         if (FlagOn(Node->Flags, TUNNEL_FLAG_NON_LOOKASIDE)) {
-    
+
             ExFreePool(Node);
-    
+
         } else {
-    
+
             ExFreeToPagedLookasideList(&TunnelLookasideList, Node);
         }
     }
@@ -742,7 +742,7 @@ Return Value:
                 //  since it is pointing at the parent member.
                 //
 
-                RtlParent(&NewNode->CacheLinks) = RtlParent(*Links);
+                *(&RtlParent(&NewNode->CacheLinks)) = RtlParent(*Links);
 
                 if (RtlIsLeftChild(*Links)) {
 
@@ -1026,44 +1026,44 @@ Return Value:
     try {
 
         if (Links) {
-    
+
             //
             //  Copy node data into caller's area
             //
-    
+
             ASSERT(ShortName->MaximumLength >= (8+1+3)*sizeof(WCHAR));
             RtlCopyUnicodeString(ShortName, &Node->ShortName);
-    
+
             if (LongName->MaximumLength >= Node->LongName.Length) {
-    
+
                 RtlCopyUnicodeString(LongName, &Node->LongName);
-    
+
             } else {
-    
+
                 //
                 //  Need to allocate more memory for the long name
                 //
-    
+
                 LongName->Buffer = FsRtlAllocatePoolWithTag(PagedPool, Node->LongName.Length, '4nuT');
                 LongName->Length = LongName->MaximumLength = Node->LongName.Length;
-    
+
                 RtlCopyMemory(LongName->Buffer, Node->LongName.Buffer, Node->LongName.Length);
             }
-    
+
             ASSERT(*DataLength >= Node->TunnelDataLength);
             RtlCopyMemory(Data, Node->TunnelData, Node->TunnelDataLength);
             *DataLength = Node->TunnelDataLength;
-    
+
             Status = TRUE;
         }
 
     } finally {
 
         ExReleaseFastMutex(&Cache->Mutex);
-    
+
         FsRtlEmptyFreePoolList(&FreePoolList);
     }
-    
+
     return Status;
 }
 

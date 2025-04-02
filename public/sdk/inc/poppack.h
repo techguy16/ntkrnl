@@ -26,6 +26,9 @@ Abstract:
 #if ( _MSC_VER >= 800 && !defined(_M_I86)) || defined(_PUSHPOP_SUPPORTED)
 #pragma warning(disable:4103)
 #if !(defined( MIDL_PASS )) || defined( __midl )
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wpragma-pack"
+#endif
 #pragma pack(pop)
 #else
 #pragma pack()

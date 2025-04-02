@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.29)
 
 set(PNPMGR_HEADERS pnpmgrp.h)
 set(PNPMGR_SOURCES assign.c

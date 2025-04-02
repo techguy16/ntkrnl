@@ -143,12 +143,12 @@ VfPowerVerifyNewRequest(
     //
     if (currentStatus!=STATUS_NOT_SUPPORTED) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_POWER_IRP_BAD_INITIAL_STATUS,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             CallerAddress,
             irp
-            ));
+            );
 
         //
         // Don't blame anyone else for this driver's mistake.
@@ -191,12 +191,12 @@ VfPowerVerifyIrpStackDownward(
     //
     if (iovSessionData->ForwardMethod == SKIPPED_A_DO) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_SKIPPED_DEVICE_OBJECT,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             CallerAddress,
             irp
-            ));
+            );
     }
 
     //
@@ -208,12 +208,12 @@ VfPowerVerifyIrpStackDownward(
 
         RequestHeadLocationData->Flags |= STACKFLAG_BOGUS_IRP_TOUCHED;
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_MISSING_DISPATCH_FUNCTION,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             driverObject->DriverInit,
             irp
-            ));
+            );
 
         StackLocationData->Flags |= STACKFLAG_NO_HANDLER;
     }
@@ -231,12 +231,12 @@ VfPowerVerifyIrpStackDownward(
     if ((!NT_SUCCESS(currentStatus)) && (currentStatus != STATUS_NOT_SUPPORTED) &&
         (!(RequestHeadLocationData->Flags & STACKFLAG_FAILURE_FORWARDED))) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_POWER_FAILURE_FORWARDED,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             CallerAddress,
             irp
-            ));
+            );
 
         //
         // Don't blame anyone else for this drivers's mistakes.
@@ -250,12 +250,12 @@ VfPowerVerifyIrpStackDownward(
     //
     if ((currentStatus == STATUS_NOT_SUPPORTED)&&statusChanged) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_POWER_IRP_STATUS_RESET,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             CallerAddress,
             irp
-            ));
+            );
     }
 }
 
@@ -318,30 +318,30 @@ VfPowerVerifyIrpStackUpward(
             //
             if (IovPacket->Flags&TRACKFLAG_BOGUS) {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_BOGUS_POWER_IRP_COMPLETED,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     routine,
                     irp
-                    ));
+                    );
 
             } else if (NT_SUCCESS(currentStatus)) {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_SUCCESSFUL_POWER_IRP_NOT_FORWARDED,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     routine,
                     irp
-                    ));
+                    );
 
             } else if (currentStatus == STATUS_NOT_SUPPORTED) {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_UNTOUCHED_POWER_IRP_NOT_FORWARDED,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     routine,
                     irp
-                    ));
+                    );
             }
         }
     }
@@ -356,12 +356,12 @@ VfPowerVerifyIrpStackUpward(
         // Status of a PnP or Power IRP may not be converted from success to
         // STATUS_NOT_SUPPORTED on the way down.
         //
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_POWER_IRP_STATUS_RESET,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             routine,
             irp
-            ));
+            );
     }
 }
 

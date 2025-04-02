@@ -159,12 +159,12 @@ ViGenericVerifyNewRequest(
             //
             // We've caught somebody initiating an IRP they shouldn't be sending!
             //
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_RESTRICTED_IRP,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 IovPacket->TrackedIrp
-                ));
+                );
         }
     }
 }
@@ -222,12 +222,12 @@ ViGenericVerifyIrpStackDownward(
             if ((IovPacket->DepartureIrql >= DISPATCH_LEVEL) &&
                 (!(IovPacket->Flags & TRACKFLAG_PASSED_AT_BAD_IRQL))) {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_DISPATCH_CALLED_AT_BAD_IRQL,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     CallerAddress,
                     irp
-                    ));
+                    );
 
                 IovPacket->Flags |= TRACKFLAG_PASSED_AT_BAD_IRQL;
             }
@@ -250,12 +250,12 @@ ViGenericVerifyIrpStackDownward(
 
             RequestHeadLocationData->Flags |= STACKFLAG_BOGUS_IRP_TOUCHED;
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_BOGUS_FUNC_TRASHED,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 irp
-                ));
+                );
         }
 
         if (statusChanged) {
@@ -264,21 +264,21 @@ ViGenericVerifyIrpStackDownward(
 
             if (IrpSp->MinorFunction == 0xFF) {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_BOGUS_MINOR_STATUS_TRASHED,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     CallerAddress,
                     irp
-                    ));
+                    );
 
             } else {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_BOGUS_STATUS_TRASHED,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     CallerAddress,
                     irp
-                    ));
+                    );
             }
         }
 
@@ -286,23 +286,23 @@ ViGenericVerifyIrpStackDownward(
 
             RequestHeadLocationData->Flags |= STACKFLAG_BOGUS_IRP_TOUCHED;
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_BOGUS_INFO_TRASHED,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 irp
-                ));
+                );
         }
     }
 
     if (!VfMajorIsValidIrpStatus(IrpSp, currentStatus)) {
 
-        WDM_FAIL_ROUTINE((
+        WDM_FAIL_ROUTINE(
             DCERROR_INVALID_STATUS,
             DCPARAM_IRP + DCPARAM_ROUTINE,
             CallerAddress,
             irp
-            ));
+            );
     }
 }
 
@@ -349,21 +349,21 @@ ViGenericVerifyIrpStackUpward(
 
             if (IrpSp->MinorFunction == 0xFF) {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_BOGUS_MINOR_STATUS_TRASHED,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     routine,
                     irp
-                    ));
+                    );
 
             } else {
 
-                WDM_FAIL_ROUTINE((
+                WDM_FAIL_ROUTINE(
                     DCERROR_BOGUS_STATUS_TRASHED,
                     DCPARAM_IRP + DCPARAM_ROUTINE,
                     routine,
                     irp
-                    ));
+                    );
             }
         }
 
@@ -372,19 +372,19 @@ ViGenericVerifyIrpStackUpward(
 
             RequestHeadLocationData->Flags |= STACKFLAG_BOGUS_IRP_TOUCHED;
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_BOGUS_INFO_TRASHED,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 routine,
                 irp
-                ));
+                );
         }
     }
 
     if (!VfMajorIsValidIrpStatus(IrpSp, currentStatus)) {
 
         WDM_FAIL_ROUTINE(
-            (DCERROR_INVALID_STATUS, DCPARAM_IRP + DCPARAM_ROUTINE, routine, irp)
+            DCERROR_INVALID_STATUS, DCPARAM_IRP + DCPARAM_ROUTINE, routine, irp
             );
     }
 
@@ -395,12 +395,12 @@ ViGenericVerifyIrpStackUpward(
 
         if (VfSettingsIsOptionEnabled(IovPacket->VerifierSettings, VERIFIER_OPTION_VERIFY_CANCEL_LOGIC)) {
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_CANCELROUTINE_AFTER_COMPLETION,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 routine,
                 irp
-                ));
+                );
         }
     }
 }
@@ -604,12 +604,12 @@ ViGenericVerifyNewIrp(
 
         if (queuesApc && (IovPacket->DepartureIrql > PASSIVE_LEVEL)) {
 
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_DISPATCH_CALLED_AT_BAD_IRQL,
                 DCPARAM_IRP + DCPARAM_ROUTINE,
                 CallerAddress,
                 Irp
-                ));
+                );
         }
     }
 }

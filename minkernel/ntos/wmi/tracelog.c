@@ -8,7 +8,7 @@ Module Name:
 
 Abstract:
 
-    This is the source file that implements the private routines for 
+    This is the source file that implements the private routines for
     the performance event tracing and logging facility.
     The routines here work on a single event tracing session, the logging
     thread, and buffer synchronization within a session.
@@ -207,11 +207,11 @@ WmipGetFreeBuffer(
             Buffer = CONTAINING_RECORD (Entry,
                                         WMI_BUFFER_HEADER,
                                         SlistEntry);
-    
+
             //
-            // Reset the buffer. 
+            // Reset the buffer.
             // For circular persist mode, we want to write the buffers as
-            // RunDown buffers so that post processing would work properly. 
+            // RunDown buffers so that post processing would work properly.
             //
 
             if (LoggerContext->RequestFlag & REQUEST_FLAG_CIRCULAR_PERSIST) {
@@ -227,7 +227,7 @@ WmipGetFreeBuffer(
             InterlockedDecrement((PLONG) &LoggerContext->BuffersAvailable);
             InterlockedIncrement((PLONG) &LoggerContext->BuffersInUse);
 
-            TraceDebug((2, "WmipGetFreeBuffer: %2d, %p, Free: %d, InUse: %d, Dirty: %d, Total: %d\n", 
+            TraceDebug((2, "WmipGetFreeBuffer: %2d, %p, Free: %d, InUse: %d, Dirty: %d, Total: %d\n",
                             LoggerContext->LoggerId,
                             Buffer,
                             LoggerContext->BuffersAvailable,
@@ -242,13 +242,13 @@ WmipGetFreeBuffer(
                 // If we are in BUFFERING Mode, put all buffers from
                 // Flushlist into FreeList.
                 //
-            
+
                 if (InterlockedIncrement((PLONG) &LoggerContext->SwitchingInProgress) == 1) {
                     while (Entry = InterlockedPopEntrySList(&LoggerContext->FlushList)) {
                         Buffer = CONTAINING_RECORD (Entry,
                                                     WMI_BUFFER_HEADER,
                                                     SlistEntry);
-                
+
                         WmipPushFreeBuffer (LoggerContext, Buffer);
                     }
                 }
@@ -266,7 +266,7 @@ ULONG
 WmipAllocateFreeBuffers(
     IN PWMI_LOGGER_CONTEXT LoggerContext,
     IN ULONG NumberOfBuffers
-    )                
+    )
 
 /*++
 
@@ -314,14 +314,14 @@ Environment:
 #endif //NTPERF
                 Buffer = (PWMI_BUFFER_HEADER)
                         ExAllocatePoolWithTag(LoggerContext->PoolType,
-                                              LoggerContext->BufferSize, 
+                                              LoggerContext->BufferSize,
                                               TRACEPOOLTAG);
 #ifdef NTPERF
             }
 #endif //NTPERF
-    
+
             if (Buffer != NULL) {
-    
+
                 TraceDebug((3,
                     "WmipAllocateFreeBuffers: Allocated buffer size %d type %d\n",
                     LoggerContext->BufferSize, LoggerContext->PoolType));
@@ -333,13 +333,13 @@ Environment:
                 Buffer->CurrentOffset = sizeof(WMI_BUFFER_HEADER);
                 KeQuerySystemTime(&Buffer->TimeStamp);
                 Buffer->State.Free = 1;
-    
+
                 //
                 // Insert it into the free List
                 //
                 InterlockedPushEntrySList(&LoggerContext->FreeList,
                                           (PSLIST_ENTRY) &Buffer->SlistEntry);
-    
+
                 InterlockedPushEntrySList(&LoggerContext->GlobalList,
                                           (PSLIST_ENTRY) &Buffer->GlobalEntry);
             } else {
@@ -349,7 +349,7 @@ Environment:
                 //
                 InterlockedDecrement(&LoggerContext->NumberOfBuffers);
                 break;
-            } 
+            }
         } else {
             //
             // Maximum is reached, decrement the NumberOfBuffers
@@ -360,7 +360,7 @@ Environment:
         }
     }
 
-    TraceDebug((2, "WmipAllocateFreeBuffers %3d (%3d): Free: %d, InUse: %d, Dirty: %d, Total: %d\n", 
+    TraceDebug((2, "WmipAllocateFreeBuffers %3d (%3d): Free: %d, InUse: %d, Dirty: %d, Total: %d\n",
                     NumberOfBuffers,
                     i,
                     LoggerContext->BuffersAvailable,
@@ -424,7 +424,7 @@ WmiReserveWithSystemHeader(
     IN ULONG LoggerId,
     IN ULONG AuxSize,
     IN PETHREAD Thread,
-    OUT PWMI_BUFFER_HEADER *BufferResource
+    OUT PVOID *BufferResourceRaw
     )
 //
 // It returns with LoggerContext locked, so caller must explicitly call
@@ -438,6 +438,8 @@ WmiReserveWithSystemHeader(
     LONG RefCount;
 #endif
 
+    PWMI_BUFFER_HEADER* BufferResource = BufferResourceRaw;
+
 #if DBG
     RefCount =
 #endif
@@ -448,8 +450,8 @@ WmiReserveWithSystemHeader(
     LoggerContext = WmipGetLoggerContext(LoggerId);
 
     AuxSize += sizeof(SYSTEM_TRACE_HEADER);    // add header size first
-    Header = WmipReserveTraceBuffer( LoggerContext, 
-                                     AuxSize, 
+    Header = WmipReserveTraceBuffer( LoggerContext,
+                                     AuxSize,
                                      BufferResource,
                                      &TimeStamp);
     if (Header != NULL) {
@@ -503,7 +505,7 @@ WmiReserveWithPerfHeader(
 //
 // We must have this check here to see the logger is still running
 // before calling ReserveTraceBuffer.
-// The stopping thread may have cleaned up the logger context at this 
+// The stopping thread may have cleaned up the logger context at this
 // point, which will cause AV.
 // For all other kernel events, this check is made in callouts.c.
 //
@@ -519,8 +521,8 @@ WmiReserveWithPerfHeader(
                     LoggerId, RefCount-1, RefCount));
 
     AuxSize += FIELD_OFFSET(PERFINFO_TRACE_HEADER, Data);    // add header size first
-    Header = WmipReserveTraceBuffer( WmipGetLoggerContext(LoggerId), 
-                                     AuxSize, 
+    Header = WmipReserveTraceBuffer( WmipGetLoggerContext(LoggerId),
+                                     AuxSize,
                                      BufferResource,
                                      &TimeStamp);
     if (Header != NULL) {
@@ -558,19 +560,19 @@ Routine Description:
     The algorithm is as follows:
 
     Every time a space is needed, we InterlockedExchangeAdd CurrentOffset.
-    A local variable Offset is used to track the initial value when 
+    A local variable Offset is used to track the initial value when
     InterlockedExchangeAdd is taken.  If there is enough space for this
     event (i.e., (Offset + RequiredSize) <= BufferSize), then we have successfully
     reserved the space.
-    
-    If there is not enough space left on this buffer, we will call WmipSwitchBuffer 
+
+    If there is not enough space left on this buffer, we will call WmipSwitchBuffer
     for a new buffer.  In this case, CurrentOffset should be larger than the buffersize.
     Since other thread can still be trying to reserve space using thie buffer, we
     saved the offset on SavedOffset the the logger thread knows the real offset to be
     written to disk.
 
     Note that, since the CurrentOffset if growing monotonically, only one thread is
-    advancing the CurrentOffset from below BufferSize to beyond BufferSize.  
+    advancing the CurrentOffset from below BufferSize to beyond BufferSize.
     It is this thread's responsibility to set the SavedOffset properly.
 
 Arguments:
@@ -632,7 +634,7 @@ Environment:
         //
         // Nothing in per process list, ask to get a new buffer
         //
-        Status = WmipSwitchBuffer(LoggerContext, 
+        Status = WmipSwitchBuffer(LoggerContext,
                                   &Buffer,
                                   &LoggerContext->ProcessorBuffers[Processor],
                                   Processor);
@@ -653,13 +655,13 @@ TryFindSpace:
     // Increment refcount to buffer first to prevent it from going away
     //
     InterlockedIncrement(&Buffer->ReferenceCount);
-    
+
     //
     // Check if there is enough space in this buffer.
     //
     Offset = (ULONG) InterlockedExchangeAdd(
                      (PLONG) &Buffer->CurrentOffset, RequiredSize);
-    
+
     if (Offset+RequiredSize <= LoggerContext->BufferSize) {
         //
         // Successfully reserved the space
@@ -677,7 +679,7 @@ TryFindSpace:
         // Set up the space pointer
         //
         ReservedSpace = (PVOID) (Offset +  (char*)Buffer);
-    
+
         if (LoggerContext->SequencePtr) {
             *((PULONG) ReservedSpace) =
                 (ULONG)InterlockedIncrement(LoggerContext->SequencePtr);
@@ -689,8 +691,8 @@ TryFindSpace:
         // Ask for buffer switch.  The WmipSwitchBuffer()
         // will push this current buffer into Dirty list.
         //
-        // Before asking for buffer switch, 
-        // check if I am the one that got overboard.  
+        // Before asking for buffer switch,
+        // check if I am the one that got overboard.
         // If yes, put the correct offset back.
         //
         if (Offset <= LoggerContext->BufferSize) {
@@ -705,7 +707,7 @@ TryFindSpace:
         //
         // Nothing in per process list, ask to get a new buffer
         //
-        Status = WmipSwitchBuffer(LoggerContext, 
+        Status = WmipSwitchBuffer(LoggerContext,
                                   &Buffer,
                                   &LoggerContext->ProcessorBuffers[Processor],
                                   Processor);
@@ -752,7 +754,7 @@ Routine Description:
     This routine is called to get a LogFileHandle for GlobalLogger or
     when a fileswitch is needed for NEWFILE mode. It will create the file
     and add logfileheader to it. It closes the oldfile by properly
-    finalizing its header.  
+    finalizing its header.
 
 Arguments:
 
@@ -795,8 +797,8 @@ Environment:
     }
     else {
         //
-        // GlobalLogger path. It is executed only once to set up 
-        // the logfile. 
+        // GlobalLogger path. It is executed only once to set up
+        // the logfile.
         //
         if (LoggerContext->LogFileHandle != NULL) {
             LoggerContext->RequestFlag &= ~REQUEST_FLAG_NEW_FILE;
@@ -806,7 +808,7 @@ Environment:
             TraceDebug((1, "WmipSwitchToNewFile: No LogFileName\n"));
             return STATUS_INVALID_PARAMETER;
         }
-        if (! RtlCreateUnicodeString( &NewFileName, 
+        if (! RtlCreateUnicodeString( &NewFileName,
                                       LoggerContext->LogFileName.Buffer) ) {
             TraceDebug((1, "WmipSwitchToNewFile: No Memory for NewFileName\n"));
             return STATUS_NO_MEMORY;
@@ -814,7 +816,7 @@ Environment:
     }
 
     //
-    // We have a NewFileName. Create the File 
+    // We have a NewFileName. Create the File
     //
     Status = WmipDelayCreate(&NewHandle, &NewFileName, FALSE);
 
@@ -825,7 +827,7 @@ Environment:
                                               TRACEPOOLTAG);
         if (NewHeaderBuffer != NULL) {
         //
-        // Now we have all the resources we need for the new file. 
+        // Now we have all the resources we need for the new file.
         // Let's close out the old file, if necessary and switch
         //
             OldFileName = LoggerContext->LogFileName;
@@ -848,8 +850,8 @@ Environment:
             NewFileName.Buffer = NULL;
 
             RtlZeroMemory( NewHeaderBuffer, LoggerContext->BufferSize );
-            WmipResetBufferHeader(LoggerContext, 
-                                  NewHeaderBuffer, 
+            WmipResetBufferHeader(LoggerContext,
+                                  NewHeaderBuffer,
                                   WMI_BUFFER_TYPE_RUNDOWN);
 
             WmipAddLogHeader(LoggerContext, NewHeaderBuffer);
@@ -860,8 +862,8 @@ Environment:
             LoggerContext->LoggerMode &= ~EVENT_TRACE_DELAY_OPEN_FILE_MODE;
             LoggerContext->LoggerMode &= ~EVENT_TRACE_ADD_HEADER_MODE;
 
-            Status = WmipPrepareHeader(LoggerContext,  
-                                       NewHeaderBuffer, 
+            Status = WmipPrepareHeader(LoggerContext,
+                                       NewHeaderBuffer,
                                        WMI_BUFFER_TYPE_RUNDOWN);
             if (NT_SUCCESS(Status)) {
                 Status = ZwWriteFile(
@@ -876,14 +878,14 @@ Environment:
                 TraceDebug((1, "WmipSwitchToNewFile: Write Failed\n", Status));
             }
 
-            WmipSendNotification(LoggerContext, 
-                                 STATUS_MEDIA_CHANGED, 
+            WmipSendNotification(LoggerContext,
+                                 STATUS_MEDIA_CHANGED,
                                  STATUS_SEVERITY_INFORMATIONAL);
 
             ExFreePool(NewHeaderBuffer);
         }
     }
-    
+
     if (NewFileName.Buffer != NULL) {
         ExFreePool(NewFileName.Buffer);
     }
@@ -900,27 +902,27 @@ WmipRequestLogFile(
 
 Routine Description:
 
-    This routine switches logfiles for an active logger. This routine must   
+    This routine switches logfiles for an active logger. This routine must
     be called only by the Logger Thread. It will close the previous logfile,
     if any, properly by terminating it with FLUSH_MARKER and Finalizing the
-    LogHeader. 
+    LogHeader.
 
-    Two different cases to consider here are: 
+    Two different cases to consider here are:
         1. The newfile was created in user mode with headers and rundown data
         2. The newfile is created in kernel (need to add LogFileHeader)
 
     The callers of this function are
         1. UpdateLogger: Sets the REQUEST_FLAG_NEW_FILE after presenting
            a user mode created logfile in NewLogFile.
-        2. NT Kernel Logger session: Switches from DELAY_OPEN mode with 
-           a user mode created logfile 
+        2. NT Kernel Logger session: Switches from DELAY_OPEN mode with
+           a user mode created logfile
         3. FILE_MODE_NEWFILE: When current logfile reaches the FileLimit
-           FlushBuffer requests a newfile. 
+           FlushBuffer requests a newfile.
         4. GlobalLogger: Started in DELAY_OPEN && ADD_HEADER mode needs
-           to create the logfile when the FileSystem is ready. 
+           to create the logfile when the FileSystem is ready.
 
-    In all cases, when the switch is made the old logfile needs to be 
-    properly closed after Finalizing its header. 
+    In all cases, when the switch is made the old logfile needs to be
+    properly closed after Finalizing its header.
 
 
 
@@ -951,7 +953,7 @@ Environment:
 
     //
     // In order for us to act on this request we need something to create
-    // a file with, such as FileName, Pattern etc., 
+    // a file with, such as FileName, Pattern etc.,
     //
 
     if ((LoggerContext->LogFileName.Buffer == NULL ) &&
@@ -960,9 +962,9 @@ Environment:
 
         return Status;
     }
-        
+
     //
-    // With the REQUEST_FLAG_NEW_FILE set, flush all active buffers. 
+    // With the REQUEST_FLAG_NEW_FILE set, flush all active buffers.
     //
 
     if (LoggerContext->LogFileHandle != NULL ) {
@@ -972,7 +974,7 @@ Environment:
     if (NT_SUCCESS(Status)) {
         if ( (LoggerContext->LoggerMode & EVENT_TRACE_FILE_MODE_NEWFILE) ||
              ( (LoggerContext->LoggerMode & EVENT_TRACE_DELAY_OPEN_FILE_MODE) &&
-               (LoggerContext->LoggerMode & EVENT_TRACE_ADD_HEADER_MODE))) {  
+               (LoggerContext->LoggerMode & EVENT_TRACE_ADD_HEADER_MODE))) {
 
             Status = WmipSwitchToNewFile(LoggerContext);
         }
@@ -1051,7 +1053,7 @@ Return Value:
         //
         Status = STATUS_SUCCESS;
     } else {
-        Status = WmipCreateLogFile(LoggerContext, 
+        Status = WmipCreateLogFile(LoggerContext,
                                    FALSE,
                                    LoggerContext->LoggerMode & EVENT_TRACE_FILE_MODE_APPEND);
     }
@@ -1110,7 +1112,7 @@ Return Value:
                         KernelMode,
                         FALSE,
                         &WmiOneSecond);
-    
+
             //
             //  Check if number of buffers need to be adjusted.
             //
@@ -1125,12 +1127,12 @@ Return Value:
             }
 
             //
-            // Check to see if we need to FlushAll 
+            // Check to see if we need to FlushAll
             //
             if (FlushTimeOut) {
                 ULONG64 Now;
                 KeQuerySystemTime((PLARGE_INTEGER) &Now);
-                if ( ((Now - LastFlushTime) / 10000000) >= FlushTimeOut) { 
+                if ( ((Now - LastFlushTime) / 10000000) >= FlushTimeOut) {
                     FlushAll = 1;
                     LastFlushTime = Now;
                 }
@@ -1140,7 +1142,7 @@ Return Value:
             }
 
             FlushFlag = (LoggerContext->RequestFlag & REQUEST_FLAG_FLUSH_BUFFERS);
-            if (  FlushFlag ) 
+            if (  FlushFlag )
                 FlushAll = TRUE;
 
 #ifdef NTPERF
@@ -1154,13 +1156,13 @@ Return Value:
                 if (  FlushFlag )  {
                     LoggerContext->RequestFlag &= ~REQUEST_FLAG_FLUSH_BUFFERS;
                     //
-                    // If this was a flush for persistent events, this request 
+                    // If this was a flush for persistent events, this request
                     // flag must be reset here.
                     //
-                    if (LoggerContext->RequestFlag & 
+                    if (LoggerContext->RequestFlag &
                                        REQUEST_FLAG_CIRCULAR_TRANSITION) {
                         if (LoggerContext->LogFileHandle != NULL) {
-                            WmipFinalizeHeader(LoggerContext->LogFileHandle, 
+                            WmipFinalizeHeader(LoggerContext->LogFileHandle,
                                                LoggerContext);
                         }
 
@@ -1193,7 +1195,7 @@ Return Value:
 // First, move the per processor buffer out to FlushList
 //
     // This is to force buffers to be written
-    // in FlushBuffer without snapping back to this routine to create a file. 
+    // in FlushBuffer without snapping back to this routine to create a file.
     LoggerContext->RequestFlag |= REQUEST_FLAG_NEW_FILE;
 
     while ((LoggerContext->NumberOfBuffers > 0) &&
@@ -1270,7 +1272,7 @@ WmipSendNotification(
     WmipProcessEvent(&WmiEvent.Wnode,
                      FALSE,
                      FALSE);
-    
+
 
     return STATUS_SUCCESS;
 }
@@ -1295,7 +1297,7 @@ Arguments:
 
     LoggerContext -      Context of the logger
 
-    Buffer - 
+    Buffer -
 
     BufferFlag -
 
@@ -1370,12 +1372,12 @@ Return Value:
 
                     ULONG LoggerMode = LoggerContext->LoggerMode & 0X000000FF;
                     //
-                    // Files from user mode always have the APPEND flag. 
+                    // Files from user mode always have the APPEND flag.
                     // We mask it out here to simplify the testing below.
                     //
                     LoggerMode &= ~EVENT_TRACE_FILE_MODE_APPEND;
                     //
-                    // PREALLOCATE flag has to go, too. 
+                    // PREALLOCATE flag has to go, too.
                     //
                     LoggerMode &= ~EVENT_TRACE_FILE_MODE_PREALLOCATE;
 
@@ -1411,17 +1413,17 @@ Return Value:
                     else if (LoggerMode & EVENT_TRACE_FILE_MODE_NEWFILE) {
 
                         //
-                        // We will set the RequestFlag to initiate a file switch. 
+                        // We will set the RequestFlag to initiate a file switch.
                         // If that flag is already set, then we continnue to flush
-                        // past the FileLimit.  
+                        // past the FileLimit.
                         //
                         // There should be no race condition with an UpdateTrace
                         // setting the RequestFlag since we do not allow change of
-                        // filename for NEWFILE mode. 
+                        // filename for NEWFILE mode.
                         //
 
-                        if ( (LoggerContext->RequestFlag & REQUEST_FLAG_NEW_FILE) != 
-                             REQUEST_FLAG_NEW_FILE) 
+                        if ( (LoggerContext->RequestFlag & REQUEST_FLAG_NEW_FILE) !=
+                             REQUEST_FLAG_NEW_FILE)
                         {
                             LoggerContext->RequestFlag |= REQUEST_FLAG_NEW_FILE;
                         }
@@ -1808,7 +1810,7 @@ WmipFlushBuffersWithMarker (
     IN PWMI_LOGGER_CONTEXT  LoggerContext,
     IN PSLIST_ENTRY         List,
     IN USHORT               BufferFlag
-    ) 
+    )
 {
     PSLIST_ENTRY  LocalList, Entry;
     PWMI_BUFFER_HEADER Buffer;
@@ -1863,24 +1865,24 @@ WmipFlushBuffersWithMarker (
             //
             WmipAdjustFreeBuffers(LoggerContext);
         }
-    
+
 
         //
         //
         // Wait until no one else is using the buffer before
         // writing it out.
         //
-             
+
         Retry = 0;
         TmpBuffer = Buffer;
         while (Buffer->ReferenceCount) {
-            TraceDebug((1,"Waiting for reference count %3d, retry: %3d\n", 
+            TraceDebug((1,"Waiting for reference count %3d, retry: %3d\n",
                         Buffer->ReferenceCount, Retry));
             //
             //
             //
             KeDelayExecutionThread (KernelMode,
-                                    FALSE, 
+                                    FALSE,
                                     (PLARGE_INTEGER)&WmiShortTime);
             Retry++;
             if (Retry > 10) {
@@ -1890,12 +1892,12 @@ WmipFlushBuffersWithMarker (
                 // Use a tempamory buffer instead.
                 //
                 ULONG BufferSize = LoggerContext->BufferSize;
-                TmpBuffer = ExAllocatePoolWithTag(NonPagedPool, 
+                TmpBuffer = ExAllocatePoolWithTag(NonPagedPool,
                                                   BufferSize,
                                                   TRACEPOOLTAG);
-    
+
                 if (TmpBuffer) {
-                    TraceDebug((1,"Buffer %p has ref count %3d, Tmporary buffer %p Allocated\n", 
+                    TraceDebug((1,"Buffer %p has ref count %3d, Tmporary buffer %p Allocated\n",
                                    Buffer,
                                    Buffer->ReferenceCount,
                                    TmpBuffer));
@@ -1918,7 +1920,7 @@ WmipFlushBuffersWithMarker (
             //
 
             // If this were the last buffer on file, post processing can
-            // fail due to marker buffer failing.  
+            // fail due to marker buffer failing.
 
             LoggerContext->LogBuffersLost++;
         }
@@ -1942,7 +1944,7 @@ WmipFlushBuffersWithMarker (
             (Status == STATUS_DISK_FULL) ||
             (Status == STATUS_NO_DATA_DETECTED) ||
             (Status == STATUS_SEVERITY_WARNING)) {
- 
+
             TraceDebug((1,
                 "WmipFlushActiveBuffers: Buffer flushed with status=%X\n",
                 Status));
@@ -1966,7 +1968,7 @@ WmipFlushBuffersWithMarker (
                  Status, LoggerContext));
         if (LoggerContext->LogFileHandle != NULL) {
 #if DBG
-            NTSTATUS CloseStatus = 
+            NTSTATUS CloseStatus =
 #endif
             ZwClose(LoggerContext->LogFileHandle);
             TraceDebug((1,
@@ -2001,14 +2003,14 @@ WmipFlushActiveBuffers(
     // If we have no LogFileHandle or RealTime mode, and the collection
     // is still on, we simply return and let the buffers back up potentially
     // losing events. If the Collection is Off under these conditions
-    // we will simply move the FlushList to FreeList as in Buffering mode. 
+    // we will simply move the FlushList to FreeList as in Buffering mode.
     //
 
     LoggerMode = LoggerContext->LoggerMode;
 
     if ( (LoggerContext->LogFileHandle == NULL)       &&
          (!(LoggerMode & EVENT_TRACE_REAL_TIME_MODE)) &&
-         (LoggerContext->CollectionOn) ) 
+         (LoggerContext->CollectionOn) )
     {
         return Status;
     }
@@ -2093,7 +2095,7 @@ WmipFlushActiveBuffers(
                                        WMI_BUFFER_HEADER,
                                        SlistEntry);
 
-            TraceDebug((1,"Wait List Buffer %p RefCount: %3d\n", 
+            TraceDebug((1,"Wait List Buffer %p RefCount: %3d\n",
                            Buffer,
                            Buffer->ReferenceCount));
 
@@ -2208,7 +2210,7 @@ Return Value:
     else {
         if (Buffer->CurrentOffset > BufferSize) {
             //
-            // Some thread has incremented CurrentOffset but was swapped out 
+            // Some thread has incremented CurrentOffset but was swapped out
             // and did not come back until the buffer is about to be flushed.
             // We will correct the CurrentOffset here and hope that post
             // processing will handle this correctly.
@@ -2227,7 +2229,7 @@ Return Value:
 
 
     //
-    // We write empty buffers if they have FLUSH_MARKER to facilitate 
+    // We write empty buffers if they have FLUSH_MARKER to facilitate
     // post processing
     //
 
@@ -2263,7 +2265,7 @@ Return Value:
 NTKERNELAPI
 VOID
 WmiBootPhase1(
-    )                
+    )
 /*++
 
 Routine Description:
@@ -2321,7 +2323,7 @@ WmipFinalizeHeader(
     FileHeader->BuffersWritten = LoggerContext->BuffersWritten;
 
     if (LoggerContext->RequestFlag & REQUEST_FLAG_CIRCULAR_TRANSITION) {
-        FileHeader->StartBuffers = (ULONG) 
+        FileHeader->StartBuffers = (ULONG)
                                    (LoggerContext->FirstBufferOffset.QuadPart
                                    / LoggerContext->BufferSize);
     }
@@ -2329,7 +2331,7 @@ WmipFinalizeHeader(
     KeQuerySystemTime(&FileHeader->EndTime);
     if (LoggerContext->Wow && !LoggerContext->KernelTraceOn) {
         // We need to adjust a log file header for a non-kernel WOW64 logger.
-        *((PULONG)((PUCHAR)(&FileHeader->BuffersLost) - 8)) 
+        *((PULONG)((PUCHAR)(&FileHeader->BuffersLost) - 8))
                                             = LoggerContext->LogBuffersLost;
     }
     else {
@@ -2441,7 +2443,7 @@ Return Value:
     Buffer->Wnode.ClientContext = 0;
     Buffer->LoggerContext = LoggerContext;
     Buffer->BufferType = BufferType;
-       
+
     Buffer->State.Free = 0;
     Buffer->State.InUse = 1;
 
@@ -2458,7 +2460,7 @@ WmipPushDirtyBuffer (
 
 Routine Description:
     This is a function which prepares a buffer's header and places it on a
-    logger's flush list.  
+    logger's flush list.
 
     Note that this function manages a few logger context reference counts
 
@@ -2524,7 +2526,7 @@ WmipPushFreeBuffer (
 
 Routine Description:
     This is a function which prepares a buffer's header and places it on a
-    logger's Free list.  
+    logger's Free list.
 
     Note that this function manages a few logger context reference counts
 
@@ -2552,7 +2554,7 @@ Return Value:
     Buffer->State.Free = 1;
 
     //
-    // Push the buffer onto the free list.  
+    // Push the buffer onto the free list.
     //
     InterlockedPushEntrySList(&LoggerContext->FreeList,
                               (PSLIST_ENTRY) &Buffer->SlistEntry);
@@ -2607,9 +2609,9 @@ Return Value:
 {
     PWMI_LOGGER_CONTEXT LoggerContext;
     PWMI_BUFFER_HEADER  Buffer;
-        
+
     LoggerContext = WmipLoggerContext[WmipKernelLogger];
-    
+
     //
     // Could only happen if for some reason the logger has not been initialized
     // before we see the global context swap flag set.  This should not happen.
@@ -2627,7 +2629,7 @@ Return Value:
     // it completed.  Instead of introducing an indefinite spin, as well as a
     // ton of interlocked pops and pushes, we opt to simply drop the event.
     //
-    if ( !(LoggerContext->SwitchingInProgress) 
+    if ( !(LoggerContext->SwitchingInProgress)
         && LoggerContext->CollectionOn
         && LoggerContext->BuffersAvailable > 0) {
 
@@ -2664,7 +2666,7 @@ Return Value:
             return Buffer;
         }
     }
-    
+
     LoggerContext->EventsLost++;
     return NULL;
 }
@@ -2697,7 +2699,7 @@ Routine Description:
 
     - This code has been locked into paged memory when the logger started
 
-    - The logger context reference count has been "Locked" via the 
+    - The logger context reference count has been "Locked" via the
       InterlockedIncrement() operation in WmipReferenceLogger(WmipLoggerContext)
 
     Calling Functions:
@@ -2710,11 +2712,11 @@ Arguments:
     CurrentProcessor    Processor we are currently running on
 
     Buffer              Buffer to be flushed
-    
+
 Return Value:
 
     None
-    
+
 --*/
 {
     PWMI_LOGGER_CONTEXT     LoggerContext;
@@ -2734,7 +2736,7 @@ Return Value:
     WmipPushDirtyBuffer( LoggerContext, Buffer );
 
     //
-    // Increment the ReleaseQueue count here. We can't signal the 
+    // Increment the ReleaseQueue count here. We can't signal the
     // logger semaphore here while holding the context swap lock.
     //
     InterlockedIncrement(&LoggerContext->ReleaseQueue);
@@ -2748,13 +2750,13 @@ WmipSwitchBuffer(
     IN PWMI_BUFFER_HEADER *BufferPointer,
     IN PVOID BufferPointerLocation,
     IN ULONG ProcessorNumber
-    ) 
+    )
 /*++
 
 Routine Description:
 
     This routine is used to switch buffers when a buffer is Full.
-    
+
     The mechanism is as follows:
 
     1. The caller gives us a buffer (OldBuffer) that needs to be switched.
@@ -2762,7 +2764,7 @@ Routine Description:
        only if the OldBuffer is still not switched.
     3. If the OldBuffer has been switched, ask the caller to try using the newly
        switched buffer for logging.
-    
+
 Assumptions:
 
     - The LoggerContext is locked before this routine is called.
@@ -2780,7 +2782,7 @@ Arguments:
 Return Value:
 
     Status
-    
+
 --*/
 {
     PWMI_BUFFER_HEADER CurrentBuffer, NewBuffer, OldBuffer;
@@ -2802,7 +2804,7 @@ Return Value:
             NewBuffer->ClientContext.ProcessorNumber = (UCHAR) ProcessorNumber;
 
             OldBuffer = *BufferPointer;
-    
+
             CurrentBuffer = InterlockedCompareExchangePointer(
                                 BufferPointerLocation,
                                 NewBuffer,
@@ -2811,17 +2813,17 @@ Return Value:
             // There are 3 cases that we need to consider depending on the outcome
             // of InterlockedCompareExchangePointer.
             //
-            // 1. CurrentBuffer is NULL and OldBuffer is not. This means FlushAll 
-            //    Code path has replaced ProcessorBuffers with NULL after this 
-            //    thread got into WmipReserveTraceBuffer. If this is the case, we 
-            //    need to do InterlockedCompareExchangePointer with NULL pointer 
+            // 1. CurrentBuffer is NULL and OldBuffer is not. This means FlushAll
+            //    Code path has replaced ProcessorBuffers with NULL after this
+            //    thread got into WmipReserveTraceBuffer. If this is the case, we
+            //    need to do InterlockedCompareExchangePointer with NULL pointer
             //    one more time to push the good free buffer into ProcessorBuffer.
-            // 2. CurrentBuffer is not NULL, but it is not the same buffer we had, 
+            // 2. CurrentBuffer is not NULL, but it is not the same buffer we had,
             //    which means somebody already switched the buffer with a new one.
-            //    We push the new buffer we have into FreeList and use 
+            //    We push the new buffer we have into FreeList and use
             //    the current ProcessorBuffer.
             // 3. CurrentBuffer is the same as OldBuffer and it is not NULL, which
-            //    means Switching succeeded. Push the old buffer into FlushList and 
+            //    means Switching succeeded. Push the old buffer into FlushList and
             //    wake up the logger thread.
             //
             // If both CurrentBuffer and OldBuffer are NULL, we just switch.
@@ -2833,9 +2835,9 @@ Return Value:
                                     NULL);
 
                 //
-                // If CurrentBuffer is NULL, we successfully pushed the clean free 
+                // If CurrentBuffer is NULL, we successfully pushed the clean free
                 // buffer into ProcessorBuffer. NewBuffer already points to a new clean
-                // Buffer, and WmipFlushActiveBuffers already handled the old buffer 
+                // Buffer, and WmipFlushActiveBuffers already handled the old buffer
                 // (Pusing to FlushList and all), so there is no need to do anything.
                 //
 
@@ -2850,7 +2852,7 @@ Return Value:
                                         (PSLIST_ENTRY) &NewBuffer->SlistEntry);
                     InterlockedIncrement((PLONG) &LoggerContext->BuffersAvailable);
                     InterlockedDecrement((PLONG) &LoggerContext->BuffersInUse);
-    
+
                     NewBuffer = CurrentBuffer;
                 }
             } else if (OldBuffer != CurrentBuffer) {
@@ -2862,7 +2864,7 @@ Return Value:
                                     (PSLIST_ENTRY) &NewBuffer->SlistEntry);
                 InterlockedIncrement((PLONG) &LoggerContext->BuffersAvailable);
                 InterlockedDecrement((PLONG) &LoggerContext->BuffersInUse);
-    
+
                 NewBuffer = CurrentBuffer;
             } else if (OldBuffer != NULL) {
                 //
@@ -2889,8 +2891,8 @@ Return Value:
             //
             // There is no free buffer to switch with. NewBuffer is NULL.
             // We just push the processor buffer into FlushList and exit.
-            // If we don't do this, CurrentOffset in the processor buffer header 
-            // may overflow. 
+            // If we don't do this, CurrentOffset in the processor buffer header
+            // may overflow.
             //
             OldBuffer = *BufferPointer;
             CurrentBuffer = InterlockedCompareExchangePointer(
@@ -2898,7 +2900,7 @@ Return Value:
                                 NULL,
                                 OldBuffer);
             //
-            // CurrentBuffer is not NULL, so either we switched it to NULL 
+            // CurrentBuffer is not NULL, so either we switched it to NULL
             // ourselves, or someone else has done so right before us.
             //
             if (CurrentBuffer != NULL) {
@@ -2908,7 +2910,7 @@ Return Value:
                     WmipPushDirtyBuffer (LoggerContext, OldBuffer);
                     Status = STATUS_NO_MEMORY;
                 }
-                else { 
+                else {
                     // Someone has pushed a new free buffer to a processor.
                     // We will try using this buffer.
                     NewBuffer = CurrentBuffer;
@@ -2926,7 +2928,7 @@ Return Value:
 
     TraceDebug((2, "Switching CPU Buffers, New One  : %p, %x\n", *BufferPointer, Status));
 
-    return(Status); 
+    return(Status);
 }
 
 #ifdef NTPERF
@@ -2984,7 +2986,7 @@ Return Value:
     }
 
     WmipDereferenceLogger(WmipKernelLogger);
-    
+
     return (Status);
 }
 #endif //NTPERF

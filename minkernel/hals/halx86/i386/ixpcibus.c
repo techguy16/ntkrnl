@@ -566,7 +566,7 @@ HalpGetPCIData (
     IN PBUS_HANDLER BusHandler,
     IN PBUS_HANDLER RootHandler,
     IN PCI_SLOT_NUMBER Slot,
-    IN PUCHAR Buffer,
+    IN PVOID Buffer,
     IN ULONG Offset,
     IN ULONG Length
     )
@@ -713,7 +713,7 @@ Return Value:
         RtlMoveMemory(Buffer, iBuffer + Offset, Len);
 
         Offset += Len;
-        Buffer += Len;
+        Buffer = (PUCHAR)Buffer + Len;
         Length -= Len;
     }
 
@@ -751,7 +751,7 @@ HalpSetPCIData (
     IN PBUS_HANDLER BusHandler,
     IN PBUS_HANDLER RootHandler,
     IN PCI_SLOT_NUMBER Slot,
-    IN PUCHAR Buffer,
+    IN PVOID Buffer,
     IN ULONG Offset,
     IN ULONG Length
     )
@@ -873,7 +873,7 @@ Return Value:
         HalpWritePCIConfig (BusHandler, Slot, iBuffer2+Offset, Offset, Len);
 
         Offset += Len;
-        Buffer += Len;
+        Buffer = (PUCHAR)Buffer + Len;
         Length -= Len;
     }
 
@@ -1084,9 +1084,11 @@ HalpPCISynchronizeType1 (
     IN PBUS_HANDLER         BusHandler,
     IN PCI_SLOT_NUMBER      Slot,
     IN PKIRQL               Irql,
-    IN PPCI_TYPE1_CFG_BITS  PciCfg1
+    IN PVOID                RawPciCfg1
     )
 {
+    PPCI_TYPE1_CFG_BITS PciCfg1 = RawPciCfg1;
+
     //
     // Initialize PciCfg1
     //
@@ -1237,12 +1239,13 @@ HalpPCIReleaseSynchronzationOrionB0 (
 ULONG
 HalpPCIReadUcharType1 (
     IN PPCIPBUSDATA         BusData,
-    IN PPCI_TYPE1_CFG_BITS  PciCfg1,
+    IN PVOID                RawPciCfg1,
     IN PUCHAR               Buffer,
     IN ULONG                Offset
     )
 {
     ULONG               i;
+    PPCI_TYPE1_CFG_BITS PciCfg1 = RawPciCfg1;
 
     i = Offset % sizeof(ULONG);
     PciCfg1->u.bits.RegisterNumber = Offset / sizeof(ULONG);
@@ -1254,12 +1257,13 @@ HalpPCIReadUcharType1 (
 ULONG
 HalpPCIReadUshortType1 (
     IN PPCIPBUSDATA         BusData,
-    IN PPCI_TYPE1_CFG_BITS  PciCfg1,
+    IN PVOID                RawPciCfg1,
     IN PUCHAR               Buffer,
     IN ULONG                Offset
     )
 {
     ULONG               i;
+    PPCI_TYPE1_CFG_BITS PciCfg1 = RawPciCfg1;
 
     i = Offset % sizeof(ULONG);
     PciCfg1->u.bits.RegisterNumber = Offset / sizeof(ULONG);
@@ -1271,11 +1275,12 @@ HalpPCIReadUshortType1 (
 ULONG
 HalpPCIReadUlongType1 (
     IN PPCIPBUSDATA         BusData,
-    IN PPCI_TYPE1_CFG_BITS  PciCfg1,
+    IN PVOID                RawPciCfg1,
     IN PUCHAR               Buffer,
     IN ULONG                Offset
     )
 {
+    PPCI_TYPE1_CFG_BITS PciCfg1 = RawPciCfg1;
     PciCfg1->u.bits.RegisterNumber = Offset / sizeof(ULONG);
     WRITE_PORT_ULONG (BusData->Config.Type1.Address, PciCfg1->u.AsULONG);
     *((PULONG) Buffer) = READ_PORT_ULONG ((PULONG) (ULONG_PTR)BusData->Config.Type1.Data);
@@ -1286,12 +1291,13 @@ HalpPCIReadUlongType1 (
 ULONG
 HalpPCIWriteUcharType1 (
     IN PPCIPBUSDATA         BusData,
-    IN PPCI_TYPE1_CFG_BITS  PciCfg1,
+    IN PVOID                RawPciCfg1,
     IN PUCHAR               Buffer,
     IN ULONG                Offset
     )
 {
     ULONG               i;
+    PPCI_TYPE1_CFG_BITS PciCfg1 = RawPciCfg1;
 
     i = Offset % sizeof(ULONG);
     PciCfg1->u.bits.RegisterNumber = Offset / sizeof(ULONG);
@@ -1303,12 +1309,13 @@ HalpPCIWriteUcharType1 (
 ULONG
 HalpPCIWriteUshortType1 (
     IN PPCIPBUSDATA         BusData,
-    IN PPCI_TYPE1_CFG_BITS  PciCfg1,
+    IN PVOID                RawPciCfg1,
     IN PUCHAR               Buffer,
     IN ULONG                Offset
     )
 {
     ULONG               i;
+    PPCI_TYPE1_CFG_BITS PciCfg1 = RawPciCfg1;
 
     i = Offset % sizeof(ULONG);
     PciCfg1->u.bits.RegisterNumber = Offset / sizeof(ULONG);
@@ -1320,11 +1327,12 @@ HalpPCIWriteUshortType1 (
 ULONG
 HalpPCIWriteUlongType1 (
     IN PPCIPBUSDATA         BusData,
-    IN PPCI_TYPE1_CFG_BITS  PciCfg1,
+    IN PVOID                RawPciCfg1,
     IN PUCHAR               Buffer,
     IN ULONG                Offset
     )
 {
+    PPCI_TYPE1_CFG_BITS PciCfg1 = RawPciCfg1;
     PciCfg1->u.bits.RegisterNumber = Offset / sizeof(ULONG);
     WRITE_PORT_ULONG (BusData->Config.Type1.Address, PciCfg1->u.AsULONG);
     WRITE_PORT_ULONG ((PULONG) (ULONG_PTR)BusData->Config.Type1.Data, *((PULONG) Buffer));
@@ -1336,9 +1344,10 @@ VOID HalpPCISynchronizeType2 (
     IN PBUS_HANDLER             BusHandler,
     IN PCI_SLOT_NUMBER          Slot,
     IN PKIRQL                   Irql,
-    IN PPCI_TYPE2_ADDRESS_BITS  PciCfg2Addr
+    IN PVOID                    RawPciCfg2Addr
     )
 {
+    PPCI_TYPE2_ADDRESS_BITS PciCfg2Addr = RawPciCfg2Addr;
     PCI_TYPE2_CSE_BITS      PciCfg2Cse;
     PPCIPBUSDATA            BusData;
 
@@ -1403,11 +1412,12 @@ VOID HalpPCIReleaseSynchronzationType2 (
 ULONG
 HalpPCIReadUcharType2 (
     IN PPCIPBUSDATA             BusData,
-    IN PPCI_TYPE2_ADDRESS_BITS  PciCfg2Addr,
+    IN PVOID                    RawPciCfg2Addr,
     IN PUCHAR                   Buffer,
     IN ULONG                    Offset
     )
 {
+    PPCI_TYPE2_ADDRESS_BITS PciCfg2Addr = RawPciCfg2Addr;
     PciCfg2Addr->u.bits.RegisterNumber = (USHORT) Offset;
     *Buffer = READ_PORT_UCHAR ((PUCHAR) PciCfg2Addr->u.AsUSHORT);
     return sizeof (UCHAR);
@@ -1416,11 +1426,12 @@ HalpPCIReadUcharType2 (
 ULONG
 HalpPCIReadUshortType2 (
     IN PPCIPBUSDATA             BusData,
-    IN PPCI_TYPE2_ADDRESS_BITS  PciCfg2Addr,
+    IN PVOID                    RawPciCfg2Addr,
     IN PUCHAR                   Buffer,
     IN ULONG                    Offset
     )
 {
+    PPCI_TYPE2_ADDRESS_BITS PciCfg2Addr = RawPciCfg2Addr;
     PciCfg2Addr->u.bits.RegisterNumber = (USHORT) Offset;
     *((PUSHORT) Buffer) = READ_PORT_USHORT ((PUSHORT) PciCfg2Addr->u.AsUSHORT);
     return sizeof (USHORT);
@@ -1429,11 +1440,12 @@ HalpPCIReadUshortType2 (
 ULONG
 HalpPCIReadUlongType2 (
     IN PPCIPBUSDATA             BusData,
-    IN PPCI_TYPE2_ADDRESS_BITS  PciCfg2Addr,
+    IN PVOID                    RawPciCfg2Addr,
     IN PUCHAR                   Buffer,
     IN ULONG                    Offset
     )
 {
+    PPCI_TYPE2_ADDRESS_BITS PciCfg2Addr = RawPciCfg2Addr;
     PciCfg2Addr->u.bits.RegisterNumber = (USHORT) Offset;
     *((PULONG) Buffer) = READ_PORT_ULONG ((PULONG) PciCfg2Addr->u.AsUSHORT);
     return sizeof(ULONG);
@@ -1443,11 +1455,12 @@ HalpPCIReadUlongType2 (
 ULONG
 HalpPCIWriteUcharType2 (
     IN PPCIPBUSDATA             BusData,
-    IN PPCI_TYPE2_ADDRESS_BITS  PciCfg2Addr,
+    IN PVOID                    RawPciCfg2Addr,
     IN PUCHAR                   Buffer,
     IN ULONG                    Offset
     )
 {
+    PPCI_TYPE2_ADDRESS_BITS PciCfg2Addr = RawPciCfg2Addr;
     PciCfg2Addr->u.bits.RegisterNumber = (USHORT) Offset;
     WRITE_PORT_UCHAR ((PUCHAR) PciCfg2Addr->u.AsUSHORT, *Buffer);
     return sizeof (UCHAR);
@@ -1456,11 +1469,12 @@ HalpPCIWriteUcharType2 (
 ULONG
 HalpPCIWriteUshortType2 (
     IN PPCIPBUSDATA             BusData,
-    IN PPCI_TYPE2_ADDRESS_BITS  PciCfg2Addr,
+    IN PVOID                    RawPciCfg2Addr,
     IN PUCHAR                   Buffer,
     IN ULONG                    Offset
     )
 {
+    PPCI_TYPE2_ADDRESS_BITS PciCfg2Addr = RawPciCfg2Addr;
     PciCfg2Addr->u.bits.RegisterNumber = (USHORT) Offset;
     WRITE_PORT_USHORT ((PUSHORT) PciCfg2Addr->u.AsUSHORT, *((PUSHORT) Buffer));
     return sizeof (USHORT);
@@ -1469,11 +1483,12 @@ HalpPCIWriteUshortType2 (
 ULONG
 HalpPCIWriteUlongType2 (
     IN PPCIPBUSDATA             BusData,
-    IN PPCI_TYPE2_ADDRESS_BITS  PciCfg2Addr,
+    IN PVOID                    RawPciCfg2Addr,
     IN PUCHAR                   Buffer,
     IN ULONG                    Offset
     )
 {
+    PPCI_TYPE2_ADDRESS_BITS PciCfg2Addr = RawPciCfg2Addr;
     PciCfg2Addr->u.bits.RegisterNumber = (USHORT) Offset;
     WRITE_PORT_ULONG ((PULONG) PciCfg2Addr->u.AsUSHORT, *((PULONG) Buffer));
     return sizeof(ULONG);

@@ -48,7 +48,7 @@ IopFreePoDeviceNotifyListHead (
 
 NTSTATUS
 IoBuildPoDeviceNotifyList (
-    IN OUT PPO_DEVICE_NOTIFY_ORDER  Order
+    IN OUT PVOID  RawOrder
     )
 {
     PLIST_ENTRY             link;
@@ -59,6 +59,7 @@ IoBuildPoDeviceNotifyList (
     UCHAR                   orderLevel;
     LIST_ENTRY              RebaseList;
     ULONG                   i;
+    PPO_DEVICE_NOTIFY_ORDER Order = RawOrder;
 
     //
     // Block PnP operations like rebalance.
@@ -309,7 +310,7 @@ IoBuildPoDeviceNotifyList (
 
 PVOID
 IoGetPoNotifyParent(
-    IN PPO_DEVICE_NOTIFY Notify
+    IN PVOID RawNotify
     )
 /*++
 
@@ -330,6 +331,7 @@ Return Value:
 
 {
     PDEVICE_NODE Node;
+    PPO_DEVICE_NOTIFY Notify = RawNotify;
 
     Node = Notify->Node;
     if (Node->Parent != IopRootDeviceNode) {
@@ -342,8 +344,8 @@ Return Value:
 
 VOID
 IoMovePoNotifyChildren(
-    IN PPO_DEVICE_NOTIFY Notify,
-    IN PPO_DEVICE_NOTIFY_ORDER Order
+    IN PVOID RawNotify,
+    IN PVOID RawOrder
     )
 /*++
 
@@ -370,6 +372,8 @@ Return Value:
     PDEVICE_NODE Child;
     PPO_DEVICE_NOTIFY ChildNotify;
     PPO_NOTIFY_ORDER_LEVEL Level;
+    PPO_DEVICE_NOTIFY Notify = RawNotify;
+    PPO_DEVICE_NOTIFY_ORDER Order = RawOrder;
 
     Node = Notify->Node;
     Child = Node->Child;
@@ -416,10 +420,11 @@ IopFreePoDeviceNotifyListHead (
 
 VOID
 IoFreePoDeviceNotifyList (
-    IN OUT PPO_DEVICE_NOTIFY_ORDER  Order
+    IN OUT PVOID  RawOrder
     )
 {
     ULONG i;
+    PPO_DEVICE_NOTIFY_ORDER Order = RawOrder;
 
     if (Order->DevNodeSequence) {
 

@@ -26,6 +26,7 @@ Revision History:
 #endif
 
 #include <ctype.h>  // winnt ntndis
+#include <ntclang.h>
 
 // begin_ntminiport begin_ntndis begin_ntminitape
 

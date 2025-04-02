@@ -57,11 +57,11 @@ VerifierNtCreateFile(
             //
             // The driver has made a mistake. Fail it now.
             //
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_FILE_IO_AT_BAD_IRQL,
                 DCPARAM_ROUTINE,
                 _ReturnAddress()
-                ));
+                );
         }
     }
 
@@ -105,11 +105,11 @@ VerifierNtWriteFile(
             //
             // The driver has made a mistake. Fail it now.
             //
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_FILE_IO_AT_BAD_IRQL,
                 DCPARAM_ROUTINE,
                 _ReturnAddress()
-                ));
+                );
         }
     }
 
@@ -151,11 +151,11 @@ VerifierNtReadFile(
             //
             // The driver has made a mistake. Fail it now.
             //
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_FILE_IO_AT_BAD_IRQL,
                 DCPARAM_ROUTINE,
                 _ReturnAddress()
-                ));
+                );
         }
     }
 

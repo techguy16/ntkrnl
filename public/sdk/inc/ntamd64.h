@@ -89,6 +89,17 @@ typedef enum _DEBUG_CONTROL_SPACE_ITEM {
 #if defined(_M_AMD64) && !defined(RC_INVOKED) && !defined(MIDL_PASS)
 
 //
+// Define _assume for Clang
+//
+
+#ifdef __clang__
+VOID
+_assume(
+    IN BOOLEAN Condition
+    );
+#endif
+
+//
 // Define bit test intrinsics.
 //
 

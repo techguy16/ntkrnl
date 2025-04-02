@@ -21,9 +21,7 @@ Revision History:
 #ifndef __amd64_
 #define __amd64_
 
-#ifdef __clang__
-#include <intrin.h>
-#endif
+#include <ntclang.h>
 
 #if !(defined(_NTDRIVER_) || defined(_NTDDK_) || defined(_NTIFS_) || defined(_NTHAL_) || defined(_NTOSP_)) && !defined(_BLDR_)
 
@@ -540,7 +538,7 @@ extern ULONG KiInterruptTemplate[NORMAL_DISPATCH_LENGTH];
 #if defined(NT_UP)
 
 // synchronization level (UP)
-#define SYNCH_LEVEL DISPATCH_LEVEL      
+#define SYNCH_LEVEL DISPATCH_LEVEL
 
 #else
 
@@ -1140,7 +1138,7 @@ _enable (
 
 #define KeQuerySystemTime(CurrentCount)                                     \
     *((PULONG64)(CurrentCount)) = *((volatile ULONG64 *)(SharedSystemTime))
-    
+
 #define KeQueryTickCount(CurrentCount)                                      \
     *((PULONG64)(CurrentCount)) = *((volatile ULONG64 *)(SharedTickCount))
 
@@ -1156,7 +1154,7 @@ C_ASSERT(FIELD_OFFSET(KUSER_SHARED_DATA, TickCount) == 0x320);
 // Define query interrupt time macro.
 //
 
-C_ASSERT((FIELD_OFFSET(KUSER_SHARED_DATA, InterruptTime) & 7) == 0); 
+C_ASSERT((FIELD_OFFSET(KUSER_SHARED_DATA, InterruptTime) & 7) == 0);
 
 #define KiQueryInterruptTime(CurrentTime)                                   \
     ((PLARGE_INTEGER)(CurrentTime))->QuadPart = *(PLONG64)(&SharedUserData->InterruptTime)
@@ -2555,6 +2553,7 @@ _ExInterlockedIncrementLong (
     _ExInterlockedExchangeUlong(Target, Value)
 
 __forceinline
+ULONG
 _ExInterlockedExchangeUlong (
     IN OUT PULONG Target,
     IN ULONG Value
@@ -3218,8 +3217,8 @@ KiCpuId (
 #define MSR_GS_BASE 0xc0000101          // gs long mode base address register
 #define MSR_GS_SWAP 0xc0000102          // gs long mode swap GS base register
 #define MSR_PERF_EVT_SEL0 0xc0010000    // performance event select registers
-#define MSR_PERF_EVT_SEL1 0xc0010001    // 
-#define MSR_PERF_EVT_SEL2 0xc0010002    // 
+#define MSR_PERF_EVT_SEL1 0xc0010001    //
+#define MSR_PERF_EVT_SEL2 0xc0010002    //
 #define MSR_PERF_EVT_SEL3 0xc0010003    //
 #define MSR_PERF_CTR0 0xc0010004        // performance counter registers
 #define MSR_PERF_CTR1 0xc0010005        //

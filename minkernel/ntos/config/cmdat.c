@@ -229,9 +229,9 @@ UNICODE_STRING CmRegistrySystemCloneName = { 0 };
 UNICODE_STRING CmpSystemFileName = { 0 };
 UNICODE_STRING CmSymbolicLinkValueName = { 0 };
 
-#ifdef _WANT_MACHINE_IDENTIFICATION
+//#ifdef _WANT_MACHINE_IDENTIFICATION
 UNICODE_STRING CmRegistryMachineSystemCurrentControlSetControlBiosInfo = { 0 };
-#endif
+//#endif
 
 const PWCHAR CmpRegistryRootString = L"\\REGISTRY";
 const PWCHAR CmpRegistryMachineString = L"\\REGISTRY\\MACHINE";

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.29)
 
 set(KE_HEADERS genxx.h
         ki.h)
@@ -33,8 +33,8 @@ set(KE_SOURCES apcobj.c
         waitsup.c
         xipi.c
         yield.c)
-set(KE_amd64_HEADERS amd64/kiamd64.h)
-set(KE_amd64_SOURCES amd64/allproc.c
+set(KE_AMD64_HEADERS amd64/kiamd64.h)
+set(KE_AMD64_SOURCES amd64/allproc.c
         amd64/apcuser.c
         amd64/callback.c
         amd64/exceptn.c
@@ -68,7 +68,7 @@ set(KE_amd64_SOURCES amd64/allproc.c
         amd64/threadbg.asm
         amd64/trap.asm
         amd64/zero.asm
-      #  amd64/xcpt4.c # test, crashes Clang
+        # amd64/xcpt4.c # this file is a test, and it actually crashes Clang
         )
 
 add_library(ke STATIC ${KE_HEADERS} ${KE_SOURCES} ${KE_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${KE_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})

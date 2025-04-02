@@ -251,3 +251,63 @@ eH10:   ret                             ; return
         NESTED_END RtlpExecuteHandlerForUnwind, _TEXT$00
 
         end
+
+        page
+        subttl  "Get Stack Limits"
+;++
+;
+; VOID
+; RtlpGetStackLimits (
+;    OUT PULONG LowLimit,
+;    OUT PULONG HighLimit
+;    )
+;
+; Routine Description:
+;
+;    This function returns the current stack limits based on the current
+;    processor mode.
+;
+; Arguments:
+;
+;    LowLimit (rsp+8) - Supplies a pointer to a variable that is to receive
+;       the low limit of the stack.
+;
+;    HighLimit (rsp+16) - Supplies a pointer to a variable that is to receive
+;       the high limit of the stack.
+;
+; Return Value:
+;
+;    None.
+;
+;--
+
+NESTED_ENTRY RtlpGetStackLimits, __TEXT$00
+;cPublicFpo 2,0
+
+ifdef NTOS_KERNEL_RUNTIME
+
+        mov     rax,gs:PcPrcbData+PbCurrentThread ; get current thread address
+        mov     rax,[rax]+ThStackLimit  ; get thread stack limit
+
+else
+
+        mov     rax,gs:TbStackLimit
+
+endif
+
+        mov     rcx,[rsp+8]
+        mov     [rcx],rax               ; Save low limit
+
+ifdef NTOS_KERNEL_RUNTIME
+        mov     rax,gs:PcPrcbData+PbCurrentThread ; get current thread address
+        mov     rax,[rax].ThInitialStack
+        sub     rax, NPX_FRAME_LENGTH
+else
+        mov     rax,gs:PcInitialStack
+endif
+        mov     rcx,[rsp+16]
+        mov     [rcx],rax               ; Save high limit
+
+        ret    RtlpGetStackLimits
+
+NESTED_END RtlpGetStackLimits

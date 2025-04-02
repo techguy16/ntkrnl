@@ -30,5 +30,5 @@ Revision History:
 // headers into a form usable by kernel mode. Eventually this macro should be
 // moved to somewhere like cm.h so the entire kernel can use it.
 //
-#define CM_REGISTRY_MACHINE(x) L"\\Registry\\Machine\\"##x
+#define CM_REGISTRY_MACHINE(x) L"\\Registry\\Machine\\" x
 

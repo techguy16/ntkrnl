@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.29)
 
 set(ntos ${CMAKE_CURRENT_SOURCE_DIR})
-set(NT_DEFS ${MINKERNEL_DEFS} _WINNT_=1 WINNT=1 _WIN32_WINNT=0x1200 _NTSYSTEM_=1 _CRTIMP=)
+set(NT_DEFS ${MINKERNEL_DEFS} _WINNT_=1 WINNT=1 _NTSYSTEM_=1 _CRTIMP=)
 set(NT_INCDIRS ${MINKERNEL_INCDIRS} ${ntos}/inc)
 
 add_subdirectory(rtl)
@@ -16,15 +16,26 @@ add_subdirectory(po)
 add_subdirectory(ps)
 add_subdirectory(arb)
 add_subdirectory(io)
+add_subdirectory(cache)
+add_subdirectory(lpc)
+add_subdirectory(dbgk)
+add_subdirectory(raw)
+add_subdirectory(fstub)
+add_subdirectory(fsrtl)
+add_subdirectory(verifier)
+add_subdirectory(wmi)
+add_subdirectory(perf)
+add_subdirectory(init)
 
 add_library(ntoskrnl SHARED init/ntkrnlmp.c init/ntoskrnl.rc)
 target_include_directories(ntoskrnl PRIVATE ${ntos}/nls/obj/${CMAKE_SYSTEM_PROCESSOR})
-target_link_libraries(ntoskrnl PRIVATE ntosrtl config kd64 ex ob se mm ke po ps arb io iomgr pnpmgr
-                                       ${SDK_LIB_PATH}/libcntpr.lib ${DDK_LIB_PATH}/hal.lib ${HALKIT_LIB_PATH}/kdcom.lib)
-target_link_options(ntoskrnl PRIVATE -subsystem:native,12.0 -entry:KiSystemStartup -map -merge:PAGECONST=PAGE
+target_link_libraries(ntoskrnl PRIVATE ntosrtl config kd64 ex ob se mm ke po ps arb io iomgr pnpmgr cache lpc dbgk raw fstub fsrtl verifier wmi perf init sdbapint clang
+                      ${SDK_LIB_PATH}/libcntpr.lib ${SDK_LIB_PATH}/clang_rt.builtins.lib ${DDK_LIB_PATH}/hal.lib ${DS_LIB_PATH}/lsakrnlp.lib ${MINKERNEL_LIB_PATH}/bootvid.lib ${HALKIT_LIB_PATH}/kdcom.lib ${WINDOWS_LIB_PATH}/apphelp.lib)
+target_link_options(ntoskrnl PRIVATE -subsystem:native,6.9 -def:${CMAKE_CURRENT_SOURCE_DIR}/init/ntoskrnl.def -entry:KiSystemStartup -map -merge:PAGECONST=PAGE
                                      -merge:INITCONST=INIT -merge:INITDATA=INIT -merge:PAGELKCONST=PAGELK
-                                     -merge:PAGEVRFY_CONST=PAGEVRFY)
+                                     -merge:PAGEVRFY_CONST=PAGEVRFY -debug)
 set_target_properties(ntoskrnl PROPERTIES SUFFIX .exe)
-add_custom_command(TARGET ntoskrnl POST_BUILD
-                   COMMAND ${CMAKE_LINKER} -edit -section:.rsrc,!d $<TARGET_FILE:ntoskrnl>)
+#add_custom_command(TARGET ntoskrnl POST_BUILD
+#                   COMMAND ${CMAKE_LINKER} -edit -section:.rsrc,!d $<TARGET_FILE:ntoskrnl>)
+#add_custom_command(TARGET ntoskrnl POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ntoskrnl> $<TARGET_FILE_DIR:ntoskrnl>/ntoskrnl.exe)
 set_property(TARGET ntoskrnl PROPERTY FOLDER "Kernel")

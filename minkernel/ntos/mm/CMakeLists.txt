@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.29)
 
 set(MM_HEADERS mi.h)
 set(MM_SOURCES acceschk.c
@@ -61,8 +61,8 @@ set(MM_SOURCES acceschk.c
                wrtfault.c
                wrtwatch.c
                zeropage.c)
-set(MM_amd64_HEADERS amd64/miamd.h)
-set(MM_amd64_SOURCES amd64/dataamd.c
+set(MM_AMD64_HEADERS amd64/miamd.h)
+set(MM_AMD64_SOURCES amd64/dataamd.c
                      amd64/initamd.c)
 
 add_library(mm STATIC ${MM_HEADERS} ${MM_SOURCES} ${MM_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${MM_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})

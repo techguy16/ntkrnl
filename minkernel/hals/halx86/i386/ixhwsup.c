@@ -345,7 +345,7 @@ Return Value:
         MmUnmapReservedMapping(HalpReservedPages, HAL_POOL_TAG, ReserveMdl);
         SrcPFrame++;
         ReserveMdl->ByteOffset = 0;
-        (PCCHAR)ReserveMdl->StartVa += PAGE_SIZE;
+        ReserveMdl->StartVa = (PCCHAR)ReserveMdl->StartVa + PAGE_SIZE;
         ReserveMdl->ByteCount = (PAGE_SIZE > bytesLeft) ? bytesLeft: PAGE_SIZE;
     }
     

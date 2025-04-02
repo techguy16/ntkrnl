@@ -321,7 +321,8 @@ IovpBuildMiniIrpSnapshot(
     IovpCompleteRequestApc(Irp, StackPointer);\
 }
 
-#if DBG
+// This macro doesn't work in Clang
+#if DBG && !defined __clang__
 #define TRACKIRP_DBGPRINT(txt,level) \
 { \
     if (IovpIrpTrackingSpewLevel>(level)) { \

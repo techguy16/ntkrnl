@@ -146,7 +146,7 @@ Return Value:
 
 VOID
 HalStopProfileInterrupt (
-    IN ULONG ProfileSource
+    IN KPROFILE_SOURCE ProfileSource
     )
 
 /*++

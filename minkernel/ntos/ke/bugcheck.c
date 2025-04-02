@@ -561,7 +561,7 @@ Return Value:
         InbvAcquireDisplayOwnership();
 
         InbvResetDisplay();
-        InbvSolidColorFill(0,0,639,479,4); // make the screen blue
+        InbvSolidColorFill(0,0,639,479,13); // make the screen pink
         InbvSetTextColor(15);
         InbvInstallDisplayStringFilter((INBV_DISPLAY_STRING_FILTER)NULL);
         InbvEnableDisplayString(TRUE);     // enable display string
@@ -610,7 +610,7 @@ Return Value:
         KeGetBugMessageText(BUGCHECK_TECH_INFO, NULL);
 
         sprintf(Buffer,
-                "\r\n\r\n*** STOP: 0x%08lX (0x%p,0x%p,0x%p,0x%p)\r\n\r\n",
+                "\r\n\r\n*** something bad happened 0x%08lX (0x%p,0x%p,0x%p,0x%p) :3\r\n\r\n",
                 (ULONG)KiBugCheckData[0],
                 (PVOID)KiBugCheckData[1],
                 (PVOID)KiBugCheckData[2],

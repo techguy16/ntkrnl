@@ -131,31 +131,31 @@ PpvUtilFailDriver(
     switch(FailureType) {
 
         case PPVERROR_DUPLICATE_PDO_ENUMERATED:
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_DUPLICATE_ENUMERATION,
                 DCPARAM_ROUTINE + DCPARAM_DEVOBJ*2,
                 CulpritAddress,
                 DeviceObject,
                 ExtraneousInfo
-                ));
+                );
             break;
 
         case PPVERROR_MISHANDLED_TARGET_DEVICE_RELATIONS:
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_MISHANDLED_TARGET_DEVICE_RELATIONS,
                 DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                 CulpritAddress,
                 DeviceObject
-                ));
+                );
             break;
 
         case PPVERROR_DDI_REQUIRES_PDO:
-            WDM_FAIL_ROUTINE((
+            WDM_FAIL_ROUTINE(
                 DCERROR_DDI_REQUIRES_PDO,
                 DCPARAM_ROUTINE + DCPARAM_DEVOBJ,
                 CulpritAddress,
                 DeviceObject
-                ));
+                );
             break;
 
         default:

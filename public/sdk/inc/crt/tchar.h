@@ -902,10 +902,10 @@ __inline _UI _tcsnextc(_CPC _s1) {_UI _n=0; if (_ismbblead((_UI)*(_PUC)_s1)) {_n
 
 #define _istalnum   _ismbcalnum
 #define _istalpha   _ismbcalpha
-#define _istdigit   _ismbcdigit
+#define _istdigit   isdigit
 #define _istgraph   _ismbcgraph
 #define _istlegal   _ismbclegal
-#define _istlower   _ismbclower
+#define _istlower   islower
 #define _istprint   _ismbcprint
 #define _istpunct   _ismbcpunct
 #define _istspace   _ismbcspace

@@ -838,7 +838,7 @@ HalpUpdateTimerWatchdog (
         }
 
         RtlCopyMemory(HalpTimerWatchdogCurFrame, pSrc, copyBytes);
-        (ULONG_PTR)HalpTimerWatchdogCurFrame += copyBytes;
+        HalpTimerWatchdogCurFrame = (PVOID)((ULONG_PTR) HalpTimerWatchdogCurFrame + copyBytes);
 
         //
         // If we didn't copy an entire FRAME_COPY_SIZE buffer, zero
@@ -848,7 +848,7 @@ HalpUpdateTimerWatchdog (
         copyBytes = FRAME_COPY_SIZE - copyBytes;
         if (copyBytes > 0) {
             RtlZeroMemory(HalpTimerWatchdogCurFrame,copyBytes);
-            (ULONG_PTR)HalpTimerWatchdogCurFrame += copyBytes;
+            HalpTimerWatchdogCurFrame = (PVOID)((ULONG_PTR) HalpTimerWatchdogCurFrame + copyBytes);
         }
 
         if (HalpTimerWatchdogCurFrame >= HalpTimerWatchdogLastFrame) {

@@ -148,7 +148,7 @@ Environment:
         // If CcPfBootPhase is still OriginalPhase, set it to Phase.
         //
 
-        NewPhase = InterlockedCompareExchange(&(LONG)CcPfBootPhase, Phase, OriginalPhase);
+        NewPhase = InterlockedCompareExchange((PLONG)&CcPfBootPhase, Phase, OriginalPhase);
 
         if (NewPhase == OriginalPhase) {
 

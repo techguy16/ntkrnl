@@ -124,6 +124,10 @@ RtlFormatMessage(
     PWSTR lpDst, lpDstBeg, lpDstLastSpace;
     BOOLEAN WideArg = FALSE;
 
+    // clang
+    // before, there were several uses of *((PULONG_PTR)Arguments)++, which clang doesn't like
+    PULONG_PTR ArgumentsUlongPtr = (PULONG_PTR)Arguments;
+
     cchRemaining = Length / sizeof( WCHAR );
     lpDst = Buffer;
     MaxInsert = 0;
@@ -232,7 +236,7 @@ RtlFormatMessage(
 
                     while (CurInsert >= MaxInsert) {
                         if (ArgumentsAreAnArray) {
-                            rgInserts[ MaxInsert++ ] = *((PULONG_PTR)Arguments)++;
+                            rgInserts[ MaxInsert++ ] = *ArgumentsUlongPtr++;
                         } else {
                             if (WideArg) {
                                 rgInserts[ MaxInsert++ ] = va_arg( *Arguments, ULONGLONG );
@@ -247,14 +251,14 @@ RtlFormatMessage(
                     PrintParameter2 = 0;
                     if (PrintParameterCount > 0) {
                         if (ArgumentsAreAnArray) {
-                            rgInserts[ MaxInsert++ ] = PrintParameter1 = *((PULONG_PTR)Arguments)++;
+                            rgInserts[ MaxInsert++ ] = PrintParameter1 = *ArgumentsUlongPtr++;
                         } else {
                             PrintParameter1 = va_arg( *Arguments, ULONG_PTR );
                         }
 
                         if (PrintParameterCount > 1) {
                             if (ArgumentsAreAnArray) {
-                                rgInserts[ MaxInsert++ ] = PrintParameter2 = *((PULONG_PTR)Arguments)++;
+                                rgInserts[ MaxInsert++ ] = PrintParameter2 = *ArgumentsUlongPtr++;
                             } else {
                                 rgInserts[ MaxInsert++ ] = PrintParameter2 = va_arg( *Arguments, ULONG_PTR );
                             }

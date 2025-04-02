@@ -178,7 +178,7 @@ HalInitSystemPhase2 (
 
 NTSTATUS
 HaliQuerySystemInformation(
-    IN HAL_QUERY_INFORMATION_CLASS  InformationClass,
+    IN HAL_SET_INFORMATION_CLASS  InformationClass,
     IN ULONG     BufferSize,
     OUT PVOID    Buffer,
     OUT PULONG   ReturnedLength

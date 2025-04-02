@@ -674,6 +674,8 @@ __rdtsc (
 
 #pragma intrinsic(__rdtsc)
 
+#ifndef __clang__
+
 //
 // Define functions to move strings as bytes, words, dwords, and qwords.
 //
@@ -747,6 +749,8 @@ __stosq (
 #pragma intrinsic(__stosw)
 #pragma intrinsic(__stosd)
 #pragma intrinsic(__stosq)
+
+#endif
 
 //
 // Define functions to capture the high 64-bits of a 128-bit multiply.
@@ -10129,6 +10133,8 @@ KeUpdateSystemTime (
 extern "C" {
 #endif
 
+#ifndef __clang__
+
 UCHAR
 __inbyte (
     IN USHORT Port
@@ -10221,6 +10227,8 @@ __outdwordstring (
 #pragma intrinsic(__outwordstring)
 #pragma intrinsic(__outdwordstring)
 
+#endif
+
 //
 // Interlocked intrinsic functions.
 //
@@ -10260,6 +10268,8 @@ __outdwordstring (
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#ifndef __clang__
 
 LONG
 InterlockedAnd (
@@ -10417,6 +10427,8 @@ InterlockedExchangePointer(
 #pragma intrinsic(_InterlockedExchangePointer)
 #pragma intrinsic(_InterlockedCompareExchangePointer)
 
+#endif
+
 #ifdef __cplusplus
 }
 #endif
@@ -10480,17 +10492,21 @@ extern "C" {
 
 #define ReadCR0() __readcr0()
 
+#ifndef __clang__
 ULONG64
 __readcr0 (
     VOID
     );
+#endif
 
 #define WriteCR0(Data) __writecr0(Data)
 
+#ifndef __clang__
 VOID
 __writecr0 (
     IN ULONG64 Data
     );
+#endif
 
 #pragma intrinsic(__readcr0)
 #pragma intrinsic(__writecr0)
@@ -10537,17 +10553,21 @@ __writecr3 (
 
 #define ReadCR4() __readcr4()
 
+#ifndef __clang__
 ULONG64
 __readcr4 (
     VOID
     );
+#endif
 
 #define WriteCR4(Data) __writecr4(Data)
 
+#ifndef __clang__
 VOID
 __writecr4 (
     IN ULONG64 Data
     );
+#endif
 
 #pragma intrinsic(__readcr4)
 #pragma intrinsic(__writecr4)
@@ -10560,17 +10580,21 @@ __writecr4 (
 
 #define ReadCR8() __readcr8()
 
+#ifndef __clang__
 ULONG64
 __readcr8 (
     VOID
     );
+#endif
 
 #define WriteCR8(Data) __writecr8(Data)
 
+#ifndef __clang__
 VOID
 __writecr8 (
     IN ULONG64 Data
     );
+#endif
 
 #pragma intrinsic(__readcr8)
 #pragma intrinsic(__writecr8)

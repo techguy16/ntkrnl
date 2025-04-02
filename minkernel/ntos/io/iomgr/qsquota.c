@@ -31,7 +31,9 @@ Revision History:
 #pragma alloc_text(PAGE, NtSetQuotaInformationFile)
 #endif
 
+NTSYSCALLAPI
 NTSTATUS
+NTAPI
 NtQueryQuotaInformationFile(
     IN HANDLE FileHandle,
     OUT PIO_STATUS_BLOCK IoStatusBlock,
@@ -40,7 +42,7 @@ NtQueryQuotaInformationFile(
     IN BOOLEAN ReturnSingleEntry,
     IN PVOID SidList OPTIONAL,
     IN ULONG SidListLength,
-    IN PULONG StartSid OPTIONAL,
+    IN PULONG RawStartSid OPTIONAL,
     IN BOOLEAN RestartScan
     )
 
@@ -105,6 +107,8 @@ Return Value:
     BOOLEAN synchronousIo;
     UCHAR subCount;
     PETHREAD CurrentThread;
+
+    PSID StartSid = RawStartSid;
 
     PAGED_CODE();
 

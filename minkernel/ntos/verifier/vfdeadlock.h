@@ -27,8 +27,10 @@ Revision History:
 // Deadlock detection package initialization.
 //
 
-VOID 
+VOID
 VfDeadlockDetectionInitialize(
+    IN LOGICAL VerifyAllDrivers,
+    IN LOGICAL VerifyKernel
     );
 
 //
@@ -85,7 +87,7 @@ typedef struct _VI_DEADLOCK_NODE {
     struct _LIST_ENTRY SiblingsList;
 
     union {
-        
+
         //
         // List of nodes representing the same resource acquisition
         // as the current node but in different contexts (lock combinations).
@@ -98,7 +100,7 @@ typedef struct _VI_DEADLOCK_NODE {
         // been deleted (resource was freed). Nodes are kept in a cache
         // to reduce contention for the kernel pool.
         //
-        
+
         struct _LIST_ENTRY FreeListEntry;
     };
 
@@ -117,7 +119,7 @@ typedef struct _VI_DEADLOCK_NODE {
     struct _VI_DEADLOCK_THREAD * ThreadEntry;
 
     //
-    // Fields used for decision making within the deadlock analysis 
+    // Fields used for decision making within the deadlock analysis
     // algorithm.
     //
     // Active: 1 if the node represents a resource currently acquired,
@@ -127,20 +129,20 @@ typedef struct _VI_DEADLOCK_NODE {
     //     0 if at least once normal acquire was used. A node that uses
     //     only TryAcquire cannot be involved in a deadlock.
     //
-    // ReleasedOutOfOrder: 1 if the resource was at least once released 
+    // ReleasedOutOfOrder: 1 if the resource was at least once released
     //     out of order. The flag is used while looking for cycles because
     //     this type of nodes will appear as part of the cycle but there is
     //     no deadlock.
     //
     // SequenceNumber: field that gets a unique stamp during each deadlock
-    //     analysis run. It helps figure out if the node was touched 
+    //     analysis run. It helps figure out if the node was touched
     //     already in the current graph traversal.
     //
 
     struct {
 
         ULONG Active : 1;
-        ULONG OnlyTryAcquireUsed : 1;         
+        ULONG OnlyTryAcquireUsed : 1;
         ULONG ReleasedOutOfOrder : 1;
         ULONG SequenceNumber : 29;
     };
@@ -151,7 +153,7 @@ typedef struct _VI_DEADLOCK_NODE {
     // anything other than the first entry (return address)
     // may be bogus in case stack trace capturing failed.
     //
-   
+
     PVOID StackTrace[VI_MAX_STACK_DEPTH];
     PVOID ParentStackTrace[VI_MAX_STACK_DEPTH];
 
@@ -171,15 +173,15 @@ typedef struct _VI_DEADLOCK_RESOURCE {
 
     //
     // Resource flags
-    //    
+    //
     // NodeCount : number of resource nodes created for this resource.
     //
-    // RecursionCount : number of times this resource has been recursively acquired 
+    // RecursionCount : number of times this resource has been recursively acquired
     //     It makes sense to put this counter in the resource because as long as
     //     resource is acquired only one thread can operate on it.
     //
 
-    struct {       
+    struct {
         ULONG NodeCount : 16;
         ULONG RecursionCount : 16;
     };
@@ -194,7 +196,7 @@ typedef struct _VI_DEADLOCK_RESOURCE {
     // The thread that currently owns the resource. The field is
     // null if nobody owns the resource.
     //
-    
+
     struct _VI_DEADLOCK_THREAD * ThreadOwner;
 
     //
@@ -208,9 +210,9 @@ typedef struct _VI_DEADLOCK_RESOURCE {
         //
         // List used for chaining resources from a hash bucket.
         //
-        
+
         LIST_ENTRY HashChainList;
-        
+
         //
         // Used to chain free resources. This list is used only after
         // the resource has been freed and we put the structure
@@ -223,17 +225,17 @@ typedef struct _VI_DEADLOCK_RESOURCE {
     //
     // Stack trace of the resource creator. On free builds we
     // may have here only a return address that is bubbled up
-    // from verifier thunks. 
+    // from verifier thunks.
     //
-  
+
     PVOID StackTrace [VI_MAX_STACK_DEPTH];
-    
+
     //
     // Stack trace for last acquire
     //
 
     PVOID LastAcquireTrace [VI_MAX_STACK_DEPTH];
-    
+
     //
     // Stack trace for last release
     //
@@ -273,7 +275,7 @@ typedef struct _VI_DEADLOCK_THREAD {
         //
         // Thread list. It is used for chaining into a hash bucket.
         //
-        
+
         LIST_ENTRY ListEntry;
 
         //
@@ -329,7 +331,7 @@ typedef struct _VI_DEADLOCK_GLOBALS {
     //
     // Total number of kernel pool bytes used by the deadlock verifier
     //
-    
+
     SIZE_T BytesAllocated;
 
     //
@@ -337,8 +339,8 @@ typedef struct _VI_DEADLOCK_GLOBALS {
     //
 
     PLIST_ENTRY ResourceDatabase;
-    PLIST_ENTRY ThreadDatabase;   
-    
+    PLIST_ENTRY ThreadDatabase;
+
     //
     // How many times ExAllocatePool failed on us?
     // If this is >0 we stop deadlock verification.
@@ -370,11 +372,11 @@ typedef struct _VI_DEADLOCK_GLOBALS {
 
     //
     // Number of times we have to exonerate a deadlock because
-    // it was protected by a common resource (e.g. thread 1 takes ABC, 
-    // thread 2 takes ACB -- this will get flagged initially by our algorithm 
+    // it was protected by a common resource (e.g. thread 1 takes ABC,
+    // thread 2 takes ACB -- this will get flagged initially by our algorithm
     // since B&C are taken out of order but is not actually a deadlock.
     //
-    
+
     ULONG ABC_ACB_Skipped;
 
     ULONG OutOfOrderReleases;
@@ -388,7 +390,7 @@ typedef struct _VI_DEADLOCK_GLOBALS {
     ULONG NodeLevelCounter[8];
     ULONG GraphNodes[8];
 #endif
-    
+
     ULONG TotalReleases;
     ULONG RootNodesDeleted;
 
@@ -405,19 +407,19 @@ typedef struct _VI_DEADLOCK_GLOBALS {
     //
 
     ULONG PoolTrimCounter;
-    
+
     //
     // Caches of freed structures (thread, resource, node) used to
     // decrease kernel pool contention.
     //
 
-    LIST_ENTRY FreeResourceList;    
+    LIST_ENTRY FreeResourceList;
     LIST_ENTRY FreeThreadList;
     LIST_ENTRY FreeNodeList;
 
     ULONG FreeResourceCount;
     ULONG FreeThreadCount;
-    ULONG FreeNodeCount;   
+    ULONG FreeNodeCount;
 
     //
     // Resource address that caused the deadlock

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.29)
 
 set(KD64_HEADERS kdp.h)
 set(KD64_SOURCES file.c
@@ -11,7 +11,7 @@ set(KD64_SOURCES file.c
                  kddata.c
                  print.c
                  query.c)
-set(KD64_amd64_SOURCES amd64/kdtrap.c
+set(KD64_AMD64_SOURCES amd64/kdtrap.c
                        amd64/kdcmsup.c
                        amd64/kdcpuapi.c)
 

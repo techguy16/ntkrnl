@@ -32,7 +32,7 @@
 #else
 
 //
-// If we are building the library for bus drivers to use make sure we use the 
+// If we are building the library for bus drivers to use make sure we use the
 // same definitions of things as them
 //
 
@@ -71,4 +71,4 @@ ArbDumpArbitrationList(
 
 #endif // ARB_DBG
 
-#endif _ARBP_
+#endif

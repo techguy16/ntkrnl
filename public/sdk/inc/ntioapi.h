@@ -1313,7 +1313,7 @@ NtQueryQuotaInformationFile(
     IN BOOLEAN ReturnSingleEntry,
     IN PVOID SidList OPTIONAL,
     IN ULONG SidListLength,
-    IN PSID StartSid OPTIONAL,
+    IN PULONG StartSid OPTIONAL,
     IN BOOLEAN RestartScan
     );
 
