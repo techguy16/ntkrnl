@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-masm=$(realpath $0 | sed 's/masm/ml/g' | sed 's/sh/exe/g')
+masm=$(realpath $0 | sed 's/masm/ml64/g' | sed 's/sh/exe/g')
 
 # Put backslashes in paths but not switches, make paths absolute (pretty sure Wine uses Z: for the root)
 args=""
