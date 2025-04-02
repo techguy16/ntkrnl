@@ -100,3 +100,40 @@ void __outdwordstring(unsigned short Port, unsigned long* Buffer, unsigned long 
 {
 	__asm__ volatile("rep outsl" : : "d"(Port), "S"(Buffer), "c"(Count) : "memory");
 }
+
+unsigned char __inbyte(unsigned short Port)
+{
+	unsigned char value;
+	__asm__ volatile("inb %1, %0" : "=r"(value) : "d"(Port) : "memory");
+	return value;
+}
+
+void __outbyte(unsigned short Port, unsigned char Value)
+{
+	__asm__ volatile("outb %0, %1" : : "a"(Value), "d"(Port));
+}
+
+unsigned short __inword(unsigned short Port)
+{
+	unsigned short value;
+	__asm__ volatile("inw %1, %0" : "=r"(value) : "d"(Port) : "memory");
+	return value;
+}
+
+void __outword(unsigned short Port, unsigned short Value)
+{
+	__asm__ volatile("outw %0, %1" : : "a"(Value), "d"(Port));
+}
+
+unsigned long __indword(unsigned short Port)
+{
+	unsigned long value;
+	__asm__ volatile("inl %1, %0" : "=r"(value) : "d"(Port) : "memory");
+	return value;
+}
+
+void __outdword(unsigned short Port, unsigned long Value)
+{
+	__asm__ volatile("outl %0, %1" : : "a"(Value), "d"(Port));
+}
+
