@@ -45,7 +45,12 @@ set(NET_INC_PATH ${CMAKE_SOURCE_DIR}/public/internal/net/inc)
 set(WINDOWS_INC_PATH ${CMAKE_SOURCE_DIR}/public/internal/windows/inc)
 set(WINDOWS_LIB_PATH ${CMAKE_SOURCE_DIR}/public/internal/windows/lib/${CMAKE_SYSTEM_PROCESSOR})
 
-add_compile_definitions(DEVL=1 DBG=1 _NO_CRT_STDIO_INLINE _CRT_SECURE_NO_WARNINGS)
+add_compile_definitions(_NO_CRT_STDIO_INLINE _CRT_SECURE_NO_WARNINGS)
+if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+	add_compile_definitions(DEVL=1 DBG=1)
+else()
+	add_compile_definitions(DBG=0)
+endif()
 
 set_property(GLOBAL PROPERTY MSVC_RUNTIME_LIBRARY "")
 

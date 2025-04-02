@@ -33,7 +33,7 @@ target_link_libraries(ntoskrnl PRIVATE ntosrtl config kd64 ex ob se mm ke po ps 
                       ${SDK_LIB_PATH}/libcntpr.lib ${SDK_LIB_PATH}/clang_rt.builtins.lib ${DDK_LIB_PATH}/hal.lib ${DS_LIB_PATH}/lsakrnlp.lib ${MINKERNEL_LIB_PATH}/bootvid.lib ${HALKIT_LIB_PATH}/kdcom.lib ${WINDOWS_LIB_PATH}/apphelp.lib)
 target_link_options(ntoskrnl PRIVATE -subsystem:native,6.9 -def:${CMAKE_CURRENT_SOURCE_DIR}/init/ntoskrnl.def -entry:KiSystemStartup -map -merge:PAGECONST=PAGE
                                      -merge:INITCONST=INIT -merge:INITDATA=INIT -merge:PAGELKCONST=PAGELK
-                                     -merge:PAGEVRFY_CONST=PAGEVRFY -debug)
+									 -merge:PAGEVRFY_CONST=PAGEVRFY -debug -release)
 set_target_properties(ntoskrnl PROPERTIES SUFFIX .exe)
 #add_custom_command(TARGET ntoskrnl POST_BUILD
 #                   COMMAND ${CMAKE_LINKER} -edit -section:.rsrc,!d $<TARGET_FILE:ntoskrnl>)
