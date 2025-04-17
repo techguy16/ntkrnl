@@ -1,0 +1,1875 @@
+ oschoice
+
+ Timestamp is 67fd99a5 (Mon Apr 14 19:26:29 2025)
+
+ Preferred load address is 00300000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00024de9H .text                   CODE
+ 0001:00024df0 000008c9H .text$00                CODE
+ 0002:00000000 00000411H INIT                    CODE
+ 0003:00000000 00005d50H .rdata                  DATA
+ 0003:00005d50 00000000H .edata                  DATA
+ 0003:00005d50 00000055H .rdata$debug            DATA
+ 0004:00000000 00001c44H .data                   DATA
+ 0004:00001c60 0003cd40H .bss                    DATA
+ 0005:00000000 000000a0H .rsrc$01                DATA
+ 0005:000000a0 000017f0H .rsrc$02                DATA
+
+  Address         Publics by Value              Rva+Base     Lib:Object
+
+ 0000:00000000       ___safe_se_handler_count   00000000     <absolute>
+ 0000:00000000       ___safe_se_handler_table   00000000     <absolute>
+ 0001:00000000       _DoGlobalInitialization@4  00301000 f   boot:entry.obj
+ 0001:00000083       _BlGetActivePartition@4    00301083 f   boot:entry.obj
+ 0001:0000010b       _BlIsElToritoCDBoot@4      0030110b f   boot:entry.obj
+ 0001:00000135       _NtProcessStartup@4        00301135 f   boot:entry.obj
+ 0001:0000039d       _MY_READ_PORT_UCHAR@4      0030139d f   boot:port.obj
+ 0001:000003a6       _MY_READ_REGISTER_UCHAR@4  003013a6 f   boot:port.obj
+ 0001:000003af       _MY_WRITE_PORT_UCHAR@8     003013af f   boot:port.obj
+ 0001:000003b8       _MY_WRITE_REGISTER_UCHAR@8 003013b8 f   boot:port.obj
+ 0001:000003c1       _BlRetrieveBIOSRedirectionInformation@0 003013c1 f   boot:port.obj
+ 0001:000004ff       _BlLoadGUID@4              003014ff f   boot:port.obj
+ 0001:00000559       _BlSetHeadlessRestartBlock@4 00301559 f   boot:port.obj
+ 0001:000005ee       _BlGetHeadlessRestartBlock@8 003015ee f   boot:port.obj
+ 0001:00000677       _CpEnableFifo@8            00301677 f   boot:port.obj
+ 0001:0000068e       _CpDoesPortExist@4         0030168e f   boot:port.obj
+ 0001:000007a7       _CpReadLsr@8               003017a7 f   boot:port.obj
+ 0001:000007f0       _CpSetBaud@8               003017f0 f   boot:port.obj
+ 0001:00000857       _CpGetByte@16              00301857 f   boot:port.obj
+ 0001:000008da       _CpPutByte@8               003018da f   boot:port.obj
+ 0001:00000939       _BlEnableFifo@8            00301939 f   boot:port.obj
+ 0001:00000955       _BlPortGetByte@8           00301955 f   boot:port.obj
+ 0001:00000979       _BlPortPutByte@8           00301979 f   boot:port.obj
+ 0001:00000996       _BlPortPollByte@8          00301996 f   boot:port.obj
+ 0001:000009ba       _BlPortPollOnly@4          003019ba f   boot:port.obj
+ 0001:000009df       _CpInitialize@12           003019df f   boot:port.obj
+ 0001:00000a17       _BlPortInitialize@20       00301a17 f   boot:port.obj
+ 0001:00000b17       _BlInitializeHeadlessPort@0 00301b17 f   boot:port.obj
+ 0001:00000c68       _MempSetDescriptorRegion@12 00301c68 f   boot:memory.obj
+ 0001:00000e05       _MempAllocDescriptor@12    00301e05 f   boot:memory.obj
+ 0001:00000f10       _MempDisablePages@0        00301f10 f   boot:memory.obj
+ 0001:00000f9d       _FwAllocateHeapPermanent@4 00301f9d f   boot:memory.obj
+ 0001:00001016       _FwAllocateHeap@4          00302016 f   boot:memory.obj
+ 0001:000010ec       _FwAllocatePool@4          003020ec f   boot:memory.obj
+ 0001:0000111f       _FwAllocateHeapAligned@4   0030211f f   boot:memory.obj
+ 0001:0000116b       _MmMapIoSpace@16           0030216b f   boot:memory.obj
+ 0001:00001240       _MempCheckMapping@8        00302240 f   boot:memory.obj
+ 0001:000013f5       _InitializeMemoryDescriptors@0 003023f5 f   boot:memory.obj
+ 0001:00001500       _MempCopyGdt@0             00302500 f   boot:memory.obj
+ 0001:0000166c       _MempSetupPaging@8         0030266c f   boot:memory.obj
+ 0001:000017e9       _MempTurnOnPaging@0        003027e9 f   boot:memory.obj
+ 0001:00001903       _InitializeMemorySubsystem@4 00302903 f   boot:memory.obj
+ 0001:00001b30       _BlFindRsdp@0              00302b30 f   boot:acpidtct.obj
+ 0001:00001c47       _BlFindACPITable@8         00302c47 f   boot:acpidtct.obj
+ 0001:00001d9d       _BlDetectLegacyFreeBios@0  00302d9d f   boot:acpidtct.obj
+ 0001:00001deb       _ArcCacheClose@4           00302deb f   boot:blio.obj
+ 0001:00001e33       _ArcRegisterForDeviceClose@4 00302e33 f   boot:blio.obj
+ 0001:00001e64       _BlIoInitialize@0          00302e64 f   boot:blio.obj
+ 0001:00001ec9       _BlClose@4                 00302ec9 f   boot:blio.obj
+ 0001:00001eeb       __BlOpen@16                00302eeb f   boot:blio.obj
+ 0001:0000212b       _BlOpen@16                 0030312b f   boot:blio.obj
+ 0001:0000219c       _BlRead@16                 0030319c f   boot:blio.obj
+ 0001:000021c6       _BlWrite@16                003031c6 f   boot:blio.obj
+ 0001:000021f0       _BlGetFileInformation@8    003031f0 f   boot:blio.obj
+ 0001:00002213       _putwS@4                   00303213 f   boot:display.obj
+ 0001:00002259       _putx@4                    00303259 f   boot:display.obj
+ 0001:0000229e       _puti@4                    0030329e f   boot:display.obj
+ 0001:00002301       _putu@4                    00303301 f   boot:display.obj
+ 0001:0000233f       _TextCharOut@4             0030333f f   boot:display.obj
+ 0001:00002357       _TextStringOut@4           00303357 f   boot:display.obj
+ 0001:0000236f       _TextClearToEndOfLine@0    0030336f f   boot:display.obj
+ 0001:00002382       _TextClearFromStartOfLine@0 00303382 f   boot:display.obj
+ 0001:00002395       _TextClearToEndOfDisplay@0 00303395 f   boot:display.obj
+ 0001:000023a8       _TextSetCursorPosition@8   003033a8 f   boot:display.obj
+ 0001:000023d9       _TextGetCursorPosition@8   003033d9 f   boot:display.obj
+ 0001:000023f8       _TextSetCurrentAttribute@4 003033f8 f   boot:display.obj
+ 0001:0000241d       _TextGetCurrentAttribute@0 0030341d f   boot:display.obj
+ 0001:00002423       _BlPrint                   00303423 f   boot:display.obj
+ 0001:00002686       _TextClearDisplay@0        00303686 f   boot:display.obj
+ 0001:000026a5       _FindDhcpOption@24         003036a5 f   boot:netboot2.obj
+ 0001:0000275c       _GetParametersFromRom@0    0030375c f   boot:netboot2.obj
+ 0001:00002a84       _GetGuid@8                 00303a84 f   boot:netboot2.obj
+ 0001:00002b88       _CalculateChecksum@8       00303b88 f   boot:netboot2.obj
+ 0001:00002be2       _NetSoftReboot@36          00303be2 f   boot:netboot2.obj
+ 0001:00002e97       _NetGetRebootParameters@32 00303e97 f   boot:netboot2.obj
+ 0001:00002fdc       _IsNetFileStructure@8      00303fdc f   boot:netboot.obj
+ 0001:0000301a       _NetArcClose@4             0030401a f   boot:netboot.obj
+ 0001:00003047       _NetArcOpen@12             00304047 f   boot:netboot.obj
+ 0001:0000308a       _NetClose@4                0030408a f   boot:netboot.obj
+ 0001:00003106       _NetMount@8                00304106 f   boot:netboot.obj
+ 0001:00003120       _NetOpen@12                00304120 f   boot:netboot.obj
+ 0001:000033f0       _NetRead@16                003043f0 f   boot:netboot.obj
+ 0001:0000345e       _NetGetReadStatus@4        0030445e f   boot:netboot.obj
+ 0001:00003477       _NetSeek@12                00304477 f   boot:netboot.obj
+ 0001:000034ef       _NetWrite@16               003044ef f   boot:netboot.obj
+ 0001:00003509       _NetGetFileInformation@8   00304509 f   boot:netboot.obj
+ 0001:00003550       _NetSetFileInformation@12  00304550 f   boot:netboot.obj
+ 0001:0000356a       _NetRename@8               0030456a f   boot:netboot.obj
+ 0001:00003584       _NetGetDirectoryEntry@16   00304584 f   boot:netboot.obj
+ 0001:0000359e       _NetInitialize@0           0030459e f   boot:netboot.obj
+ 0001:0000368d       _AEInitializeStall@0       0030468d f   boot:arcemul.obj
+ 0001:0000369b       _AEGetMemoryDescriptor@4   0030469b f   boot:arcemul.obj
+ 0001:000036d1       _BlArcNotYetImplemented@4  003046d1 f   boot:arcemul.obj
+ 0001:000036ea       _FwGetChild@4              003046ea f   boot:arcemul.obj
+ 0001:0000370d       _FwGetPeer@4               0030470d f   boot:arcemul.obj
+ 0001:00003729       _AEGetParent@4             00304729 f   boot:arcemul.obj
+ 0001:00003745       _AEGetConfigurationData@8  00304745 f   boot:arcemul.obj
+ 0001:0000376b       _AEGetEnvironment@4        0030476b f   boot:arcemul.obj
+ 0001:000037a4       _AEOpen@12                 003047a4 f   boot:arcemul.obj
+ 0001:00003859       _AESeek@12                 00304859 f   boot:arcemul.obj
+ 0001:0000386c       _AEClose@4                 0030486c f   boot:arcemul.obj
+ 0001:0000387e       _AEReadStatus@4            0030487e f   boot:arcemul.obj
+ 0001:000038c1       _AEGetFileInformation@8    003048c1 f   boot:arcemul.obj
+ 0001:000038d4       _AEGetTime@0               003048d4 f   boot:arcemul.obj
+ 0001:00003958       _AEGetRelativeTime@0       00304958 f   boot:arcemul.obj
+ 0001:0000396f       _AEReboot@0                0030496f f   boot:arcemul.obj
+ 0001:00003a57       _HardDiskPartitionOpen@12  00304a57 f   boot:arcemul.obj
+ 0001:00003bef       _FwStallExecution@4        00304bef f   boot:arcemul.obj
+ 0001:00003c0a       _FwGetPathMnemonicKey@12   00304c0a f   boot:arcemul.obj
+ 0001:00003c13       _FwGetComponent@4          00304c13 f   boot:arcemul.obj
+ 0001:00003cb5       _AERead@16                 00304cb5 f   boot:arcemul.obj
+ 0001:000041b2       _AEWriteEx@16              003051b2 f   boot:arcemul.obj
+ 0001:0000445e       _AEWrite@16                0030545e f   boot:arcemul.obj
+ 0001:0000456d       _BlFillInSystemParameters@4 0030556d f   boot:arcemul.obj
+ 0001:000046f3       _BlpDoCommand@4            003056f3 f   boot:hdlsterm.obj
+ 0001:00004779       _BlTerminalHandleLoaderFailure@0 00305779 f   boot:hdlsterm.obj
+ 0001:00004998       _BlGetKey@0                00305998 f   boot:input.obj
+ 0001:00004b42       _BlInsertDescriptor@4      00305b42 f   boot:blmemory.obj
+ 0001:00004c12       _BlFreeDescriptor@4        00305c12 f   boot:blmemory.obj
+ 0001:00004c7a       _BlFindMemoryDescriptor@4  00305c7a f   boot:blmemory.obj
+ 0001:00004cb8       _BlpDetermineAllocationPolicy@16 00305cb8 f   boot:blmemory.obj
+ 0001:00004e0b       _BlpTrackUsage@12          00305e0b f   boot:blmemory.obj
+ 0001:00004e74       _BlAllocateHeap@4          00305e74 f   boot:blmemory.obj
+ 0001:00004fe6       _BlGenerateNewHeap@12      00305fe6 f   boot:blmemory.obj
+ 0001:00005093       _BlGenerateDescriptor@16   00306093 f   boot:blmemory.obj
+ 0001:000051ce       _BlMemoryInitialize@0      003061ce f   boot:blmemory.obj
+ 0001:0000546d       _BlAllocateAlignedDescriptor@20 0030646d f   boot:blmemory.obj
+ 0001:000056c2       _BlAllocateHeapAligned@4   003066c2 f   boot:blmemory.obj
+ 0001:000056f0       _READ_PORT_UCHAR@4         003066f0 f   boot:xxioacc.obj
+ 0001:000056fc       _READ_PORT_USHORT@4        003066fc f   boot:xxioacc.obj
+ 0001:00005708       _READ_PORT_ULONG@4         00306708 f   boot:xxioacc.obj
+ 0001:00005714       _READ_PORT_BUFFER_UCHAR@12 00306714 f   boot:xxioacc.obj
+ 0001:00005728       _READ_PORT_BUFFER_USHORT@12 00306728 f   boot:xxioacc.obj
+ 0001:00005740       _READ_PORT_BUFFER_ULONG@12 00306740 f   boot:xxioacc.obj
+ 0001:00005754       _WRITE_PORT_UCHAR@8        00306754 f   boot:xxioacc.obj
+ 0001:00005764       _WRITE_PORT_USHORT@8       00306764 f   boot:xxioacc.obj
+ 0001:00005774       _WRITE_PORT_ULONG@8        00306774 f   boot:xxioacc.obj
+ 0001:00005784       _WRITE_PORT_BUFFER_UCHAR@12 00306784 f   boot:xxioacc.obj
+ 0001:00005798       _WRITE_PORT_BUFFER_USHORT@12 00306798 f   boot:xxioacc.obj
+ 0001:000057b0       _WRITE_PORT_BUFFER_ULONG@12 003067b0 f   boot:xxioacc.obj
+ 0001:000057c4       _NtfsClose@4               003067c4 f   boot:ntfsboot.obj
+ 0001:000057c4       _ScsiDiskClose@4           003067c4 f   boot:scsidisk.obj
+ 0001:000057c4       _CdfsClose@4               003067c4 f   boot:cdfsboot.obj
+ 0001:000057c4       _EtfsClose@4               003067c4 f   boot:etfsboot.obj
+ 0001:000057dc       _DbgPrint                  003067dc f   boot:debug.obj
+ 0001:000057dc       _CdfsInitialize@0          003067dc f   boot:cdfsboot.obj
+ 0001:000057dc       __isctype                  003067dc f   libcntpr:isctype.obj
+ 0001:000057dc       _FatInitialize@0           003067dc f   boot:fatboot.obj
+ 0001:000057df       _EtfsFirstComponent@8      003067df f   boot:etfsboot.obj
+ 0001:000057df       _CdfsFirstComponent@8      003067df f   boot:cdfsboot.obj
+ 0001:000057df       _NtfsFirstComponent@8      003067df f   boot:ntfsboot.obj
+ 0001:00005832       _CdfsCompareNames@8        00306832 f   boot:cdfsboot.obj
+ 0001:00005832       _EtfsCompareNames@8        00306832 f   boot:etfsboot.obj
+ 0001:00005832       _UDFSCompareAnsiNames@8    00306832 f   boot:udfsboot.obj
+ 0001:00005901       _CdfsGetDirectoryInfo@20   00306901 f   boot:cdfsboot.obj
+ 0001:0000598a       _EtfsFileMatch@8           0030698a f   boot:etfsboot.obj
+ 0001:0000598a       _CdfsFileMatch@8           0030698a f   boot:cdfsboot.obj
+ 0001:00005a06       _CdfsRead@16               00306a06 f   boot:cdfsboot.obj
+ 0001:00005a9a       _CdfsSearchDirectory@8     00306a9a f   boot:cdfsboot.obj
+ 0001:00005c3b       _CdfsOpen@12               00306c3b f   boot:cdfsboot.obj
+ 0001:00005de0       _IsCdfsFileStructure@8     00306de0 f   boot:cdfsboot.obj
+ 0001:00005f7a       _UDFSSeek@12               00306f7a f   boot:udfsboot.obj
+ 0001:00006007       _UDFSWrite@16              00307007 f   boot:udfsboot.obj
+ 0001:0000600d       _UDFSGetFileInformation@8  0030700d f   boot:udfsboot.obj
+ 0001:000060b1       _UDFSSetFileInformation@12 003070b1 f   boot:udfsboot.obj
+ 0001:000060b7       _UDFSCurrentFIDSpansBlock@8 003070b7 f   boot:udfsboot.obj
+ 0001:00006108       _UDFSNextFidSpansBlock@8   00307108 f   boot:udfsboot.obj
+ 0001:000061f9       _UDFCachePutEntry@12       003071f9 f   boot:udfsboot.obj
+ 0001:00006260       _UDFCacheDecrementUsage@8  00307260 f   boot:udfsboot.obj
+ 0001:00006291       _UDFSReadDisk@20           00307291 f   boot:udfsboot.obj
+ 0001:000062db       _UDFSVerifyPathName@4      003072db f   boot:udfsboot.obj
+ 0001:0000632c       _UDFSGetPathComponent@12   0030732c f   boot:udfsboot.obj
+ 0001:000063c3       _UDFSInitUniStrFromDString@12 003073c3 f   boot:udfsboot.obj
+ 0001:0000644b       _NtfsCompareName@16        0030744b f   boot:ntfsboot.obj
+ 0001:0000644b       _UDFSCompareAnsiUniNames@16 0030744b f   boot:udfsboot.obj
+ 0001:00006505       _UDFSVolumeReadBlock@12    00307505 f   boot:udfsboot.obj
+ 0001:00006528       _UDFSClose@4               00307528 f   boot:udfsboot.obj
+ 0001:0000654f       _UDFSFileReadBlock@16      0030754f f   boot:udfsboot.obj
+ 0001:000065ea       _UDFSDirGetFirstFID@12     003075ea f   boot:udfsboot.obj
+ 0001:0000662a       _UDFSDirGetNextFID@12      0030762a f   boot:udfsboot.obj
+ 0001:00006729       _UDFSDirGetFileByEntry@16  00307729 f   boot:udfsboot.obj
+ 0001:000067cc       _UDFSDirGetFile@12         003077cc f   boot:udfsboot.obj
+ 0001:000068a0       _UDFSCompareStrings@8      003078a0 f   boot:udfsboot.obj
+ 0001:00006932       _UDFSVolumeOpen@8          00307932 f   boot:udfsboot.obj
+ 0001:00006a3b       _UDFSRead@16               00307a3b f   boot:udfsboot.obj
+ 0001:00006b8b       _UDFCacheGetEntryByName@12 00307b8b f   boot:udfsboot.obj
+ 0001:00006be6       _UDFCacheGetBestEntryByName@8 00307be6 f   boot:udfsboot.obj
+ 0001:00006c81       _IsUDFSFileStructure@8     00307c81 f   boot:udfsboot.obj
+ 0001:00006dd8       _UDFSOpen@12               00307dd8 f   boot:udfsboot.obj
+ 0001:0000700d       _UDFSInitialize@0          0030800d f   boot:udfsboot.obj
+ 0001:00007056       _NtfsSeek@12               00308056 f   boot:ntfsboot.obj
+ 0001:000070a1       _NtfsReadDisk@24           003080a1 f   boot:ntfsboot.obj
+ 0001:000070dc       _NtfsWriteDisk@20          003080dc f   boot:ntfsboot.obj
+ 0001:00007114       _NtfsReadNonresidentAttribute@24 00308114 f   boot:ntfsboot.obj
+ 0001:0000739a       _NtfsDecodeUsa@8           0030839a f   boot:ntfsboot.obj
+ 0001:000073e0       _NtfsIsNameCached@24       003083e0 f   boot:ntfsboot.obj
+ 0001:0000748f       _NtfsInvalidateCacheEntries@4 0030848f f   boot:ntfsboot.obj
+ 0001:000074cf       _NtfsAddNameToCache@28     003084cf f   boot:ntfsboot.obj
+ 0001:0000756e       _NtfsDecodeRetrievalInformation@20 0030856e f   boot:ntfsboot.obj
+ 0001:000076c8       _NtfsInitialize@0          003086c8 f   boot:ntfsboot.obj
+ 0001:0000774e       _NtfsReadAndDecodeFileRecord@16 0030874e f   boot:ntfsboot.obj
+ 0001:00007847       _NtfsReadResidentAttribute@24 00308847 f   boot:ntfsboot.obj
+ 0001:0000789b       _NtfsIsRecordAllocated@16  0030889b f   boot:ntfsboot.obj
+ 0001:000078e7       _NtfsLoadMcb@20            003088e7 f   boot:ntfsboot.obj
+ 0001:00007c9e       _NtfsVboToLbo@24           00308c9e f   boot:ntfsboot.obj
+ 0001:00007e39       _NtfsRead@16               00308e39 f   boot:ntfsboot.obj
+ 0001:00007ea6       _NtfsLookupAttribute@24    00308ea6 f   boot:ntfsboot.obj
+ 0001:000081da       _NtfsWriteNonresidentAttribute@24 003091da f   boot:ntfsboot.obj
+ 0001:00008299       _NtfsInexactSortedDirectoryScan@24 00309299 f   boot:ntfsboot.obj
+ 0001:00008450       _NtfsLinearDirectoryScan@24 00309450 f   boot:ntfsboot.obj
+ 0001:00008639       _NtfsGetFileInformation@8  00309639 f   boot:ntfsboot.obj
+ 0001:0000872d       _NtfsWrite@16              0030972d f   boot:ntfsboot.obj
+ 0001:00008799       _NtfsSearchForFileName@24  00309799 f   boot:ntfsboot.obj
+ 0001:00008823       _NtfsOpen@12               00309823 f   boot:ntfsboot.obj
+ 0001:000089be       _IsNtfsFileStructure@8     003099be f   boot:ntfsboot.obj
+ 0001:00008d07       _FatGetFileInformation@8   00309d07 f   boot:fatboot.obj
+ 0001:00008d8c       _FatSeek@12                00309d8c f   boot:fatboot.obj
+ 0001:00008dc3       _FatDiskRead@24            00309dc3 f   boot:fatboot.obj
+ 0001:00008e0c       _FatDiskWrite@20           00309e0c f   boot:fatboot.obj
+ 0001:00008e52       _FatInterpretClusterType@8 00309e52 f   boot:fatboot.obj
+ 0001:00008fbe       _FatFlushFatEntries@8      00309fbe f   boot:fatboot.obj
+ 0001:00009052       _FatIndexToLbo@8           0030a052 f   boot:fatboot.obj
+ 0001:000090a9       _FatSetDirent@12           0030a0a9 f   boot:fatboot.obj
+ 0001:00009162       _FatFirstComponent@8       0030a162 f   boot:fatboot.obj
+ 0001:00009210       _FatDirToArcDir@8          0030a210 f   boot:fatboot.obj
+ 0001:00009280       _FatClose@4                0030a280 f   boot:fatboot.obj
+ 0001:000092c8       _FatRename@8               0030a2c8 f   boot:fatboot.obj
+ 0001:00009322       _FatLookupFatEntry@20      0030a322 f   boot:fatboot.obj
+ 0001:000094d6       _FatSetFatEntry@16         0030a4d6 f   boot:fatboot.obj
+ 0001:000096bb       _FatSearchForDirent@28     0030a6bb f   boot:fatboot.obj
+ 0001:0000995d       _FatLoadMcb@12             0030a95d f   boot:fatboot.obj
+ 0001:00009b31       _FatVboToLbo@20            0030ab31 f   boot:fatboot.obj
+ 0001:00009bba       _FatTruncateFileAllocation@8 0030abba f   boot:fatboot.obj
+ 0001:00009d17       _FatAllocateClusters@20    0030ad17 f   boot:fatboot.obj
+ 0001:00009e94       _FatGetDirectoryEntry@16   0030ae94 f   boot:fatboot.obj
+ 0001:00009fd2       _FatRead@16                0030afd2 f   boot:fatboot.obj
+ 0001:0000a092       _FatCreateDirent@20        0030b092 f   boot:fatboot.obj
+ 0001:0000a204       _FatIncreaseFileAllocation@8 0030b204 f   boot:fatboot.obj
+ 0001:0000a31d       _FatOpen@12                0030b31d f   boot:fatboot.obj
+ 0001:0000a6d0       _FatWrite@16               0030b6d0 f   boot:fatboot.obj
+ 0001:0000a7c7       _IsFatFileStructure@8      0030b7c7 f   boot:fatboot.obj
+ 0001:0000a9b2       _DbgUnLoadImageSymbols@12  0030b9b2 f   boot:debug.obj
+ 0001:0000a9b2       _DbgLoadImageSymbols@12    0030b9b2 f   boot:debug.obj
+ 0001:0000a9b5       _EtfsSeek@12               0030b9b5 f   boot:etfsboot.obj
+ 0001:0000a9b5       _CdfsSeek@12               0030b9b5 f   boot:cdfsboot.obj
+ 0001:0000a9f4       _CdfsWrite@16              0030b9f4 f   boot:cdfsboot.obj
+ 0001:0000a9f4       _EtfsWrite@16              0030b9f4 f   boot:etfsboot.obj
+ 0001:0000a9fa       _CdfsGetFileInformation@8  0030b9fa f   boot:cdfsboot.obj
+ 0001:0000a9fa       _EtfsGetFileInformation@8  0030b9fa f   boot:etfsboot.obj
+ 0001:0000aa60       _CdfsSetFileInformation@12 0030ba60 f   boot:cdfsboot.obj
+ 0001:0000aa60       _EtfsSetFileInformation@12 0030ba60 f   boot:etfsboot.obj
+ 0001:0000aa60       _NtfsSetFileInformation@12 0030ba60 f   boot:ntfsboot.obj
+ 0001:0000aa60       _FatSetFileInformation@12  0030ba60 f   boot:fatboot.obj
+ 0001:0000aa66       _CdfsReadDisk@20           0030ba66 f   boot:cdfsboot.obj
+ 0001:0000aa66       _EtfsReadDisk@20           0030ba66 f   boot:etfsboot.obj
+ 0001:0000aaad       _EtfsGetDirectoryInfo@20   0030baad f   boot:etfsboot.obj
+ 0001:0000ab36       _EtfsRead@16               0030bb36 f   boot:etfsboot.obj
+ 0001:0000abca       _EtfsSearchDirectory@8     0030bbca f   boot:etfsboot.obj
+ 0001:0000ad6b       _EtfsOpen@12               0030bd6b f   boot:etfsboot.obj
+ 0001:0000af10       _IsEtfsFileStructure@8     0030bf10 f   boot:etfsboot.obj
+ 0001:0000b0f4       _TextTmPositionCursor@8    0030c0f4 f   boot:disp_tm.obj
+ 0001:0000b133       _TextTmClearToEndOfLine@0  0030c133 f   boot:disp_tm.obj
+ 0001:0000b170       _TextTmClearFromStartOfLine@0 0030c170 f   boot:disp_tm.obj
+ 0001:0000b1ad       _TextTmClearToEndOfDisplay@0 0030c1ad f   boot:disp_tm.obj
+ 0001:0000b1f8       _TextTmClearDisplay@0      0030c1f8 f   boot:disp_tm.obj
+ 0001:0000b218       _TextTmScrollDisplay@0     0030c218 f   boot:disp_tm.obj
+ 0001:0000b25a       _TextTmSetCurrentAttribute@4 0030c25a f   boot:disp_tm.obj
+ 0001:0000b25a       _BlUpdateGfxProgressBar@4  0030c25a f   boot:vmode.obj
+ 0001:0000b25d       _TextTmCharOut@4           0030c25d f   boot:disp_tm.obj
+ 0001:0000b321       _TextTmStringOut@4         0030c321 f   boot:disp_tm.obj
+ 0001:0000b338       _GrDisplayMBCSChar@16      0030c338 f   boot:disp_gr.obj
+ 0001:0000b439       _GrIsDBCSLeadByte@4        0030c439 f   boot:disp_gr.obj
+ 0001:0000b468       _GrGetDBCSFontImage@4      0030c468 f   boot:disp_gr.obj
+ 0001:0000b4c7       _GrGetSBCSFontImage@4      0030c4c7 f   boot:disp_gr.obj
+ 0001:0000b543       _TextGrSetCurrentAttribute@4 0030c543 f   boot:disp_gr.obj
+ 0001:0000b5dd       _TextGrPositionCursor@8    0030c5dd f   boot:disp_gr.obj
+ 0001:0000b629       _TextGrClearDisplay@0      0030c629 f   boot:disp_gr.obj
+ 0001:0000b63a       _TextGrTerminate@0         0030c63a f   boot:disp_gr.obj
+ 0001:0000b66b       _UTF8Encode@8              0030c66b f   boot:disp_gr.obj
+ 0001:0000b6b6       _GetDBCSUtf8Translation@8  0030c6b6 f   boot:disp_gr.obj
+ 0001:0000b739       _GetSBCSUtf8Translation@8  0030c739 f   boot:disp_gr.obj
+ 0001:0000b76f       _GrWriteSBCSChar@4         0030c76f f   boot:disp_gr.obj
+ 0001:0000b857       _GrWriteMBCSString@8       0030c857 f   boot:disp_gr.obj
+ 0001:0000b8b2       _TextGrStringOut@4         0030c8b2 f   boot:disp_gr.obj
+ 0001:0000b8c3       _TextGrCharOut@4           0030c8c3 f   boot:disp_gr.obj
+ 0001:0000b8d7       _TextGrClearToEndOfLine@0  0030c8d7 f   boot:disp_gr.obj
+ 0001:0000b918       _TextGrClearFromStartOfLine@0 0030c918 f   boot:disp_gr.obj
+ 0001:0000b967       _TextGrClearToEndOfDisplay@0 0030c967 f   boot:disp_gr.obj
+ 0001:0000b9a5       _TextGrScrollDisplay@0     0030c9a5 f   boot:disp_gr.obj
+ 0001:0000ba23       _BlGetArgumentValue@12     0030ca23 f   boot:blmisc.obj
+ 0001:0000ba95       _RtlAssert@16              0030ca95 f   boot:stubs.obj
+ 0001:0000babf       _ScsiDiskGetFileInformation@8 0030cabf f   boot:scsidisk.obj
+ 0001:0000bb13       _ScsiDiskMount@8           0030cb13 f   boot:scsidisk.obj
+ 0001:0000bb18       _ScsiDiskGetReadStatus@4   0030cb18 f   boot:scsidisk.obj
+ 0001:0000bb1d       _ScsiDiskSeek@12           0030cb1d f   boot:scsidisk.obj
+ 0001:0000bb67       _ScsiPortInitializeMdlPages@4 0030cb67 f   boot:scsidisk.obj
+ 0001:0000bbb1       _BuildRequest@16           0030cbb1 f   boot:scsidisk.obj
+ 0001:0000bcfe       _ScsiDiskStartUnit@4       0030ccfe f   boot:scsidisk.obj
+ 0001:0000bdda       _CheckFileId@4             0030cdda f   boot:scsidisk.obj
+ 0001:0000bdf1       _InterpretSenseInfo@12     0030cdf1 f   boot:scsidisk.obj
+ 0001:0000c073       _ScsiDiskBootIO@16         0030d073 f   boot:scsidisk.obj
+ 0001:0000c122       _SendSrbSynchronous@20     0030d122 f   boot:scsidisk.obj
+ 0001:0000c212       _ScsiDiskFilterBad@4       0030d212 f   boot:scsidisk.obj
+ 0001:0000c31b       _ScsiDiskRead@16           0030d31b f   boot:scsidisk.obj
+ 0001:0000c5c2       _ScsiDiskWrite@16          0030d5c2 f   boot:scsidisk.obj
+ 0001:0000c8c8       _ScsiGPTDiskReadCallback@20 0030d8c8 f   boot:scsidisk.obj
+ 0001:0000c90d       _ScsiGPTDiskBootPartitionOpen@12 0030d90d f   boot:scsidisk.obj
+ 0001:0000cab5       _ScsiDiskBootPartitionOpen@12 0030dab5 f   boot:scsidisk.obj
+ 0001:0000cc56       _ReadDriveCapacity@4       0030dc56 f   boot:scsidisk.obj
+ 0001:0000cd63       _ScsiDiskOpen@12           0030dd63 f   boot:scsidisk.obj
+ 0001:0000cf08       _BiosDiskClose@4           0030df08 f   boot:biosdrv.obj
+ 0001:0000cf47       _BiosPartitionClose@4      0030df47 f   boot:biosdrv.obj
+ 0001:0000cf82       _BiosPartitionRead@16      0030df82 f   boot:biosdrv.obj
+ 0001:0000cff7       _BiosPartitionSeek@12      0030dff7 f   boot:biosdrv.obj
+ 0001:0000d054       _BiosPartitionWrite@16     0030e054 f   boot:biosdrv.obj
+ 0001:0000d0cc       _BiosConsoleOpen@12        0030e0cc f   boot:biosdrv.obj
+ 0001:0000d11c       _BiosConsoleFillBuffer@4   0030e11c f   boot:biosdrv.obj
+ 0001:0000d4a9       _BiosConsoleWrite@16       0030e4a9 f   boot:biosdrv.obj
+ 0001:0000d722       _BiosDiskOpen@12           0030e722 f   boot:biosdrv.obj
+ 0001:0000d912       _BiospWritePartialSector@40 0030e912 f   boot:biosdrv.obj
+ 0001:0000d994       _BiosDiskWrite@16          0030e994 f   boot:biosdrv.obj
+ 0001:0000dcb0       _pBiosDiskReadWorker@24    0030ecb0 f   boot:biosdrv.obj
+ 0001:0000e0d9       _BiosDiskRead@16           0030f0d9 f   boot:biosdrv.obj
+ 0001:0000e0f8       _BiosElToritoDiskRead@16   0030f0f8 f   boot:biosdrv.obj
+ 0001:0000e117       _BiosPartitionGetFileInfo@8 0030f117 f   boot:biosdrv.obj
+ 0001:0000e16c       _BiosDiskGetFileInfo@8     0030f16c f   boot:biosdrv.obj
+ 0001:0000e215       _BiosPartitionOpen@12      0030f215 f   boot:biosdrv.obj
+ 0001:0000e447       _BiosConsoleReadStatus@4   0030f447 f   boot:biosdrv.obj
+ 0001:0000e480       _BiosConsoleRead@16        0030f480 f   boot:biosdrv.obj
+ 0001:0000e4ec       _RamdiskClose@4            0030f4ec f   boot:ramdisk.obj
+ 0001:0000e51a       _RamdiskOpen@12            0030f51a f   boot:ramdisk.obj
+ 0001:0000e604       _RamdiskSeek@12            0030f604 f   boot:ramdisk.obj
+ 0001:0000e661       _RamdiskGetFileInfo@8      0030f661 f   boot:ramdisk.obj
+ 0001:0000e6a7       _RamdiskMount@8            0030f6a7 f   boot:ramdisk.obj
+ 0001:0000e6ca       _RamdiskReadStatus@4       0030f6ca f   boot:ramdisk.obj
+ 0001:0000e6ed       _RamdiskSetFileInfo@12     0030f6ed f   boot:ramdisk.obj
+ 0001:0000e710       _RamdiskRename@8           0030f710 f   boot:ramdisk.obj
+ 0001:0000e733       _RamdiskGetDirectoryEntry@16 0030f733 f   boot:ramdisk.obj
+ 0001:0000e756       _MapRamdisk@12             0030f756 f   boot:ramdisk.obj
+ 0001:0000e7b0       _RamdiskWrite@16           0030f7b0 f   boot:ramdisk.obj
+ 0001:0000e8a1       _RamdiskRead@16            0030f8a1 f   boot:ramdisk.obj
+ 0001:0000e9e1       _HalSetBusDataByOffset@24  0030f9e1 f   boot:ixbusdat.obj
+ 0001:0000ea06       _BlGetPathMnemonicKey@12   0030fa06 f   boot:blconfig.obj
+ 0001:0000ea95       _BlLocateGPTPartition@12   0030fa95 f   boot:arcdisk.obj
+ 0001:0000eb29       _BlDiskOpenGPTDiskReadCallback@20 0030fb29 f   boot:arcdisk.obj
+ 0001:0000eb91       _BlOpenGPTDiskPartition@12 0030fb91 f   boot:arcdisk.obj
+ 0001:0000ed2d       _ScsiPortInterrupt@8       0030fd2d f   boot:scsiboot.obj
+ 0001:0000ed55       _ScsiPortInternalCompletion@12 0030fd55 f   boot:scsiboot.obj
+ 0001:0000ed7f       _SpCheckResetDelay@4       0030fd7f f   boot:scsiboot.obj
+ 0001:0000edcd       _GetLogicalUnitExtension@8 0030fdcd f   boot:scsiboot.obj
+ 0001:0000edee       _ScsiDebugPrint            0030fdee f   boot:scsiboot.obj
+ 0001:0000ee45       _InitializeIrp@20          0030fe45 f   boot:scsiboot.obj
+ 0001:0000eec0       _GetAdapterCapabilities@8  0030fec0 f   boot:scsiboot.obj
+ 0001:0000eed7       _SpStartIoSynchronized@4   0030fed7 f   boot:scsiboot.obj
+ 0001:0000ef29       _IssueAbortRequest@8       0030ff29 f   boot:scsiboot.obj
+ 0001:0000ef8a       _SpBuildScatterGather@16   0030ff8a f   boot:scsiboot.obj
+ 0001:0000f019       _ScsiPortStartIo@8         00310019 f   boot:scsiboot.obj
+ 0001:0000f126       _ScsiPortTickHandler@8     00310126 f   boot:scsiboot.obj
+ 0001:0000f1a7       _ScsiPortExecute@8         003101a7 f   boot:scsiboot.obj
+ 0001:0000f2ee       _IssueRequestSense@8       003102ee f   boot:scsiboot.obj
+ 0001:0000f3f3       _BlClearScreen@0           003103f3 f   boot:blload.obj
+ 0001:0000f431       _BlPositionCursor@8        00310431 f   boot:blload.obj
+ 0001:0000f478       _BlSetInverseMode@4        00310478 f   boot:blload.obj
+ 0001:0000f4c4       _BlUpdateTxtProgressBar@4  003104c4 f   boot:blload.obj
+ 0001:0000f713       _BlUpdateProgressBar@4     00310713 f   boot:blload.obj
+ 0001:0000f72b       _BlLogWaitForKeystroke@0   0031072b f   boot:bllog.obj
+ 0001:0000f761       _BlLogWait@4               00310761 f   boot:bllog.obj
+ 0001:0000f784       _BlLogPrint                00310784 f   boot:bllog.obj
+ 0001:0000f834       _BlDiskCacheFindCacheForDevice@4 00310834 f   boot:blcache.obj
+ 0001:0000f87b       _BlDiskCacheWrite@20       0031087b f   boot:blcache.obj
+ 0001:0000f8e7       _BlDiskCacheAllocateRangeEntry@0 003108e7 f   boot:blcache.obj
+ 0001:0000f906       _BlDiskCacheFreeRangeEntry@4 00310906 f   boot:blcache.obj
+ 0001:0000f92a       _BlDiskCacheRead@24        0031092a f   boot:blcache.obj
+ 0001:0000fd29       _RtlAnsiStringToUnicodeString@12 00310d29 f   boot:nlsboot.obj
+ 0001:0000fd97       _RtlUnicodeStringToAnsiString@12 00310d97 f   boot:nlsboot.obj
+ 0001:0000fe0a       _RtlInitString@8           00310e0a f   boot:nlsboot.obj
+ 0001:0000fe3a       _RtlUpcaseUnicodeChar@4    00310e3a f   boot:nlsboot.obj
+ 0001:0000fe5c       _RtlAnsiCharToUnicodeChar@4 00310e5c f   boot:nlsboot.obj
+ 0001:0000fe6f       _RtlUpcaseUnicodeToMultiByteN@20 00310e6f f   boot:nlsboot.obj
+ 0001:0000feb0       _RtlUnicodeToMultiByteN@20 00310eb0 f   boot:nlsboot.obj
+ 0001:0000fef0       _BlIsAmd64Supported@0      00310ef0 f   boot:amd64s.obj
+ 0001:0000ff31       _BlAmd64SwitchToLongModeStart 00310f31     boot:amd64s.obj
+ 0001:0000ff31       _BlAmd64SwitchToLongMode@0 00310f31 f   boot:amd64s.obj
+ 0001:0000ff8c       _BlAmd64_KGDT64_R0_CODE    00310f8c     boot:amd64s.obj
+ 0001:0000ffc5       _BlAmd64SwitchToLongModeEnd 00310fc5     boot:amd64s.obj
+ 0001:0000ffc5       _HalpCopyBufferMap@20      00310fc5 f   boot:ixhwsup.obj
+ 0001:00010007       _IoAllocateAdapterChannel@20 00311007 f   boot:ixhwsup.obj
+ 0001:00010074       _IoMapTransfer@24          00311074 f   boot:ixhwsup.obj
+ 0001:000102da       _MmGetPhysicalAddress@4    003112da f   boot:ixhwsup.obj
+ 0001:00010320       _BlIsValidGUIDPartitionTableHelper@20 00311320 f   boot:blgpt.obj
+ 0001:000103d3       _BlIsValidGUIDPartitionTable@20 003113d3 f   boot:blgpt.obj
+ 0001:00010439       _XferExtendedPhysicalDiskSectors@24 00311439 f   boot:machine.obj
+ 0001:000104c5       _ResetDiskSystem@4         003114c5 f   boot:machine.obj
+ 0001:000104ee       _XferPhysicalDiskSectors@40 003114ee f   boot:machine.obj
+ 0001:00010645       _SlDetectHal@0             00311645 f   boot:haldtect.obj
+ 0001:0001068b       _DetectTrue@4              0031168b f   boot:haldtect.obj
+ 0001:00010691       _HalpInitializePciBus@0    00311691 f   boot:ixpcibus.obj
+ 0001:00010785       _HalpGetPciBusHandler@4    00311785 f   boot:ixpcibus.obj
+ 0001:000107b3       _HalpValidPCISlot@8        003117b3 f   boot:ixpcibus.obj
+ 0001:0001081e       _HalpPCIConfig@24          0031181e f   boot:ixpcibus.obj
+ 0001:00010884       _HalpPCISynchronizeType1@16 00311884 f   boot:ixpcibus.obj
+ 0001:000108c2       _HalpPCIReleaseSynchronzationType1@8 003118c2 f   boot:ixpcibus.obj
+ 0001:000108d8       _HalpPCIReadUcharType1@16  003118d8 f   boot:ixpcibus.obj
+ 0001:00010915       _HalpPCIReadUshortType1@16 00311915 f   boot:ixpcibus.obj
+ 0001:00010953       _HalpPCIReadUlongType1@16  00311953 f   boot:ixpcibus.obj
+ 0001:00010988       _HalpPCIWriteUcharType1@16 00311988 f   boot:ixpcibus.obj
+ 0001:000109c7       _HalpPCIWriteUshortType1@16 003119c7 f   boot:ixpcibus.obj
+ 0001:00010a06       _HalpPCIWriteUlongType1@16 00311a06 f   boot:ixpcibus.obj
+ 0001:00010a3b       _HalpPCISynchronizeType2@16 00311a3b f   boot:ixpcibus.obj
+ 0001:00010a96       _HalpPCIReleaseSynchronzationType2@8 00311a96 f   boot:ixpcibus.obj
+ 0001:00010aac       _HalpPCIReadUcharType2@16  00311aac f   boot:ixpcibus.obj
+ 0001:00010acc       _HalpPCIReadUshortType2@16 00311acc f   boot:ixpcibus.obj
+ 0001:00010afc       _HalpPCIReadUlongType2@16  00311afc f   boot:ixpcibus.obj
+ 0001:00010b27       _HalpPCIWriteUcharType2@16 00311b27 f   boot:ixpcibus.obj
+ 0001:00010b49       _HalpPCIWriteUshortType2@16 00311b49 f   boot:ixpcibus.obj
+ 0001:00010b6b       _HalpPCIWriteUlongType2@16 00311b6b f   boot:ixpcibus.obj
+ 0001:00010b8b       _HalpReadPCIConfig@20      00311b8b f   boot:ixpcibus.obj
+ 0001:00010bd5       _HalpWritePCIConfig@20     00311bd5 f   boot:ixpcibus.obj
+ 0001:00010c04       _HalpSetPCIData@20         00311c04 f   boot:ixpcibus.obj
+ 0001:00010ce4       _HalpGetCmosData@16        00311ce4 f   boot:ixcmos.obj
+ 0001:00010d41       _BlRangeListFindOverlaps@20 00311d41 f   boot:blrange.obj
+ 0001:00010dd3       _BlRangeListFindDistinctRanges@20 00311dd3 f   boot:blrange.obj
+ 0001:00010f98       _BlRangeEntryMerge@12      00311f98 f   boot:blrange.obj
+ 0001:0001100b       _BlRangeListRemoveRange@8  0031200b f   boot:blrange.obj
+ 0001:00011073       _BlRangeListMergeRangeEntries@12 00312073 f   boot:blrange.obj
+ 0001:000110b1       _BlRangeListAddRange@8     003120b1 f   boot:blrange.obj
+ 0001:0001117c       _HalpRangePages@12         0031217c f i boot:detsup.obj
+ 0001:000111ae       _HalpAcpiNumProcessors@0   003121ae f   boot:detsup.obj
+ 0001:00011208       _HalpMatchDescription@4    00312208 f   boot:detsup.obj
+ 0001:00011365       _HalpCheckOperator@12      00312365 f   boot:detsup.obj
+ 0001:00011476       _ComputeCheckSum@8         00312476 f   boot:detsup.obj
+ 0001:00011492       _HalpInitMpInfo@4          00312492 f   boot:detsup.obj
+ 0001:000115a8       _DetectUPMPS@4             003125a8 f   boot:detsup.obj
+ 0001:000115c1       _HalpMapPhysicalMemory64@12 003125c1 f   boot:detsup.obj
+ 0001:0001168f       _HalpMapPhysicalMemoryWriteThrough64@12 0031268f f   boot:detsup.obj
+ 0001:00011758       _HalpMapPhysicalMemoryWriteThrough@8 00312758 f i boot:detsup.obj
+ 0001:0001176e       _HalpFindRsdp@0            0031276e f   boot:detsup.obj
+ 0001:000118cb       _HalpFindApic@0            003128cb f   boot:detsup.obj
+ 0001:00011953       _HalpFindACPITable@8       00312953 f   boot:detsup.obj
+ 0001:00011a56       _HalpMatchInfList@4        00312a56 f   boot:detsup.obj
+ 0001:00011a88       _MatchAcpiOemIdRule@8      00312a88 f   boot:detsup.obj
+ 0001:00011b98       _MatchAcpiOemTableIdRule@8 00312b98 f   boot:detsup.obj
+ 0001:00011ca6       _MatchAcpiOemRevisionRule@8 00312ca6 f   boot:detsup.obj
+ 0001:00011d46       _MatchAcpiRevisionRule@8   00312d46 f   boot:detsup.obj
+ 0001:00011de8       _MatchAcpiCreatorRevisionRule@8 00312de8 f   boot:detsup.obj
+ 0001:00011e88       _MatchAcpiCreatorIdRule@8  00312e88 f   boot:detsup.obj
+ 0001:00011f3a       _SearchFloatPtr@8          00312f3a f   boot:detsup.obj
+ 0001:00011f9c       _PcMpGetFloatingPtr@0      00312f9c f   boot:detsup.obj
+ 0001:00011ffb       _GetPcMpTable@0            00312ffb f   boot:detsup.obj
+ 0001:000120b6       _DetectMPS@4               003130b6 f   boot:detsup.obj
+ 0001:00012134       _HalpValidateRsdp@0        00313134 f   boot:detsup.obj
+ 0001:00012556       _DetectMPACPI@4            00313556 f   boot:detsup.obj
+ 0001:000125eb       _DetectApicACPI@4          003135eb f   boot:detsup.obj
+ 0001:00012669       _DetectPicACPI@4           00313669 f   boot:detsup.obj
+ 0001:000126bf       _FreeValueList@4           003136bf f   boot:parseini.obj
+ 0001:000126d1       _SearchValueInLine@8       003136d1 f   boot:parseini.obj
+ 0001:0001270c       _SearchLineInSectionByKey@12 0031370c f   boot:parseini.obj
+ 0001:0001275d       _SearchLineInSectionByIndex@8 0031375d f   boot:parseini.obj
+ 0001:00012781       _SearchSectionByName@8     00313781 f   boot:parseini.obj
+ 0001:000127b8       _ProcessForStringSubs@8    003137b8 f   boot:parseini.obj
+ 0001:0001285f       _SpAppendSection@4         0031385f f   boot:parseini.obj
+ 0001:00012946       _SpAppendLine@4            00313946 f   boot:parseini.obj
+ 0001:000129f4       _SpAppendValue@4           003139f4 f   boot:parseini.obj
+ 0001:00012aa5       _SpAllocateStringHeap@4    00313aa5 f   boot:parseini.obj
+ 0001:00012af3       _SpGetToken@8              00313af3 f   boot:parseini.obj
+ 0001:00012c39       _FreeLineList@4            00313c39 f   boot:parseini.obj
+ 0001:00012c53       _SpSearchINFSection@8      00313c53 f   boot:parseini.obj
+ 0001:00012c6a       _SlGetSectionLineIndex@16  00313c6a f   boot:parseini.obj
+ 0001:00012ca7       _SlGetKeyName@12           00313ca7 f   boot:parseini.obj
+ 0001:00012cd1       _SlGetSectionKeyIndex@16   00313cd1 f   boot:parseini.obj
+ 0001:00012d10       _SlGetIniValue@16          00313d10 f   boot:parseini.obj
+ 0001:00012d2e       _FreeSectionList@4         00313d2e f   boot:parseini.obj
+ 0001:00012d48       _SpFreeINFBuffer@4         00313d48 f   boot:parseini.obj
+ 0001:00012d5f       _ParseInfBuffer@16         00313d5f f   boot:parseini.obj
+ 0001:00013117       _SlInitIniFile@28          00314117 f   boot:parseini.obj
+ 0001:00013217       _BdInitDebugger@12         00314217 f   bd:init.obj
+ 0001:000133a3       _BdCreateRemoteFile@32     003143a3 f   bd:file.obj
+ 0001:00013553       _BdReadRemoteFile@24       00314553 f   bd:file.obj
+ 0001:00013651       _BdCloseRemoteFile@4       00314651 f   bd:file.obj
+ 0001:000136fc       _BdPullRemoteFile@20       003146fc f   bd:file.obj
+ 0001:0001386b       _BdPollBreakIn@0           0031486b f   bd:poll.obj
+ 0001:000138b4       _BdStub@12                 003148b4 f   bd:debug.obj
+ 0001:000138eb       _BdRestoreKframe@8         003148eb f   bd:debug.obj
+ 0001:00013980       _BdSaveKframe@8            00314980 f   bd:debug.obj
+ 0001:00013a5c       _BdTrap@12                 00314a5c f   bd:debug.obj
+ 0001:00013b9e       _BdPortInitialize@12       00314b9e f   bd:port.obj
+ 0001:00013bdf       _BdComputeChecksum@8       00314bdf f   bd:comio.obj
+ 0001:00013bfd       _BdReceivePacketLeader@8   00314bfd f   bd:comio.obj
+ 0001:00013ca4       _BdReceiveString@8         00314ca4 f   bd:comio.obj
+ 0001:00013cd6       _BdSendString@8            00314cd6 f   bd:comio.obj
+ 0001:00013d02       _BdSendControlPacket@8     00314d02 f   bd:comio.obj
+ 0001:00013d39       _BdReceivePacket@16        00314d39 f   bd:comio.obj
+ 0001:00013f7d       _BdSendPacket@12           00314f7d f   bd:comio.obj
+ 0001:000140a8       _KiSaveProcessorControlState@4 003150a8 f   bd:state.obj
+ 0001:00014128       _KiRestoreProcessorControlState@4 00315128 f   bd:state.obj
+ 0001:00014195       _BdSendWaitContinue@16     00315195 f   bd:message.obj
+ 0001:000143ec       _BdpSetCommonState@12      003153ec f   bd:message.obj
+ 0001:0001446b       _BdReportLoadSymbolsStateChange@16 0031546b f   bd:message.obj
+ 0001:00014545       _ExceptionRecord32To64@8   00315545 f i bd:message.obj
+ 0001:00014594       _BdReportExceptionStateChange@8 00315594 f   bd:message.obj
+ 0001:0001460b       _BdPrintString@4           0031560b f   bd:dbgio.obj
+ 0001:00014677       _BdPromptString@8          00315677 f   bd:dbgio.obj
+ 0001:0001473a       _BdSetContextState@8       0031573a f   bd:cpuapi.obj
+ 0001:000147ac       _BdGetStateChange@8        003157ac f   bd:cpuapi.obj
+ 0001:000147e4       _BdSetStateChange@12       003157e4 f   bd:cpuapi.obj
+ 0001:000147f6       _BdReadControlSpace@12     003157f6 f   bd:cpuapi.obj
+ 0001:00014867       _BdWriteControlSpace@12    00315867 f   bd:cpuapi.obj
+ 0001:000148ce       _BdReadIoSpace@12          003158ce f   bd:cpuapi.obj
+ 0001:00014944       _BdWriteIoSpace@12         00315944 f   bd:cpuapi.obj
+ 0001:000149c1       _BdGetVersion@4            003159c1 f   bd:xxapi.obj
+ 0001:00014a40       _BdGetContext@12           00315a40 f   bd:xxapi.obj
+ 0001:00014a81       _BdSetContext@12           00315a81 f   bd:xxapi.obj
+ 0001:00014abc       _BdReadVirtualMemory@12    00315abc f   bd:xxapi.obj
+ 0001:00014b1d       _BdWriteVirtualMemory@12   00315b1d f   bd:xxapi.obj
+ 0001:00014b6a       _BdWriteBreakpoint@12      00315b6a f   bd:xxapi.obj
+ 0001:00014bad       _BdRestoreBreakpoint@12    00315bad f   bd:xxapi.obj
+ 0001:00014bea       _BdReadPhysicalMemory@12   00315bea f   bd:xxapi.obj
+ 0001:00014d01       _BdWritePhysicalMemory@12  00315d01 f   bd:xxapi.obj
+ 0001:00014df6       _BdWriteBreakPointEx@12    00315df6 f   bd:xxapi.obj
+ 0001:00014ee1       _BdRestoreBreakPointEx@12  00315ee1 f   bd:xxapi.obj
+ 0001:00014f74       _HalpReboot@0              00315f74 f   bd:reboot.obj
+ 0001:00014ffa       _BdReboot@0                00315ffa f   bd:reboot.obj
+ 0001:00015001       _BdAddBreakpoint@8         00316001 f   bd:break.obj
+ 0001:0001509d       _BdLowWriteContent@4       0031609d f   bd:break.obj
+ 0001:000150f3       _BdDeleteBreakpoint@4      003160f3 f   bd:break.obj
+ 0001:00015139       _BdDeleteBreakpointRange@16 00316139 f   bd:break.obj
+ 0001:0001519d       _BdMoveMemory@12           0031619d f   bd:move.obj
+ 0001:00015243       _BdCopyMemory@12           00316243 f   bd:move.obj
+ 0001:00015262       _BdCheckPdeValid@4         00316262 f   bd:check.obj
+ 0001:0001529b       _BdCheckPteValid@4         0031629b f   bd:check.obj
+ 0001:000152d1       _BdReadCheck@4             003162d1 f   bd:check.obj
+ 0001:000152d1       _BdWriteCheck@4            003162d1 f   bd:check.obj
+ 0001:000152f7       _BdTranslatePhysicalAddress@8 003162f7 f   bd:check.obj
+ 0001:00015301       _TftpGet@8                 00316301 f   tftplib:tftp.obj
+ 0001:000153cb       _TftpPut@8                 003163cb f   tftplib:tftp.obj
+ 0001:00015452       _TftpGetPut@4              00316452 f   tftplib:tftp.obj
+ 0001:00015536       _RomSetReceiveStatus@4     00316536 f   tftplib:rom.obj
+ 0001:000155a9       _RomSendUdpPacket@16       003165a9 f   tftplib:rom.obj
+ 0001:00015659       _RomReceiveUdpPacket@20    00316659 f   tftplib:rom.obj
+ 0001:00015753       _UdpAssignUnicastPort@0    00316753 f   tftplib:udp.obj
+ 0001:000157a9       _UdpReceive@20             003167a9 f   tftplib:udp.obj
+ 0001:000157c4       _UdpSend@16                003167c4 f   tftplib:udp.obj
+ 0001:000157cd       _ConnSendPacket@12         003167cd f   tftplib:conn.obj
+ 0001:00015808       _ConnPrepareSend@4         00316808 f   tftplib:conn.obj
+ 0001:00015815       _ConnRetransmit@8          00316815 f   tftplib:conn.obj
+ 0001:00015865       _ConnSafeAtol@8            00316865 f   tftplib:conn.obj
+ 0001:00015896       _ConnItoa@8                00316896 f   tftplib:conn.obj
+ 0001:000158d6       _ConnSafeStrequal@12       003168d6 f   tftplib:conn.obj
+ 0001:000158ff       _ConnSafeStrsize@8         003168ff f   tftplib:conn.obj
+ 0001:00015922       _ConnStrsize@4             00316922 f   tftplib:conn.obj
+ 0001:00015936       _ConnAck@4                 00316936 f   tftplib:conn.obj
+ 0001:00015974       _ConnError@20              00316974 f   tftplib:conn.obj
+ 0001:000159de       _ConnWait@12               003169de f   tftplib:conn.obj
+ 0001:00015c07       _ConnWaitForFinalAck@4     00316c07 f   tftplib:conn.obj
+ 0001:00015c1d       _ConnInitialize@28         00316c1d f   tftplib:conn.obj
+ 0001:0001600c       _ConnReceive@8             0031700c f   tftplib:conn.obj
+ 0001:00016042       _ConnSend@8                00317042 f   tftplib:conn.obj
+ 0001:000160ac       _RDTSC@0                   003170ac f   ke:cpu.obj
+ 0001:000160b0       @RDMSR@4                   003170b0 f   ke:cpu.obj
+ 0001:000160b4       _WRMSR@12                  003170b4 f   ke:cpu.obj
+ 0001:000160c8       _KeYieldProcessor@0        003170c8 f   ke:cpu.obj
+ 0001:000160cc       _READ_REGISTER_UCHAR@4     003170cc f   bldrrtl:ioaccess.obj
+ 0001:000160d8       _READ_REGISTER_USHORT@4    003170d8 f   bldrrtl:ioaccess.obj
+ 0001:000160e4       _READ_REGISTER_ULONG@4     003170e4 f   bldrrtl:ioaccess.obj
+ 0001:000160f0       _READ_REGISTER_BUFFER_UCHAR@12 003170f0 f   bldrrtl:ioaccess.obj
+ 0001:0001610c       _READ_REGISTER_BUFFER_USHORT@12 0031710c f   bldrrtl:ioaccess.obj
+ 0001:00016128       _READ_REGISTER_BUFFER_ULONG@12 00317128 f   bldrrtl:ioaccess.obj
+ 0001:00016144       _WRITE_REGISTER_UCHAR@8    00317144 f   bldrrtl:ioaccess.obj
+ 0001:00016158       _WRITE_REGISTER_USHORT@8   00317158 f   bldrrtl:ioaccess.obj
+ 0001:0001616c       _WRITE_REGISTER_ULONG@8    0031716c f   bldrrtl:ioaccess.obj
+ 0001:00016180       _WRITE_REGISTER_BUFFER_UCHAR@12 00317180 f   bldrrtl:ioaccess.obj
+ 0001:000161a0       _WRITE_REGISTER_BUFFER_USHORT@12 003171a0 f   bldrrtl:ioaccess.obj
+ 0001:000161c0       _WRITE_REGISTER_BUFFER_ULONG@12 003171c0 f   bldrrtl:ioaccess.obj
+ 0001:000161de       _RtlDecompressBuffer@24    003171de f   bldrrtl:compress.obj
+ 0001:00016222       _RtlCompressWorkSpaceSizeNS@12 00317222 f   bldrrtl:compress.obj
+ 0001:0001622a       _RtlCompressBufferNS@32    0031722a f   bldrrtl:compress.obj
+ 0001:00016232       _RtlDecompressBufferNS@20  00317232 f   bldrrtl:compress.obj
+ 0001:0001623a       _RtlDecompressFragmentNS@28 0031723a f   bldrrtl:compress.obj
+ 0001:00016242       _RtlReserveChunkNS@16      00317242 f   bldrrtl:compress.obj
+ 0001:00016242       _RtlDescribeChunkNS@16     00317242 f   bldrrtl:compress.obj
+ 0001:0001624c       _DbgBreakPoint@0           0031724c f   bldrrtl:debug2.obj
+ 0001:00016250       _DbgUserBreakPoint@0       00317250 f   bldrrtl:debug2.obj
+ 0001:00016254       _DbgBreakPointWithStatus@4 00317254 f   bldrrtl:debug2.obj
+ 0001:00016258       _RtlpBreakWithStatusInstruction@0 00317258     bldrrtl:debug2.obj
+ 0001:0001625c       _RtlComputeCrc32@12        0031725c f   bldrrtl:checksum.obj
+ 0001:00016290       _RtlCharToInteger@12       00317290 f   bldrrtl:cnvint.obj
+ 0001:00016386       _RtlCompressWorkSpaceSizeLZNT1@12 00317386 f   bldrrtl:lznt1.obj
+ 0001:000163c2       _RtlDecompressBufferLZNT1@20 003173c2 f   bldrrtl:lznt1.obj
+ 0001:000165f6       _RtlDecompressFragmentLZNT1@28 003175f6 f   bldrrtl:lznt1.obj
+ 0001:00016947       _RtlDescribeChunkLZNT1@16  00317947 f   bldrrtl:lznt1.obj
+ 0001:00016a39       _RtlReserveChunkLZNT1@16   00317a39 f   bldrrtl:lznt1.obj
+ 0001:00016bba       _LZNT1CompressChunk@28     00317bba f   bldrrtl:lznt1.obj
+ 0001:00016eca       _LZNT1FindMatchStandard@8  00317eca f   bldrrtl:lznt1.obj
+ 0001:00016fd9       _LZNT1FindMatchMaximum@8   00317fd9 f   bldrrtl:lznt1.obj
+ 0001:0001703c       _RtlCompressBufferLZNT1@32 0031803c f   bldrrtl:lznt1.obj
+ 0001:00017128       _LZNT1DecompressChunk@20   00318128 f   bldrrtl:lzntx86.obj
+ 0001:00017b7b       _sprintf                   00318b7b f   libcntpr:sprintf.obj
+ 0001:00017bd4       __alloca_probe             00318bd4     libcntpr:chkstk.obj
+ 0001:00017bd4       __chkstk                   00318bd4 f   libcntpr:chkstk.obj
+ 0001:00017c20       _memmove                   00318c20 f   libcntpr:memmove.obj
+ 0001:00017f60       __allmul                   00318f60 f   libcntpr:llmul.obj
+ 0001:00017fa0       _strrchr                   00318fa0 f   libcntpr:strrchr.obj
+ 0001:00017fd0       _strncpy                   00318fd0 f   libcntpr:strncpy.obj
+ 0001:000180f4       __strnicmp                 003190f4 f   libcntpr:strnicmp.obj
+ 0001:00018107       __stricmp                  00319107 f   libcntpr:stricmp.obj
+ 0001:00018110       _toupper                   00319110 f   libcntpr:toupper.obj
+ 0001:0001815f       _tolower                   0031915f f   libcntpr:tolower.obj
+ 0001:000181a0       _strncmp                   003191a0 f   libcntpr:strncmp.obj
+ 0001:000181d9       _atol                      003191d9 f   libcntpr:atox.obj
+ 0001:0001825e       _atoi                      0031925e f   libcntpr:atox.obj
+ 0001:00018280       _strchr                    00319280 f   libcntpr:strchr.obj
+ 0001:00018286       ___from_strstr_to_strchr   00319286     libcntpr:strchr.obj
+ 0001:00018340       _strstr                    00319340 f   libcntpr:strstr.obj
+ 0001:000183c6       __vsnprintf                003193c6 f   libcntpr:vsnprint.obj
+ 0001:00018420       __allshl                   00319420 f   libcntpr:llshl.obj
+ 0001:00018440       __allshr                   00319440 f   libcntpr:llshr.obj
+ 0001:00018470       __aullrem                  00319470 f   libcntpr:ullrem.obj
+ 0001:000184f0       __alldvrm                  003194f0 f   libcntpr:lldvrm.obj
+ 0001:000185d0       __alldiv                   003195d0 f   libcntpr:lldiv.obj
+ 0001:00018680       __aullshr                  00319680 f   libcntpr:ullshr.obj
+ 0001:000186a0       __aulldvrm                 003196a0 f   libcntpr:ulldvrm.obj
+ 0001:00018735       _islower                   00319735 f   libcntpr:_ctype.obj
+ 0001:0001876a       _isspace                   0031976a f   libcntpr:_ctype.obj
+ 0001:0001879f       __strupr                   0031979f f   libcntpr:strupr.obj
+ 0001:000187d0       __aulldiv                  003197d0 f   libcntpr:ulldiv.obj
+ 0001:00018838       __flsbuf                   00319838 f   libcntpr:_flsbuf.obj
+ 0001:000188d6       __output                   003198d6 f   libcntpr:output.obj
+ 0001:00019060       ___ascii_strnicmp          0031a060 f   libcntpr:_strnicm.obj
+ 0001:000190d0       ___ascii_stricmp           0031a0d0 f   libcntpr:_stricmp.obj
+ 0001:0001911e       _wctomb                    0031a11e f   libcntpr:wctomb.obj
+ 0001:0001915a       __fptrap                   0031a15a f   libcntpr:crt0fp.obj
+ 0001:00019163       __amsg_exit                0031a163 f   libcntpr:stubs.obj
+ 0001:00019164       _BlInitializeTerminal@0    0031a164 f   oscldr:initx86.obj
+ 0001:00019210       _BlStartup@4               0031a210 f   oscldr:initx86.obj
+ 0001:000192b0       _BlInitStdio@8             0031a2b0 f   oscldr:oschoice.obj
+ 0001:000193ce       _UdpSendAndReceive@52      0031a3ce f   oscldr:oschoice.obj
+ 0001:000196a8       _SignSendAndReceive@52     0031a6a8 f   oscldr:oschoice.obj
+ 0001:00019c60       _BlDoLogin@0               0031ac60 f   oscldr:oschoice.obj
+ 0001:0001a014       _SetFileTimeFromTimeString@12 0031b014 f   oscldr:oschoice.obj
+ 0001:0001a07a       _BlGetSystemTimeAsFileTime@4 0031b07a f   oscldr:oschoice.obj
+ 0001:0001a0ae       _BlDoLogoff@0              0031b0ae f   oscldr:oschoice.obj
+ 0001:0001a112       _BlDetectHal@0             0031b112 f   oscldr:oschoice.obj
+ 0001:0001a204       _SlErrorBox@12             0031b204 f   oscldr:oschoice.obj
+ 0001:0001a208       _SlFatalError              0031b208 f   oscldr:oschoice.obj
+ 0001:0001a208       _SlPrint                   0031b208 f   oscldr:oschoice.obj
+ 0001:0001a20a       _SlFriendlyError@16        0031b20a f   oscldr:oschoice.obj
+ 0001:0001a20e       _SlNoMemError@8            0031b20e f   oscldr:oschoice.obj
+ 0001:0001a20e       _SlBadInfLineError@8       0031b20e f   oscldr:oschoice.obj
+ 0001:0001a212       _SlGetChar@0               0031b212 f   oscldr:oschoice.obj
+ 0001:0001a364       _BlRetrieveScreen@12       0031b364 f   oscldr:oschoice.obj
+ 0001:0001a782       _BlProcessLogin@4          0031b782 f   oscldr:oschoice.obj
+ 0001:0001a924       _BlMainLoop@0              0031b924 f   oscldr:oschoice.obj
+ 0001:0001adfe       _BlOsLoader@12             0031bdfe f   oscldr:oschoice.obj
+ 0001:0001b032       _DecompGenerateCompressedName@8 0031c032 f   oscldr:dcmpstub.obj
+ 0001:0001b038       _DecompPrepareToReadCompressedFile@8 0031c038 f   oscldr:dcmpstub.obj
+ 0001:0001b03e       _BlpClearScreen@0          0031c03e f   oscldr:regboot.obj
+ 0001:0001b044       _BlpPositionCursor@8       0031c044 f   oscldr:regboot.obj
+ 0001:0001b04e       _BlpSetInverseMode@4       0031c04e f   oscldr:regboot.obj
+ 0001:0001b058       _GetInteger@4              0031c058 f   oscldr:parse.obj
+ 0001:0001b08e       _BlpSendEscape@4           0031c08e f   oscldr:parse.obj
+ 0001:0001b0ec       _BlpSendEscapeReverse@4    0031c0ec f   oscldr:parse.obj
+ 0001:0001b1ce       _BlpSendEscapeBold@4       0031c1ce f   oscldr:parse.obj
+ 0001:0001b224       _BlpSendEscapeFlash@4      0031c224 f   oscldr:parse.obj
+ 0001:0001b284       _BlpShowCursor@8           0031c284 f   oscldr:parse.obj
+ 0001:0001b336       _BlpGetKey@0               0031c336 f   oscldr:parse.obj
+ 0001:0001b348       _BlpGetKeyWithBlink@12     0031c348 f   oscldr:parse.obj
+ 0001:0001b5c2       _BlpPrintString@8          0031c5c2 f   oscldr:parse.obj
+ 0001:0001b85e       _Lexstrcmpni@12            0031c85e f   oscldr:parse.obj
+ 0001:0001b8da       _ReplaceSpecialCharacters@4 0031c8da f   oscldr:parse.obj
+ 0001:0001b91a       _Lex@4                     0031c91a f   oscldr:parse.obj
+ 0001:0001ba0c       _GetString@4               0031ca0c f   oscldr:parse.obj
+ 0001:0001bace       _TitleTagState@4           0031cace f   oscldr:parse.obj
+ 0001:0001bbca       _FooterTagState@4          0031cbca f   oscldr:parse.obj
+ 0001:0001be3c       _InputTagState@4           0031ce3c f   oscldr:parse.obj
+ 0001:0001c2ec       _OptionTagState@4          0031d2ec f   oscldr:parse.obj
+ 0001:0001c55c       _SelectTagState@4          0031d55c f   oscldr:parse.obj
+ 0001:0001c77a       _PreformattedPrint@8       0031d77a f   oscldr:parse.obj
+ 0001:0001c8bc       _PreTagState@4             0031d8bc f   oscldr:parse.obj
+ 0001:0001ca24       _TipAreaTagState@4         0031da24 f   oscldr:parse.obj
+ 0001:0001cc00       _ParagraphTagState@4       0031dc00 f   oscldr:parse.obj
+ 0001:0001cd16       _FormTagState@4            0031dd16 f   oscldr:parse.obj
+ 0001:0001cfb6       _ImpliedBodyTagState@4     0031dfb6 f   oscldr:parse.obj
+ 0001:0001d1a6       _BodyTagState@4            0031e1a6 f   oscldr:parse.obj
+ 0001:0001d302       _KeyTagState@4             0031e302 f   oscldr:parse.obj
+ 0001:0001d512       _MetaTagState@4            0031e512 f   oscldr:parse.obj
+ 0001:0001d612       _OSCMLTagState@4           0031e612 f   oscldr:parse.obj
+ 0001:0001d69c       _ProcessEmptyScreen@4      0031e69c f   oscldr:parse.obj
+ 0001:0001d81c       _ProcessInputControl@4     0031e81c f   oscldr:parse.obj
+ 0001:0001dd68       _ShowSelectedOptions@16    0031ed68 f   oscldr:parse.obj
+ 0001:0001df7a       _DrawSelectControl@8       0031ef7a f   oscldr:parse.obj
+ 0001:0001e15e       _ProcessSelectControl@4    0031f15e f   oscldr:parse.obj
+ 0001:0001e5c0       _BlFixupLoginScreenInputs@0 0031f5c0 f   oscldr:parse.obj
+ 0001:0001ea2c       _ProcessControlResults@4   0031fa2c f   oscldr:parse.obj
+ 0001:0001f292       _ProcessScreenControls@4   00320292 f   oscldr:parse.obj
+ 0001:0001f488       _BlProcessScreen@8         00320488 f   oscldr:parse.obj
+ 0001:0001f5bc       _OscHeapInitialize@0       003205bc f   oscldr:oscheap.obj
+ 0001:0001f5de       _OscHeapAlloc@4            003205de f   oscldr:oscheap.obj
+ 0001:0001f65e       _OscHeapFree@4             0032065e f   oscldr:oscheap.obj
+ 0001:0001f6d8       _BlOwfPassword@16          003206d8 f   boot:blsecret.obj
+ 0001:0001f760       _BlpPaeSupported@0         00320760 f   boot:pae.obj
+ 0001:0001f783       _BlpEnablePAE@4            00320783 f   boot:pae.obj
+ 0001:0001f783       _BlpEnablePAEStart         00320783     boot:pae.obj
+ 0001:0001f7ba       _BlpEnablePAEEnd           003207ba     boot:pae.obj
+ 0001:0001f7ba       _GetPassword@8             003207ba f   bootssp:ntlmssp.obj
+ 0001:0001f802       _QuerySecurityPackageInfoA@8 00320802 f   bootssp:ntlmssp.obj
+ 0001:0001f89a       _EnumerateSecurityPackagesA@8 0032089a f   bootssp:ntlmssp.obj
+ 0001:0001f8c4       _AcquireCredentialsHandleA@36 003208c4 f   bootssp:ntlmssp.obj
+ 0001:0001f962       _FreeCredentialsHandle@4   00320962 f   bootssp:ntlmssp.obj
+ 0001:0001f990       _SspGetTokenBuffer@16      00320990 f   bootssp:ntlmssp.obj
+ 0001:0001fa02       _SspHandleFirstCall@40     00320a02 f   bootssp:ntlmssp.obj
+ 0001:0001fb50       _SspHandleChallengeMessage@40 00320b50 f   bootssp:ntlmssp.obj
+ 0001:00020038       _InitializeSecurityContextA@48 00321038 f   bootssp:ntlmssp.obj
+ 0001:0002011e       _DeleteSecurityContext@4   0032111e f   bootssp:ntlmssp.obj
+ 0001:00020150       _SsprGenCheckSum@8         00321150 f   bootssp:ntlmssp.obj
+ 0001:0002016e       _SealMessage@16            0032116e f   bootssp:ntlmssp.obj
+ 0001:00020296       _UnsealMessage@16          00321296 f   bootssp:ntlmssp.obj
+ 0001:000203d0       _CalculateLmOwfPassword@8  003213d0 f   bootssp:owf.obj
+ 0001:0002045a       _CalculateNtOwfPassword@8  0032145a f   bootssp:owf.obj
+ 0001:0002049a       _CacheGetPassword@4        0032149a f   bootssp:cache.obj
+ 0001:000204e8       _CacheSetCredentials@8     003214e8 f   bootssp:cache.obj
+ 0001:00020910       _SspAlloc@4                00321910 f   bootssp:alloc.obj
+ 0001:0002091a       _SspFree@4                 0032191a f   bootssp:alloc.obj
+ 0001:0002091e       _SspCredentialAllocateCredential@4 0032191e f   bootssp:cred.obj
+ 0001:00020954       _SspCredentialReferenceCredential@8 00321954 f   bootssp:cred.obj
+ 0001:0002096e       _SspCredentialDereferenceCredential@4 0032196e f   bootssp:cred.obj
+ 0001:00020a3c       _SspContextReferenceContext@8 00321a3c f   bootssp:context.obj
+ 0001:00020a56       _SspContextDereferenceContext@4 00321a56 f   bootssp:context.obj
+ 0001:00020a9e       _SspContextAllocateContext@0 00321a9e f   bootssp:context.obj
+ 0001:00020ae0       _SspContextGetTimeStamp@8  00321ae0 f   bootssp:context.obj
+ 0001:00020b08       _CalculateLmResponse@12    00321b08 f   bootssp:response.obj
+ 0001:00020ba8       _CalculateNtResponse@12    00321ba8 f   bootssp:response.obj
+ 0001:00020bb2       _CalculateUserSessionKeyLm@12 00321bb2 f   bootssp:response.obj
+ 0001:00020bfa       _CalculateUserSessionKeyNt@12 00321bfa f   bootssp:response.obj
+ 0001:00020c04       _SspCopyStringFromRaw@20   00321c04 f   bootssp:sspstrng.obj
+ 0001:00020c44       _SspNtStatusToSecStatus@8  00321c44 f   bootssp:ntlmsspv2.obj
+ 0001:00020e2e       _SspInitUnicodeStringNoAlloc@8 00321e2e f   bootssp:ntlmsspv2.obj
+ 0001:00020e52       _SspAvlInit@4              00321e52 f   bootssp:ntlmsspv2.obj
+ 0001:00020e6a       _SspAvlGet@12              00321e6a f   bootssp:ntlmsspv2.obj
+ 0001:00020e9e       _SspAvlLen@8               00321e9e f   bootssp:ntlmsspv2.obj
+ 0001:00020ebc       _SspUpcaseUnicodeStringToOemString@8 00321ebc f   bootssp:ntlmsspv2.obj
+ 0001:00020f48       _SspUpcaseUnicodeString@4  00321f48 f   bootssp:ntlmsspv2.obj
+ 0001:00020f80       _SspCopyStringAsString32@16 00321f80 f   bootssp:ntlmsspv2.obj
+ 0001:00020fc8       _SspCalculateNtlmv2Owf@16  00321fc8 f   bootssp:ntlmsspv2.obj
+ 0001:0002108a       _SspGetLmv2Response@24     0032208a f   bootssp:ntlmsspv2.obj
+ 0001:000210ec       _SspMakeSessionKeys@24     003220ec f   bootssp:ntlmsspv2.obj
+ 0001:000212fc       _SspMakeNtlmv2SKeys@20     003222fc f   bootssp:ntlmsspv2.obj
+ 0001:00021452       _SspSignSealHelper@28      00322452 f   bootssp:ntlmsspv2.obj
+ 0001:0002167c       _SspNtlmv2SealMessage@20   0032267c f   bootssp:ntlmsspv2.obj
+ 0001:000216e6       _SspNtlmv2UnsealMessage@20 003226e6 f   bootssp:ntlmsspv2.obj
+ 0001:000217fc       _SspAvlAdd@16              003227fc f   bootssp:ntlmsspv2.obj
+ 0001:00021864       _SspCreateTargetInfo@8     00322864 f   bootssp:ntlmsspv2.obj
+ 0001:00021958       _SspGenerateChallenge@4    00322958 f   bootssp:ntlmsspv2.obj
+ 0001:000219c2       _SspGetNtlmv2Response@32   003229c2 f   bootssp:ntlmsspv2.obj
+ 0001:00021a6c       _SspLm20GetNtlmv2ChallengeResponse@36 00322a6c f   bootssp:ntlmsspv2.obj
+ 0001:00021b20       _SsprHandleNtlmv2ChallengeMessage@28 00322b20 f   bootssp:ntlmsspv2.obj
+ 0001:0002209a       _Crc32@16                  0032309a f   bootssp:crc32.obj
+ 0001:000220d2       _SspGetWorkstation@4       003230d2 f   bootssp:getuser.obj
+ 0001:000220d8       _SspTicks@0                003230d8 f   bootssp:ticks.obj
+ 0001:000220e0       _strncat                   003230e0 f   libcntpr:strncat.obj
+ 0001:00022215       _rand                      00323215 f   libcntpr:rand.obj
+ 0001:00022240       _rc4@12                    00323240 f   rsa32:rc4fast.obj
+ 0001:0002238d       _rc4_key@12                0032338d f   rsa32:rc4fast.obj
+ 0001:00022480       _MD5Init@4                 00323480 f   rsa32:md5c.obj
+ 0001:000224b0       _MD5Update@12              003234b0 f   rsa32:md5c.obj
+ 0001:000225e0       _MD5Final@4                003235e0 f   rsa32:md5c.obj
+ 0001:00022660       _InitKeyLM@8               00323660 f   rsa32:deslm.obj
+ 0001:00022720       _DES_ECB_LM                00323720 f   rsa32:deslm.obj
+ 0001:000227e0       _MD4Init@4                 003237e0 f   rsa32:md4ms.obj
+ 0001:00022810       _MD4Update@12              00323810 f   rsa32:md4ms.obj
+ 0001:00022940       _MD4Final@4                00323940 f   rsa32:md4ms.obj
+ 0001:000229c0       _HMACMD5Init@12            003239c0 f   rsa32:hmac.obj
+ 0001:00022be0       _HMACMD5Update@12          00323be0 f   rsa32:hmac.obj
+ 0001:00022bf0       _HMACMD5Final@8            00323bf0 f   rsa32:hmac.obj
+ 0001:00022c40       _TransformMD5@8            00323c40 f   rsa32:md5fast.obj
+ 0001:000232c0       _deskey@8                  003242c0 f   rsa32:deskey.obj
+ 0001:00023890       _desparityonkey@8          00324890 f   rsa32:deskey.obj
+ 0001:000238e0       _des@16                    003248e0 f   rsa32:desfast.obj
+ 0001:00024980       _MD4Transform@8            00325980 f   rsa32:md4fast.obj
+ 0001:00024df0       _BdTrap01@0                00325df0 f   bd:trap.obj
+ 0001:00024e30       _BdTrap03@0                00325e30 f   bd:trap.obj
+ 0001:00024e70       _BdTrap0d@0                00325e70 f   bd:trap.obj
+ 0001:00024eb0       _BdTrap0e@0                00325eb0 f   bd:trap.obj
+ 0001:00024ef0       _BdTrap2d@0                00325ef0 f   bd:trap.obj
+ 0001:00024f30       _BdDispatch                00325f30 f   bd:trap.obj
+ 0001:00024fa0       _BdExit                    00325fa0 f   bd:trap.obj
+ 0001:00024fc0       _RtlCompareMemory@12       00325fc0 f   bldrrtl:movemem.obj
+ 0001:00025010       _RtlCompareMemoryUlong@12  00326010 f   bldrrtl:movemem.obj
+ 0001:00025040       _RtlFillMemory@12          00326040 f   bldrrtl:movemem.obj
+ 0001:00025080       _RtlFillMemoryUlonglong@16 00326080 f   bldrrtl:movemem.obj
+ 0001:000250b0       _RtlFillMemoryUlong@12     003260b0 f   bldrrtl:movemem.obj
+ 0001:000250d0       _RtlZeroMemory@8           003260d0 f   bldrrtl:movemem.obj
+ 0001:00025100       _RtlMoveMemory@12          00326100 f   bldrrtl:movemem.obj
+ 0001:00025150       _RtlCopyMemoryNonTemporal@12 00326150 f   bldrrtl:movemem.obj
+ 0001:00025394       _RtlPrefetchCopyMemory@12  00326394 f   bldrrtl:movemem.obj
+ 0001:00025400       _RtlPrefetchCopyMemory32@12 00326400 f   bldrrtl:movemem.obj
+ 0001:00025480       _RtlLargeIntegerAdd@16     00326480 f   bldrrtl:largeint.obj
+ 0001:00025494       __RtlEnlargedIntegerMultiply@8 00326494 f   bldrrtl:largeint.obj
+ 0001:000254a0       __RtlEnlargedUnsignedMultiply@8 003264a0 f   bldrrtl:largeint.obj
+ 0001:000254ac       __RtlEnlargedUnsignedDivide@16 003264ac f   bldrrtl:largeint.obj
+ 0001:000254cc       _RtlExtendedLargeIntegerDivide@16 003264cc f   bldrrtl:largeint.obj
+ 0001:0002551c       _RtlExtendedMagicDivide@20 0032651c f   bldrrtl:largeint.obj
+ 0001:000255ac       _RtlExtendedIntegerMultiply@12 003265ac f   bldrrtl:largeint.obj
+ 0001:00025604       _RtlLargeIntegerShiftLeft@12 00326604 f   bldrrtl:largeint.obj
+ 0001:0002562c       _RtlLargeIntegerShiftRight@12 0032662c f   bldrrtl:largeint.obj
+ 0001:00025654       _RtlLargeIntegerArithmeticShift@12 00326654 f   bldrrtl:largeint.obj
+ 0001:00025680       _RtlLargeIntegerNegate@8   00326680 f   bldrrtl:largeint.obj
+ 0001:00025694       _RtlLargeIntegerSubtract@16 00326694 f   bldrrtl:largeint.obj
+ 0001:000256a8       ___RtlConvertLongToLargeInteger@4 003266a8 f   bldrrtl:largeint.obj
+ 0001:000256b0       ___RtlConvertUlongToLargeInteger@4 003266b0 f   bldrrtl:largeint.obj
+ 0002:00000000       _KiSetProcessorType@0      00327000 f   ke:cpu.obj
+ 0002:00000116       Get386Stepping             00327116 f   ke:cpu.obj
+ 0002:0000013f       Get486Stepping             0032713f f   ke:cpu.obj
+ 0002:00000172       Check486AStepping          00327172 f   ke:cpu.obj
+ 0002:00000189       Check486BStepping          00327189 f   ke:cpu.obj
+ 0002:000001c4       Check486CStepping          003271c4 f   ke:cpu.obj
+ 0002:000002e4       _KiIsNpxPresent@0          003272e4 f   ke:cpu.obj
+ 0002:00000324       _CPUID@20                  00327324 f   ke:cpu.obj
+ 0002:0000034a       _KeFindConfigurationNextEntry@20 0032734a f   ke:config.obj
+ 0003:0000006c       ??_C@_04NGGJGLHL@?$ICSPS?$AA@ 0032806c     boot:entry.obj
+ 0003:00000074       ??_C@_04KDPPHDCJ@?$IBSPQ?$AA@ 00328074     boot:entry.obj
+ 0003:0000007c       ??_C@_04FNFGNALA@?$ICHLR?$AA@ 0032807c     boot:entry.obj
+ 0003:00000084       ??_C@_04DBNLPJKD@?$IBHLQ?$AA@ 00328084     boot:entry.obj
+ 0003:0000008c       ??_C@_04HGOCEMMH@?$ICNCE?$AA@ 0032808c     boot:entry.obj
+ 0003:00000094       ??_C@_04HDGBMIFB@?$ICNCR?$AA@ 00328094     boot:entry.obj
+ 0003:0000009c       ??_C@_04BPOMOBEC@?$IBNCQ?$AA@ 0032809c     boot:entry.obj
+ 0003:000000a4       ??_C@_04OLOFLFCH@?$ICNAK?$AA@ 003280a4     boot:entry.obj
+ 0003:000000ac       ??_C@_04KEBIMAFK@?$IBOFF?$AA@ 003280ac     boot:entry.obj
+ 0003:000000b4       ??_C@_04PMKBILJM@?$ICUNR?$AA@ 003280b4     boot:entry.obj
+ 0003:000000bc       ??_C@_04LJIEIGBH@?$ICERR?$AA@ 003280bc     boot:entry.obj
+ 0003:000000c4       ??_C@_04EHLOOBIE@?$ICRSP?$AA@ 003280c4     boot:entry.obj
+ 0003:000000cc       ??_C@_04BKOHFNH@?$IBREQ?$AA@ 003280cc     boot:entry.obj
+ 0003:000000d4       ??_C@_04DKMJBFMB@?$ICRSU?$AA@ 003280d4     boot:entry.obj
+ 0003:000000dc       ??_C@_04HOONLLHP@?$IBRQU?$AA@ 003280dc     boot:entry.obj
+ 0003:000000e4       ??_C@_04HEDIGNIF@?$ICRES?$AA@ 003280e4     boot:entry.obj
+ 0003:000000ec       ??_C@_04BBPEBGLC@?$IBAU2?$AA@ 003280ec     boot:entry.obj
+ 0003:000000f4       ??_C@_04CCFDNKJD@?$IBAUT?$AA@ 003280f4     boot:entry.obj
+ 0003:000000fc       ??_C@_04FJBPMALC@?$ICCHL?$AA@ 003280fc     boot:entry.obj
+ 0003:00000104       ??_C@_04HPJCICH@?$IBNEG?$AA@ 00328104     boot:entry.obj
+ 0003:0000010c       ??_C@_0BN@LHFLFBIL@InitializeMemory?5failed?5?$CFlx?6?$AA@ 0032810c     boot:entry.obj
+ 0003:0000012c       ??_C@_0CE@CBNNGKFJ@multi?$CI0?$CJdisk?$CI0?$CJrdisk?$CI0?$CJpartition@ 0032812c     boot:entry.obj
+ 0003:00000150       ??_C@_0CF@OMANLMMN@multi?$CI0?$CJdisk?$CI0?$CJrdisk?$CI0?$CJpartition@ 00328150     boot:entry.obj
+ 0003:00000178       ??_C@_0BM@DGNEOBBH@?6Rebooting?5in?55?5seconds?4?4?4?6?$AA@ 00328178     boot:entry.obj
+ 0003:00000194       ??_C@_0BJ@JNHJGMKH@Couldn?8t?5initialize?5I?1O?6?$AA@ 00328194     boot:entry.obj
+ 0003:000001b0       ??_C@_0BM@NKKOGPJC@Couldn?8t?5initialize?5memory?6?$AA@ 003281b0     boot:entry.obj
+ 0003:000001cc       ??_C@_0CC@LMKLGICE@Couldn?8t?5allocate?5memory?5for?5TSS@ 003281cc     boot:entry.obj
+ 0003:000001f0       ??_C@_0CC@BIPAPDEM@Couldn?8t?5allocate?5memory?5for?5PCR@ 003281f0     boot:entry.obj
+ 0003:00000214       ??_C@_0DM@EEMBIFE@Couldn?8t?5Open?5the?5boot?5partition@ 00328214     boot:entry.obj
+ 0003:00000250       ??_C@_0EA@OMDHEJCJ@Failed?5to?5ArcSeek?5the?5boot?5parti@ 00328250     boot:entry.obj
+ 0003:00000290       ??_C@_0EA@PABBOKIA@Failed?5to?5ArcRead?5the?5boot?5parti@ 00328290     boot:entry.obj
+ 0003:000002d0       ??_C@_0EH@CDHHNJDF@Failed?5second?5ArcSeek?5on?5the?5boo@ 003282d0     boot:entry.obj
+ 0003:00000318       ??_C@_0DK@FFAEKPDA@Falied?5to?5write?5the?5new?5signatur@ 00328318     boot:entry.obj
+ 0003:00000354       ??_C@_0CE@CABPAAGO@multi?$CI0?$CJdisk?$CI0?$CJrdisk?$CI0?$CJpartition@ 00328354     boot:entry.obj
+ 0003:00000378       ??_C@_0BJ@CKNMEBO@multi?$CI0?$CJdisk?$CI0?$CJcdrom?$CI?$CFu?$CJ?$AA@ 00328378     boot:entry.obj
+ 0003:00000394       ??_C@_0L@INEPMPHC@ramdisk?$CI0?$CJ?$AA@ 00328394     boot:entry.obj
+ 0003:000003a0       ??_C@_06OINKDCHF@net?$CI0?$CJ?$AA@ 003283a0     boot:entry.obj
+ 0003:000003a8       ??_C@_0BI@FKBMEFFH@multi?$CI0?$CJdisk?$CI0?$CJfdisk?$CI0?$CJ?$AA@ 003283a8     boot:entry.obj
+ 0003:00000410       ??_C@_04HHDCLOBE@SPCR?$AA@ 00328410     boot:port.obj
+ 0003:00000418       ??_C@_06LHBCBDBA@_UUID_?$AA@ 00328418     boot:port.obj
+ 0003:00000420       ??_C@_03OJBJCEMG@?$BL?$FLm?$AA@ 00328420     boot:port.obj
+ 0003:00000474       ??_C@_0CG@FFPMMGON@?5?5?5?5?5?5?5?5LoaderMemoryData?5descrip@ 00328474     boot:memory.obj
+ 0003:0000049c       ??_C@_0DD@MMLFGKLG@ERROR?5?9?5FwAllocateHeapPermanent?5@ 0032849c     boot:memory.obj
+ 0003:000004d0       ??_C@_0BI@CKOJBGLP@Out?5of?5permanent?5heap?$CB?6?$AA@ 003284d0     boot:memory.obj
+ 0003:000004e8       ??_C@_0BI@BHLDHIOL@Out?5of?5temporary?5heap?$CB?6?$AA@ 003284e8     boot:memory.obj
+ 0003:00000500       ??_C@_0CA@NHGPGEBA@GDT?5?9?5?$CFlx?5?$CI?$CFx?$CJ?5?5IDT?5?9?5?$CFlx?5?$CI?$CFx?$CJ?6?$AA@ 00328500     boot:memory.obj
+ 0003:00000520       ??_C@_0CJ@CCDFMDLI@ERROR?5?9?5GDT?5and?5IDT?5are?5not?5cont@ 00328520     boot:memory.obj
+ 0003:0000054c       ??_C@_0CK@MNPAIAEI@ERROR?5?9?5MempSetupPaging?$CI?$CFlx?0?5?$CFlx@ 0032854c     boot:memory.obj
+ 0003:00000578       ??_C@_0CE@DGGKMFKK@MempSetDescriptorRegion?5failed?5?$CF@ 00328578     boot:memory.obj
+ 0003:000005ec       ??_C@_04FKBPEJO@FACP?$AA@  003285ec     boot:acpidtct.obj
+ 0003:00000644       ??_C@_0DA@ELCAMBEN@BlLoadImageEx?3?5Pulled?5?$CFs?5from?5Ke@ 00328644     boot:blio.obj
+ 0003:00000714       ??_C@_0DI@JGNHOMNI@PXENV_UNDI_GET_INFORMATION?5faile@ 00328714     boot:netboot2.obj
+ 0003:0000074c       ??_C@_0DG@IBCKONND@Client?3?5?$CFx?0?5Subnet?5mask?3?5?$CFx?$DL?5Ser@ 0032874c     boot:netboot2.obj
+ 0003:00000784       ??_C@_0CH@ENHPLGFP@PXENV_GET_BINL_INFO?$CI2?$CJ?5failed?5wi@ 00328784     boot:netboot2.obj
+ 0003:000007ac       ??_C@_0CH@OOCJDAPG@PXENV_GET_BINL_INFO?$CI1?$CJ?5failed?5wi@ 003287ac     boot:netboot2.obj
+ 0003:000007d4       ??_C@_0BC@OHOFHAHN@?$CILength?5?$CG?53?$CJ?5?$DN?$DN?50?$AA@ 003287d4     boot:netboot2.obj
+ 0003:000007e8       ??_C@_0BM@KNBDMNJ@?$CI?$CIULONG_PTR?$CJBlock?5?$CG?53?$CJ?5?$DN?$DN?50?$AA@ 003287e8     boot:netboot2.obj
+ 0003:00000804       ??_C@_0CF@CICDEKAN@d?3?2srv03rtm?2base?2boot?2lib?2netboo@ 00328804     boot:netboot2.obj
+ 0003:0000082c       ??_C@_0DA@NANPMGKG@NetSoftReboot?3?5Could?5not?5reboot?5@ 0032882c     boot:netboot2.obj
+ 0003:0000085c       ??_C@_0CI@PDGCJDIC@NetSoftReboot?3?5error?5?$CFd?5from?5UDP@ 0032885c     boot:netboot2.obj
+ 0003:00000884       ??_C@_0BF@HHKKJOJK@NextBootFile?5?$CB?$DN?5NULL?$AA@ 00328884     boot:netboot2.obj
+ 0003:0000089c       ??_C@_0BD@DMMBNNJG@NetSoftReboot?5?$CI?5?$CJ?6?$AA@ 0032889c     boot:netboot2.obj
+ 0003:000008b0       ??_C@_17ODNIDLDN@?$AAn?$AAe?$AAt?$AA?$AA@ 003288b0     boot:netboot.obj
+ 0003:00000908       ??_C@_0BE@GNHJJKIH@IsNetFileStructure?6?$AA@ 00328908     boot:netboot.obj
+ 0003:0000091c       ??_C@_0N@GEGNJAPA@NetArcClose?6?$AA@ 0032891c     boot:netboot.obj
+ 0003:0000092c       ??_C@_04BNICKINJ@net?$CI?$AA@ 0032892c     boot:netboot.obj
+ 0003:00000934       ??_C@_0M@KNBJMENA@NetArcOpen?6?$AA@ 00328934     boot:netboot.obj
+ 0003:00000940       ??_C@_0DF@GONDCACD@NetClose?3?5id?5?$CFd?0?5freeing?5memory?5@ 00328940     boot:netboot.obj
+ 0003:00000978       ??_C@_0BG@KEDBGLMG@NetClose?5FileId?5?$DN?5?$CFd?6?$AA@ 00328978     boot:netboot.obj
+ 0003:00000990       ??_C@_09DNEKJFKE@NetMount?6?$AA@ 00328990     boot:netboot.obj
+ 0003:0000099c       ??_C@_0CN@EIMGLAPK@NetOpen?3?5freeing?5memory?5at?50x?$CF08@ 0032899c     boot:netboot.obj
+ 0003:000009cc       ??_C@_0DA@FBLGMPIA@NetOpen?3?5TftpGetPut?$CIget?$CJ?5status?3@ 003289cc     boot:netboot.obj
+ 0003:000009fc       ??_C@_0CC@FFEBBBDN@NetOpen?3?5Using?5cache?5for?5file?5?$CFs@ 003289fc     boot:netboot.obj
+ 0003:00000a20       ??_C@_0BF@POFDPMIM@NetOpen?3?5opening?5?$CFs?6?$AA@ 00328a20     boot:netboot.obj
+ 0003:00000a38       ??_C@_0BL@EKGNOMNL@NetOpen?3?5invalid?5OpenMode?6?$AA@ 00328a38     boot:netboot.obj
+ 0003:00000a54       ??_C@_0CF@PHIDIDDA@NetOpen?3?5opening?5?$CFs?0?5id?5?$CFd?0?5mode@ 00328a54     boot:netboot.obj
+ 0003:00000a7c       ??_C@_0BF@HCMMIGOP@NetOpen?5FileId?5?$DN?5?$CFd?6?$AA@ 00328a7c     boot:netboot.obj
+ 0003:00000a94       ??_C@_0DB@HJBGFMEP@NetRead?3?5id?5?$CFd?0?5length?5?$CFd?0?5count@ 00328a94     boot:netboot.obj
+ 0003:00000ac8       ??_C@_0BC@KGDFCALJ@NetGetReadStatus?6?$AA@ 00328ac8     boot:netboot.obj
+ 0003:00000adc       ??_C@_0DA@HBMCNKFA@NetSeek?3?5id?5?$CFd?0?5mode?5?$CFd?0?5offset?5@ 00328adc     boot:netboot.obj
+ 0003:00000b0c       ??_C@_09MGPMEDFO@NetWrite?6?$AA@ 00328b0c     boot:netboot.obj
+ 0003:00000b18       ??_C@_0DG@OAGLOOHF@NetGetFileInformation?5returning?5@ 00328b18     boot:netboot.obj
+ 0003:00000b50       ??_C@_0BH@KONIAIBP@NetSetFileInformation?6?$AA@ 00328b50     boot:netboot.obj
+ 0003:00000b68       ??_C@_0L@KPFJEIKG@NetRename?6?$AA@ 00328b68     boot:netboot.obj
+ 0003:00000b74       ??_C@_0BG@OIJNJPCM@NetGetDirectoryEntry?6?$AA@ 00328b74     boot:netboot.obj
+ 0003:00000b8c       ??_C@_0CB@NNFEKPGK@NetInitialize?3?5booting?5from?5net?6@ 00328b8c     boot:netboot.obj
+ 0003:00000bb0       ??_C@_0P@OLECGCBP@NetInitialize?6?$AA@ 00328bb0     boot:netboot.obj
+ 0003:00000c60       ??_C@_0DI@IHJDKECD@ERROR?5?9?5Unimplemented?5Firmware?5V@ 00328c60     boot:arcemul.obj
+ 0003:00000c98       ??_C@_04HCDDPBNL@TRUE?$AA@ 00328c98     boot:arcemul.obj
+ 0003:00000ca0       ??_C@_0O@KAMPEEAB@LastKnownGood?$AA@ 00328ca0     boot:arcemul.obj
+ 0003:00000cb0       ??_C@_0CE@JJOENLIG@multi?$CI0?$CJdisk?$CI0?$CJrdisk?$CI1?$CJpartition@ 00328cb0     boot:arcemul.obj
+ 0003:00000cd4       ??_C@_0CP@KFCOLNIC@Boot?5record?5signature?5?$CFx?5not?5fou@ 00328cd4     boot:arcemul.obj
+ 0003:00000d04       ??_C@_0CE@MAPJMNNB@multi?$CI0?$CJdisk?$CI0?$CJfdisk?$CI1?$CJpartition@ 00328d04     boot:arcemul.obj
+ 0003:00000d28       ??_C@_0CE@HJACBGDJ@multi?$CI0?$CJdisk?$CI0?$CJfdisk?$CI0?$CJpartition@ 00328d28     boot:arcemul.obj
+ 0003:00000d4c       ??_C@_05FNFCHFLO@multi?$AA@ 00328d4c     boot:arcemul.obj
+ 0003:00000d54       ??_C@_04EHAMELJ@eisa?$AA@  00328d54     boot:arcemul.obj
+ 0003:00000d5c       ??_C@_0BO@CMDJHIJC@Disk?5I?1O?5error?3?5Status?5?$DN?5?$CFlx?6?$AA@ 00328d5c     boot:arcemul.obj
+ 0003:00000d7c       ??_C@_0BG@NGEJLEAF@AERead?3?5Status?5?$DN?5?$CFlx?6?$AA@ 00328d7c     boot:arcemul.obj
+ 0003:00000d94       ??_C@_04MGNJNGKI@?$BL?$FL0m?$AA@ 00328d94     boot:arcemul.obj
+ 0003:00000d9c       ??_C@_03CKMHKHOC@?$BL?$FLK?$AA@ 00328d9c     boot:arcemul.obj
+ 0003:00000da0       ??_C@_04FAHFFIM@?$BL?$FL0K?$AA@ 00328da0     boot:arcemul.obj
+ 0003:00000da8       ??_C@_03DDNMJGKD@?$BL?$FLJ?$AA@ 00328da8     boot:arcemul.obj
+ 0003:00000dac       ??_C@_04BMBMGEMN@?$BL?$FL0J?$AA@ 00328dac     boot:arcemul.obj
+ 0003:00000db4       ??_C@_06OEOHLFEJ@?$BL?$FLH?$BL?$FLJ?$AA@ 00328db4     boot:arcemul.obj
+ 0003:00000dbc       ??_C@_04BPJILAKD@?$BL?$FL2J?$AA@ 00328dbc     boot:arcemul.obj
+ 0003:00000e14       ??_C@_0CM@CHBBCPJJ@restart?5?5?5Restart?5the?5system?5imm@ 00328e14     boot:hdlsterm.obj
+ 0003:00000e40       ??_C@_0CB@DGCHBENA@?$DP?5?5?5?5?5?5?5?5Display?5this?5message?4?$AN?6@ 00328e40     boot:hdlsterm.obj
+ 0003:00000e64       ??_C@_0CF@EOPKEGBO@Invalid?5Command?0?5use?5?8?$DP?8?5for?5hel@ 00328e64     boot:hdlsterm.obj
+ 0003:00000e8c       ??_C@_07LDHOHMPD@restart?$AA@ 00328e8c     boot:hdlsterm.obj
+ 0003:00000e94       ??_C@_04PCJFHION@help?$AA@ 00328e94     boot:hdlsterm.obj
+ 0003:00000e9c       ??_C@_01OGPIMHDM@?$DP?$AA@ 00328e9c     boot:hdlsterm.obj
+ 0003:00000ea0       ??_C@_01CLKCMJKC@?5?$AA@   00328ea0     boot:hdlsterm.obj
+ 0003:00000ea4       ??_C@_01KICIPPFI@?2?$AA@   00328ea4     boot:hdlsterm.obj
+ 0003:00000ea8       ??_C@_05ONMPCKGI@?$CBSAC?$DO?$AA@ 00328ea8     boot:hdlsterm.obj
+ 0003:00000eb0       ??_C@_02PCIJFNDE@?$AN?6?$AA@ 00328eb0     boot:hdlsterm.obj
+ 0003:00000f04       ??_C@_08HKMPDHA@?$BL?$FL?$CFd?$DL?$CFdH?$AA@ 00328f04     boot:input.obj
+ 0003:00000f60       ??_C@_0DB@ENABBHEC@ABANDONING?5?$CFd?5bytes?5of?5heap?$DL?5tot@ 00328f60     boot:blmemory.obj
+ 0003:00000f94       ??_C@_0CJ@MKCNDNCG@Couldn?8t?5allocate?5heap?5for?5loade@ 00328f94     boot:blmemory.obj
+ 0003:00000fc0       ??_C@_0DK@CPBCBMOI@Couldn?8t?5allocate?5heap?5for?5memor@ 00328fc0     boot:blmemory.obj
+ 0003:00000ffc       ??_C@_0CK@PEBCKJEF@Couldn?8t?5allocate?5heap?5for?5loade@ 00328ffc     boot:blmemory.obj
+ 0003:00001028       ??_C@_0L@EBJBPFIL@5?42?43790?40?$AA@ 00329028     boot:blmemory.obj
+ 0003:00001034       ??_C@_0CN@HONGLJFI@Couldn?8t?5initialize?5loader?5block@ 00329034     boot:blmemory.obj
+ 0003:00001064       ??_C@_0CD@IOFKGAK@Couldn?8t?5initialize?5loader?5block@ 00329064     boot:blmemory.obj
+ 0003:00001088       ??_C@_0BP@GMMLPABD@Couldn?8t?5find?5HeapDescriptor?$AN?6?$AA@ 00329088     boot:blmemory.obj
+ 0003:000010a8       ??_C@_0CC@NDGAMEIF@Couldn?8t?5find?5ProgramDescriptor?$AN@ 003290a8     boot:blmemory.obj
+ 0003:0000111c       ??_C@_19NFCDGFIO@?$AAc?$AAd?$AAf?$AAs?$AA?$AA@ 0032911c     boot:cdfsboot.obj
+ 0003:00001178       ??_C@_05DFJHOEIL@CDROM?$AA@ 00329178     boot:cdfsboot.obj
+ 0003:00001180       ??_C@_05HIJPMCJE@CD001?$AA@ 00329180     boot:cdfsboot.obj
+ 0003:00001188       ??_C@_19PPJDJECB@?$AAu?$AAd?$AAf?$AAs?$AA?$AA@ 00329188     boot:udfsboot.obj
+ 0003:000011e4       ??_C@_04BCHAJGMG@?$CLNSR?$AA@ 003291e4     boot:udfsboot.obj
+ 0003:000011ec       ??_C@_19FMGGNPBF@?$AAn?$AAt?$AAf?$AAs?$AA?$AA@ 003291ec     boot:ntfsboot.obj
+ 0003:00001248       ??_C@_0O@LPOIIDNA@?2bootstat?4dat?$AA@ 00329248     boot:ntfsboot.obj
+ 0003:00001258       ??_C@_0O@MEHAAGK@?2hiberfil?4sys?$AA@ 00329258     boot:ntfsboot.obj
+ 0003:00001268       ??_C@_08LPDBBGJK@NTFS?5?5?5?5?$AA@ 00329268     boot:ntfsboot.obj
+ 0003:00001274       ??_C@_1BA@PFEBAKHI@?$AAf?$AAa?$AAs?$AAt?$AAf?$AAa?$AAt?$AA?$AA@ 00329274     boot:fatboot.obj
+ 0003:00001324       ??_C@_19KEIGCEOC@?$AAe?$AAt?$AAf?$AAs?$AA?$AA@ 00329324     boot:etfsboot.obj
+ 0003:00001380       ??_C@_0BI@EBPPJCHM@EL?5TORITO?5SPECIFICATION?$AA@ 00329380     boot:etfsboot.obj
+ 0003:00001488       ??_C@_01NEMOKFLO@?$DN?$AA@ 00329488     boot:blmisc.obj
+ 0003:000014dc       ??_C@_0CI@EAFBEGHE@?6?$CK?$CK?$CK?5Assertion?5failed?5?$CFs?5in?5?$CFs?5l@ 003294dc     boot:stubs.obj
+ 0003:00001504       ??_C@_0O@ENMDPNIJ@LoaderReserve?$AA@ 00329504     boot:amd64x86.obj
+ 0003:00001514       ??_C@_0BA@CIEEJIAD@LoaderBBTMemory?$AA@ 00329514     boot:amd64x86.obj
+ 0003:00001524       ??_C@_0BE@HEDMBGJD@LoaderSpecialMemory?$AA@ 00329524     boot:amd64x86.obj
+ 0003:00001538       ??_C@_0O@CKKKHDJB@LoaderNlsData?$AA@ 00329538     boot:amd64x86.obj
+ 0003:00001548       ??_C@_0BB@CECECHPD@LoaderMemoryData?$AA@ 00329548     boot:amd64x86.obj
+ 0003:0000155c       ??_C@_0BD@MACKELPN@LoaderRegistryData?$AA@ 0032955c     boot:amd64x86.obj
+ 0003:00001570       ??_C@_0BF@PKKPPKHD@LoaderStartupPdrPage?$AA@ 00329570     boot:amd64x86.obj
+ 0003:00001588       ??_C@_0BF@DPAIMEPN@LoaderStartupPcrPage?$AA@ 00329588     boot:amd64x86.obj
+ 0003:000015a0       ??_C@_0BI@NCCEOOBJ@LoaderStartupPanicStack?$AA@ 003295a0     boot:amd64x86.obj
+ 0003:000015b8       ??_C@_0BJ@PIOHGAOO@LoaderStartupKernelStack?$AA@ 003295b8     boot:amd64x86.obj
+ 0003:000015d4       ??_C@_0BG@IIPJMPPE@LoaderStartupDpcStack?$AA@ 003295d4     boot:amd64x86.obj
+ 0003:000015ec       ??_C@_0BH@DFKFNKCH@LoaderConsoleOutDriver?$AA@ 003295ec     boot:amd64x86.obj
+ 0003:00001604       ??_C@_0BG@ICFLKAMI@LoaderConsoleInDriver?$AA@ 00329604     boot:amd64x86.obj
+ 0003:0000161c       ??_C@_0BB@IGDJCKOK@LoaderBootDriver?$AA@ 0032961c     boot:amd64x86.obj
+ 0003:00001630       ??_C@_0O@FFCHGGMP@LoaderHalCode?$AA@ 00329630     boot:amd64x86.obj
+ 0003:00001640       ??_C@_0BB@LAGODCFM@LoaderSystemCode?$AA@ 00329640     boot:amd64x86.obj
+ 0003:00001654       ??_C@_0BE@DADKGLIF@LoaderOsloaderStack?$AA@ 00329654     boot:amd64x86.obj
+ 0003:00001668       ??_C@_0BD@MLIOADME@LoaderOsloaderHeap?$AA@ 00329668     boot:amd64x86.obj
+ 0003:0000167c       ??_C@_0BI@CCMGKNIF@LoaderFirmwarePermanent?$AA@ 0032967c     boot:amd64x86.obj
+ 0003:00001694       ??_C@_0BI@DIFFHLIL@LoaderFirmwareTemporary?$AA@ 00329694     boot:amd64x86.obj
+ 0003:000016ac       ??_C@_0BE@FICEILKL@LoaderLoadedProgram?$AA@ 003296ac     boot:amd64x86.obj
+ 0003:000016c0       ??_C@_09NKCDEEEF@LoaderBad?$AA@ 003296c0     boot:amd64x86.obj
+ 0003:000016cc       ??_C@_0L@KIAIDNDP@LoaderFree?$AA@ 003296cc     boot:amd64x86.obj
+ 0003:000016d8       ??_C@_0BC@LLBEJDEH@LoaderSystemBlock?$AA@ 003296d8     boot:amd64x86.obj
+ 0003:000016ec       ??_C@_0BF@BAAFMDJJ@LoaderExceptionBlock?$AA@ 003296ec     boot:amd64x86.obj
+ 0003:000017a4       ??_C@_0BN@JFNDFBKA@BuildRequest?3?5Write?5Command?6?$AA@ 003297a4     boot:scsidisk.obj
+ 0003:000017c4       ??_C@_0BM@CGKCJOBB@BuildRequest?3?5Read?5Command?6?$AA@ 003297c4     boot:scsidisk.obj
+ 0003:000017e0       ??_C@_0BK@JBPCCONF@StartUnit?3?5Enter?5routine?6?$AA@ 003297e0     boot:scsidisk.obj
+ 0003:000017fc       ??_C@_0DC@LDEBGDOD@InterpretSenseInfo?3?5Request?5sens@ 003297fc     boot:scsidisk.obj
+ 0003:00001830       ??_C@_0CD@IMJDJCHD@InterpretSenseInfo?3?5Media?5change@ 00329830     boot:scsidisk.obj
+ 0003:00001854       ??_C@_0BP@HKBHCNOI@InterpretSenseInfo?3?5Bus?5reset?6?$AA@ 00329854     boot:scsidisk.obj
+ 0003:00001874       ??_C@_0CE@FDNPILDJ@InterpretSenseInfo?3?5Unit?5attenti@ 00329874     boot:scsidisk.obj
+ 0003:00001898       ??_C@_0CL@MCDFNKAH@InterpretSenseInfo?3?5Media?5write?5@ 00329898     boot:scsidisk.obj
+ 0003:000018c4       ??_C@_0CF@HBFJCKJD@InterpretSenseInfo?3?5Command?5abor@ 003298c4     boot:scsidisk.obj
+ 0003:000018ec       ??_C@_0CN@GKJODAEM@InterpretSenseInfo?3?5Unrecognized@ 003298ec     boot:scsidisk.obj
+ 0003:0000191c       ??_C@_0CF@CHEACGMM@InterpretSenseInfo?3?5Illegal?5comm@ 0032991c     boot:scsidisk.obj
+ 0003:00001944       ??_C@_0CL@JCHDABPE@InterpretSenseInfo?3?5Illegal?5bloc@ 00329944     boot:scsidisk.obj
+ 0003:00001970       ??_C@_0CB@FIBHIML@InterpretSenseInfo?3?5Invalid?5LUN?6@ 00329970     boot:scsidisk.obj
+ 0003:00001994       ??_C@_0CA@MCDKCIJC@InterpretSenseInfo?3?5Music?5area?6?$AA@ 00329994     boot:scsidisk.obj
+ 0003:000019b4       ??_C@_0BP@DFOHJLCA@InterpretSenseInfo?3?5Data?5area?6?$AA@ 003299b4     boot:scsidisk.obj
+ 0003:000019d4       ??_C@_0CF@OBNJDHEJ@InterpretSenseInfo?3?5Volume?5overf@ 003299d4     boot:scsidisk.obj
+ 0003:000019fc       ??_C@_0CK@IJEFHPOH@InterpretSenseInfo?3?5Illegal?5SCSI@ 003299fc     boot:scsidisk.obj
+ 0003:00001a28       ??_C@_0CL@CLPDLGKA@InterpretSenseInfo?3?5No?5specific?5@ 00329a28     boot:scsidisk.obj
+ 0003:00001a54       ??_C@_0DC@OFKKAANJ@InterpretSenseInfo?3?5In?5process?5o@ 00329a54     boot:scsidisk.obj
+ 0003:00001a88       ??_C@_0DC@FPOPHFEN@InterpretSenseInfo?3?5Manual?5inter@ 00329a88     boot:scsidisk.obj
+ 0003:00001abc       ??_C@_0CI@LHNLODLK@InterpretSenseInfo?3?5Format?5in?5pr@ 00329abc     boot:scsidisk.obj
+ 0003:00001ae4       ??_C@_0DD@DMMBBFCD@InterpretSenseInfo?3?5Initializing@ 00329ae4     boot:scsidisk.obj
+ 0003:00001b18       ??_C@_0CD@BFCMBEMN@InterpretSenseInfo?3?5Lun?5not?5read@ 00329b18     boot:scsidisk.obj
+ 0003:00001b3c       ??_C@_0CI@IKENOENC@InterpretSenseInfo?3?5Waiting?5for?5@ 00329b3c     boot:scsidisk.obj
+ 0003:00001b64       ??_C@_0CG@JNPFGJLF@InterpretSenseInfo?3?5Device?5not?5r@ 00329b64     boot:scsidisk.obj
+ 0003:00001b8c       ??_C@_0BP@IPJOFKFE@InterpretSenseInfo?3?5Bad?5media?6?$AA@ 00329b8c     boot:scsidisk.obj
+ 0003:00001bac       ??_C@_0CE@DMNOIHCH@InterpretSenseInfo?3?5Hardware?5err@ 00329bac     boot:scsidisk.obj
+ 0003:00001bd0       ??_C@_0DL@IDJKCLMN@InterpretSenseInfo?3?5Additional?5s@ 00329bd0     boot:scsidisk.obj
+ 0003:00001c0c       ??_C@_0DB@JIEFADJH@InterpretSenseInfo?3?5Additional?5s@ 00329c0c     boot:scsidisk.obj
+ 0003:00001c40       ??_C@_0CF@ELPIJEEJ@InterpretSenseInfo?3?5Sense?5key?5is@ 00329c40     boot:scsidisk.obj
+ 0003:00001c68       ??_C@_0CG@NKDHEHJE@InterpretSenseInfo?3?5Error?5code?5i@ 00329c68     boot:scsidisk.obj
+ 0003:00001c90       ??_C@_0DM@BEAPLKMA@SCSI?3?5Read?5request?5failed?4?5?5Arc?5@ 00329c90     boot:scsidisk.obj
+ 0003:00001ccc       ??_C@_0CO@FDAHKGGJ@ScsiDiskFilterBad?3?5?5Found?5Hitach@ 00329ccc     boot:scsidisk.obj
+ 0003:00001cfc       ??_C@_0BH@IKEIAFGK@HITACHI?5CDR?93650?11650S?$AA@ 00329cfc     boot:scsidisk.obj
+ 0003:00001d14       ??_C@_0BC@HGBFKIJO@HITACHI?5CDR?91750S?$AA@ 00329d14     boot:scsidisk.obj
+ 0003:00001d28       ??_C@_0BK@KFNPDPAI@FilterBad?3?5Enter?5routine?6?$AA@ 00329d28     boot:scsidisk.obj
+ 0003:00001d44       ??_C@_0DB@KBEKKFKL@SCSI?5ReadDriveCapacity?3?5Number?5o@ 00329d44     boot:scsidisk.obj
+ 0003:00001d78       ??_C@_0CL@LJMAGPMG@SCSI?5ReadDriveCapacity?3?5Sector?5s@ 00329d78     boot:scsidisk.obj
+ 0003:00001da4       ??_C@_0CC@MPCFGBEF@SCSI?5ReadCapacity?3?5Enter?5routine@ 00329da4     boot:scsidisk.obj
+ 0003:00001dc8       ??_C@_09IKAEIPAD@partition?$AA@ 00329dc8     boot:scsidisk.obj
+ 0003:00001dd4       ??_C@_04MDPPAFID@disk?$AA@ 00329dd4     boot:scsidisk.obj
+ 0003:00001ddc       ??_C@_05POABADMF@cdrom?$AA@ 00329ddc     boot:scsidisk.obj
+ 0003:00001de4       ??_C@_05GKLCLPHK@fdisk?$AA@ 00329de4     boot:scsidisk.obj
+ 0003:00001dec       ??_C@_05PCPFPPPH@rdisk?$AA@ 00329dec     boot:scsidisk.obj
+ 0003:00001df4       ??_C@_07BOGDHHGE@scsi?$CI0?$CJ?$AA@ 00329df4     boot:scsidisk.obj
+ 0003:00001dfc       ??_C@_05JELMAHMD@?$CJdisk?$AA@ 00329dfc     boot:scsidisk.obj
+ 0003:00001e04       ??_C@_04EMLEMMPH@scsi?$AA@ 00329e04     boot:scsidisk.obj
+ 0003:00001e0c       ??_C@_09CMIIOJHF@signature?$AA@ 00329e0c     boot:scsidisk.obj
+ 0003:00001e68       ??_C@_0CE@IFKAIKPM@ERROR?5?9?5Unopened?5fileid?5?$CFlx?5clos@ 00329e68     boot:biosdrv.obj
+ 0003:00001e8c       ??_C@_0BM@MNMNIEHC@SeekMode?5?$CFlx?5not?5supported?6?$AA@ 00329e8c     boot:biosdrv.obj
+ 0003:00001ea8       ??_C@_0BL@MPADPFIA@multi?$CI0?$CJvideo?$CI0?$CJmonitor?$CI0?$CJ?$AA@ 00329ea8     boot:biosdrv.obj
+ 0003:00001ec4       ??_C@_0BK@PLKLDCKM@multi?$CI0?$CJkey?$CI0?$CJkeyboard?$CI0?$CJ?$AA@ 00329ec4     boot:biosdrv.obj
+ 0003:00001ee0       ??_C@_0DC@PFNDNDDP@pSrc?5?$DM?5?$CIPUCHAR?$CJ?5FwDiskCache?5?$CL?5SC@ 00329ee0     boot:biosdrv.obj
+ 0003:00001f14       ??_C@_0BN@MFKINLLP@pSrc?5?$DO?$DN?5?$CIPUCHAR?$CJ?5FwDiskCache?$AA@ 00329f14     boot:biosdrv.obj
+ 0003:00001f34       ??_C@_0CC@KAONOJMM@CopyLength?5?$DM?$DN?5SCRATCH_BUFFER_SIZ@ 00329f34     boot:biosdrv.obj
+ 0003:00001f58       ??_C@_0DD@KPBFPFL@pEndOfUserBuffer?5?$DO?$DN?5pDestInUserB@ 00329f58     boot:biosdrv.obj
+ 0003:00001f8c       ??_C@_0CC@MCPNNGBL@pDestInUserBuffer?5?$DO?$DN?5TargetBuffe@ 00329f8c     boot:biosdrv.obj
+ 0003:00001fb0       ??_C@_0CJ@GBGBILHA@d?3?2srv03rtm?2base?2boot?2lib?2i386?2b@ 00329fb0     boot:biosdrv.obj
+ 0003:00001fdc       ??_C@_0BH@NGFMCDGL@eisa?$CI0?$CJdisk?$CI0?$CJfdisk?$CI1?$CJ?$AA@ 00329fdc     boot:biosdrv.obj
+ 0003:00001ff4       ??_C@_0BI@FLNOCPGA@multi?$CI0?$CJdisk?$CI0?$CJfdisk?$CI1?$CJ?$AA@ 00329ff4     boot:biosdrv.obj
+ 0003:0000200c       ??_C@_0BH@NHJOEJFM@eisa?$CI0?$CJdisk?$CI0?$CJfdisk?$CI0?$CJ?$AA@ 0032a00c     boot:biosdrv.obj
+ 0003:00002024       ??_C@_0CD@MOJLMFDM@eisa?$CI0?$CJdisk?$CI0?$CJfdisk?$CI1?$CJpartition?$CI@ 0032a024     boot:biosdrv.obj
+ 0003:00002048       ??_C@_0CD@HHGABONE@eisa?$CI0?$CJdisk?$CI0?$CJfdisk?$CI0?$CJpartition?$CI@ 0032a048     boot:biosdrv.obj
+ 0003:000020bc       ??_C@_0CF@ELCOOALC@ERROR?5?9?5Unopened?5fileid?5?$CFlx?5clos@ 0032a0bc     boot:ramdisk.obj
+ 0003:000020e4       ??_C@_0CM@IOIPPEKL@RamdiskOpen?3?5no?5file?5table?5entry@ 0032a0e4     boot:ramdisk.obj
+ 0003:00002110       ??_C@_0BL@JPFHOLNB@RamdiskOpen?3?5exit?5success?6?$AA@ 0032a110     boot:ramdisk.obj
+ 0003:0000212c       ??_C@_0BM@NFAGLEGH@RamdiskOpen?3?5not?5ramdisk?50?6?$AA@ 0032a12c     boot:ramdisk.obj
+ 0003:00002148       ??_C@_0CB@IPEAPGBG@RamdiskOpen?3?5not?5a?5ramdisk?5path?6@ 0032a148     boot:ramdisk.obj
+ 0003:0000216c       ??_C@_07BHCBOAMP@ramdisk?$AA@ 0032a16c     boot:ramdisk.obj
+ 0003:00002174       ??_C@_0BN@EBGGCDJL@SeekMode?5?$CFlx?5not?5supported?$AN?6?$AA@ 0032a174     boot:ramdisk.obj
+ 0003:00002194       ??_C@_0BF@JCOKNAEG@RamdiskMount?5called?6?$AA@ 0032a194     boot:ramdisk.obj
+ 0003:000021ac       ??_C@_0BK@JDIBDBKB@RamdiskReadStatus?5called?6?$AA@ 0032a1ac     boot:ramdisk.obj
+ 0003:000021c8       ??_C@_0BL@CHCHDHBL@RamdiskSetFileInfo?5called?6?$AA@ 0032a1c8     boot:ramdisk.obj
+ 0003:000021e4       ??_C@_0BG@BIGFGKFF@RamdiskRename?5called?6?$AA@ 0032a1e4     boot:ramdisk.obj
+ 0003:000021fc       ??_C@_0CB@LMPNCKJN@RamdiskGetDirectoryEntry?5called?6@ 0032a1fc     boot:ramdisk.obj
+ 0003:00002220       ??_C@_0CE@MBOBKONN@?$CIVirtualAddressOfOffset?5?$DO?$DO?532?$CJ?5?$DN@ 0032a220     boot:ramdisk.obj
+ 0003:00002244       ??_C@_0CE@LOMLDJIB@d?3?2srv03rtm?2base?2boot?2lib?2ramdis@ 0032a244     boot:ramdisk.obj
+ 0003:00002268       ??_C@_0BG@MBDMGLLM@RamdiskWrite?5entered?6?$AA@ 0032a268     boot:ramdisk.obj
+ 0003:00002280       ??_C@_0CN@HMNCAHFP@Mapped?5offset?5?$CFx?0?5va?5?$CFp?0?5availab@ 0032a280     boot:ramdisk.obj
+ 0003:000022b0       ??_C@_0BO@IFPLJCPC@RamdiskRead?3?5read?5beyond?5EOF?6?$AA@ 0032a2b0     boot:ramdisk.obj
+ 0003:000022d0       ??_C@_0CO@LMPKJBMH@RamdiskRead?3?5offset?5?$CFx?0?5length?5?$CF@ 0032a2d0     boot:ramdisk.obj
+ 0003:00002350       ??_C@_04LOFBOAAI@term?$AA@ 0032a350     boot:blconfig.obj
+ 0003:00002358       ??_C@_08KNBLADDJ@keyboard?$AA@ 0032a358     boot:blconfig.obj
+ 0003:00002364       ??_C@_07PFMCDPMA@pointer?$AA@ 0032a364     boot:blconfig.obj
+ 0003:0000236c       ??_C@_05IJDJACGD@print?$AA@ 0032a36c     boot:blconfig.obj
+ 0003:00002374       ??_C@_07LAMOHCEE@monitor?$AA@ 0032a374     boot:blconfig.obj
+ 0003:0000237c       ??_C@_05MLDONODB@modem?$AA@ 0032a37c     boot:blconfig.obj
+ 0003:00002384       ??_C@_05BGEKGIIP@other?$AA@ 0032a384     boot:blconfig.obj
+ 0003:0000238c       ??_C@_05KNIAAKIP@audio?$AA@ 0032a38c     boot:blconfig.obj
+ 0003:00002394       ??_C@_03ICHNJLJF@key?$AA@  0032a394     boot:blconfig.obj
+ 0003:00002398       ??_C@_05BBEJFBFA@point?$AA@ 0032a398     boot:blconfig.obj
+ 0003:000023a0       ??_C@_03OBJIDKBM@par?$AA@  0032a3a0     boot:blconfig.obj
+ 0003:000023a4       ??_C@_05BPFJLLEL@video?$AA@ 0032a3a4     boot:blconfig.obj
+ 0003:000023ac       ??_C@_03NBFOK@net?$AA@     0032a3ac     boot:blconfig.obj
+ 0003:000023b0       ??_C@_06KCELPKEE@serial?$AA@ 0032a3b0     boot:blconfig.obj
+ 0003:000023b8       ??_C@_04JGEMHKLM@worm?$AA@ 0032a3b8     boot:blconfig.obj
+ 0003:000023c0       ??_C@_04PKGOCJDJ@tape?$AA@ 0032a3c0     boot:blconfig.obj
+ 0003:000023c8       ??_C@_03INDIFANF@dti?$AA@  0032a3c8     boot:blconfig.obj
+ 0003:000023cc       ??_C@_02BNJGNOAF@tc?$AA@   0032a3cc     boot:blconfig.obj
+ 0003:000023d0       ??_C@_02BINJMIIA@sc?$AA@   0032a3d0     boot:blconfig.obj
+ 0003:000023d4       ??_C@_03KGDPHEAJ@sdc?$AA@  0032a3d4     boot:blconfig.obj
+ 0003:000023d8       ??_C@_03KOOHOHFK@sic?$AA@  0032a3d8     boot:blconfig.obj
+ 0003:000023dc       ??_C@_03LEIKNLOH@pdc?$AA@  0032a3dc     boot:blconfig.obj
+ 0003:000023e0       ??_C@_03LMFCEILE@pic?$AA@  0032a3e0     boot:blconfig.obj
+ 0003:000023e4       ??_C@_03MGEPGNNP@fpu?$AA@  0032a3e4     boot:blconfig.obj
+ 0003:000023e8       ??_C@_03PBJBJNON@cpu?$AA@  0032a3e8     boot:blconfig.obj
+ 0003:000023ec       ??_C@_03EEIEDENP@arc?$AA@  0032a3ec     boot:blconfig.obj
+ 0003:000024e0       ??_C@_0BI@MJCIBGEM@BD?3?5?$CFs?5base?5address?5?$CFp?6?$AA@ 0032a4e0     boot:peldr.obj
+ 0003:00002548       ??_C@_01LIIJDEN@?$AN?$AA@  0032a548     boot:scsiboot.obj
+ 0003:0000254c       ??_C@_0CE@DDHGPMOP@SpPortStartIoSynchronized?3?5IRP?5?$CF@ 0032a54c     boot:scsiboot.obj
+ 0003:00002570       ??_C@_0CE@PKNJLJOH@SpPortStartIoSynchronized?3?5SRB?5?$CF@ 0032a570     boot:scsiboot.obj
+ 0003:00002594       ??_C@_0CM@HGGDLKFM@ScsiPortStartIoSynchronized?3?5Ent@ 0032a594     boot:scsiboot.obj
+ 0003:000025c0       ??_C@_0BH@OPMCDMK@Reset?5SCSI?5bus?5failed?6?$AA@ 0032a5c0     boot:scsiboot.obj
+ 0003:000025d8       ??_C@_0DD@JBGDBBOL@IssueAbort?3?5Request?5timed?5out?0?5r@ 0032a5d8     boot:scsiboot.obj
+ 0003:0000260c       ??_C@_0DH@HPNEJDJO@Scsiboot?3?5ScsiPortStartIo?5Length@ 0032a60c     boot:scsiboot.obj
+ 0003:00002644       ??_C@_08HPAFGBFI@Srb?5?$CFlx?6?$AA@ 0032a644     boot:scsiboot.obj
+ 0003:00002650       ??_C@_0CE@CJNGNMNC@ExInterlockedAllocateFromZone?3?5?$CF@ 0032a650     boot:scsiboot.obj
+ 0003:00002678       ??_C@_0FE@MKCAKLEF@NtLdr?3?5ScsiPortStartIo?3?5Srb?5exte@ 0032a678     boot:scsiboot.obj
+ 0003:000026cc       ??_C@_0CA@MGJODCGK@ScsiPortStartIo?3?5Enter?5routine?6?$AA@ 0032a6cc     boot:scsiboot.obj
+ 0003:000026ec       ??_C@_0CI@OHEIHNOI@ScsiPortTickHandler?3?5Timeout?5val@ 0032a6ec     boot:scsiboot.obj
+ 0003:00002714       ??_C@_0CI@CNIKIAJD@ScsiPortTickHandler?3?5Request?5tim@ 0032a714     boot:scsiboot.obj
+ 0003:0000273c       ??_C@_0DD@IDODPHGK@ScsiPortTickHandler?3?5Retrying?5bu@ 0032a73c     boot:scsiboot.obj
+ 0003:000027c0       ??_C@_05GAIOHLME@?$BL?$FL?$CFdm?$AA@ 0032a7c0     boot:blload.obj
+ 0003:00002868       ??_C@_0BC@IHCCJDJI@?$CKpCount?5?$DN?$DN?5Length?$AA@ 0032a868     boot:blcache.obj
+ 0003:0000287c       ??_C@_0CE@HJOMJAGN@d?3?2srv03rtm?2base?2boot?2lib?2blcach@ 0032a87c     boot:blcache.obj
+ 0003:00002990       _BlAmd64DoubleFaultStackSize 0032a990     boot:amd64.obj
+ 0003:00002994       _BlAmd64KernelStackSize    0032a994     boot:amd64.obj
+ 0003:00002998       _BlAmd64McaExceptionStackSize 0032a998     boot:amd64.obj
+ 0003:0000299c       _BlAmd64GdtSize            0032a99c     boot:amd64.obj
+ 0003:000029a0       _BlAmd64IdtSize            0032a9a0     boot:amd64.obj
+ 0003:000029a4       _BlAmd64_MSR_FS_BASE       0032a9a4     boot:amd64.obj
+ 0003:000029a8       _BlAmd64_MSR_GS_BASE       0032a9a8     boot:amd64.obj
+ 0003:000029ac       _BlAmd64_KGDT64_SYS_TSS    0032a9ac     boot:amd64.obj
+ 0003:000029b0       _BlAmd64_MSR_EFER          0032a9b0     boot:amd64.obj
+ 0003:000029b4       _BlAmd64_TSS_IST_PANIC     0032a9b4     boot:amd64.obj
+ 0003:000029b8       _BlAmd64_TSS_IST_MCA       0032a9b8     boot:amd64.obj
+ 0003:000029c0       _BlAmd64_LOCALAPIC         0032a9c0     boot:amd64.obj
+ 0003:000029c8       _BlAmd64UserSharedData     0032a9c8     boot:amd64.obj
+ 0003:000029d0       _BlAmd64_MSR_EFER_Flags    0032a9d0     boot:amd64.obj
+ 0003:000029d8       _BlAmd64MappingLevels      0032a9d8     boot:amd64.obj
+ 0003:00002a68       ??_C@_0DC@BEGBLKOH@IoAllocateAdapterChannel?3?5?5Out?5o@ 0032aa68     boot:ixhwsup.obj
+ 0003:00002a9c       ??_C@_0DI@OGMOBEDH@IoAllocateAdapterChannel?3?5Called@ 0032aa9c     boot:ixhwsup.obj
+ 0003:00002b24       ??_C@_08BOGKMBPC@EFI?5PART?$AA@ 0032ab24     boot:blgpt.obj
+ 0003:00002b80       ??_C@_08FKKFCKMN@e_isa_up?$AA@ 0032ab80     boot:haldtect.obj
+ 0003:00002b8c       ??_C@_06NDMJFGMD@mps_up?$AA@ 0032ab8c     boot:haldtect.obj
+ 0003:00002b94       ??_C@_06MBPMKEAL@mps_mp?$AA@ 0032ab94     boot:haldtect.obj
+ 0003:00002b9c       ??_C@_0L@PDJPIPEA@acpipic_up?$AA@ 0032ab9c     boot:haldtect.obj
+ 0003:00002ba8       ??_C@_0M@BHEJLEBB@acpiapic_up?$AA@ 0032aba8     boot:haldtect.obj
+ 0003:00002bb4       ??_C@_0M@FHMEGNJ@acpiapic_mp?$AA@ 0032abb4     boot:haldtect.obj
+ 0003:00002c60       ??_C@_03EGNBOIJE@PCI?$AA@  0032ac60     boot:ixpcibus.obj
+ 0003:00002d54       ??_C@_0O@GEDHGOKI@AcpiCreatorId?$AA@ 0032ad54     boot:detsup.obj
+ 0003:00002d64       ??_C@_0BE@PDLKHGFI@AcpiCreatorRevision?$AA@ 0032ad64     boot:detsup.obj
+ 0003:00002d78       ??_C@_0N@DIMJKGOM@AcpiRevision?$AA@ 0032ad78     boot:detsup.obj
+ 0003:00002d88       ??_C@_0BA@MADAJGJN@AcpiOemRevision?$AA@ 0032ad88     boot:detsup.obj
+ 0003:00002d98       ??_C@_0P@OMLMAJCB@AcpiOemTableId?$AA@ 0032ad98     boot:detsup.obj
+ 0003:00002da8       ??_C@_09KCNHKJGG@AcpiOemId?$AA@ 0032ada8     boot:detsup.obj
+ 0003:00002e04       ??_C@_0BF@ODNNCPGE@?7RULE?5?$CFs?5not?5found?$CB?6?$AA@ 0032ae04     boot:detsup.obj
+ 0003:00002e1c       ??_C@_09EGNDCCAO@?7FAILED?$CB?6?$AA@ 0032ae1c     boot:detsup.obj
+ 0003:00002e28       ??_C@_0BE@LHIKPEEE@Machine?5matches?5?$CFs?6?$AA@ 0032ae28     boot:detsup.obj
+ 0003:00002e3c       ??_C@_0M@IHPJEMKA@?7Succeeded?6?$AA@ 0032ae3c     boot:detsup.obj
+ 0003:00002e48       ??_C@_0BC@NGPLMADP@?7Testing?5Rule?5?$CFs?6?$AA@ 0032ae48     boot:detsup.obj
+ 0003:00002e5c       ??_C@_0BM@NGIPCCLJ@?7ERROR?5?9?5no?5INF?5section?5?$CFs?6?$AA@ 0032ae5c     boot:detsup.obj
+ 0003:00002e78       ??_C@_0BF@MGHFKBCG@Matching?5against?5?$CFs?6?$AA@ 0032ae78     boot:detsup.obj
+ 0003:00002e90       ??_C@_06EJEJALKO@FALSE?6?$AA@ 0032ae90     boot:detsup.obj
+ 0003:00002e98       ??_C@_05OLJMNACH@TRUE?6?$AA@ 0032ae98     boot:detsup.obj
+ 0003:00002ea0       ??_C@_02EEKDKGMJ@?$DO?$DN?$AA@ 0032aea0     boot:detsup.obj
+ 0003:00002ea4       ??_C@_01PPODPGHN@?$DO?$AA@ 0032aea4     boot:detsup.obj
+ 0003:00002ea8       ??_C@_02EHCHHCKH@?$DM?$DN?$AA@ 0032aea8     boot:detsup.obj
+ 0003:00002eac       ??_C@_01MNNFJEPP@?$DM?$AA@ 0032aeac     boot:detsup.obj
+ 0003:00002eb0       ??_C@_02FDNJECIE@?$CB?$DN?$AA@ 0032aeb0     boot:detsup.obj
+ 0003:00002eb4       ??_C@_02EGOFBIJA@?$DN?$DN?$AA@ 0032aeb4     boot:detsup.obj
+ 0003:00002eb8       ??_C@_0BJ@EEMHAPPP@?7?7Checking?5?$CFlx?5?$CFs?5?$CFlx?5?9?5?$AA@ 0032aeb8     boot:detsup.obj
+ 0003:00002ed4       ??_C@_0CE@HNEEGKKO@Found?5RSDP?5at?5?$CF08lx?0?5RSDT?5at?5?$CF08@ 0032aed4     boot:detsup.obj
+ 0003:00002ef8       ??_C@_0BF@MANPLIKI@NO?5ACPI?5BIOS?5FOUND?$CB?6?$AA@ 0032aef8     boot:detsup.obj
+ 0003:00002f10       ??_C@_0BK@ENGFJEHL@?7?7INF?5line?5is?5ill?9formed?6?$AA@ 0032af10     boot:detsup.obj
+ 0003:00002f2c       ??_C@_0CO@MFNNIFGL@?7?7Comparing?5OEM?5ID?5?$CFs?5?8?$CF6?46s?8?5wi@ 0032af2c     boot:detsup.obj
+ 0003:00002f5c       ??_C@_0BK@OPIHJDGB@?7?7Table?5?$CFs?5was?5not?5found?6?$AA@ 0032af5c     boot:detsup.obj
+ 0003:00002f78       ??_C@_0DD@GBNNCDAH@?7?7Comparing?5OEM?5TableID?5?$CFs?5?8?$CF8?48@ 0032af78     boot:detsup.obj
+ 0003:00002fac       ??_C@_0DH@CHKHDBCB@Disabling?5ACPI?5since?5machine?5is?5@ 0032afac     boot:detsup.obj
+ 0003:00002fe4       ??_C@_0CH@IKMPABAJ@No?5Good?5BIOS?5date?5present?5in?5INF@ 0032afe4     boot:detsup.obj
+ 0003:0000300c       ??_C@_05LOCIIPPF@BAD?$CB?6?$AA@ 0032b00c     boot:detsup.obj
+ 0003:00003014       ??_C@_0DA@FHAFKDAI@Enabling?5ACPI?5since?5BIOS?5is?5new?5@ 0032b014     boot:detsup.obj
+ 0003:00003044       ??_C@_0DC@KNHJGABG@Disabling?5ACPI?5since?5machine?5is?5@ 0032b044     boot:detsup.obj
+ 0003:00003078       ??_C@_05PMOECKFD@NWACL?$AA@ 0032b078     boot:detsup.obj
+ 0003:00003080       ??_C@_0BI@GBPDDFKH@Checking?5BAD?5BIOS?5LIST?6?$AA@ 0032b080     boot:detsup.obj
+ 0003:00003098       ??_C@_06BAIEBHGA@GOOD?$CB?6?$AA@ 0032b098     boot:detsup.obj
+ 0003:000030a0       ??_C@_0DJ@MBFOPHNI@?6?5?5?5?5Checking?5good?5date?5?$CF08lx?5ag@ 0032b0a0     boot:detsup.obj
+ 0003:000030dc       ??_C@_0N@GHGPIHOO@ACPIBiosDate?$AA@ 0032b0dc     boot:detsup.obj
+ 0003:000030ec       ??_C@_0CM@NLBNHHEE@Force?5Enabling?5ACPI?5due?5to?5ACPIE@ 0032b0ec     boot:detsup.obj
+ 0003:00003118       ??_C@_0CN@GMOHFJMF@Force?5Disabling?5ACPI?5due?5to?5ACPI@ 0032b118     boot:detsup.obj
+ 0003:00003148       ??_C@_0CC@ELIDHLAK@Got?5ACPIEnable?5from?5TXTSETUP?4SIF@ 0032b148     boot:detsup.obj
+ 0003:0000316c       ??_C@_0O@HBNCAOOL@No?5WINNT?4SIF?6?$AA@ 0032b16c     boot:detsup.obj
+ 0003:0000317c       ??_C@_0CC@HCJHNLLK@Got?5AcpiHal?5value?5from?5WINNT?4SIF@ 0032b17c     boot:detsup.obj
+ 0003:000031a0       ??_C@_0CB@EJIKJPMH@No?5AcpiHal?5value?5from?5WINNT?4SIF?6@ 0032b1a0     boot:detsup.obj
+ 0003:000031c4       ??_C@_0L@PKEEFEAI@ACPIEnable?$AA@ 0032b1c4     boot:detsup.obj
+ 0003:000031d0       ??_C@_01FDFGLJHB@2?$AA@    0032b1d0     boot:detsup.obj
+ 0003:000031d4       ??_C@_04DICKPMGH@Data?$AA@ 0032b1d4     boot:detsup.obj
+ 0003:000031dc       ??_C@_07CJIADLEM@AcpiHAL?$AA@ 0032b1dc     boot:detsup.obj
+ 0003:000031e4       ??_C@_01EKENIIDA@3?$AA@    0032b1e4     boot:detsup.obj
+ 0003:000031e8       ??_C@_0DE@MNNEFPIN@Unattend?5Files?5does?5not?5Contain?5@ 0032b1e8     boot:detsup.obj
+ 0003:0000321c       ??_C@_0DC@JFONCOFA@Enabling?5ACPI?5since?5machine?5is?5o@ 0032b21c     boot:detsup.obj
+ 0003:00003250       ??_C@_0N@DHGOGONC@GoodACPIBios?$AA@ 0032b250     boot:detsup.obj
+ 0003:00003260       ??_C@_0DA@FNOFIPME@System?5will?5detect?5ACPI?5due?5to?5A@ 0032b260     boot:detsup.obj
+ 0003:00003290       ??_C@_0CN@MFOGLBNO@Unattend?5Files?5specifies?5ForceHA@ 0032b290     boot:detsup.obj
+ 0003:000032c0       ??_C@_03ICICOMAL@yes?$AA@  0032b2c0     boot:detsup.obj
+ 0003:000032c4       ??_C@_0L@KMGIGFPK@Unattended?$AA@ 0032b2c4     boot:detsup.obj
+ 0003:000032d0       ??_C@_0BC@GELCEAG@ForceHALDetection?$AA@ 0032b2d0     boot:detsup.obj
+ 0003:000032e4       ??_C@_02KAJCLHKP@no?$AA@   0032b2e4     boot:detsup.obj
+ 0003:000032e8       ??_C@_0M@JGDJPPDO@ACPIOptions?$AA@ 0032b2e8     boot:detsup.obj
+ 0003:000032f4       ??_C@_0CI@DCLFNEAN@Disabling?5ACPI?5due?5to?5user?5press@ 0032b2f4     boot:detsup.obj
+ 0003:0000331c       ??_C@_0CM@LMECLCKL@Disabling?5ACPI?5since?5there?5is?5NO@ 0032b31c     boot:detsup.obj
+ 0003:00003348       ??_C@_04NIBHNFK@1999?$AA@  0032b348     boot:detsup.obj
+ 0003:00003350       ??_C@_02OCIIMEMP@01?$AA@   0032b350     boot:detsup.obj
+ 0003:00003354       ??_C@_0BK@CICJGMEM@Enabling?5GOOD?5BIOS?5DEBUG?6?$AA@ 0032b354     boot:detsup.obj
+ 0003:00003370       ??_C@_05GCIPIGEI@Debug?$AA@ 0032b370     boot:detsup.obj
+ 0003:00003378       ??_C@_01GBGANLPD@0?$AA@    0032b378     boot:detsup.obj
+ 0003:000033cc       ??_C@_07BJOIOONN@Strings?$AA@ 0032b3cc     boot:parseini.obj
+ 0003:000033d4       ??_C@_0CF@FKDGPGFG@d?3?2srv03rtm?2base?2boot?2lib?2parsei@ 0032b3d4     boot:parseini.obj
+ 0003:000033fc       ??_C@_09ONIIPFAI@DEBUGSTOP?$AA@ 0032b3fc     bd:init.obj
+ 0003:00003408       ??_C@_0BP@PLHLKHPL@BD?3?5Boot?5Debugger?5Initialized?6?$AA@ 0032b408     bd:init.obj
+ 0003:00003428       ??_C@_03GJALCMIF@COM?$AA@  0032b428     bd:init.obj
+ 0003:0000342c       ??_C@_05KOLFGEDA@DEBUG?$AA@ 0032b42c     bd:init.obj
+ 0003:00003434       ??_C@_08GOEBBCBG@BAUDRATE?$AA@ 0032b434     bd:init.obj
+ 0003:00003440       ??_C@_09FNKCKKGB@DEBUGPORT?$AA@ 0032b440     bd:init.obj
+ 0003:0000344c       ??_C@_07PEABMPLF@NODEBUG?$AA@ 0032b44c     bd:init.obj
+ 0003:00003454       ??_C@_0CD@DPFCEDFF@BdCreateRemoteFile?3?5Bad?5paramete@ 0032b454     bd:file.obj
+ 0003:00003478       ??_C@_0EE@JOIGMFG@BdCreateRemoteFile?3?5No?5more?5empt@ 0032b478     bd:file.obj
+ 0003:000034bc       ??_C@_0CD@NNAKOBBB@BdReadRemoteFile?3?5Bad?5parameters@ 0032b4bc     bd:file.obj
+ 0003:000034e0       ??_C@_0DB@HDMAOIMJ@BdPullRemoteFile?3?5BdReadRemoteFi@ 0032b4e0     bd:file.obj
+ 0003:00003514       ??_C@_0BL@DDIENAHL@BD?3?5Loaded?5remote?5file?5?$CFs?6?$AA@ 0032b514     bd:file.obj
+ 0003:00003530       ??_C@_0DM@PDOLIPCO@BdPullRemoteFile?3?5BlAllocateAlig@ 0032b530     bd:file.obj
+ 0003:000035bc       ??_C@_0CM@EKDIMLOB@?6Boot?5Debugger?5Using?3?5COM?$CFd?5?$CIBau@ 0032b5bc     bd:port.obj
+ 0003:000035e8       ??_C@_08HMPFAAIA@TftpGet?6?$AA@ 0032b5e8     tftplib:tftp.obj
+ 0003:000035f4       ??_C@_08POCMBMIN@TftpPut?6?$AA@ 0032b5f4     tftplib:tftp.obj
+ 0003:00003600       ??_C@_0CK@NFNCBGLG@TftpGetPut?3?5allocated?5?$CFd?5bytes?5a@ 0032b600     tftplib:tftp.obj
+ 0003:0000362c       ??_C@_0N@CGPLOLFA@File?5too?5big?$AA@ 0032b62c     tftplib:tftp.obj
+ 0003:0000363c       ??_C@_0CN@LHDJCHME@RomSetReceiveStatus?3?5error?5?$CFd?5fr@ 0032b63c     tftplib:rom.obj
+ 0003:0000366c       ??_C@_0BO@HHMIPLPM@RomReceiveUdpPacket?3?5timeout?6?$AA@ 0032b66c     tftplib:rom.obj
+ 0003:000036dc       ??_C@_0BM@CCGAODJF@ConnError?3?5code?5?$CFx?0?5msg?5?$CFs?6?$AA@ 0032b6dc     tftplib:conn.obj
+ 0003:000036f8       ??_C@_0BE@GNDCLOHM@Bad?5opcode?5received?$AA@ 0032b6f8     tftplib:conn.obj
+ 0003:0000370c       ??_C@_0CL@LFPNIAKI@ConnWait?3?5received?5unknown?5TFTP?5@ 0032b70c     tftplib:conn.obj
+ 0003:00003738       ??_C@_0BH@DNECHMMK@Bad?5TFTP?5packet?5length?$AA@ 0032b738     tftplib:conn.obj
+ 0003:00003750       ??_C@_0BD@NNDKJJKN@Timeout?5on?5receive?$AA@ 0032b750     tftplib:conn.obj
+ 0003:00003764       ??_C@_0BD@OAMABJCO@ConnWait?3?5timeout?6?$AA@ 0032b764     tftplib:conn.obj
+ 0003:00003778       ??_C@_0CK@MBLKHILA@ConnWait?3?5received?5duplicate?5OAC@ 0032b778     tftplib:conn.obj
+ 0003:000037a4       ??_C@_0BH@ECMEJIJJ@Unexpected?5port?5number?$AA@ 0032b7a4     tftplib:conn.obj
+ 0003:000037bc       ??_C@_0CD@PDFFOFIO@Block?5number?5greater?5than?5expect@ 0032b7bc     tftplib:conn.obj
+ 0003:000037e0       ??_C@_0CN@EEMNNMHA@ConnWait?3?5Block?5number?5too?5high?5@ 0032b7e0     tftplib:conn.obj
+ 0003:00003810       ??_C@_0BO@FJPLAAGI@Sorry?0?5wasn?8t?5talking?5to?5you?$CB?$AA@ 0032b810     tftplib:conn.obj
+ 0003:00003830       ??_C@_0DC@IEJKHAEM@ConnWait?3?5now?$DN?$CFd?0?5next?5retransmi@ 0032b830     tftplib:conn.obj
+ 0003:00003864       ??_C@_0BB@MKGEJBI@Bad?5TFTP?5options?$AA@ 0032b864     tftplib:conn.obj
+ 0003:00003878       ??_C@_0CF@IFEBJFAA@ConnInitialize?3?5bad?5options?5in?5O@ 0032b878     tftplib:conn.obj
+ 0003:000038a0       ??_C@_0BN@JBIJDPN@ConnInitialize?3?5ACKing?5OACK?6?$AA@ 0032b8a0     tftplib:conn.obj
+ 0003:000038c0       ??_C@_0DB@CDLHEIEH@ConnInitialize?3?5skipping?5unrecog@ 0032b8c0     tftplib:conn.obj
+ 0003:000038f4       ??_C@_0CN@GAFNHIBN@ConnInitialize?3?5received?5transfe@ 0032b8f4     tftplib:conn.obj
+ 0003:00003924       ??_C@_0CO@IOMGDJPM@ConnInitialize?3?5block?5size?5for?5t@ 0032b924     tftplib:conn.obj
+ 0003:00003954       ??_C@_0CK@KMOCCFFL@ConnInitialize?3?5received?5block?5s@ 0032b954     tftplib:conn.obj
+ 0003:00003980       ??_C@_0DA@IHOEKLFG@length?$CLstringSize?5?$DM?$DN?5MAXIMUM_TFT@ 0032b980     tftplib:conn.obj
+ 0003:000039b0       ??_C@_0CP@IPJKHGBF@ConnInitialize?3?5requesting?5trans@ 0032b9b0     tftplib:conn.obj
+ 0003:000039e0       ??_C@_05GHDOEBHJ@tsize?$AA@ 0032b9e0     tftplib:conn.obj
+ 0003:000039e8       ??_C@_0DF@BFAFEMHF@length?$CLsizeof?$CI?$CCtsize?$CC?$CJ?5?$DM?$DN?5MAXIMU@ 0032b9e8     tftplib:conn.obj
+ 0003:00003a20       ??_C@_0CM@NLFPCPLH@ConnInitialize?3?5requesting?5block@ 0032ba20     tftplib:conn.obj
+ 0003:00003a4c       ??_C@_0DE@OKJEMNBM@length?$CLsizeof?$CI?$CC9999?$CC?$CJ?5?$DM?$DN?5MAXIMUM@ 0032ba4c     tftplib:conn.obj
+ 0003:00003a80       ??_C@_07JPIGAOKK@blksize?$AA@ 0032ba80     tftplib:conn.obj
+ 0003:00003a88       ??_C@_0DH@EHNMMNN@length?$CLsizeof?$CI?$CCblksize?$CC?$CJ?5?$DM?$DN?5MAXI@ 0032ba88     tftplib:conn.obj
+ 0003:00003ac0       ??_C@_05IIBPGMLM@octet?$AA@ 0032bac0     tftplib:conn.obj
+ 0003:00003ac8       ??_C@_0DF@IDABIGEE@length?$CLsizeof?$CI?$CCoctet?$CC?$CJ?5?$DM?$DN?5MAXIMU@ 0032bac8     tftplib:conn.obj
+ 0003:00003b00       ??_C@_0CL@FCPKDFA@ConnStrsize?$CIFilename?$CJ?5?$DM?5DEFAULT_@ 0032bb00     tftplib:conn.obj
+ 0003:00003b2c       ??_C@_0CF@JNGDDEPL@d?3?2srv03rtm?2base?2boot?2tftplib?2co@ 0032bb2c     tftplib:conn.obj
+ 0003:00003b54       ??_C@_0BA@CHMCHGMC@ConnInitialize?6?$AA@ 0032bb54     tftplib:conn.obj
+ 0003:00003b64       _RtlWorkSpaceProcs         0032bb64     bldrrtl:compress.obj
+ 0003:00003b84       _RtlCompressBufferProcs    0032bb84     bldrrtl:compress.obj
+ 0003:00003ba4       _RtlDecompressBufferProcs  0032bba4     bldrrtl:compress.obj
+ 0003:00003bc4       _RtlDecompressFragmentProcs 0032bbc4     bldrrtl:compress.obj
+ 0003:00003be4       _RtlDescribeChunkProcs     0032bbe4     bldrrtl:compress.obj
+ 0003:00003c04       _RtlReserveChunkProcs      0032bc04     bldrrtl:compress.obj
+ 0003:00003c28       _RtlCrc32Table             0032bc28     bldrrtl:checksum.obj
+ 0003:00004028       _RtlpIntegerChars          0032c028     bldrrtl:cnvint.obj
+ 0003:00004038       _RtlpIntegerWChars         0032c038     bldrrtl:cnvint.obj
+ 0003:00004058       _FormatMaxLength           0032c058     bldrrtl:lznt1.obj
+ 0003:0000407c       _FormatMaxDisplacement     0032c07c     bldrrtl:lznt1.obj
+ 0003:000040a0       ??_C@_0M@IKEOFHEG@?$CBLznt1Break?$AA@ 0032c0a0     bldrrtl:lznt1.obj
+ 0003:000040ac       ??_C@_0BO@LNLHLOMB@CompressedBuffer?5is?5too?5small?$AA@ 0032c0ac     bldrrtl:lznt1.obj
+ 0003:000040cc       ??_C@_0CN@GKILMPGA@UncompressedChunk?5?$DM?$DN?5EndOfUncomp@ 0032c0cc     bldrrtl:lznt1.obj
+ 0003:000040fc       ??_C@_0CJ@HNIMNEFL@CompressedChunk?5?$DM?$DN?5EndOfCompress@ 0032c0fc     bldrrtl:lznt1.obj
+ 0003:00004128       ??_C@_0DH@PEMIDPFG@?$CIChunkHeader?4Chunk?4ChunkSignatur@ 0032c128     bldrrtl:lznt1.obj
+ 0003:00004160       ??_C@_0CI@CINEIAOD@?$CIChunkHeader?4Short?5?$CB?$DN?50?$CJ?5?$HM?$HM?5?$CBLzn@ 0032c160     bldrrtl:lznt1.obj
+ 0003:00004188       ??_C@_0CN@DPPACCHJ@CompressedChunk?5?$DM?$DN?5EndOfCompress@ 0032c188     bldrrtl:lznt1.obj
+ 0003:000041b8       ??_C@_0CC@NFBIJMFL@d?3?2srv03rtm?2base?2ntos?2rtl?2lznt1?4@ 0032c1b8     bldrrtl:lznt1.obj
+ 0003:000041dc       ??_C@_0CN@GJKKIFPP@CompressedChunk?5?$DM?$DN?5EndOfCompress@ 0032c1dc     bldrrtl:lznt1.obj
+ 0003:0000420c       ??_C@_0BN@KIGJKHDO@UncompressedFragmentSize?5?$DO?50?$AA@ 0032c20c     bldrrtl:lznt1.obj
+ 0003:0000422c       ??_C@_0CF@CCDIENJC@CompressedBuffer?5is?5bad?5or?5too?5s@ 0032c22c     bldrrtl:lznt1.obj
+ 0003:00004254       ??_C@_0CB@LPDNNNBF@Uncompressed?5chunk?5is?5wrong?5size@ 0032c254     bldrrtl:lznt1.obj
+ 0003:00004278       ??_C@_0CJ@PFLLCEDO@ChunkSize?5?$DM?$DN?5MAX_UNCOMPRESSED_CH@ 0032c278     bldrrtl:lznt1.obj
+ 0003:000042a8       ??_C@_0FI@OEDNMHE@?$CI?$CIUSHORT?$CJ?$CKFinalCompressedChunkSi@ 0032c2a8     bldrrtl:lznt1.obj
+ 0003:00004300       ??_C@_0CM@BKFBHNMJ@InputPointer?5?$DM?5EndOfUncompressed@ 0032c300     bldrrtl:lznt1.obj
+ 0003:0000432c       ??_C@_0CJ@IBDLADGI@EndOfCompressedBuffer?5?$DO?$DN?5Compres@ 0032c32c     bldrrtl:lznt1.obj
+ 0003:00004358       ??_C@_0CN@BCDHPBMK@EndOfUncompressedBuffer?5?$DO?$DN?5Uncom@ 0032c358     bldrrtl:lznt1.obj
+ 0003:00004388       ___lookuptable             0032c388     libcntpr:output.obj
+ 0003:000043e4       ??_C@_1O@CEDCILHN@?$AA?$CI?$AAn?$AAu?$AAl?$AAl?$AA?$CJ?$AA?$AA@ 0032c3e4     libcntpr:output.obj
+ 0003:000043f4       ??_C@_06OJHGLDPL@?$CInull?$CJ?$AA@ 0032c3f4     libcntpr:output.obj
+ 0003:00004400       ___newctype                0032c400     libcntpr:ctype.obj
+ 0003:00004700       __wctype                   0032c700     libcntpr:ctype.obj
+ 0003:000049a4       _rghex                     0032c9a4     oscldr:oschoice.obj
+ 0003:00004a58       ??_C@_05BCOLFB@?$FLEOF?$FN?$AA@ 0032ca58     oscldr:parse.obj
+ 0003:00004a60       ??_C@_07HHIEGFGI@?$FLSTART?$FN?$AA@ 0032ca60     oscldr:parse.obj
+ 0003:00004a68       ??_C@_06COFEICCM@?$FLTEXT?$FN?$AA@ 0032ca68     oscldr:parse.obj
+ 0003:00004a70       ??_C@_03ONOMDLHD@?$DM?1P?$AA@ 0032ca70     oscldr:parse.obj
+ 0003:00004a74       ??_C@_02JHHEGHEN@?$DMP?$AA@ 0032ca74     oscldr:parse.obj
+ 0003:00004a78       ??_C@_08EGCGJKEJ@?$DMTIPAREA?$AA@ 0032ca78     oscldr:parse.obj
+ 0003:00004a84       ??_C@_06ELKALJOC@RIGHT?$DN?$AA@ 0032ca84     oscldr:parse.obj
+ 0003:00004a8c       ??_C@_05BJJGIKEB@LEFT?$DN?$AA@ 0032ca8c     oscldr:parse.obj
+ 0003:00004a94       ??_C@_07EALKBJFE@?$DM?1FLASH?$AA@ 0032ca94     oscldr:parse.obj
+ 0003:00004a9c       ??_C@_06DMKANJCC@?$DMFLASH?$AA@ 0032ca9c     oscldr:parse.obj
+ 0003:00004aa4       ??_C@_06PHHLOFKD@?$DM?1BOLD?$AA@ 0032caa4     oscldr:parse.obj
+ 0003:00004aac       ??_C@_05DBFECEGN@?$DMBOLD?$AA@ 0032caac     oscldr:parse.obj
+ 0003:00004ab4       ??_C@_03JPNFABIC@?$DMBR?$AA@ 0032cab4     oscldr:parse.obj
+ 0003:00004ab8       ??_C@_05OKLDIAOP@HELP?$DN?$AA@ 0032cab8     oscldr:parse.obj
+ 0003:00004ac0       ??_C@_08FGBCKBPP@SELECTED?$AA@ 0032cac0     oscldr:parse.obj
+ 0003:00004acc       ??_C@_07MIMBLNAJ@?$DMOPTION?$AA@ 0032cacc     oscldr:parse.obj
+ 0003:00004ad4       ??_C@_09LFDAGBFK@?$DM?1SELECT?$DO?$AA@ 0032cad4     oscldr:parse.obj
+ 0003:00004ae0       ??_C@_06NLNMNND@NOAUTO?$AA@ 0032cae0     oscldr:parse.obj
+ 0003:00004ae8       ??_C@_08FFDJFNDB@MULTIPLE?$AA@ 0032cae8     oscldr:parse.obj
+ 0003:00004af4       ??_C@_07JINFLINP@?$DMSELECT?$AA@ 0032caf4     oscldr:parse.obj
+ 0003:00004afc       ??_C@_07LEDEJNJO@ENCODE?$DN?$AA@ 0032cafc     oscldr:parse.obj
+ 0003:00004b04       ??_C@_0L@NGNIPLAB@MAXLENGTH?$DN?$AA@ 0032cb04     oscldr:parse.obj
+ 0003:00004b10       ??_C@_04BEAGBAFA@TIP?$DN?$AA@ 0032cb10     oscldr:parse.obj
+ 0003:00004b18       ??_C@_05CJMNPGGO@SIZE?$DN?$AA@ 0032cb18     oscldr:parse.obj
+ 0003:00004b20       ??_C@_06JLPLGIII@VALUE?$DN?$AA@ 0032cb20     oscldr:parse.obj
+ 0003:00004b28       ??_C@_05DLJFLBDA@TYPE?$DN?$AA@ 0032cb28     oscldr:parse.obj
+ 0003:00004b30       ??_C@_05GLDLMDMM@NAME?$DN?$AA@ 0032cb30     oscldr:parse.obj
+ 0003:00004b38       ??_C@_06LNGJCJIC@?$DMINPUT?$AA@ 0032cb38     oscldr:parse.obj
+ 0003:00004b40       ??_C@_07BLGOFNMH@ACTION?$DN?$AA@ 0032cb40     oscldr:parse.obj
+ 0003:00004b48       ??_C@_07CKGLMLPP@?$DM?1FORM?$DO?$AA@ 0032cb48     oscldr:parse.obj
+ 0003:00004b50       ??_C@_05DKOLHJO@?$DMFORM?$AA@ 0032cb50     oscldr:parse.obj
+ 0003:00004b58       ??_C@_06JFCJAEPA@?$DM?1PRE?$DO?$AA@ 0032cb58     oscldr:parse.obj
+ 0003:00004b60       ??_C@_04HEDHBDFJ@?$DMPRE?$AA@ 0032cb60     oscldr:parse.obj
+ 0003:00004b68       ??_C@_07NPKHIKAG@?$DM?1BODY?$DO?$AA@ 0032cb68     oscldr:parse.obj
+ 0003:00004b70       ??_C@_05MACLBJMJ@?$DMBODY?$AA@ 0032cb70     oscldr:parse.obj
+ 0003:00004b78       ??_C@_09NPOJOOKJ@?$DM?1FOOTER?$DO?$AA@ 0032cb78     oscldr:parse.obj
+ 0003:00004b84       ??_C@_07PBHKLJMO@?$DMFOOTER?$AA@ 0032cb84     oscldr:parse.obj
+ 0003:00004b8c       ??_C@_08CFKNOELF@?$DM?1TITLE?$DO?$AA@ 0032cb8c     oscldr:parse.obj
+ 0003:00004b98       ??_C@_06HPENMIGP@?$DMTITLE?$AA@ 0032cb98     oscldr:parse.obj
+ 0003:00004ba0       ??_C@_05FNNAFLDF@HREF?$DN?$AA@ 0032cba0     oscldr:parse.obj
+ 0003:00004ba8       ??_C@_02IAMCLCKP@F3?$AA@   0032cba8     oscldr:parse.obj
+ 0003:00004bac       ??_C@_02LCPENACN@F1?$AA@   0032cbac     oscldr:parse.obj
+ 0003:00004bb0       ??_C@_03MHNPAEMD@ESC?$AA@  0032cbb0     oscldr:parse.obj
+ 0003:00004bb4       ??_C@_05EMNIMLKD@ENTER?$AA@ 0032cbb4     oscldr:parse.obj
+ 0003:00004bbc       ??_C@_04LDLBJEDE@KEY?$DN?$AA@ 0032cbbc     oscldr:parse.obj
+ 0003:00004bc4       ??_C@_06HNFCPEFM@SERVER?$AA@ 0032cbc4     oscldr:parse.obj
+ 0003:00004bcc       ??_C@_05LDPLFFFF@?$DMMETA?$AA@ 0032cbcc     oscldr:parse.obj
+ 0003:00004bd4       ??_C@_08IHJEBKAE@?$DM?1OSCML?$DO?$AA@ 0032cbd4     oscldr:parse.obj
+ 0003:00004be0       ??_C@_06CBMCALEM@?$DMOSCML?$AA@ 0032cbe0     oscldr:parse.obj
+ 0003:00004be8       ??_C@_01BJJEKLCA@?$CC?$AA@ 0032cbe8     oscldr:parse.obj
+ 0003:00004d30       _Spbox                     0032cd30     rsa32:spb.obj
+ 0003:00005530       _Sel                       0032d530     rsa32:spb.obj
+ 0003:00005d30       _double_shift              0032dd30     rsa32:spb.obj
+ 0003:00005d40       _DESParityTable            0032dd40     rsa32:spb.obj
+ 0004:00000000       _Port                      0032e000     boot:port.obj
+ 0004:00000030       _FwDiskCache               0032e030     boot:memory.obj
+ 0004:00000034       _FwPermanentHeap           0032e034     boot:memory.obj
+ 0004:00000038       _FwTemporaryHeap           0032e038     boot:memory.obj
+ 0004:0000003c       _FwDescriptorsValid        0032e03c     boot:memory.obj
+ 0004:00000040       _HighestPde                0032e040     boot:memory.obj
+ 0004:00000044       _TextCurrentAttribute      0032e044     boot:display.obj
+ 0004:00000048       _MyGuidLength              0032e048     boot:netboot2.obj
+ 0004:0000004c       _NetBootFsInfo             0032e04c     boot:netboot.obj
+ 0004:00000050       _GlobalSystemBlock         0032e050     boot:arcemul.obj
+ 0004:00000090       _PcAnsiToUnicode           0032e090     boot:arcemul.obj
+ 0004:0000028e       _FirstEntry                0032e28e     boot:hdlsterm.obj
+ 0004:00000290       _BlMemoryAllocationPolicy  0032e290     boot:blmemory.obj
+ 0004:00000294       _BlHeapAllocationPolicy    0032e294     boot:blmemory.obj
+ 0004:00000298       _BlUsableLimitX86          0032e298     boot:blmemory.obj
+ 0004:0000029c       _BlUsableLimitAmd64        0032e29c     boot:blmemory.obj
+ 0004:000002a0       _CdfsBootFsInfo            0032e2a0     boot:cdfsboot.obj
+ 0004:000002a4       _UdfsBootFsInfo            0032e2a4     boot:udfsboot.obj
+ 0004:000002a8       _NtfsBootFsInfo            0032e2a8     boot:ntfsboot.obj
+ 0004:000002ac       _FirstTime                 0032e2ac     boot:ntfsboot.obj
+ 0004:000002b0       _FatBootFsInfo             0032e2b0     boot:fatboot.obj
+ 0004:000002b4       _EtfsBootFsInfo            0032e2b4     boot:etfsboot.obj
+ 0004:000002b8       _Vp                        0032e2b8     boot:disp_tm.obj
+ 0004:000002bc       _TmGraphicsChars           0032e2bc     boot:disp_tm.obj
+ 0004:000002c8       _GrVp                      0032e2c8     boot:disp_gr.obj
+ 0004:000002cc       _AllowGraphicsReset        0032e2cc     boot:disp_gr.obj
+ 0004:000002d0       _SbcsRemapper              0032e2d0     boot:disp_gr.obj
+ 0004:0000033c       _GrGraphicsChars           0032e33c     boot:disp_gr.obj
+ 0004:00000348       _cr3264_PHYSICAL_ADDRESS   0032e348     boot:amd64x86.obj
+ 0004:0000035c       _cr3264_PROFILE_PARAMETER_BLOCK 0032e35c     boot:amd64x86.obj
+ 0004:00000398       _cr3264_UNICODE_STRING     0032e398     boot:amd64x86.obj
+ 0004:000003c0       _cr3264_LIST_ENTRY         0032e3c0     boot:amd64x86.obj
+ 0004:000003e0       _cr3264_MEMORY_ALLOCATION_DESCRIPTOR 0032e3e0     boot:amd64x86.obj
+ 0004:00000420       _cr3264_LDR_DATA_TABLE_ENTRY 0032e420     boot:amd64x86.obj
+ 0004:000004e0       _cr3264_BOOT_DRIVER_LIST_ENTRY 0032e4e0     boot:amd64x86.obj
+ 0004:00000544       _cr3264_NLS_DATA_BLOCK     0032e544     boot:amd64x86.obj
+ 0004:00000570       _cr3264_CONFIGURATION_COMPONENT 0032e570     boot:amd64x86.obj
+ 0004:000005e0       _cr3264_CONFIGURATION_COMPONENT_DATA 0032e5e0     boot:amd64x86.obj
+ 0004:00000678       _cr3264_BOOT_DRIVER_NODE   0032e678     boot:amd64x86.obj
+ 0004:00000730       _cr3264_ARC_DISK_SIGNATURE 0032e730     boot:amd64x86.obj
+ 0004:00000780       _cr3264_ARC_DISK_INFORMATION 0032e780     boot:amd64x86.obj
+ 0004:000007a0       _cr3264_DETECTED_DEVICE_REGISTRY 0032e7a0     boot:amd64x86.obj
+ 0004:000007e8       _cr3264_DETECTED_DEVICE_FILE 0032e7e8     boot:amd64x86.obj
+ 0004:00000848       _cr3264_DETECTED_DEVICE    0032e848     boot:amd64x86.obj
+ 0004:000008ac       _cr3264_PNP_HARDWARE_ID    0032e8ac     boot:amd64x86.obj
+ 0004:000008e0       _cr3264_SETUP_LOADER_BLOCK_SCALARS 0032e8e0     boot:amd64x86.obj
+ 0004:00000900       _cr3264_SETUP_LOADER_BLOCK 0032e900     boot:amd64x86.obj
+ 0004:00000b64       _cr3264_I386_LOADER_BLOCK  0032eb64     boot:amd64x86.obj
+ 0004:00000b90       _cr3264_LOADER_PARAMETER_EXTENSION 0032eb90     boot:amd64x86.obj
+ 0004:00000c50       _cr3264_LOADER_PARAMETER_BLOCK 0032ec50     boot:amd64x86.obj
+ 0004:00000d40       _cr3264_CM_PRD_GENERIC     0032ed40     boot:amd64x86.obj
+ 0004:00000d60       _cr3264_CM_PRD_PORT        0032ed60     boot:amd64x86.obj
+ 0004:00000d80       _cr3264_CM_PRD_INTERRUPT   0032ed80     boot:amd64x86.obj
+ 0004:00000da8       _cr3264_CM_PRD_MEMORY      0032eda8     boot:amd64x86.obj
+ 0004:00000dc8       _cr3264_CM_PRD_DMA         0032edc8     boot:amd64x86.obj
+ 0004:00000de8       _cr3264_CM_PRD_DEVICEPRIVATE 0032ede8     boot:amd64x86.obj
+ 0004:00000dfc       _cr3264_CM_PRD_BUSNUMBER   0032edfc     boot:amd64x86.obj
+ 0004:00000e24       _cr3264_CM_PRD_DEVICESPECIFICDATA 0032ee24     boot:amd64x86.obj
+ 0004:00000e50       _cr3264_CM_PARTIAL_RESOURCE_DESCRIPTOR 0032ee50     boot:amd64x86.obj
+ 0004:00000e98       _cr3264_CM_PARTIAL_RESOURCE_LIST 0032ee98     boot:amd64x86.obj
+ 0004:00000efc       _cr3264_LARGE_INTEGER      0032eefc     boot:amd64x86.obj
+ 0004:00000f20       _cr3264_PO_HIBER_PERF      0032ef20     boot:amd64x86.obj
+ 0004:00000fb0       _cr3264_PO_MEMORY_IMAGE    0032efb0     boot:amd64x86.obj
+ 0004:00001118       _cr3264_PO_MEMORY_RANGE_ARRAY_RANGE 0032f118     boot:amd64x86.obj
+ 0004:0000114c       _cr3264_PO_MEMORY_RANGE_ARRAY_LINK 0032f14c     boot:amd64x86.obj
+ 0004:00001180       _BlAmd64MemoryDescriptorText 0032f180     boot:amd64x86.obj
+ 0004:000011e4       _ScsiDiskEntryTable        0032f1e4     boot:scsidisk.obj
+ 0004:00001214       _TranslateColor            0032f214     boot:biosdrv.obj
+ 0004:0000121c       _BiosPartitionEntryTable   0032f21c     boot:biosdrv.obj
+ 0004:0000124c       _BiosDiskEntryTable        0032f24c     boot:biosdrv.obj
+ 0004:0000127c       _BiosEDDSEntryTable        0032f27c     boot:biosdrv.obj
+ 0004:000012ac       _RamdiskDebug              0032f2ac     boot:ramdisk.obj
+ 0004:000012ad       _RamdiskDebugLevel         0032f2ad     boot:ramdisk.obj
+ 0004:000012b0       _RamdiskMTFTPTimeout       0032f2b0     boot:ramdisk.obj
+ 0004:000012b4       _RamdiskMTFTPDelay         0032f2b4     boot:ramdisk.obj
+ 0004:000012b8       _RamdiskDiscovery          0032f2b8     boot:ramdisk.obj
+ 0004:000012bc       _RamdiskBuildPort          0032f2bc     boot:ramdisk.obj
+ 0004:000012c0       _RamdiskTimeout            0032f2c0     boot:ramdisk.obj
+ 0004:000012c4       _RamdiskRetry              0032f2c4     boot:ramdisk.obj
+ 0004:000012c8       _RamdiskEntryTable         0032f2c8     boot:ramdisk.obj
+ 0004:000012f8       _MnemonicTable             0032f2f8     boot:blconfig.obj
+ 0004:00001384       _BlAdapterTypes            0032f384     boot:blconfig.obj
+ 0004:0000139c       _BlControllerTypes         0032f39c     boot:blconfig.obj
+ 0004:000013a8       _BlPeripheralTypes         0032f3a8     boot:blconfig.obj
+ 0004:000013b8       _BlProgBarFrontMsgID       0032f3b8     boot:blload.obj
+ 0004:000013bc       _BlProgBarBackMsgID        0032f3bc     boot:blload.obj
+ 0004:000013c0       _BlMaxFilesToLoad          0032f3c0     boot:blload.obj
+ 0004:000013c4       _BlProgressBarShowTimeOut  0032f3c4     boot:blload.obj
+ 0004:000013c8       _BlFrontChar               0032f3c8     boot:blload.obj
+ 0004:000013cc       _BlBackChar                0032f3cc     boot:blload.obj
+ 0004:000013d4       _BlLogFileId               0032f3d4     boot:bllog.obj
+ 0004:000013e0       _DetectHal                 0032f3e0     boot:haldtect.obj
+ 0004:00001420       _PCIConfigHandlers         0032f420     boot:ixpcibus.obj
+ 0004:00001440       _PCIConfigHandlersType2    0032f440     boot:ixpcibus.obj
+ 0004:00001460       _PCIDeref                  0032f460     boot:ixpcibus.obj
+ 0004:00001470       _VgaBase                   0032f470     boot:vga.obj
+ 0004:00001474       _lMaskTable                0032f474     boot:vga.obj
+ 0004:0000147c       _rMaskTable                0032f47c     boot:vga.obj
+ 0004:00001484       _PixelMask                 0032f484     boot:vga.obj
+ 0004:0000148c       _AT_Initialization         0032f48c     boot:vga.obj
+ 0004:000014c8       _lookup                    0032f4c8     boot:vga.obj
+ 0004:00001508       _InfRule                   0032f508     boot:detsup.obj
+ 0004:00001540       _StringTerminators         0032f540     boot:parseini.obj
+ 0004:0000154c       _QStringTerminators        0032f54c     boot:parseini.obj
+ 0004:00001550       _BdNumberRetries           0032f550     bd:data.obj
+ 0004:00001554       _BdRetryCount              0032f554     bd:data.obj
+ 0004:00001558       _NtBuildNumber             0032f558     bd:data.obj
+ 0004:0000155c       _NetDebugFlag              0032f55c     tftplib:tftp.obj
+ 0004:00001560       _RtlpZeroCount             0032f560     bldrrtl:movemem.obj
+ 0004:00001564       _RtlpZeroBytes             0032f564     bldrrtl:movemem.obj
+ 0004:00001570       ___nullstring              0032f570     libcntpr:output.obj
+ 0004:00001574       ___wnullstring             0032f574     libcntpr:output.obj
+ 0004:00001580       __pctype                   0032f580     libcntpr:ctype.obj
+ 0004:00001584       __pwctype                  0032f584     libcntpr:ctype.obj
+ 0004:00001588       ___mb_cur_max              0032f588     libcntpr:nlsdata1.obj
+ 0004:0000158c       ___decimal_point           0032f58c     libcntpr:nlsdata1.obj
+ 0004:00001590       ___decimal_point_length    0032f590     libcntpr:nlsdata1.obj
+ 0004:00001594       __cfltcvt_tab              0032f594     libcntpr:cmiscdat.obj
+ 0004:000015ac       __fltused                  0032f5ac     libcntpr:stubs.obj
+ 0004:000015b0       __ldused                   0032f5b0     libcntpr:stubs.obj
+ 0004:000015b4       _OsLoaderVersion           0032f5b4     oscldr:oschoice.obj
+ 0004:000015c8       _OsLoaderVersionW          0032f5c8     oscldr:oschoice.obj
+ 0004:000015ec       _OsLoaderName              0032f5ec     oscldr:oschoice.obj
+ 0004:000015f9       _isOSCHOICE                0032f5f9     oscldr:oschoice.obj
+ 0004:000015fc       _BlDcacheFillSize          0032f5fc     oscldr:oschoice.obj
+ 0004:00001600       _KernelFileName            0032f600     oscldr:oschoice.obj
+ 0004:00001610       _HalFileName               0032f610     oscldr:oschoice.obj
+ 0004:00001620       _CorruptionCounter         0032f620     oscldr:oschoice.obj
+ 0004:00001624       _ScreenWidth               0032f624     oscldr:regboot.obj
+ 0004:00001628       _ScreenHeight              0032f628     oscldr:regboot.obj
+ 0004:00001838       _CRCTable                  0032f838     bootssp:crc32.obj
+ 0004:00001c60       _ElToritoCDBoot            0032fc60     boot:entry.obj
+ 0004:00001c64       _FwConfigurationTree       0032fc64     boot:entry.obj
+ 0004:00001c68       _MachineType               0032fc68     boot:entry.obj
+ 0004:00001c6c       _BootFlags                 0032fc6c     boot:entry.obj
+ 0004:00001c70       _NtDetectStart             0032fc70     boot:entry.obj
+ 0004:00001c74       _NtDetectEnd               0032fc74     boot:entry.obj
+ 0004:00001c78       _BlTerminalDeviceId        0032fc78     boot:port.obj
+ 0004:00001c7c       _BlTerminalConnected       0032fc7c     boot:port.obj
+ 0004:00001c80       _BlTerminalDelay           0032fc80     boot:port.obj
+ 0004:00001c98       _NumberDescriptors         0032fc98     boot:memory.obj
+ 0004:00001c9c       _BlLegacyFree              0032fc9c     boot:acpidtct.obj
+ 0004:00001ca0       _fadt                      0032fca0     boot:acpidtct.obj
+ 0004:00001ca4       _BlFilesOpened             0032fca4     boot:blio.obj
+ 0004:00001ca8       _DeviceCloseNotify         0032fca8     boot:blio.obj
+ 0004:00001cbc       _TextColumn                0032fcbc     boot:display.obj
+ 0004:00001cc0       _TextRow                   0032fcc0     boot:display.obj
+ 0004:00001cc4       _NetMaxTranUnit            0032fcc4     boot:netboot2.obj
+ 0004:00001cc8       _NetHwAddrLen              0032fcc8     boot:netboot2.obj
+ 0004:00001ccc       _NetHwType                 0032fccc     boot:netboot2.obj
+ 0004:00001cce       _MyGuidValid               0032fcce     boot:netboot2.obj
+ 0004:00001cd0       _BlBootingFromNet          0032fcd0     boot:netboot.obj
+ 0004:00001cd1       _NetBootInitialized        0032fcd1     boot:netboot.obj
+ 0004:00001cd4       _CachedFileDeviceId        0032fcd4     boot:netboot.obj
+ 0004:00001cd8       _CachedFileSize            0032fcd8     boot:netboot.obj
+ 0004:00001cdc       _CachedFileData            0032fcdc     boot:netboot.obj
+ 0004:00001ce0       _BlpResourceDirectory      0032fce0     boot:blres.obj
+ 0004:00001ce4       _BlpResourceFileOffset     0032fce4     boot:blres.obj
+ 0004:00001ce8       _AEBiosDisabled            0032fce8     boot:arcemul.obj
+ 0004:00001ce9       _AEArcDiskInformationInitialized 0032fce9     boot:arcemul.obj
+ 0004:00001cec       _AEDriverUnloadRoutine     0032fcec     boot:arcemul.obj
+ 0004:00001cf0       _PortBufferStart           0032fcf0     boot:arcemul.obj
+ 0004:00001cf4       _PortBufferEnd             0032fcf4     boot:arcemul.obj
+ 0004:00001cfc       _LinePosition              0032fcfc     boot:hdlsterm.obj
+ 0004:00001d04       _BlOldKernel               0032fd04     boot:blmemory.obj
+ 0004:00001d05       _BlRestoring               0032fd05     boot:blmemory.obj
+ 0004:00001d06       _BlKernelChecked           0032fd06     boot:blmemory.obj
+ 0004:00001d08       _BlUsableBase              0032fd08     boot:blmemory.obj
+ 0004:00001d0c       _TotalHeapAbandoned        0032fd0c     boot:blmemory.obj
+ 0004:00001d10       _Line                      0032fd10     boot:ntfsboot.obj
+ 0004:00001d14       _LastMcb                   0032fd14     boot:ntfsboot.obj
+ 0004:00001d18       _NtfsLinkCacheCount        0032fd18     boot:ntfsboot.obj
+ 0004:00001d1c       _BlAmd64UseLongMode        0032fd1c     boot:amd64x86.obj
+ 0004:00001d20       _BlAmd64FreePfnList        0032fd20     boot:amd64x86.obj
+ 0004:00001d24       _BlAmd64BusyPfnList        0032fd24     boot:amd64x86.obj
+ 0004:00001d28       _HiberInProgress           0032fd28     boot:amd64x86.obj
+ 0004:00001d30       _FwLastSectorCache         0032fd30     boot:biosdrv.obj
+ 0004:00001d48       _ControlSequence           0032fd48     boot:biosdrv.obj
+ 0004:00001d49       _EscapeSequence            0032fd49     boot:biosdrv.obj
+ 0004:00001d4a       _FontSelection             0032fd4a     boot:biosdrv.obj
+ 0004:00001d4b       _HighIntensity             0032fd4b     boot:biosdrv.obj
+ 0004:00001d4c       _Blink                     0032fd4c     boot:biosdrv.obj
+ 0004:00001d50       _PCount                    0032fd50     boot:biosdrv.obj
+ 0004:00001d54       _KeyBufferEnd              0032fd54     boot:biosdrv.obj
+ 0004:00001d58       _KeyBufferStart            0032fd58     boot:biosdrv.obj
+ 0004:00001d60       _RamdiskBreak              0032fd60     boot:ramdisk.obj
+ 0004:00001d61       _RamdiskBuild              0032fd61     boot:ramdisk.obj
+ 0004:00001d64       _RamdiskPath               0032fd64     boot:ramdisk.obj
+ 0004:00001d68       _RamdiskTFTPAddr           0032fd68     boot:ramdisk.obj
+ 0004:00001d6c       _RamdiskMTFTPAddr          0032fd6c     boot:ramdisk.obj
+ 0004:00001d70       _RamdiskMTFTPCPort         0032fd70     boot:ramdisk.obj
+ 0004:00001d74       _RamdiskMTFTPSPort         0032fd74     boot:ramdisk.obj
+ 0004:00001d78       _RamdiskMTFTPFileSize      0032fd78     boot:ramdisk.obj
+ 0004:00001d80       _RamdiskMTFTPChunkSize     0032fd80     boot:ramdisk.obj
+ 0004:00001d88       _RamdiskGuid               0032fd88     boot:ramdisk.obj
+ 0004:00001d98       _RamdiskMCastAddr          0032fd98     boot:ramdisk.obj
+ 0004:00001d9c       _RamdiskServerCount        0032fd9c     boot:ramdisk.obj
+ 0004:00001da0       _RamdiskActive             0032fda0     boot:ramdisk.obj
+ 0004:00001da4       _RamdiskBasePage           0032fda4     boot:ramdisk.obj
+ 0004:00001da8       _RamdiskFileSize           0032fda8     boot:ramdisk.obj
+ 0004:00001db0       _RamdiskFileSizeInPages    0032fdb0     boot:ramdisk.obj
+ 0004:00001db4       _RamdiskImageOffset        0032fdb4     boot:ramdisk.obj
+ 0004:00001db8       _RamdiskImageLength        0032fdb8     boot:ramdisk.obj
+ 0004:00001dc0       _SdiAddress                0032fdc0     boot:ramdisk.obj
+ 0004:00001dc4       _RamdiskMaxPacketSize      0032fdc4     boot:ramdisk.obj
+ 0004:00001dc8       _RamdiskXID                0032fdc8     boot:ramdisk.obj
+ 0004:00001dd0       _EfiPartitionBuffer        0032fdd0     boot:arcdisk.obj
+ 0004:00005dd0       _RequestSenseSrb           00333dd0     boot:scsiboot.obj
+ 0004:00005f48       _PrimarySrb                00333f48     boot:scsiboot.obj
+ 0004:000060b8       _AbortSrb                  003340b8     boot:scsiboot.obj
+ 0004:00006228       _ScsiDebug                 00334228     boot:scsiboot.obj
+ 0004:0000622c       _BlNumFilesLoaded          0033422c     boot:blload.obj
+ 0004:00006230       _BlNumProgressBarFilesLoaded 00334230     boot:blload.obj
+ 0004:00006234       _BlProgressBarFilesToLoad  00334234     boot:blload.obj
+ 0004:00006238       _BlDisableProgressBar      00334238     boot:blload.obj
+ 0004:00006239       _BlOutputDots              00334239     boot:blload.obj
+ 0004:0000623a       _BlShowProgressBar         0033423a     boot:blload.obj
+ 0004:0000623c       _BlStartTime               0033423c     boot:blload.obj
+ 0004:00006248       _BlLogActiveTargets        00334248     boot:bllog.obj
+ 0004:00006250       _BlDiskCache               00334250     boot:blcache.obj
+ 0004:000062a4       _DisplayLogoOnBoot         003342a4     boot:vmode.obj
+ 0004:000062a5       _GraphicsMode              003342a5     boot:vmode.obj
+ 0004:000062a8       _LoaderGfxContext          003342a8     boot:vmode.obj
+ 0004:000062c4       _VgaRegisterBase           003342c4     boot:vga.obj
+ 0004:000062c8       _HalpRsdp                  003342c8     boot:detsup.obj
+ 0004:000062cc       _HalpRsdt                  003342cc     boot:detsup.obj
+ 0004:000062d0       _HalpXsdt                  003342d0     boot:detsup.obj
+ 0004:000062d4       _HalpSearchedForRsdp       003342d4     boot:detsup.obj
+ 0004:000062d8       _HalpApic                  003342d8     boot:detsup.obj
+ 0004:000062dc       _HalpSearchedForApic       003342dc     boot:detsup.obj
+ 0004:000062dd       _HalpGoodBiosDebug         003342dd     boot:detsup.obj
+ 0004:000062e0       _UserSpecifiedNoIoApic     003342e0     boot:detsup.obj
+ 0004:000062e4       _pchINFName                003342e4     boot:parseini.obj
+ 0004:000062e8       _StringHeapFree            003342e8     boot:parseini.obj
+ 0004:000062ec       _StringHeapLimit           003342ec     boot:parseini.obj
+ 0004:000062f0       _BdBreakpointTable         003342f0     bd:data.obj
+ 0004:000065f0       _BdControlCPending         003345f0     bd:data.obj
+ 0004:000065f4       _BdControlCPressed         003345f4     bd:data.obj
+ 0004:000065f8       _BdDebuggerEnabled         003345f8     bd:data.obj
+ 0004:000065fc       _BdDebuggerNotPresent      003345fc     bd:data.obj
+ 0004:00006600       _BreakpointsSuspended      00334600     bd:break.obj
+ 0004:00006604       _NetUnicastUdpDestinationPort 00334604     tftplib:rom.obj
+ 0004:00006608       _UdpNextPort               00334608     tftplib:udp.obj
+ 0004:0000660c       _Lznt1Break                0033460c     bldrrtl:lznt1.obj
+ 0004:00006610       ___fastflag                00334610     libcntpr:stubs.obj
+ 0004:00006618       _LoggedIn                  00334618     oscldr:oschoice.obj
+ 0004:00006619       _DoSoftReboot              00334619     oscldr:oschoice.obj
+ 0004:0000661a       _DisableACPI               0033461a     oscldr:oschoice.obj
+ 0004:0000661b       _BlConsoleInitialized      0033461b     oscldr:oschoice.obj
+ 0004:0000661c       _BlConsoleOutDeviceId      0033461c     oscldr:oschoice.obj
+ 0004:00006620       _BlConsoleInDeviceId       00334620     oscldr:oschoice.obj
+ 0004:00006628       _NetRebootParameter        00334628     oscldr:oschoice.obj
+ 0004:00006630       _BlRebootSystem            00334630     oscldr:oschoice.obj
+ 0004:00006634       _BlVirtualBias             00334634     oscldr:oschoice.obj
+ 0004:00006638       _OutgoingMessageBuffer     00334638     oscldr:oschoice.obj
+ 0004:0000663c       _IncomingMessageBuffer     0033463c     oscldr:oschoice.obj
+ 0004:00006640       _TempIncomingMessage       00334640     oscldr:oschoice.obj
+ 0004:00006644       _CredentialHandleValid     00334644     oscldr:oschoice.obj
+ 0004:00006645       _ClientContextHandleValid  00334645     oscldr:oschoice.obj
+ 0004:00006648       _PackageInfo               00334648     oscldr:oschoice.obj
+ 0004:0000664c       _GlobalFileTime            0033464c     oscldr:oschoice.obj
+ 0004:00006654       _ArcTimeForUTCTime         00334654     oscldr:oschoice.obj
+ 0004:00006664       _ParaOldLeftMargin         00334664     oscldr:parse.obj
+ 0004:00006668       _ParaOldRightMargin        00334668     oscldr:parse.obj
+ 0004:00006682       _PaeEnabled                00334682     boot:ntsetup.obj
+ 0004:00006684       _PDPT                      00334684     boot:ntsetup.obj
+ 0004:0000668c       _ErrorSessionKey           0033468c     bootssp:response.obj
+ 0004:000066a0       _OscHeap                   003346a0     <common>
+ 0004:000086a0       _ScreenX                   003366a0     <common>
+ 0004:000086a4       _LoginScreen               003366a4     <common>
+ 0004:000086a8       _ScreenY                   003366a8     <common>
+ 0004:000086ac       _EscKey                    003366ac     <common>
+ 0004:000086b0       _F3Key                     003366b0     <common>
+ 0004:000086b4       _ScreenAttributes          003366b4     <common>
+ 0004:000086b8       _InsertMode                003366b8     <common>
+ 0004:000086b9       _PreformattedMode          003366b9     <common>
+ 0004:000086bc       _LeftMargin                003366bc     <common>
+ 0004:000086c0       _AutoEnter                 003366c0     <common>
+ 0004:000086c4       _SpecialAction             003366c4     <common>
+ 0004:000086c8       _AuthenticationType        003366c8     <common>
+ 0004:000086cc       _ScreenBottom              003366cc     <common>
+ 0004:000086d0       _RightMargin               003366d0     <common>
+ 0004:000086d4       _ScreenControls            003366d4     <common>
+ 0004:000086d8       _EnterKey                  003366d8     <common>
+ 0004:000086dc       _F1Key                     003366dc     <common>
+ 0004:000086e0       _TipArea                   003366e0     <common>
+ 0004:00008700       _NextBootfile              00336700     <common>
+ 0004:00008780       _NetRebootFile             00336780     <common>
+ 0004:00008800       _RemoteHost                00336800     <common>
+ 0004:00008820       _AdministratorPassword     00336820     <common>
+ 0004:00008862       _RemotePort                00336862     <common>
+ 0004:00008880       _UnicodePassword           00336880     <common>
+ 0004:00008980       _UserName                  00336980     <common>
+ 0004:00008a80       _SifFile                   00336a80     <common>
+ 0004:00008b00       _WinntSifFileLength        00336b00     <common>
+ 0004:00008b08       _ClientContextHandle       00336b08     <common>
+ 0004:00008b10       _WinntSifFile              00336b10     <common>
+ 0004:00008b20       _Password                  00336b20     <common>
+ 0004:00008ba0       _WinntSifHandle            00336ba0     <common>
+ 0004:00008ba4       _IncomingSignedMessage     00336ba4     <common>
+ 0004:00008bb0       _NtOwfPassword             00336bb0     <common>
+ 0004:00008bc0       _OutgoingSignedMessage     00336bc0     <common>
+ 0004:00008bc4       _LocalPort                 00336bc4     <common>
+ 0004:00008be0       _HalDescription            00336be0     <common>
+ 0004:00008c60       _AdministratorPasswordConfirm 00336c60     <common>
+ 0004:00008cc0       _DomainName                00336cc0     <common>
+ 0004:00008dc0       _CredentialHandle          00336dc0     <common>
+ 0004:00008dd0       _HalType                   00336dd0     <common>
+ 0004:00008de0       _LmOwfPassword             00336de0     <common>
+ 0004:00008df0       _InfFile                   00336df0     <common>
+ 0004:00008e00       _ConsoleInputName          00336e00     <common>
+ 0004:00008e40       _ConsoleOutputName         00336e40     <common>
+ 0004:00008e74       _pINF                      00336e74     <common>
+ 0004:00008e78       _pSectionRecord            00336e78     <common>
+ 0004:00008e7c       _EmptyValue                00336e7c     <common>
+ 0004:00008e80       _pLastInternalValue        00336e80     <common>
+ 0004:00008e84       _pInternalValue            00336e84     <common>
+ 0004:00008e88       _pValueRecord              00336e88     <common>
+ 0004:00008e8c       _pLineRecord               00336e8c     <common>
+ 0004:00008e90       _PcMpTablePtr              00336e90     <common>
+ 0004:00008ea0       _HalpMpInfoTable           00336ea0     <common>
+ 0004:000090e0       _PCIMaxDevice              003370e0     <common>
+ 0004:00009100       _PCIBusHandler             00337100     <common>
+ 0004:00009120       _GptScratchBuffer          00337120     <common>
+ 0004:0000d520       _GptScratchBuffer2         0033b520     <common>
+ 0004:0000d920       _HalpEisaControlBase       0033b920     <common>
+ 0004:0000d928       _BlAmd64TopLevelPte        0033b928     <common>
+ 0004:0000d940       _ScsiPortDeviceObject      0033b940     <common>
+ 0004:0000d980       _Parameter                 0033b980     <common>
+ 0004:0000d9b0       _KeyBuffer                 0033b9b0     <common>
+ 0004:0000d9c0       _SenseInfoBuffer           0033b9c0     <common>
+ 0004:0000d9c4       _ReadCapacityBuffer        0033b9c4     <common>
+ 0004:0000d9e0       _ScsiTempBuffer            0033b9e0     <common>
+ 0004:0000e260       _BlAmd32GdtDescriptor      0033c260     <common>
+ 0004:0000e270       _BlAmd64KernelEntry        0033c270     <common>
+ 0004:0000e278       _BlAmd64LoaderParameterBlock 0033c278     <common>
+ 0004:0000e280       _BlAmd64GdtDescriptor      0033c280     <common>
+ 0004:0000e290       _BlAmd64IdtDescriptor      0033c290     <common>
+ 0004:0000e2a0       _BlAmd64IdleStack64        0033c2a0     <common>
+ 0004:0000e2a8       _DbcsLangId                0033c2a8     <common>
+ 0004:0000e2ac       _SbcsImages                0033c2ac     <common>
+ 0004:0000e2b0       _CharacterBottomPad        0033c2b0     <common>
+ 0004:0000e2b4       _DbcsCharCount             0033c2b4     <common>
+ 0004:0000e2b8       _CharacterCellHeight       0033c2b8     <common>
+ 0004:0000e2bc       _CharacterImageHeight      0033c2bc     <common>
+ 0004:0000e2c0       _LeadByteTable             0033c2c0     <common>
+ 0004:0000e2cc       _CharacterTopPad           0033c2cc     <common>
+ 0004:0000e2d0       _ScreenHeightCells         0033c2d0     <common>
+ 0004:0000e2d4       _SbcsCharCount             0033c2d4     <common>
+ 0004:0000e2d8       _DbcsImages                0033c2d8     <common>
+ 0004:0000e2dc       _ScreenWidthCells          0033c2dc     <common>
+ 0004:0000e2e0       _EtfsStructureContext      0033c2e0     <common>
+ 0004:0000e2e4       _EtfsFileTableEntry        0033c2e4     <common>
+ 0004:0000e300       _EtfsDeviceEntryTable      0033c300     <common>
+ 0004:0000e340       _FatDeviceEntryTable       0033c340     <common>
+ 0004:0000e380       _NtfsFileRecordBuffer      0033c380     <common>
+ 0004:0000e480       _NtfsCompressedFileRecord  0033c480     <common>
+ 0004:0000e488       _NtfsUncompressedBuffer    0033c488     <common>
+ 0004:0000e48c       _NtfsCompressedBuffer      0033c48c     <common>
+ 0004:0000e4a0       _NtfsBuffer3               0033c4a0     <common>
+ 0004:0001e5a0       _NtfsCompressedVbo         0034c5a0     <common>
+ 0004:0001e5c0       _NtfsBuffer0               0034c5c0     <common>
+ 0004:0001f6c0       _NtfsLinkCache             0034d6c0     <common>
+ 0004:0001f8c0       _NtfsCompressedOffset      0034d8c0     <common>
+ 0004:0001f8e0       _NtfsBuffer1               0034d8e0     <common>
+ 0004:000209e0       _NtfsFileRecordBufferPinned 0034e9e0     <common>
+ 0004:00020a60       _NtfsFileRecordBufferVbo   0034ea60     <common>
+ 0004:00020c60       _NtfsDeviceEntryTable      0034ec60     <common>
+ 0004:00020c90       _NtfsIndexAllocationBuffer 0034ec90     <common>
+ 0004:00020ca0       _NtfsBuffer2               0034eca0     <common>
+ 0004:00021da0       _NtfsBuffer4               0034fda0     <common>
+ 0004:00031ea0       _UDFCache                  0035fea0     <common>
+ 0004:000357a0       _UDFVolumes                003637a0     <common>
+ 0004:000357c0       _UDFSMethods               003637c0     <common>
+ 0004:00035800       _CdfsDeviceEntryTable      00363800     <common>
+ 0004:00035830       _CdfsStructureContext      00363830     <common>
+ 0004:00035834       _CdfsFileTableEntry        00363834     <common>
+ 0004:00035838       _BlLowestPage              00363838     <common>
+ 0004:0003583c       _BlLoaderBlock             0036383c     <common>
+ 0004:00035840       _BlHeapFree                00363840     <common>
+ 0004:00035844       _BlHighestPage             00363844     <common>
+ 0004:00035848       _BlHeapLimit               00363848     <common>
+ 0004:00035860       _TerminalLine              00363860     <common>
+ 0004:000358c0       _GlobalFirmwareVectors     003638c0     <common>
+ 0004:00035954       _FwStallCounter            00363954     <common>
+ 0004:00035960       _PortBuffer                00363960     <common>
+ 0004:00035970       _AETime                    00363970     <common>
+ 0004:00035980       _CachedFilePath            00363980     <common>
+ 0004:00035a84       _NetRealArcOpenRoutine     00363a84     <common>
+ 0004:00035aa0       _NetDeviceEntryTable       00363aa0     <common>
+ 0004:00035ad0       _NetRealArcCloseRoutine    00363ad0     <common>
+ 0004:00035ae0       _NetBootIniContents        00363ae0     <common>
+ 0004:00035ee0       _NetLocalHardwareAddress   00363ee0     <common>
+ 0004:00035ef0       _MyGuid                    00363ef0     <common>
+ 0004:00035f00       _NetLocalSubnetMask        00363f00     <common>
+ 0004:00035f04       _NetGatewayIpAddress       00363f04     <common>
+ 0004:00035f20       _NetBootIniPath            00363f20     <common>
+ 0004:00036024       _NetServerIpAddress        00364024     <common>
+ 0004:00036040       _NetBootPath               00364040     <common>
+ 0004:000360c4       _NetLocalIpAddress         003640c4     <common>
+ 0004:000360e0       _DeviceFSCache             003640e0     <common>
+ 0004:00036320       _BlFileTable               00364320     <common>
+ 0004:000376a0       _BlRsdt                    003656a0     <common>
+ 0004:000376a4       _BlRsdp                    003656a4     <common>
+ 0004:000376a8       _BlXsdt                    003656a8     <common>
+ 0004:000376ac       _FwPoolEnd                 003656ac     <common>
+ 0004:000376c0       _MDArray                   003656c0     <common>
+ 0004:00037990       _HalPT                     00365990     <common>
+ 0004:00037994       _FwPoolStart               00365994     <common>
+ 0004:00037998       _PDE                       00365998     <common>
+ 0004:000379a0       _LoaderRedirectionInformation 003659a0     <common>
+ 0004:000379d0       _READ_UCHAR                003659d0     <common>
+ 0004:000379d4       _WRITE_UCHAR               003659d4     <common>
+ 0004:000379d8       _OsLoaderExports           003659d8     <common>
+ 0004:000379dc       _TssBasePage               003659dc     <common>
+ 0004:000379e0       _PcrBasePage               003659e0     <common>
+ 0004:000379e4       _OsLoaderBase              003659e4     <common>
+ 0004:00037a00       _BootPartitionName         00365a00     <common>
+ 0004:00037a50       _ExternalServicesTable     00365a50     <common>
+ 0004:00037a60       _DebugMessage              00365a60     <common>
+ 0004:00037ab0       ___@@_PchSym_@00@UhieADignUyzhvUyllgUywUwzbglmzUlyqUrDIGUywOlyq@bd 00365ab0     <common>
+ 0004:00037ac0       _BdPrcb                    00365ac0     <common>
+ 0004:00038890       _BdNextPacketIdToSend      00366890     <common>
+ 0004:00038894       _BdPacketIdExpected        00366894     <common>
+ 0004:000388a0       _BdMessageBuffer           003668a0     <common>
+ 0004:000398a0       _BdDebugRoutine            003678a0     <common>
+ 0004:000398a4       _BdBreakpointInstruction   003678a4     <common>
+ 0004:000398c0       _BdFileTransferBuffer      003678c0     <common>
+ 0004:0003b8c0       _BdRemoteFiles             003698c0     <common>
+ 0004:0003b940       _BdFileId                  00369940     <common>
+ 0004:0003b944       ___@@_PchSym_@00@UhieADignUyzhvUyllgUgugkoryUlyqUrDIGUkivxlnkOlyq@tftplib 00369944     <common>
+ 0004:0003b948       _UdpUnicastDestinationPort 00369948     <common>
+ 0004:0003b960       _NetTftpPacket             00369960     <common>
+ 0004:0003e960       _NetTftpConnection         0036c960     <common>
+ 0004:0003e998       ___@@_PchSym_@00@UhieADignUyzhvUmglhUpvUfkUlyqUrDIGUprOlyq@ke 0036c998     <common>
+ 0004:0003e99c       _errno                     0036c99c     <common>
+
+ entry point at        0001:00000135
+
+ Static symbols
+
+ 0001:000056f0       $$$00001                   003066f0 f   boot:xxioacc.obj
+ 0001:000056f9       $$$00003                   003066f9 f   boot:xxioacc.obj
+ 0001:00005706       $$$00005                   00306706 f   boot:xxioacc.obj
+ 0001:00005711       $$$00007                   00306711 f   boot:xxioacc.obj
+ 0001:00005728       $$$00009                   00306728 f   boot:xxioacc.obj
+ 0001:0000573d       $$$00011                   0030673d f   boot:xxioacc.obj
+ 0001:00005754       $$$00013                   00306754 f   boot:xxioacc.obj
+ 0001:00005761       $$$00015                   00306761 f   boot:xxioacc.obj
+ 0001:00005773       $$$00017                   00306773 f   boot:xxioacc.obj
+ 0001:00005781       $$$00019                   00306781 f   boot:xxioacc.obj
+ 0001:00005798       $$$00021                   00306798 f   boot:xxioacc.obj
+ 0001:000057ad       $$$00023                   003067ad f   boot:xxioacc.obj
+ 0001:00010ce4       $$$00001                   00311ce4 f   boot:ixcmos.obj
+ 0001:000140a8       $$$00001                   003150a8 f   bd:state.obj
+ 0001:00014127       $$$00003                   00315127 f   bd:state.obj
+ 0001:000160ac       $$$00020                   003170ac f   ke:cpu.obj
+ 0001:000160af       $$$00022                   003170af f   ke:cpu.obj
+ 0001:000160b3       $$$00024                   003170b3 f   ke:cpu.obj
+ 0001:000160c5       $$$00026                   003170c5 f   ke:cpu.obj
+ 0001:000160cc       $$$00001                   003170cc f   bldrrtl:ioaccess.obj
+ 0001:000160d5       $$$00003                   003170d5 f   bldrrtl:ioaccess.obj
+ 0001:000160e2       $$$00005                   003170e2 f   bldrrtl:ioaccess.obj
+ 0001:000160ed       $$$00007                   003170ed f   bldrrtl:ioaccess.obj
+ 0001:00016109       $$$00009                   00317109 f   bldrrtl:ioaccess.obj
+ 0001:00016126       $$$00011                   00317126 f   bldrrtl:ioaccess.obj
+ 0001:00016141       $$$00013                   00317141 f   bldrrtl:ioaccess.obj
+ 0001:00016156       $$$00015                   00317156 f   bldrrtl:ioaccess.obj
+ 0001:0001616b       $$$00017                   0031716b f   bldrrtl:ioaccess.obj
+ 0001:0001617e       $$$00019                   0031717e f   bldrrtl:ioaccess.obj
+ 0001:0001619e       $$$00021                   0031719e f   bldrrtl:ioaccess.obj
+ 0001:000161bf       $$$00023                   003171bf f   bldrrtl:ioaccess.obj
+ 0001:0001624c       $$$00001                   0031724c f   bldrrtl:debug2.obj
+ 0001:0001624e       $$$00003                   0031724e f   bldrrtl:debug2.obj
+ 0001:00016252       $$$00005                   00317252 f   bldrrtl:debug2.obj
+ 0001:00017128       $$$00001                   00318128 f   bldrrtl:lzntx86.obj
+ 0001:00018270       _$$$00001                  00319270 f   libcntpr:strchr.obj
+ 0001:00018847       _write_char                00319847 f   libcntpr:output.obj
+ 0001:0001887a       _write_multi_char          0031987a f   libcntpr:output.obj
+ 0001:0001889e       _write_string              0031989e f   libcntpr:output.obj
+ 0001:00024fc0       $$$00001                   00325fc0 f   bldrrtl:movemem.obj
+ 0001:00025007       $$$00003                   00326007 f   bldrrtl:movemem.obj
+ 0001:00025031       $$$00005                   00326031 f   bldrrtl:movemem.obj
+ 0001:00025071       $$$00007                   00326071 f   bldrrtl:movemem.obj
+ 0001:000250a7       $$$00009                   003260a7 f   bldrrtl:movemem.obj
+ 0001:000250c6       $$$00011                   003260c6 f   bldrrtl:movemem.obj
+ 0001:000250f4       $$$00013                   003260f4 f   bldrrtl:movemem.obj
+ 0001:0002514f       $$$00015                   0032614f f   bldrrtl:movemem.obj
+ 0001:00025393       $$$00017                   00326393 f   bldrrtl:movemem.obj
+ 0001:000253fe       $$$00019                   003263fe f   bldrrtl:movemem.obj
+ 0001:00025480       $$$00001                   00326480 f   bldrrtl:largeint.obj
+ 0001:00025493       $$$00003                   00326493 f   bldrrtl:largeint.obj
+ 0001:0002549f       $$$00005                   0032649f f   bldrrtl:largeint.obj
+ 0001:000254ab       $$$00007                   003264ab f   bldrrtl:largeint.obj
+ 0001:000254c9       $$$00009                   003264c9 f   bldrrtl:largeint.obj
+ 0001:0002551c       $$$00011                   0032651c f   bldrrtl:largeint.obj
+ 0001:000255aa       $$$00013                   003265aa f   bldrrtl:largeint.obj
+ 0001:00025602       $$$00015                   00326602 f   bldrrtl:largeint.obj
+ 0001:0002562b       $$$00017                   0032662b f   bldrrtl:largeint.obj
+ 0001:00025653       $$$00019                   00326653 f   bldrrtl:largeint.obj
+ 0001:00025680       $$$00021                   00326680 f   bldrrtl:largeint.obj
+ 0001:00025692       $$$00023                   00326692 f   bldrrtl:largeint.obj
+ 0001:000256a7       $$$00025                   003266a7 f   bldrrtl:largeint.obj
+ 0001:000256b0       $$$00027                   003266b0 f   bldrrtl:largeint.obj
+ 0002:00000000       $$$00001                   00327000 f   ke:cpu.obj
+ 0002:0000010e       CpuIdTrap6Handler          0032710e f   ke:cpu.obj
+ 0002:000001bc       Temporary486Int6           003271bc f   ke:cpu.obj
+ 0002:0000021c       Check386B0                 0032721c f   ke:cpu.obj
+ 0002:00000257       TemporaryInt6              00327257 f   ke:cpu.obj
+ 0002:0000025f       Check386D1                 0032725f f   ke:cpu.obj
+ 0002:000002a6       TemporaryInt1              003272a6 f   ke:cpu.obj
+ 0002:000002b6       MultiplyTest               003272b6 f   ke:cpu.obj
+ 0002:000002c8       Multiply                   003272c8 f   ke:cpu.obj
+ 0002:000002e4       $$$00016                   003272e4 f   ke:cpu.obj
+ 0002:00000323       $$$00018                   00327323 f   ke:cpu.obj

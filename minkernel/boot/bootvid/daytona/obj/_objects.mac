@@ -1,0 +1,32 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\bootvid.res \
+    $(_OBJ_DIR)\i386\bootvid.obj \
+    $(_OBJ_DIR)\i386\bootdata.obj \
+    $(_OBJ_DIR)\i386\vga.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\bootvid.res \
+    $(_OBJ_DIR)\ia64\bootvid.obj \
+    $(_OBJ_DIR)\ia64\bootdata.obj \
+    $(_OBJ_DIR)\ia64\vga.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\bootvid.res \
+    $(_OBJ_DIR)\amd64\bootvid.obj \
+    $(_OBJ_DIR)\amd64\bootdata.obj \
+    $(_OBJ_DIR)\amd64\vga.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\bootvid.res \
+    $(_OBJ_DIR)\arm\bootvid.obj \
+    $(_OBJ_DIR)\arm\bootdata.obj \
+    $(_OBJ_DIR)\arm\vga.obj
+
+PASS0_ARM_OBJECTS=
+

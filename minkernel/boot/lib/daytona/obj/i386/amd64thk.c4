@@ -1,0 +1,3410 @@
+
+#pragma warning(disable:4163)
+
+#if !defined(_X86AMD64_)
+#define _X86AMD64_
+#endif
+
+#include "bootx86.h"
+
+#if defined(ROUND_UP)
+#undef ROUND_UP
+#endif
+
+#include "cmp.h"
+#include "..\amd64\amd64prv.h"
+
+/*++
+
+Copyright (c) 2000  Microsoft Corporation
+
+Module Name:
+
+    bldrthnk.h
+
+Abstract:
+
+    Include file defining a number of structures used by bldrthnk.c.  This
+    file also includes some M4 preprocessor directives, see INCLUDE_M4.
+
+Author:
+
+    Forrest C. Foltz (forrestf) 15-May-2000
+
+
+To use:
+
+Revision History:
+
+--*/
+
+//
+// Maximum identifier name length
+// 
+
+#define MAX_NAME_LENGTH 128
+
+//
+// FIELD_DEF Describes a field definition within a structure's field list.
+//
+
+typedef struct _FIELD_DEF {
+    CHAR Name[MAX_NAME_LENGTH];
+    CHAR TypeName[MAX_NAME_LENGTH];
+    ULONG TypeSize;
+    ULONG Offset;
+    ULONG Size;
+    CHAR  SizeFormula[MAX_NAME_LENGTH];
+} FIELD_DEF, *PFIELD_DEF;
+
+//
+// STRUC_DEF describes a structure.
+//
+
+typedef struct _STRUC_DEF {
+
+    //
+    // Name of this structure type
+    //
+
+    CHAR Name[MAX_NAME_LENGTH];
+
+    //
+    // Total size of the structure
+    //
+
+    ULONG Size;
+
+    //
+    // Array of field pointers.  Defined as ULONGLONG to ensure an identical
+    // layout between 32- and 64-bit objs.
+    //
+
+    ULONGLONG Fields[];
+
+}  STRUC_DEF, *PSTRUC_DEF;
+
+//
+// Master array of pointers to structure definitions.
+//
+typedef struct _DEFINITIONS *PDEFINITIONS;
+typedef struct _DEFINITIONS {
+
+    //
+    // Two signatures, SIG_1 and SIG_2 to facilitate locating this list
+    // within an .OBJ.
+    //
+
+    ULONG Sig1;
+    ULONG Sig2;
+
+    //
+    // Array of pointers to STRUC_DEFs.  Defined as ULONGLONG to ensure
+    // identical layout between 32- and 64-bit.
+    // 
+
+    ULONGLONG Structures[];
+
+} DEFINITIONS;
+
+//
+// SIG_1 and SIG_2 are expected to be found in DEFINITIONS.Sig1 and
+// DEFINITIONS.Sig2, respectively.
+// 
+
+#define SIG_1 (ULONG)'Sig1'
+#define SIG_2 (ULONG)'Sig2'
+
+//
+// Macro used to generate a boolean value representing whether the given
+// type is considered signed or unsigned by the compiler.
+// 
+
+#define IS_SIGNED_TYPE(x) (((x)-1) < ((x)0))
+
+#if defined(_WIN64)
+#define ONLY64(x) x
+#else
+#define ONLY64(x) 0
+#endif
+
+//
+// Structures will ultimately be described as arrays of COPY_REC structures.
+// Each COPY_REC structure supplies the information necessary to copy a field
+// from a 32-bit structure layout to a 64-bit structure layout.
+// 
+
+typedef struct _COPY_REC {
+
+    //
+    // Offset of the field in a 32-bit structure.
+    //
+
+    USHORT Offset32;
+
+    //
+    // Offset of the field in a 64-bit structure.
+    //
+
+    USHORT Offset64;
+
+    //
+    // Size of the field in a 32-bit structure.
+    //
+
+    USHORT Size32;
+
+    //
+    // Size of the field in a 64-bit structure.
+    //
+
+    USHORT Size64;
+
+    //
+    // TRUE if the field should be sign-extended.
+    //
+
+    BOOLEAN SignExtend;
+
+} COPY_REC, *PCOPY_REC;
+
+#if !defined(ASSERT)
+#define ASSERT(x)
+#endif
+
+//
+// 64-bit list manipulation macros follow.
+// 
+
+#define InitializeListHead64( ListHead )        \
+    (ListHead)->Flink = PTR_64(ListHead);       \
+    (ListHead)->Blink = PTR_64(ListHead);
+
+#define InsertTailList64( ListHead, Entry ) {   \
+    PLIST_ENTRY_64 _EX_Blink;                   \
+    PLIST_ENTRY_64 _EX_ListHead;                \
+    _EX_ListHead = (ListHead);                  \
+    _EX_Blink = PTR_32(_EX_ListHead->Blink);    \
+    (Entry)->Flink = PTR_64(_EX_ListHead);      \
+    (Entry)->Blink = PTR_64(_EX_Blink);         \
+    _EX_Blink->Flink = PTR_64(Entry);           \
+    _EX_ListHead->Blink = PTR_64(Entry);        \
+    }
+
+VOID
+CopyRec(
+    IN  PVOID Source,
+    OUT PVOID Destination,
+    IN  PCOPY_REC CopyRecArray
+    );
+
+#if defined(WANT_BLDRTHNK_FUNCTIONS)
+
+ULONG
+StringLen(
+    IN PCHAR Str
+    )
+{
+    if (Str == NULL) {
+        return 0;
+    } else {
+        return strlen(Str)+sizeof(CHAR);
+    }
+}
+
+VOID
+CopyRec(
+    IN  PVOID Source,
+    OUT PVOID Destination,
+    IN  PCOPY_REC CopyRecArray
+    )
+
+/*++
+
+Routine Description:
+
+    CopyRec copies the contents of a 32-bit structure to the equivalent
+    64-bit structure.
+
+Arguments:
+
+    Source - Supplies a pointer to the 32-bit source structure.
+
+    Destination - Supplies a pointer to the 64-bit destination structure.
+
+    CopyRecArray - Supplies a pointer to a 0-terminated COPY_REC array
+        that describes the relationships between the 32- and 64-bit fields
+        within the structure.
+
+Return value:
+
+    None.
+
+--*/
+
+{
+    PCOPY_REC copyRec;
+    PCHAR signDst;
+    ULONG extendBytes;
+    PCHAR src;
+    PCHAR dst;
+    CHAR sign;
+
+    copyRec = CopyRecArray;
+    while (copyRec->Size32 != 0) {
+
+        src = (PCHAR)Source + copyRec->Offset32;
+        dst = (PCHAR)Destination + copyRec->Offset64;
+
+        //
+        // Determine whether this looks like a KSEG0 pointer
+        //
+
+        if (copyRec->Size32 == sizeof(PVOID) &&
+            copyRec->Size64 == sizeof(POINTER64) &&
+            copyRec->SignExtend != FALSE &&
+            IS_KSEG0_PTR_X86( *(PULONG)src )) {
+
+            //
+            // Source appears to be a KSEG0 pointer.  All pointers
+            // must be explicitly "thunked" during the copy phase, so
+            // set this pointer to a known value that we can look for
+            // later in order to detect pointers that haven't been
+            // thunked yet.
+            //
+
+            *(POINTER64 *)dst = PTR_64(*(PVOID *)src);
+
+        } else {
+
+            memcpy( dst, src, copyRec->Size32 );
+    
+            //
+            // Determine whether to sign-extend or zero-extend
+            //
+        
+            extendBytes = copyRec->Size64 - copyRec->Size32;
+            if (extendBytes > 0) {
+        
+                signDst = dst + copyRec->Size32;
+        
+                if (copyRec->SignExtend != FALSE &&
+                   (*(signDst-1) & 0x80) != 0) {
+        
+                       //
+                       // Signed value is negative, fill the high bits with
+                       // ones.
+                       //
+        
+                    sign = 0xFF;
+        
+                } else {
+        
+                    //
+                    // Unsigned value or postitive signed value, fill the high
+                    // bits with zeros.
+                    //
+        
+                    sign = 0;
+                }
+        
+                memset( signDst, sign, extendBytes );
+            }
+        }
+
+        copyRec += 1;
+    }
+}
+
+#endif // WANT_BLDRTHNK_FUNCTIONS
+
+#if defined(INCLUDE_M4)
+
+
+
+//
+// Here begin the M4 macros used to build the structure definition module,
+// which is subsequently compiled by both the 32- and 64-bit compiler, with
+// the resulting object modules processed by bldrthnk.exe.
+//
+//
+// A structure layout file consists of a number of structure definition
+// blocks, terminated by a single DD().
+//
+// For example (underscores prepended to prevent M4 processing):
+//
+//
+// SD( LIST_ENTRY )
+// FD( Flink, PLIST_ENTRY )
+// FD( Blink, PLIST_ENTRY )
+// SE()
+//
+// DD()
+//
+
+
+
+
+//
+// The SD macro begins the definition of a structure.
+//
+// Usage: SD( <structure_name> )
+//
+
+
+
+
+
+
+//
+// The FD macro defines a field within a structure definition block
+//
+// Usage: FD( <field_name>, <type> )
+//
+
+
+
+//
+// The FDC macro works like the previous macro, except that it is applied to
+// a field that points to a buffer that must be copied as well.
+//
+
+
+
+
+//
+// The SE macro marks the end of a structure definition.
+//
+// Usage: SE()
+//
+
+
+
+//
+// The DD macro marks the end of all structure definitions, and results
+// in the generation of a single DEFINITIONS structure.
+//
+// Usage: DD()
+//
+
+;
+
+#endif
+
+
+
+
+PHYSICAL_ADDRESS gs_PHYSICAL_ADDRESS;  
+
+FIELD_DEF g_PHYSICAL_ADDRESS_QuadPart = 
+    { "QuadPart",
+      "ULONGLONG",
+      sizeof(ULONGLONG),
+      FIELD_OFFSET(PHYSICAL_ADDRESS,QuadPart),
+      sizeof(gs_PHYSICAL_ADDRESS.QuadPart),
+      "" };
+    
+
+STRUC_DEF g_PHYSICAL_ADDRESS = {
+    "PHYSICAL_ADDRESS", sizeof(PHYSICAL_ADDRESS), 
+    {
+        (ULONGLONG)&g_PHYSICAL_ADDRESS_QuadPart ,
+        0 }
+    
+};
+
+
+
+
+PROFILE_PARAMETER_BLOCK gs_PROFILE_PARAMETER_BLOCK;  
+
+FIELD_DEF g_PROFILE_PARAMETER_BLOCK_Status = 
+    { "Status",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(PROFILE_PARAMETER_BLOCK,Status),
+      sizeof(gs_PROFILE_PARAMETER_BLOCK.Status),
+      "" };
+    
+
+FIELD_DEF g_PROFILE_PARAMETER_BLOCK_DockingState = 
+    { "DockingState",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(PROFILE_PARAMETER_BLOCK,DockingState),
+      sizeof(gs_PROFILE_PARAMETER_BLOCK.DockingState),
+      "" };
+    
+
+FIELD_DEF g_PROFILE_PARAMETER_BLOCK_Capabilities = 
+    { "Capabilities",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(PROFILE_PARAMETER_BLOCK,Capabilities),
+      sizeof(gs_PROFILE_PARAMETER_BLOCK.Capabilities),
+      "" };
+    
+
+FIELD_DEF g_PROFILE_PARAMETER_BLOCK_DockID = 
+    { "DockID",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PROFILE_PARAMETER_BLOCK,DockID),
+      sizeof(gs_PROFILE_PARAMETER_BLOCK.DockID),
+      "" };
+    
+
+FIELD_DEF g_PROFILE_PARAMETER_BLOCK_SerialNumber = 
+    { "SerialNumber",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PROFILE_PARAMETER_BLOCK,SerialNumber),
+      sizeof(gs_PROFILE_PARAMETER_BLOCK.SerialNumber),
+      "" };
+    
+
+STRUC_DEF g_PROFILE_PARAMETER_BLOCK = {
+    "PROFILE_PARAMETER_BLOCK", sizeof(PROFILE_PARAMETER_BLOCK), 
+    {
+        (ULONGLONG)&g_PROFILE_PARAMETER_BLOCK_Status ,
+        (ULONGLONG)&g_PROFILE_PARAMETER_BLOCK_DockingState ,
+        (ULONGLONG)&g_PROFILE_PARAMETER_BLOCK_Capabilities ,
+        (ULONGLONG)&g_PROFILE_PARAMETER_BLOCK_DockID ,
+        (ULONGLONG)&g_PROFILE_PARAMETER_BLOCK_SerialNumber ,
+        0 }
+    
+};
+
+
+
+
+UNICODE_STRING gs_UNICODE_STRING;  
+
+FIELD_DEF g_UNICODE_STRING_Length = 
+    { "Length",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(UNICODE_STRING,Length),
+      sizeof(gs_UNICODE_STRING.Length),
+      "" };
+    
+
+FIELD_DEF g_UNICODE_STRING_MaximumLength = 
+    { "MaximumLength",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(UNICODE_STRING,MaximumLength),
+      sizeof(gs_UNICODE_STRING.MaximumLength),
+      "" };
+    
+
+FIELD_DEF g_UNICODE_STRING_Buffer = 
+    { "Buffer",
+      "PWSTR",
+      sizeof(PWSTR),
+      FIELD_OFFSET(UNICODE_STRING,Buffer),
+      sizeof(gs_UNICODE_STRING.Buffer),
+      "" };
+    
+
+STRUC_DEF g_UNICODE_STRING = {
+    "UNICODE_STRING", sizeof(UNICODE_STRING), 
+    {
+        (ULONGLONG)&g_UNICODE_STRING_Length ,
+        (ULONGLONG)&g_UNICODE_STRING_MaximumLength ,
+        (ULONGLONG)&g_UNICODE_STRING_Buffer ,
+        0 }
+    
+};
+
+
+
+
+LIST_ENTRY gs_LIST_ENTRY;  
+
+FIELD_DEF g_LIST_ENTRY_Flink = 
+    { "Flink",
+      "PLIST_ENTRY",
+      sizeof(PLIST_ENTRY),
+      FIELD_OFFSET(LIST_ENTRY,Flink),
+      sizeof(gs_LIST_ENTRY.Flink),
+      "" };
+    
+
+FIELD_DEF g_LIST_ENTRY_Blink = 
+    { "Blink",
+      "PLIST_ENTRY",
+      sizeof(PLIST_ENTRY),
+      FIELD_OFFSET(LIST_ENTRY,Blink),
+      sizeof(gs_LIST_ENTRY.Blink),
+      "" };
+    
+
+STRUC_DEF g_LIST_ENTRY = {
+    "LIST_ENTRY", sizeof(LIST_ENTRY), 
+    {
+        (ULONGLONG)&g_LIST_ENTRY_Flink ,
+        (ULONGLONG)&g_LIST_ENTRY_Blink ,
+        0 }
+    
+};
+
+
+
+
+#if defined(_WIN64)
+EPROCESS gs_EPROCESS;  
+
+STRUC_DEF g_EPROCESS = {
+    "EPROCESS", sizeof(EPROCESS), 
+    {
+        0 }
+    
+};
+#endif
+
+
+
+#if defined(_WIN64)
+ETHREAD gs_ETHREAD;  
+
+STRUC_DEF g_ETHREAD = {
+    "ETHREAD", sizeof(ETHREAD), 
+    {
+        0 }
+    
+};
+#endif
+
+
+
+#if defined(_WIN64)
+KTHREAD gs_KTHREAD;  
+
+STRUC_DEF g_KTHREAD = {
+    "KTHREAD", sizeof(KTHREAD), 
+    {
+        0 }
+    
+};
+#endif
+
+
+
+#if defined(_WIN64)
+KPRCB gs_KPRCB;  
+
+STRUC_DEF g_KPRCB = {
+    "KPRCB", sizeof(KPRCB), 
+    {
+        0 }
+    
+};
+#endif
+
+
+
+#if defined(_WIN64)
+KGDTENTRY64 gs_KGDTENTRY64;  
+
+STRUC_DEF g_KGDTENTRY64 = {
+    "KGDTENTRY64", sizeof(KGDTENTRY64), 
+    {
+        0 }
+    
+};
+#endif
+
+
+
+#if defined(_WIN64)
+KIDTENTRY64 gs_KIDTENTRY64;  
+
+STRUC_DEF g_KIDTENTRY64 = {
+    "KIDTENTRY64", sizeof(KIDTENTRY64), 
+    {
+        0 }
+    
+};
+#endif
+
+
+
+#if defined(_WIN64)
+KTSS64 gs_KTSS64;  
+
+FIELD_DEF g_KTSS64_Rsp0 = 
+    { "Rsp0",
+      "ULONG64",
+      sizeof(ULONG64),
+      FIELD_OFFSET(KTSS64,Rsp0),
+      sizeof(gs_KTSS64.Rsp0),
+      "" };
+    
+
+FIELD_DEF g_KTSS64_Rsp1 = 
+    { "Rsp1",
+      "ULONG64",
+      sizeof(ULONG64),
+      FIELD_OFFSET(KTSS64,Rsp1),
+      sizeof(gs_KTSS64.Rsp1),
+      "" };
+    
+
+FIELD_DEF g_KTSS64_Rsp2 = 
+    { "Rsp2",
+      "ULONG64",
+      sizeof(ULONG64),
+      FIELD_OFFSET(KTSS64,Rsp2),
+      sizeof(gs_KTSS64.Rsp2),
+      "" };
+    
+
+FIELD_DEF g_KTSS64_Ist = 
+    { "Ist",
+      "ULONG64",
+      sizeof(ULONG64),
+      FIELD_OFFSET(KTSS64,Ist),
+      sizeof(gs_KTSS64.Ist),
+      "" };
+    
+
+STRUC_DEF g_KTSS64 = {
+    "KTSS64", sizeof(KTSS64), 
+    {
+        (ULONGLONG)&g_KTSS64_Rsp0 ,
+        (ULONGLONG)&g_KTSS64_Rsp1 ,
+        (ULONGLONG)&g_KTSS64_Rsp2 ,
+        (ULONGLONG)&g_KTSS64_Ist ,
+        0 }
+    
+};
+#endif
+
+
+
+MEMORY_ALLOCATION_DESCRIPTOR gs_MEMORY_ALLOCATION_DESCRIPTOR;  
+
+FIELD_DEF g_MEMORY_ALLOCATION_DESCRIPTOR_ListEntry = 
+    { "ListEntry",
+      "LIST_ENTRY",
+      sizeof(LIST_ENTRY),
+      FIELD_OFFSET(MEMORY_ALLOCATION_DESCRIPTOR,ListEntry),
+      sizeof(gs_MEMORY_ALLOCATION_DESCRIPTOR.ListEntry),
+      "" };
+    
+
+FIELD_DEF g_MEMORY_ALLOCATION_DESCRIPTOR_MemoryType = 
+    { "MemoryType",
+      "TYPE_OF_MEMORY",
+      sizeof(TYPE_OF_MEMORY),
+      FIELD_OFFSET(MEMORY_ALLOCATION_DESCRIPTOR,MemoryType),
+      sizeof(gs_MEMORY_ALLOCATION_DESCRIPTOR.MemoryType),
+      "" };
+    
+
+FIELD_DEF g_MEMORY_ALLOCATION_DESCRIPTOR_BasePage = 
+    { "BasePage",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(MEMORY_ALLOCATION_DESCRIPTOR,BasePage),
+      sizeof(gs_MEMORY_ALLOCATION_DESCRIPTOR.BasePage),
+      "" };
+    
+
+FIELD_DEF g_MEMORY_ALLOCATION_DESCRIPTOR_PageCount = 
+    { "PageCount",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(MEMORY_ALLOCATION_DESCRIPTOR,PageCount),
+      sizeof(gs_MEMORY_ALLOCATION_DESCRIPTOR.PageCount),
+      "" };
+    
+
+STRUC_DEF g_MEMORY_ALLOCATION_DESCRIPTOR = {
+    "MEMORY_ALLOCATION_DESCRIPTOR", sizeof(MEMORY_ALLOCATION_DESCRIPTOR), 
+    {
+        (ULONGLONG)&g_MEMORY_ALLOCATION_DESCRIPTOR_ListEntry ,
+        (ULONGLONG)&g_MEMORY_ALLOCATION_DESCRIPTOR_MemoryType ,
+        (ULONGLONG)&g_MEMORY_ALLOCATION_DESCRIPTOR_BasePage ,
+        (ULONGLONG)&g_MEMORY_ALLOCATION_DESCRIPTOR_PageCount ,
+        0 }
+    
+};
+
+
+
+
+LDR_DATA_TABLE_ENTRY gs_LDR_DATA_TABLE_ENTRY;  
+
+FIELD_DEF g_LDR_DATA_TABLE_ENTRY_InLoadOrderLinks = 
+    { "InLoadOrderLinks",
+      "LIST_ENTRY",
+      sizeof(LIST_ENTRY),
+      FIELD_OFFSET(LDR_DATA_TABLE_ENTRY,InLoadOrderLinks),
+      sizeof(gs_LDR_DATA_TABLE_ENTRY.InLoadOrderLinks),
+      "" };
+    
+
+FIELD_DEF g_LDR_DATA_TABLE_ENTRY_InMemoryOrderLinks = 
+    { "InMemoryOrderLinks",
+      "LIST_ENTRY",
+      sizeof(LIST_ENTRY),
+      FIELD_OFFSET(LDR_DATA_TABLE_ENTRY,InMemoryOrderLinks),
+      sizeof(gs_LDR_DATA_TABLE_ENTRY.InMemoryOrderLinks),
+      "" };
+    
+
+FIELD_DEF g_LDR_DATA_TABLE_ENTRY_InInitializationOrderLinks = 
+    { "InInitializationOrderLinks",
+      "LIST_ENTRY",
+      sizeof(LIST_ENTRY),
+      FIELD_OFFSET(LDR_DATA_TABLE_ENTRY,InInitializationOrderLinks),
+      sizeof(gs_LDR_DATA_TABLE_ENTRY.InInitializationOrderLinks),
+      "" };
+    
+
+FIELD_DEF g_LDR_DATA_TABLE_ENTRY_DllBase = 
+    { "DllBase",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(LDR_DATA_TABLE_ENTRY,DllBase),
+      sizeof(gs_LDR_DATA_TABLE_ENTRY.DllBase),
+      "" };
+    
+
+FIELD_DEF g_LDR_DATA_TABLE_ENTRY_EntryPoint = 
+    { "EntryPoint",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(LDR_DATA_TABLE_ENTRY,EntryPoint),
+      sizeof(gs_LDR_DATA_TABLE_ENTRY.EntryPoint),
+      "" };
+    
+
+FIELD_DEF g_LDR_DATA_TABLE_ENTRY_SizeOfImage = 
+    { "SizeOfImage",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(LDR_DATA_TABLE_ENTRY,SizeOfImage),
+      sizeof(gs_LDR_DATA_TABLE_ENTRY.SizeOfImage),
+      "" };
+    
+
+FIELD_DEF g_LDR_DATA_TABLE_ENTRY_FullDllName = 
+    { "FullDllName",
+      "UNICODE_STRING",
+      sizeof(UNICODE_STRING),
+      FIELD_OFFSET(LDR_DATA_TABLE_ENTRY,FullDllName),
+      sizeof(gs_LDR_DATA_TABLE_ENTRY.FullDllName),
+      "" };
+    
+
+FIELD_DEF g_LDR_DATA_TABLE_ENTRY_BaseDllName = 
+    { "BaseDllName",
+      "UNICODE_STRING",
+      sizeof(UNICODE_STRING),
+      FIELD_OFFSET(LDR_DATA_TABLE_ENTRY,BaseDllName),
+      sizeof(gs_LDR_DATA_TABLE_ENTRY.BaseDllName),
+      "" };
+    
+
+FIELD_DEF g_LDR_DATA_TABLE_ENTRY_Flags = 
+    { "Flags",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(LDR_DATA_TABLE_ENTRY,Flags),
+      sizeof(gs_LDR_DATA_TABLE_ENTRY.Flags),
+      "" };
+    
+
+FIELD_DEF g_LDR_DATA_TABLE_ENTRY_LoadCount = 
+    { "LoadCount",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(LDR_DATA_TABLE_ENTRY,LoadCount),
+      sizeof(gs_LDR_DATA_TABLE_ENTRY.LoadCount),
+      "" };
+    
+
+FIELD_DEF g_LDR_DATA_TABLE_ENTRY_TlsIndex = 
+    { "TlsIndex",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(LDR_DATA_TABLE_ENTRY,TlsIndex),
+      sizeof(gs_LDR_DATA_TABLE_ENTRY.TlsIndex),
+      "" };
+    
+
+STRUC_DEF g_LDR_DATA_TABLE_ENTRY = {
+    "LDR_DATA_TABLE_ENTRY", sizeof(LDR_DATA_TABLE_ENTRY), 
+    {
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY_InLoadOrderLinks ,
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY_InMemoryOrderLinks ,
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY_InInitializationOrderLinks ,
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY_DllBase ,
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY_EntryPoint ,
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY_SizeOfImage ,
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY_FullDllName ,
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY_BaseDllName ,
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY_Flags ,
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY_LoadCount ,
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY_TlsIndex ,
+        0 }
+    
+};
+
+
+
+
+BOOT_DRIVER_LIST_ENTRY gs_BOOT_DRIVER_LIST_ENTRY;  
+
+FIELD_DEF g_BOOT_DRIVER_LIST_ENTRY_Link = 
+    { "Link",
+      "LIST_ENTRY",
+      sizeof(LIST_ENTRY),
+      FIELD_OFFSET(BOOT_DRIVER_LIST_ENTRY,Link),
+      sizeof(gs_BOOT_DRIVER_LIST_ENTRY.Link),
+      "" };
+    
+
+FIELD_DEF g_BOOT_DRIVER_LIST_ENTRY_FilePath = 
+    { "FilePath",
+      "UNICODE_STRING",
+      sizeof(UNICODE_STRING),
+      FIELD_OFFSET(BOOT_DRIVER_LIST_ENTRY,FilePath),
+      sizeof(gs_BOOT_DRIVER_LIST_ENTRY.FilePath),
+      "" };
+    
+
+FIELD_DEF g_BOOT_DRIVER_LIST_ENTRY_RegistryPath = 
+    { "RegistryPath",
+      "UNICODE_STRING",
+      sizeof(UNICODE_STRING),
+      FIELD_OFFSET(BOOT_DRIVER_LIST_ENTRY,RegistryPath),
+      sizeof(gs_BOOT_DRIVER_LIST_ENTRY.RegistryPath),
+      "" };
+    
+
+FIELD_DEF g_BOOT_DRIVER_LIST_ENTRY_LdrEntry = 
+    { "LdrEntry",
+      "PLDR_DATA_TABLE_ENTRY",
+      sizeof(PLDR_DATA_TABLE_ENTRY),
+      FIELD_OFFSET(BOOT_DRIVER_LIST_ENTRY,LdrEntry),
+      sizeof(gs_BOOT_DRIVER_LIST_ENTRY.LdrEntry),
+      "" };
+    
+
+STRUC_DEF g_BOOT_DRIVER_LIST_ENTRY = {
+    "BOOT_DRIVER_LIST_ENTRY", sizeof(BOOT_DRIVER_LIST_ENTRY), 
+    {
+        (ULONGLONG)&g_BOOT_DRIVER_LIST_ENTRY_Link ,
+        (ULONGLONG)&g_BOOT_DRIVER_LIST_ENTRY_FilePath ,
+        (ULONGLONG)&g_BOOT_DRIVER_LIST_ENTRY_RegistryPath ,
+        (ULONGLONG)&g_BOOT_DRIVER_LIST_ENTRY_LdrEntry ,
+        0 }
+    
+};
+
+
+
+
+NLS_DATA_BLOCK gs_NLS_DATA_BLOCK;  
+
+FIELD_DEF g_NLS_DATA_BLOCK_AnsiCodePageData = 
+    { "AnsiCodePageData",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(NLS_DATA_BLOCK,AnsiCodePageData),
+      sizeof(gs_NLS_DATA_BLOCK.AnsiCodePageData),
+      "" };
+    
+
+FIELD_DEF g_NLS_DATA_BLOCK_OemCodePageData = 
+    { "OemCodePageData",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(NLS_DATA_BLOCK,OemCodePageData),
+      sizeof(gs_NLS_DATA_BLOCK.OemCodePageData),
+      "" };
+    
+
+FIELD_DEF g_NLS_DATA_BLOCK_UnicodeCaseTableData = 
+    { "UnicodeCaseTableData",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(NLS_DATA_BLOCK,UnicodeCaseTableData),
+      sizeof(gs_NLS_DATA_BLOCK.UnicodeCaseTableData),
+      "" };
+    
+
+STRUC_DEF g_NLS_DATA_BLOCK = {
+    "NLS_DATA_BLOCK", sizeof(NLS_DATA_BLOCK), 
+    {
+        (ULONGLONG)&g_NLS_DATA_BLOCK_AnsiCodePageData ,
+        (ULONGLONG)&g_NLS_DATA_BLOCK_OemCodePageData ,
+        (ULONGLONG)&g_NLS_DATA_BLOCK_UnicodeCaseTableData ,
+        0 }
+    
+};
+
+
+
+
+CONFIGURATION_COMPONENT gs_CONFIGURATION_COMPONENT;  
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_Class = 
+    { "Class",
+      "CONFIGURATION_CLASS",
+      sizeof(CONFIGURATION_CLASS),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT,Class),
+      sizeof(gs_CONFIGURATION_COMPONENT.Class),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_Type = 
+    { "Type",
+      "CONFIGURATION_TYPE",
+      sizeof(CONFIGURATION_TYPE),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT,Type),
+      sizeof(gs_CONFIGURATION_COMPONENT.Type),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_Flags = 
+    { "Flags",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT,Flags),
+      sizeof(gs_CONFIGURATION_COMPONENT.Flags),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_Version = 
+    { "Version",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT,Version),
+      sizeof(gs_CONFIGURATION_COMPONENT.Version),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_Revision = 
+    { "Revision",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT,Revision),
+      sizeof(gs_CONFIGURATION_COMPONENT.Revision),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_Key = 
+    { "Key",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT,Key),
+      sizeof(gs_CONFIGURATION_COMPONENT.Key),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_AffinityMask = 
+    { "AffinityMask",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT,AffinityMask),
+      sizeof(gs_CONFIGURATION_COMPONENT.AffinityMask),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_ConfigurationDataLength = 
+    { "ConfigurationDataLength",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT,ConfigurationDataLength),
+      sizeof(gs_CONFIGURATION_COMPONENT.ConfigurationDataLength),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_IdentifierLength = 
+    { "IdentifierLength",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT,IdentifierLength),
+      sizeof(gs_CONFIGURATION_COMPONENT.IdentifierLength),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_Identifier = 
+    { "Identifier",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT,Identifier),
+      sizeof(gs_CONFIGURATION_COMPONENT.Identifier),
+      "" };
+    
+
+STRUC_DEF g_CONFIGURATION_COMPONENT = {
+    "CONFIGURATION_COMPONENT", sizeof(CONFIGURATION_COMPONENT), 
+    {
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_Class ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_Type ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_Flags ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_Version ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_Revision ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_Key ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_AffinityMask ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_ConfigurationDataLength ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_IdentifierLength ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_Identifier ,
+        0 }
+    
+};
+
+
+
+
+CONFIGURATION_COMPONENT_DATA gs_CONFIGURATION_COMPONENT_DATA;  
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_DATA_Parent = 
+    { "Parent",
+      "PCONFIGURATION_COMPONENT_DATA",
+      sizeof(PCONFIGURATION_COMPONENT_DATA),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT_DATA,Parent),
+      sizeof(gs_CONFIGURATION_COMPONENT_DATA.Parent),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_DATA_Child = 
+    { "Child",
+      "PCONFIGURATION_COMPONENT_DATA",
+      sizeof(PCONFIGURATION_COMPONENT_DATA),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT_DATA,Child),
+      sizeof(gs_CONFIGURATION_COMPONENT_DATA.Child),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_DATA_Sibling = 
+    { "Sibling",
+      "PCONFIGURATION_COMPONENT_DATA",
+      sizeof(PCONFIGURATION_COMPONENT_DATA),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT_DATA,Sibling),
+      sizeof(gs_CONFIGURATION_COMPONENT_DATA.Sibling),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_DATA_ComponentEntry = 
+    { "ComponentEntry",
+      "CONFIGURATION_COMPONENT",
+      sizeof(CONFIGURATION_COMPONENT),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT_DATA,ComponentEntry),
+      sizeof(gs_CONFIGURATION_COMPONENT_DATA.ComponentEntry),
+      "" };
+    
+
+FIELD_DEF g_CONFIGURATION_COMPONENT_DATA_ConfigurationData = 
+    { "ConfigurationData",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(CONFIGURATION_COMPONENT_DATA,ConfigurationData),
+      sizeof(gs_CONFIGURATION_COMPONENT_DATA.ConfigurationData),
+      "" };
+    
+
+STRUC_DEF g_CONFIGURATION_COMPONENT_DATA = {
+    "CONFIGURATION_COMPONENT_DATA", sizeof(CONFIGURATION_COMPONENT_DATA), 
+    {
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_DATA_Parent ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_DATA_Child ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_DATA_Sibling ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_DATA_ComponentEntry ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_DATA_ConfigurationData ,
+        0 }
+    
+};
+
+
+
+
+BOOT_DRIVER_NODE gs_BOOT_DRIVER_NODE;  
+
+FIELD_DEF g_BOOT_DRIVER_NODE_ListEntry = 
+    { "ListEntry",
+      "BOOT_DRIVER_LIST_ENTRY",
+      sizeof(BOOT_DRIVER_LIST_ENTRY),
+      FIELD_OFFSET(BOOT_DRIVER_NODE,ListEntry),
+      sizeof(gs_BOOT_DRIVER_NODE.ListEntry),
+      "" };
+    
+
+FIELD_DEF g_BOOT_DRIVER_NODE_Group = 
+    { "Group",
+      "UNICODE_STRING",
+      sizeof(UNICODE_STRING),
+      FIELD_OFFSET(BOOT_DRIVER_NODE,Group),
+      sizeof(gs_BOOT_DRIVER_NODE.Group),
+      "" };
+    
+
+FIELD_DEF g_BOOT_DRIVER_NODE_Name = 
+    { "Name",
+      "UNICODE_STRING",
+      sizeof(UNICODE_STRING),
+      FIELD_OFFSET(BOOT_DRIVER_NODE,Name),
+      sizeof(gs_BOOT_DRIVER_NODE.Name),
+      "" };
+    
+
+FIELD_DEF g_BOOT_DRIVER_NODE_Tag = 
+    { "Tag",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(BOOT_DRIVER_NODE,Tag),
+      sizeof(gs_BOOT_DRIVER_NODE.Tag),
+      "" };
+    
+
+FIELD_DEF g_BOOT_DRIVER_NODE_ErrorControl = 
+    { "ErrorControl",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(BOOT_DRIVER_NODE,ErrorControl),
+      sizeof(gs_BOOT_DRIVER_NODE.ErrorControl),
+      "" };
+    
+
+STRUC_DEF g_BOOT_DRIVER_NODE = {
+    "BOOT_DRIVER_NODE", sizeof(BOOT_DRIVER_NODE), 
+    {
+        (ULONGLONG)&g_BOOT_DRIVER_NODE_ListEntry ,
+        (ULONGLONG)&g_BOOT_DRIVER_NODE_Group ,
+        (ULONGLONG)&g_BOOT_DRIVER_NODE_Name ,
+        (ULONGLONG)&g_BOOT_DRIVER_NODE_Tag ,
+        (ULONGLONG)&g_BOOT_DRIVER_NODE_ErrorControl ,
+        0 }
+    
+};
+
+
+
+
+ARC_DISK_SIGNATURE gs_ARC_DISK_SIGNATURE;  
+
+FIELD_DEF g_ARC_DISK_SIGNATURE_ListEntry = 
+    { "ListEntry",
+      "LIST_ENTRY",
+      sizeof(LIST_ENTRY),
+      FIELD_OFFSET(ARC_DISK_SIGNATURE,ListEntry),
+      sizeof(gs_ARC_DISK_SIGNATURE.ListEntry),
+      "" };
+    
+
+FIELD_DEF g_ARC_DISK_SIGNATURE_Signature = 
+    { "Signature",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(ARC_DISK_SIGNATURE,Signature),
+      sizeof(gs_ARC_DISK_SIGNATURE.Signature),
+      "" };
+    
+
+FIELD_DEF g_ARC_DISK_SIGNATURE_ArcName = 
+    { "ArcName",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(ARC_DISK_SIGNATURE,ArcName),
+      sizeof(gs_ARC_DISK_SIGNATURE.ArcName),
+       };
+    
+
+FIELD_DEF g_ARC_DISK_SIGNATURE_CheckSum = 
+    { "CheckSum",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(ARC_DISK_SIGNATURE,CheckSum),
+      sizeof(gs_ARC_DISK_SIGNATURE.CheckSum),
+      "" };
+    
+
+FIELD_DEF g_ARC_DISK_SIGNATURE_ValidPartitionTable = 
+    { "ValidPartitionTable",
+      "BOOLEAN",
+      sizeof(BOOLEAN),
+      FIELD_OFFSET(ARC_DISK_SIGNATURE,ValidPartitionTable),
+      sizeof(gs_ARC_DISK_SIGNATURE.ValidPartitionTable),
+      "" };
+    
+
+FIELD_DEF g_ARC_DISK_SIGNATURE_xInt13 = 
+    { "xInt13",
+      "BOOLEAN",
+      sizeof(BOOLEAN),
+      FIELD_OFFSET(ARC_DISK_SIGNATURE,xInt13),
+      sizeof(gs_ARC_DISK_SIGNATURE.xInt13),
+      "" };
+    
+
+STRUC_DEF g_ARC_DISK_SIGNATURE = {
+    "ARC_DISK_SIGNATURE", sizeof(ARC_DISK_SIGNATURE), 
+    {
+        (ULONGLONG)&g_ARC_DISK_SIGNATURE_ListEntry ,
+        (ULONGLONG)&g_ARC_DISK_SIGNATURE_Signature ,
+        (ULONGLONG)&g_ARC_DISK_SIGNATURE_ArcName ,
+        (ULONGLONG)&g_ARC_DISK_SIGNATURE_CheckSum ,
+        (ULONGLONG)&g_ARC_DISK_SIGNATURE_ValidPartitionTable ,
+        (ULONGLONG)&g_ARC_DISK_SIGNATURE_xInt13 ,
+        0 }
+    
+};
+
+
+
+
+ARC_DISK_INFORMATION gs_ARC_DISK_INFORMATION;  
+
+FIELD_DEF g_ARC_DISK_INFORMATION_DiskSignatures = 
+    { "DiskSignatures",
+      "LIST_ENTRY",
+      sizeof(LIST_ENTRY),
+      FIELD_OFFSET(ARC_DISK_INFORMATION,DiskSignatures),
+      sizeof(gs_ARC_DISK_INFORMATION.DiskSignatures),
+      "" };
+    
+
+STRUC_DEF g_ARC_DISK_INFORMATION = {
+    "ARC_DISK_INFORMATION", sizeof(ARC_DISK_INFORMATION), 
+    {
+        (ULONGLONG)&g_ARC_DISK_INFORMATION_DiskSignatures ,
+        0 }
+    
+};
+
+
+
+
+DETECTED_DEVICE_REGISTRY gs_DETECTED_DEVICE_REGISTRY;  
+
+FIELD_DEF g_DETECTED_DEVICE_REGISTRY_Next = 
+    { "Next",
+      "PDETECTED_DEVICE_REGISTRY",
+      sizeof(PDETECTED_DEVICE_REGISTRY),
+      FIELD_OFFSET(DETECTED_DEVICE_REGISTRY,Next),
+      sizeof(gs_DETECTED_DEVICE_REGISTRY.Next),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_REGISTRY_KeyName = 
+    { "KeyName",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(DETECTED_DEVICE_REGISTRY,KeyName),
+      sizeof(gs_DETECTED_DEVICE_REGISTRY.KeyName),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_REGISTRY_ValueName = 
+    { "ValueName",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(DETECTED_DEVICE_REGISTRY,ValueName),
+      sizeof(gs_DETECTED_DEVICE_REGISTRY.ValueName),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_REGISTRY_ValueType = 
+    { "ValueType",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(DETECTED_DEVICE_REGISTRY,ValueType),
+      sizeof(gs_DETECTED_DEVICE_REGISTRY.ValueType),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_REGISTRY_Buffer = 
+    { "Buffer",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(DETECTED_DEVICE_REGISTRY,Buffer),
+      sizeof(gs_DETECTED_DEVICE_REGISTRY.Buffer),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_REGISTRY_BufferSize = 
+    { "BufferSize",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(DETECTED_DEVICE_REGISTRY,BufferSize),
+      sizeof(gs_DETECTED_DEVICE_REGISTRY.BufferSize),
+      "" };
+    
+
+STRUC_DEF g_DETECTED_DEVICE_REGISTRY = {
+    "DETECTED_DEVICE_REGISTRY", sizeof(DETECTED_DEVICE_REGISTRY), 
+    {
+        (ULONGLONG)&g_DETECTED_DEVICE_REGISTRY_Next ,
+        (ULONGLONG)&g_DETECTED_DEVICE_REGISTRY_KeyName ,
+        (ULONGLONG)&g_DETECTED_DEVICE_REGISTRY_ValueName ,
+        (ULONGLONG)&g_DETECTED_DEVICE_REGISTRY_ValueType ,
+        (ULONGLONG)&g_DETECTED_DEVICE_REGISTRY_Buffer ,
+        (ULONGLONG)&g_DETECTED_DEVICE_REGISTRY_BufferSize ,
+        0 }
+    
+};
+
+
+
+
+DETECTED_DEVICE_FILE gs_DETECTED_DEVICE_FILE;  
+
+FIELD_DEF g_DETECTED_DEVICE_FILE_Next = 
+    { "Next",
+      "PDETECTED_DEVICE_FILE",
+      sizeof(PDETECTED_DEVICE_FILE),
+      FIELD_OFFSET(DETECTED_DEVICE_FILE,Next),
+      sizeof(gs_DETECTED_DEVICE_FILE.Next),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_FILE_Filename = 
+    { "Filename",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(DETECTED_DEVICE_FILE,Filename),
+      sizeof(gs_DETECTED_DEVICE_FILE.Filename),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_FILE_FileType = 
+    { "FileType",
+      "HwFileType",
+      sizeof(HwFileType),
+      FIELD_OFFSET(DETECTED_DEVICE_FILE,FileType),
+      sizeof(gs_DETECTED_DEVICE_FILE.FileType),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_FILE_ConfigName = 
+    { "ConfigName",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(DETECTED_DEVICE_FILE,ConfigName),
+      sizeof(gs_DETECTED_DEVICE_FILE.ConfigName),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_FILE_RegistryValueList = 
+    { "RegistryValueList",
+      "PDETECTED_DEVICE_REGISTRY",
+      sizeof(PDETECTED_DEVICE_REGISTRY),
+      FIELD_OFFSET(DETECTED_DEVICE_FILE,RegistryValueList),
+      sizeof(gs_DETECTED_DEVICE_FILE.RegistryValueList),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_FILE_DiskDescription = 
+    { "DiskDescription",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(DETECTED_DEVICE_FILE,DiskDescription),
+      sizeof(gs_DETECTED_DEVICE_FILE.DiskDescription),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_FILE_DiskTagfile = 
+    { "DiskTagfile",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(DETECTED_DEVICE_FILE,DiskTagfile),
+      sizeof(gs_DETECTED_DEVICE_FILE.DiskTagfile),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_FILE_Directory = 
+    { "Directory",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(DETECTED_DEVICE_FILE,Directory),
+      sizeof(gs_DETECTED_DEVICE_FILE.Directory),
+      "" };
+    
+
+STRUC_DEF g_DETECTED_DEVICE_FILE = {
+    "DETECTED_DEVICE_FILE", sizeof(DETECTED_DEVICE_FILE), 
+    {
+        (ULONGLONG)&g_DETECTED_DEVICE_FILE_Next ,
+        (ULONGLONG)&g_DETECTED_DEVICE_FILE_Filename ,
+        (ULONGLONG)&g_DETECTED_DEVICE_FILE_FileType ,
+        (ULONGLONG)&g_DETECTED_DEVICE_FILE_ConfigName ,
+        (ULONGLONG)&g_DETECTED_DEVICE_FILE_RegistryValueList ,
+        (ULONGLONG)&g_DETECTED_DEVICE_FILE_DiskDescription ,
+        (ULONGLONG)&g_DETECTED_DEVICE_FILE_DiskTagfile ,
+        (ULONGLONG)&g_DETECTED_DEVICE_FILE_Directory ,
+        0 }
+    
+};
+
+
+
+
+DETECTED_DEVICE gs_DETECTED_DEVICE;  
+
+FIELD_DEF g_DETECTED_DEVICE_Next = 
+    { "Next",
+      "PDETECTED_DEVICE",
+      sizeof(PDETECTED_DEVICE),
+      FIELD_OFFSET(DETECTED_DEVICE,Next),
+      sizeof(gs_DETECTED_DEVICE.Next),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_IdString = 
+    { "IdString",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(DETECTED_DEVICE,IdString),
+      sizeof(gs_DETECTED_DEVICE.IdString),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_Ordinal = 
+    { "Ordinal",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(DETECTED_DEVICE,Ordinal),
+      sizeof(gs_DETECTED_DEVICE.Ordinal),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_Description = 
+    { "Description",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(DETECTED_DEVICE,Description),
+      sizeof(gs_DETECTED_DEVICE.Description),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_ThirdPartyOptionSelected = 
+    { "ThirdPartyOptionSelected",
+      "BOOLEAN",
+      sizeof(BOOLEAN),
+      FIELD_OFFSET(DETECTED_DEVICE,ThirdPartyOptionSelected),
+      sizeof(gs_DETECTED_DEVICE.ThirdPartyOptionSelected),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_FileTypeBits = 
+    { "FileTypeBits",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(DETECTED_DEVICE,FileTypeBits),
+      sizeof(gs_DETECTED_DEVICE.FileTypeBits),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_Files = 
+    { "Files",
+      "PDETECTED_DEVICE_FILE",
+      sizeof(PDETECTED_DEVICE_FILE),
+      FIELD_OFFSET(DETECTED_DEVICE,Files),
+      sizeof(gs_DETECTED_DEVICE.Files),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_BaseDllName = 
+    { "BaseDllName",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(DETECTED_DEVICE,BaseDllName),
+      sizeof(gs_DETECTED_DEVICE.BaseDllName),
+      "" };
+    
+
+FIELD_DEF g_DETECTED_DEVICE_MigratedDriver = 
+    { "MigratedDriver",
+      "BOOLEAN",
+      sizeof(BOOLEAN),
+      FIELD_OFFSET(DETECTED_DEVICE,MigratedDriver),
+      sizeof(gs_DETECTED_DEVICE.MigratedDriver),
+      "" };
+    
+
+STRUC_DEF g_DETECTED_DEVICE = {
+    "DETECTED_DEVICE", sizeof(DETECTED_DEVICE), 
+    {
+        (ULONGLONG)&g_DETECTED_DEVICE_Next ,
+        (ULONGLONG)&g_DETECTED_DEVICE_IdString ,
+        (ULONGLONG)&g_DETECTED_DEVICE_Ordinal ,
+        (ULONGLONG)&g_DETECTED_DEVICE_Description ,
+        (ULONGLONG)&g_DETECTED_DEVICE_ThirdPartyOptionSelected ,
+        (ULONGLONG)&g_DETECTED_DEVICE_FileTypeBits ,
+        (ULONGLONG)&g_DETECTED_DEVICE_Files ,
+        (ULONGLONG)&g_DETECTED_DEVICE_BaseDllName ,
+        (ULONGLONG)&g_DETECTED_DEVICE_MigratedDriver ,
+        0 }
+    
+};
+
+
+
+
+PNP_HARDWARE_ID gs_PNP_HARDWARE_ID;  
+
+FIELD_DEF g_PNP_HARDWARE_ID_Next = 
+    { "Next",
+      "PPNP_HARDWARE_ID",
+      sizeof(PPNP_HARDWARE_ID),
+      FIELD_OFFSET(PNP_HARDWARE_ID,Next),
+      sizeof(gs_PNP_HARDWARE_ID.Next),
+      "" };
+    
+
+FIELD_DEF g_PNP_HARDWARE_ID_Id = 
+    { "Id",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(PNP_HARDWARE_ID,Id),
+      sizeof(gs_PNP_HARDWARE_ID.Id),
+      "" };
+    
+
+FIELD_DEF g_PNP_HARDWARE_ID_DriverName = 
+    { "DriverName",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(PNP_HARDWARE_ID,DriverName),
+      sizeof(gs_PNP_HARDWARE_ID.DriverName),
+      "" };
+    
+
+FIELD_DEF g_PNP_HARDWARE_ID_ClassGuid = 
+    { "ClassGuid",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(PNP_HARDWARE_ID,ClassGuid),
+      sizeof(gs_PNP_HARDWARE_ID.ClassGuid),
+      "" };
+    
+
+STRUC_DEF g_PNP_HARDWARE_ID = {
+    "PNP_HARDWARE_ID", sizeof(PNP_HARDWARE_ID), 
+    {
+        (ULONGLONG)&g_PNP_HARDWARE_ID_Next ,
+        (ULONGLONG)&g_PNP_HARDWARE_ID_Id ,
+        (ULONGLONG)&g_PNP_HARDWARE_ID_DriverName ,
+        (ULONGLONG)&g_PNP_HARDWARE_ID_ClassGuid ,
+        0 }
+    
+};
+
+
+
+
+SETUP_LOADER_BLOCK_SCALARS gs_SETUP_LOADER_BLOCK_SCALARS;  
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_SCALARS_SetupOperation = 
+    { "SetupOperation",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK_SCALARS,SetupOperation),
+      sizeof(gs_SETUP_LOADER_BLOCK_SCALARS.SetupOperation),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_SCALARS_AsULong = 
+    { "AsULong",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK_SCALARS,AsULong),
+      sizeof(gs_SETUP_LOADER_BLOCK_SCALARS.AsULong),
+      "" };
+    
+
+STRUC_DEF g_SETUP_LOADER_BLOCK_SCALARS = {
+    "SETUP_LOADER_BLOCK_SCALARS", sizeof(SETUP_LOADER_BLOCK_SCALARS), 
+    {
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_SCALARS_SetupOperation ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_SCALARS_AsULong ,
+        0 }
+    
+};
+
+
+
+
+SETUP_LOADER_BLOCK gs_SETUP_LOADER_BLOCK;  
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_ArcSetupDeviceName = 
+    { "ArcSetupDeviceName",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,ArcSetupDeviceName),
+      sizeof(gs_SETUP_LOADER_BLOCK.ArcSetupDeviceName),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_VideoDevice = 
+    { "VideoDevice",
+      "DETECTED_DEVICE",
+      sizeof(DETECTED_DEVICE),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,VideoDevice),
+      sizeof(gs_SETUP_LOADER_BLOCK.VideoDevice),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_KeyboardDevices = 
+    { "KeyboardDevices",
+      "PDETECTED_DEVICE",
+      sizeof(PDETECTED_DEVICE),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,KeyboardDevices),
+      sizeof(gs_SETUP_LOADER_BLOCK.KeyboardDevices),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_ComputerDevice = 
+    { "ComputerDevice",
+      "DETECTED_DEVICE",
+      sizeof(DETECTED_DEVICE),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,ComputerDevice),
+      sizeof(gs_SETUP_LOADER_BLOCK.ComputerDevice),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_ScsiDevices = 
+    { "ScsiDevices",
+      "PDETECTED_DEVICE",
+      sizeof(PDETECTED_DEVICE),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,ScsiDevices),
+      sizeof(gs_SETUP_LOADER_BLOCK.ScsiDevices),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_ScalarValues = 
+    { "ScalarValues",
+      "SETUP_LOADER_BLOCK_SCALARS",
+      sizeof(SETUP_LOADER_BLOCK_SCALARS),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,ScalarValues),
+      sizeof(gs_SETUP_LOADER_BLOCK.ScalarValues),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_IniFile = 
+    { "IniFile",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,IniFile),
+      sizeof(gs_SETUP_LOADER_BLOCK.IniFile),
+       };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_IniFileLength = 
+    { "IniFileLength",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,IniFileLength),
+      sizeof(gs_SETUP_LOADER_BLOCK.IniFileLength),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_WinntSifFile = 
+    { "WinntSifFile",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,WinntSifFile),
+      sizeof(gs_SETUP_LOADER_BLOCK.WinntSifFile),
+       };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_WinntSifFileLength = 
+    { "WinntSifFileLength",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,WinntSifFileLength),
+      sizeof(gs_SETUP_LOADER_BLOCK.WinntSifFileLength),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_MigrateInfFile = 
+    { "MigrateInfFile",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,MigrateInfFile),
+      sizeof(gs_SETUP_LOADER_BLOCK.MigrateInfFile),
+       };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_MigrateInfFileLength = 
+    { "MigrateInfFileLength",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,MigrateInfFileLength),
+      sizeof(gs_SETUP_LOADER_BLOCK.MigrateInfFileLength),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_UnsupDriversInfFile = 
+    { "UnsupDriversInfFile",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,UnsupDriversInfFile),
+      sizeof(gs_SETUP_LOADER_BLOCK.UnsupDriversInfFile),
+       };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_UnsupDriversInfFileLength = 
+    { "UnsupDriversInfFileLength",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,UnsupDriversInfFileLength),
+      sizeof(gs_SETUP_LOADER_BLOCK.UnsupDriversInfFileLength),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_BootFontFile = 
+    { "BootFontFile",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,BootFontFile),
+      sizeof(gs_SETUP_LOADER_BLOCK.BootFontFile),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_BootFontFileLength = 
+    { "BootFontFileLength",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,BootFontFileLength),
+      sizeof(gs_SETUP_LOADER_BLOCK.BootFontFileLength),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_Monitor = 
+    { "Monitor",
+      "PMONITOR_CONFIGURATION_DATA",
+      sizeof(PMONITOR_CONFIGURATION_DATA),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,Monitor),
+      sizeof(gs_SETUP_LOADER_BLOCK.Monitor),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_MonitorId = 
+    { "MonitorId",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,MonitorId),
+      sizeof(gs_SETUP_LOADER_BLOCK.MonitorId),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_BootBusExtenders = 
+    { "BootBusExtenders",
+      "PDETECTED_DEVICE",
+      sizeof(PDETECTED_DEVICE),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,BootBusExtenders),
+      sizeof(gs_SETUP_LOADER_BLOCK.BootBusExtenders),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_BusExtenders = 
+    { "BusExtenders",
+      "PDETECTED_DEVICE",
+      sizeof(PDETECTED_DEVICE),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,BusExtenders),
+      sizeof(gs_SETUP_LOADER_BLOCK.BusExtenders),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_InputDevicesSupport = 
+    { "InputDevicesSupport",
+      "PDETECTED_DEVICE",
+      sizeof(PDETECTED_DEVICE),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,InputDevicesSupport),
+      sizeof(gs_SETUP_LOADER_BLOCK.InputDevicesSupport),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_HardwareIdDatabase = 
+    { "HardwareIdDatabase",
+      "PPNP_HARDWARE_ID",
+      sizeof(PPNP_HARDWARE_ID),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,HardwareIdDatabase),
+      sizeof(gs_SETUP_LOADER_BLOCK.HardwareIdDatabase),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_ComputerName = 
+    { "ComputerName",
+      "WCHAR",
+      sizeof(WCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,ComputerName),
+      sizeof(gs_SETUP_LOADER_BLOCK.ComputerName),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_IpAddress = 
+    { "IpAddress",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,IpAddress),
+      sizeof(gs_SETUP_LOADER_BLOCK.IpAddress),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_SubnetMask = 
+    { "SubnetMask",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,SubnetMask),
+      sizeof(gs_SETUP_LOADER_BLOCK.SubnetMask),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_ServerIpAddress = 
+    { "ServerIpAddress",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,ServerIpAddress),
+      sizeof(gs_SETUP_LOADER_BLOCK.ServerIpAddress),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_DefaultRouter = 
+    { "DefaultRouter",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,DefaultRouter),
+      sizeof(gs_SETUP_LOADER_BLOCK.DefaultRouter),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_DnsNameServer = 
+    { "DnsNameServer",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,DnsNameServer),
+      sizeof(gs_SETUP_LOADER_BLOCK.DnsNameServer),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_NetbootCardHardwareId = 
+    { "NetbootCardHardwareId",
+      "WCHAR",
+      sizeof(WCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,NetbootCardHardwareId),
+      sizeof(gs_SETUP_LOADER_BLOCK.NetbootCardHardwareId),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_NetbootCardDriverName = 
+    { "NetbootCardDriverName",
+      "WCHAR",
+      sizeof(WCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,NetbootCardDriverName),
+      sizeof(gs_SETUP_LOADER_BLOCK.NetbootCardDriverName),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_NetbootCardServiceName = 
+    { "NetbootCardServiceName",
+      "WCHAR",
+      sizeof(WCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,NetbootCardServiceName),
+      sizeof(gs_SETUP_LOADER_BLOCK.NetbootCardServiceName),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_NetbootCardRegistry = 
+    { "NetbootCardRegistry",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,NetbootCardRegistry),
+      sizeof(gs_SETUP_LOADER_BLOCK.NetbootCardRegistry),
+       };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_NetbootCardRegistryLength = 
+    { "NetbootCardRegistryLength",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,NetbootCardRegistryLength),
+      sizeof(gs_SETUP_LOADER_BLOCK.NetbootCardRegistryLength),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_NetbootCardInfo = 
+    { "NetbootCardInfo",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,NetbootCardInfo),
+      sizeof(gs_SETUP_LOADER_BLOCK.NetbootCardInfo),
+       };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_NetbootCardInfoLength = 
+    { "NetbootCardInfoLength",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,NetbootCardInfoLength),
+      sizeof(gs_SETUP_LOADER_BLOCK.NetbootCardInfoLength),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_Flags = 
+    { "Flags",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,Flags),
+      sizeof(gs_SETUP_LOADER_BLOCK.Flags),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_MachineDirectoryPath = 
+    { "MachineDirectoryPath",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,MachineDirectoryPath),
+      sizeof(gs_SETUP_LOADER_BLOCK.MachineDirectoryPath),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_NetBootSifPath = 
+    { "NetBootSifPath",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,NetBootSifPath),
+      sizeof(gs_SETUP_LOADER_BLOCK.NetBootSifPath),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_NetBootSecret = 
+    { "NetBootSecret",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,NetBootSecret),
+      sizeof(gs_SETUP_LOADER_BLOCK.NetBootSecret),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_NetBootIMirrorFilePath = 
+    { "NetBootIMirrorFilePath",
+      "WCHAR",
+      sizeof(WCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,NetBootIMirrorFilePath),
+      sizeof(gs_SETUP_LOADER_BLOCK.NetBootIMirrorFilePath),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_ASRPnPSifFile = 
+    { "ASRPnPSifFile",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,ASRPnPSifFile),
+      sizeof(gs_SETUP_LOADER_BLOCK.ASRPnPSifFile),
+       };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_ASRPnPSifFileLength = 
+    { "ASRPnPSifFileLength",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,ASRPnPSifFileLength),
+      sizeof(gs_SETUP_LOADER_BLOCK.ASRPnPSifFileLength),
+      "" };
+    
+
+FIELD_DEF g_SETUP_LOADER_BLOCK_NetBootAdministratorPassword = 
+    { "NetBootAdministratorPassword",
+      "WCHAR",
+      sizeof(WCHAR),
+      FIELD_OFFSET(SETUP_LOADER_BLOCK,NetBootAdministratorPassword),
+      sizeof(gs_SETUP_LOADER_BLOCK.NetBootAdministratorPassword),
+      "" };
+    
+
+STRUC_DEF g_SETUP_LOADER_BLOCK = {
+    "SETUP_LOADER_BLOCK", sizeof(SETUP_LOADER_BLOCK), 
+    {
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_ArcSetupDeviceName ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_VideoDevice ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_KeyboardDevices ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_ComputerDevice ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_ScsiDevices ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_ScalarValues ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_IniFile ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_IniFileLength ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_WinntSifFile ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_WinntSifFileLength ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_MigrateInfFile ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_MigrateInfFileLength ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_UnsupDriversInfFile ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_UnsupDriversInfFileLength ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_BootFontFile ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_BootFontFileLength ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_Monitor ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_MonitorId ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_BootBusExtenders ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_BusExtenders ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_InputDevicesSupport ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_HardwareIdDatabase ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_ComputerName ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_IpAddress ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_SubnetMask ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_ServerIpAddress ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_DefaultRouter ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_DnsNameServer ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_NetbootCardHardwareId ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_NetbootCardDriverName ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_NetbootCardServiceName ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_NetbootCardRegistry ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_NetbootCardRegistryLength ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_NetbootCardInfo ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_NetbootCardInfoLength ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_Flags ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_MachineDirectoryPath ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_NetBootSifPath ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_NetBootSecret ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_NetBootIMirrorFilePath ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_ASRPnPSifFile ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_ASRPnPSifFileLength ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_NetBootAdministratorPassword ,
+        0 }
+    
+};
+
+
+
+
+I386_LOADER_BLOCK gs_I386_LOADER_BLOCK;  
+
+FIELD_DEF g_I386_LOADER_BLOCK_CommonDataArea = 
+    { "CommonDataArea",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(I386_LOADER_BLOCK,CommonDataArea),
+      sizeof(gs_I386_LOADER_BLOCK.CommonDataArea),
+      "" };
+    
+
+FIELD_DEF g_I386_LOADER_BLOCK_MachineType = 
+    { "MachineType",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(I386_LOADER_BLOCK,MachineType),
+      sizeof(gs_I386_LOADER_BLOCK.MachineType),
+      "" };
+    
+
+FIELD_DEF g_I386_LOADER_BLOCK_VirtualBias = 
+    { "VirtualBias",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(I386_LOADER_BLOCK,VirtualBias),
+      sizeof(gs_I386_LOADER_BLOCK.VirtualBias),
+      "" };
+    
+
+STRUC_DEF g_I386_LOADER_BLOCK = {
+    "I386_LOADER_BLOCK", sizeof(I386_LOADER_BLOCK), 
+    {
+        (ULONGLONG)&g_I386_LOADER_BLOCK_CommonDataArea ,
+        (ULONGLONG)&g_I386_LOADER_BLOCK_MachineType ,
+        (ULONGLONG)&g_I386_LOADER_BLOCK_VirtualBias ,
+        0 }
+    
+};
+
+
+
+
+LOADER_PARAMETER_EXTENSION gs_LOADER_PARAMETER_EXTENSION;  
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_Size = 
+    { "Size",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,Size),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.Size),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_Profile = 
+    { "Profile",
+      "PROFILE_PARAMETER_BLOCK",
+      sizeof(PROFILE_PARAMETER_BLOCK),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,Profile),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.Profile),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_MajorVersion = 
+    { "MajorVersion",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,MajorVersion),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.MajorVersion),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_MinorVersion = 
+    { "MinorVersion",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,MinorVersion),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.MinorVersion),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_InfFileImage = 
+    { "InfFileImage",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,InfFileImage),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.InfFileImage),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_InfFileSize = 
+    { "InfFileSize",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,InfFileSize),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.InfFileSize),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_TriageDumpBlock = 
+    { "TriageDumpBlock",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,TriageDumpBlock),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.TriageDumpBlock),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_LoaderPagesSpanned = 
+    { "LoaderPagesSpanned",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,LoaderPagesSpanned),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.LoaderPagesSpanned),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_HeadlessLoaderBlock = 
+    { "HeadlessLoaderBlock",
+      "PHEADLESS_LOADER_BLOCK",
+      sizeof(PHEADLESS_LOADER_BLOCK),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,HeadlessLoaderBlock),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.HeadlessLoaderBlock),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_SMBiosEPSHeader = 
+    { "SMBiosEPSHeader",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,SMBiosEPSHeader),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.SMBiosEPSHeader),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_DrvDBImage = 
+    { "DrvDBImage",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,DrvDBImage),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.DrvDBImage),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_DrvDBSize = 
+    { "DrvDBSize",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,DrvDBSize),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.DrvDBSize),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_EXTENSION_FirmwareDescriptorListHead = 
+    { "FirmwareDescriptorListHead",
+      "LIST_ENTRY",
+      sizeof(LIST_ENTRY),
+      FIELD_OFFSET(LOADER_PARAMETER_EXTENSION,FirmwareDescriptorListHead),
+      sizeof(gs_LOADER_PARAMETER_EXTENSION.FirmwareDescriptorListHead),
+      "" };
+    
+
+STRUC_DEF g_LOADER_PARAMETER_EXTENSION = {
+    "LOADER_PARAMETER_EXTENSION", sizeof(LOADER_PARAMETER_EXTENSION), 
+    {
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_Size ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_Profile ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_MajorVersion ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_MinorVersion ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_InfFileImage ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_InfFileSize ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_TriageDumpBlock ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_LoaderPagesSpanned ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_HeadlessLoaderBlock ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_SMBiosEPSHeader ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_DrvDBImage ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_DrvDBSize ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION_FirmwareDescriptorListHead ,
+        0 }
+    
+};
+
+
+
+
+LOADER_PARAMETER_BLOCK gs_LOADER_PARAMETER_BLOCK;  
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_LoadOrderListHead = 
+    { "LoadOrderListHead",
+      "LIST_ENTRY",
+      sizeof(LIST_ENTRY),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,LoadOrderListHead),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.LoadOrderListHead),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_MemoryDescriptorListHead = 
+    { "MemoryDescriptorListHead",
+      "LIST_ENTRY",
+      sizeof(LIST_ENTRY),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,MemoryDescriptorListHead),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.MemoryDescriptorListHead),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_BootDriverListHead = 
+    { "BootDriverListHead",
+      "LIST_ENTRY",
+      sizeof(LIST_ENTRY),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,BootDriverListHead),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.BootDriverListHead),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_KernelStack = 
+    { "KernelStack",
+      "ULONG_PTR",
+      sizeof(ULONG_PTR),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,KernelStack),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.KernelStack),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_Prcb = 
+    { "Prcb",
+      "ULONG_PTR",
+      sizeof(ULONG_PTR),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,Prcb),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.Prcb),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_Process = 
+    { "Process",
+      "ULONG_PTR",
+      sizeof(ULONG_PTR),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,Process),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.Process),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_Thread = 
+    { "Thread",
+      "ULONG_PTR",
+      sizeof(ULONG_PTR),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,Thread),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.Thread),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_RegistryLength = 
+    { "RegistryLength",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,RegistryLength),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.RegistryLength),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_RegistryBase = 
+    { "RegistryBase",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,RegistryBase),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.RegistryBase),
+       };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_ConfigurationRoot = 
+    { "ConfigurationRoot",
+      "PCONFIGURATION_COMPONENT_DATA",
+      sizeof(PCONFIGURATION_COMPONENT_DATA),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,ConfigurationRoot),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.ConfigurationRoot),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_ArcBootDeviceName = 
+    { "ArcBootDeviceName",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,ArcBootDeviceName),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.ArcBootDeviceName),
+       };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_ArcHalDeviceName = 
+    { "ArcHalDeviceName",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,ArcHalDeviceName),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.ArcHalDeviceName),
+       };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_NtBootPathName = 
+    { "NtBootPathName",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,NtBootPathName),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.NtBootPathName),
+       };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_NtHalPathName = 
+    { "NtHalPathName",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,NtHalPathName),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.NtHalPathName),
+       };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_LoadOptions = 
+    { "LoadOptions",
+      "PCHAR",
+      sizeof(PCHAR),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,LoadOptions),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.LoadOptions),
+       };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_NlsData = 
+    { "NlsData",
+      "PNLS_DATA_BLOCK",
+      sizeof(PNLS_DATA_BLOCK),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,NlsData),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.NlsData),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_ArcDiskInformation = 
+    { "ArcDiskInformation",
+      "PARC_DISK_INFORMATION",
+      sizeof(PARC_DISK_INFORMATION),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,ArcDiskInformation),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.ArcDiskInformation),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_OemFontFile = 
+    { "OemFontFile",
+      "PVOID",
+      sizeof(PVOID),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,OemFontFile),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.OemFontFile),
+       };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_SetupLoaderBlock = 
+    { "SetupLoaderBlock",
+      "PSETUP_LOADER_BLOCK",
+      sizeof(PSETUP_LOADER_BLOCK),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,SetupLoaderBlock),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.SetupLoaderBlock),
+      "" };
+    
+
+FIELD_DEF g_LOADER_PARAMETER_BLOCK_Extension = 
+    { "Extension",
+      "PLOADER_PARAMETER_EXTENSION",
+      sizeof(PLOADER_PARAMETER_EXTENSION),
+      FIELD_OFFSET(LOADER_PARAMETER_BLOCK,Extension),
+      sizeof(gs_LOADER_PARAMETER_BLOCK.Extension),
+      "" };
+    
+
+STRUC_DEF g_LOADER_PARAMETER_BLOCK = {
+    "LOADER_PARAMETER_BLOCK", sizeof(LOADER_PARAMETER_BLOCK), 
+    {
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_LoadOrderListHead ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_MemoryDescriptorListHead ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_BootDriverListHead ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_KernelStack ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_Prcb ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_Process ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_Thread ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_RegistryLength ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_RegistryBase ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_ConfigurationRoot ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_ArcBootDeviceName ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_ArcHalDeviceName ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_NtBootPathName ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_NtHalPathName ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_LoadOptions ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_NlsData ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_ArcDiskInformation ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_OemFontFile ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_SetupLoaderBlock ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK_Extension ,
+        0 }
+    
+};
+
+
+
+
+CM_PRD_GENERIC gs_CM_PRD_GENERIC;  
+
+FIELD_DEF g_CM_PRD_GENERIC_Start = 
+    { "Start",
+      "PHYSICAL_ADDRESS",
+      sizeof(PHYSICAL_ADDRESS),
+      FIELD_OFFSET(CM_PRD_GENERIC,Start),
+      sizeof(gs_CM_PRD_GENERIC.Start),
+      "" };
+    
+
+FIELD_DEF g_CM_PRD_GENERIC_Length = 
+    { "Length",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_GENERIC,Length),
+      sizeof(gs_CM_PRD_GENERIC.Length),
+      "" };
+    
+
+STRUC_DEF g_CM_PRD_GENERIC = {
+    "CM_PRD_GENERIC", sizeof(CM_PRD_GENERIC), 
+    {
+        (ULONGLONG)&g_CM_PRD_GENERIC_Start ,
+        (ULONGLONG)&g_CM_PRD_GENERIC_Length ,
+        0 }
+    
+};
+
+
+
+
+CM_PRD_PORT gs_CM_PRD_PORT;  
+
+FIELD_DEF g_CM_PRD_PORT_Start = 
+    { "Start",
+      "PHYSICAL_ADDRESS",
+      sizeof(PHYSICAL_ADDRESS),
+      FIELD_OFFSET(CM_PRD_PORT,Start),
+      sizeof(gs_CM_PRD_PORT.Start),
+      "" };
+    
+
+FIELD_DEF g_CM_PRD_PORT_Length = 
+    { "Length",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_PORT,Length),
+      sizeof(gs_CM_PRD_PORT.Length),
+      "" };
+    
+
+STRUC_DEF g_CM_PRD_PORT = {
+    "CM_PRD_PORT", sizeof(CM_PRD_PORT), 
+    {
+        (ULONGLONG)&g_CM_PRD_PORT_Start ,
+        (ULONGLONG)&g_CM_PRD_PORT_Length ,
+        0 }
+    
+};
+
+
+
+
+CM_PRD_INTERRUPT gs_CM_PRD_INTERRUPT;  
+
+FIELD_DEF g_CM_PRD_INTERRUPT_Level = 
+    { "Level",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_INTERRUPT,Level),
+      sizeof(gs_CM_PRD_INTERRUPT.Level),
+      "" };
+    
+
+FIELD_DEF g_CM_PRD_INTERRUPT_Vector = 
+    { "Vector",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_INTERRUPT,Vector),
+      sizeof(gs_CM_PRD_INTERRUPT.Vector),
+      "" };
+    
+
+FIELD_DEF g_CM_PRD_INTERRUPT_Affinity = 
+    { "Affinity",
+      "KAFFINITY",
+      sizeof(KAFFINITY),
+      FIELD_OFFSET(CM_PRD_INTERRUPT,Affinity),
+      sizeof(gs_CM_PRD_INTERRUPT.Affinity),
+      "" };
+    
+
+STRUC_DEF g_CM_PRD_INTERRUPT = {
+    "CM_PRD_INTERRUPT", sizeof(CM_PRD_INTERRUPT), 
+    {
+        (ULONGLONG)&g_CM_PRD_INTERRUPT_Level ,
+        (ULONGLONG)&g_CM_PRD_INTERRUPT_Vector ,
+        (ULONGLONG)&g_CM_PRD_INTERRUPT_Affinity ,
+        0 }
+    
+};
+
+
+
+
+CM_PRD_MEMORY gs_CM_PRD_MEMORY;  
+
+FIELD_DEF g_CM_PRD_MEMORY_Start = 
+    { "Start",
+      "PHYSICAL_ADDRESS",
+      sizeof(PHYSICAL_ADDRESS),
+      FIELD_OFFSET(CM_PRD_MEMORY,Start),
+      sizeof(gs_CM_PRD_MEMORY.Start),
+      "" };
+    
+
+FIELD_DEF g_CM_PRD_MEMORY_Length = 
+    { "Length",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_MEMORY,Length),
+      sizeof(gs_CM_PRD_MEMORY.Length),
+      "" };
+    
+
+STRUC_DEF g_CM_PRD_MEMORY = {
+    "CM_PRD_MEMORY", sizeof(CM_PRD_MEMORY), 
+    {
+        (ULONGLONG)&g_CM_PRD_MEMORY_Start ,
+        (ULONGLONG)&g_CM_PRD_MEMORY_Length ,
+        0 }
+    
+};
+
+
+
+
+CM_PRD_DMA gs_CM_PRD_DMA;  
+
+FIELD_DEF g_CM_PRD_DMA_Channel = 
+    { "Channel",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_DMA,Channel),
+      sizeof(gs_CM_PRD_DMA.Channel),
+      "" };
+    
+
+FIELD_DEF g_CM_PRD_DMA_Port = 
+    { "Port",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_DMA,Port),
+      sizeof(gs_CM_PRD_DMA.Port),
+      "" };
+    
+
+STRUC_DEF g_CM_PRD_DMA = {
+    "CM_PRD_DMA", sizeof(CM_PRD_DMA), 
+    {
+        (ULONGLONG)&g_CM_PRD_DMA_Channel ,
+        (ULONGLONG)&g_CM_PRD_DMA_Port ,
+        0 }
+    
+};
+
+
+
+
+CM_PRD_DEVICEPRIVATE gs_CM_PRD_DEVICEPRIVATE;  
+
+FIELD_DEF g_CM_PRD_DEVICEPRIVATE_Data = 
+    { "Data",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_DEVICEPRIVATE,Data),
+      sizeof(gs_CM_PRD_DEVICEPRIVATE.Data),
+      "" };
+    
+
+STRUC_DEF g_CM_PRD_DEVICEPRIVATE = {
+    "CM_PRD_DEVICEPRIVATE", sizeof(CM_PRD_DEVICEPRIVATE), 
+    {
+        (ULONGLONG)&g_CM_PRD_DEVICEPRIVATE_Data ,
+        0 }
+    
+};
+
+
+
+
+CM_PRD_BUSNUMBER gs_CM_PRD_BUSNUMBER;  
+
+FIELD_DEF g_CM_PRD_BUSNUMBER_Start = 
+    { "Start",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_BUSNUMBER,Start),
+      sizeof(gs_CM_PRD_BUSNUMBER.Start),
+      "" };
+    
+
+FIELD_DEF g_CM_PRD_BUSNUMBER_Length = 
+    { "Length",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_BUSNUMBER,Length),
+      sizeof(gs_CM_PRD_BUSNUMBER.Length),
+      "" };
+    
+
+FIELD_DEF g_CM_PRD_BUSNUMBER_Reserved = 
+    { "Reserved",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_BUSNUMBER,Reserved),
+      sizeof(gs_CM_PRD_BUSNUMBER.Reserved),
+      "" };
+    
+
+STRUC_DEF g_CM_PRD_BUSNUMBER = {
+    "CM_PRD_BUSNUMBER", sizeof(CM_PRD_BUSNUMBER), 
+    {
+        (ULONGLONG)&g_CM_PRD_BUSNUMBER_Start ,
+        (ULONGLONG)&g_CM_PRD_BUSNUMBER_Length ,
+        (ULONGLONG)&g_CM_PRD_BUSNUMBER_Reserved ,
+        0 }
+    
+};
+
+
+
+
+CM_PRD_DEVICESPECIFICDATA gs_CM_PRD_DEVICESPECIFICDATA;  
+
+FIELD_DEF g_CM_PRD_DEVICESPECIFICDATA_DataSize = 
+    { "DataSize",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_DEVICESPECIFICDATA,DataSize),
+      sizeof(gs_CM_PRD_DEVICESPECIFICDATA.DataSize),
+      "" };
+    
+
+FIELD_DEF g_CM_PRD_DEVICESPECIFICDATA_Reserved1 = 
+    { "Reserved1",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_DEVICESPECIFICDATA,Reserved1),
+      sizeof(gs_CM_PRD_DEVICESPECIFICDATA.Reserved1),
+      "" };
+    
+
+FIELD_DEF g_CM_PRD_DEVICESPECIFICDATA_Reserved2 = 
+    { "Reserved2",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PRD_DEVICESPECIFICDATA,Reserved2),
+      sizeof(gs_CM_PRD_DEVICESPECIFICDATA.Reserved2),
+      "" };
+    
+
+STRUC_DEF g_CM_PRD_DEVICESPECIFICDATA = {
+    "CM_PRD_DEVICESPECIFICDATA", sizeof(CM_PRD_DEVICESPECIFICDATA), 
+    {
+        (ULONGLONG)&g_CM_PRD_DEVICESPECIFICDATA_DataSize ,
+        (ULONGLONG)&g_CM_PRD_DEVICESPECIFICDATA_Reserved1 ,
+        (ULONGLONG)&g_CM_PRD_DEVICESPECIFICDATA_Reserved2 ,
+        0 }
+    
+};
+
+
+
+
+CM_PARTIAL_RESOURCE_DESCRIPTOR gs_CM_PARTIAL_RESOURCE_DESCRIPTOR;  
+
+FIELD_DEF g_CM_PARTIAL_RESOURCE_DESCRIPTOR_Type = 
+    { "Type",
+      "UCHAR",
+      sizeof(UCHAR),
+      FIELD_OFFSET(CM_PARTIAL_RESOURCE_DESCRIPTOR,Type),
+      sizeof(gs_CM_PARTIAL_RESOURCE_DESCRIPTOR.Type),
+      "" };
+    
+
+FIELD_DEF g_CM_PARTIAL_RESOURCE_DESCRIPTOR_ShareDisposition = 
+    { "ShareDisposition",
+      "UCHAR",
+      sizeof(UCHAR),
+      FIELD_OFFSET(CM_PARTIAL_RESOURCE_DESCRIPTOR,ShareDisposition),
+      sizeof(gs_CM_PARTIAL_RESOURCE_DESCRIPTOR.ShareDisposition),
+      "" };
+    
+
+FIELD_DEF g_CM_PARTIAL_RESOURCE_DESCRIPTOR_Flags = 
+    { "Flags",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(CM_PARTIAL_RESOURCE_DESCRIPTOR,Flags),
+      sizeof(gs_CM_PARTIAL_RESOURCE_DESCRIPTOR.Flags),
+      "" };
+    
+
+FIELD_DEF g_CM_PARTIAL_RESOURCE_DESCRIPTOR_u = 
+    { "u",
+      "CM_PRD_INTERRUPT",
+      sizeof(CM_PRD_INTERRUPT),
+      FIELD_OFFSET(CM_PARTIAL_RESOURCE_DESCRIPTOR,u),
+      sizeof(gs_CM_PARTIAL_RESOURCE_DESCRIPTOR.u),
+      "" };
+    
+
+STRUC_DEF g_CM_PARTIAL_RESOURCE_DESCRIPTOR = {
+    "CM_PARTIAL_RESOURCE_DESCRIPTOR", sizeof(CM_PARTIAL_RESOURCE_DESCRIPTOR), 
+    {
+        (ULONGLONG)&g_CM_PARTIAL_RESOURCE_DESCRIPTOR_Type ,
+        (ULONGLONG)&g_CM_PARTIAL_RESOURCE_DESCRIPTOR_ShareDisposition ,
+        (ULONGLONG)&g_CM_PARTIAL_RESOURCE_DESCRIPTOR_Flags ,
+        (ULONGLONG)&g_CM_PARTIAL_RESOURCE_DESCRIPTOR_u ,
+        0 }
+    
+};
+
+
+
+
+CM_PARTIAL_RESOURCE_LIST gs_CM_PARTIAL_RESOURCE_LIST;  
+
+FIELD_DEF g_CM_PARTIAL_RESOURCE_LIST_Version = 
+    { "Version",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(CM_PARTIAL_RESOURCE_LIST,Version),
+      sizeof(gs_CM_PARTIAL_RESOURCE_LIST.Version),
+      "" };
+    
+
+FIELD_DEF g_CM_PARTIAL_RESOURCE_LIST_Revision = 
+    { "Revision",
+      "USHORT",
+      sizeof(USHORT),
+      FIELD_OFFSET(CM_PARTIAL_RESOURCE_LIST,Revision),
+      sizeof(gs_CM_PARTIAL_RESOURCE_LIST.Revision),
+      "" };
+    
+
+FIELD_DEF g_CM_PARTIAL_RESOURCE_LIST_Count = 
+    { "Count",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(CM_PARTIAL_RESOURCE_LIST,Count),
+      sizeof(gs_CM_PARTIAL_RESOURCE_LIST.Count),
+      "" };
+    
+
+FIELD_DEF g_CM_PARTIAL_RESOURCE_LIST_PartialDescriptors = 
+    { "PartialDescriptors",
+      "CM_PARTIAL_RESOURCE_DESCRIPTOR",
+      sizeof(CM_PARTIAL_RESOURCE_DESCRIPTOR),
+      FIELD_OFFSET(CM_PARTIAL_RESOURCE_LIST,PartialDescriptors),
+      sizeof(gs_CM_PARTIAL_RESOURCE_LIST.PartialDescriptors),
+      "" };
+    
+
+STRUC_DEF g_CM_PARTIAL_RESOURCE_LIST = {
+    "CM_PARTIAL_RESOURCE_LIST", sizeof(CM_PARTIAL_RESOURCE_LIST), 
+    {
+        (ULONGLONG)&g_CM_PARTIAL_RESOURCE_LIST_Version ,
+        (ULONGLONG)&g_CM_PARTIAL_RESOURCE_LIST_Revision ,
+        (ULONGLONG)&g_CM_PARTIAL_RESOURCE_LIST_Count ,
+        (ULONGLONG)&g_CM_PARTIAL_RESOURCE_LIST_PartialDescriptors ,
+        0 }
+    
+};
+
+
+
+
+LARGE_INTEGER gs_LARGE_INTEGER;  
+
+FIELD_DEF g_LARGE_INTEGER_LowPart = 
+    { "LowPart",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(LARGE_INTEGER,LowPart),
+      sizeof(gs_LARGE_INTEGER.LowPart),
+      "" };
+    
+
+FIELD_DEF g_LARGE_INTEGER_HighPart = 
+    { "HighPart",
+      "LONG",
+      sizeof(LONG),
+      FIELD_OFFSET(LARGE_INTEGER,HighPart),
+      sizeof(gs_LARGE_INTEGER.HighPart),
+      "" };
+    
+
+STRUC_DEF g_LARGE_INTEGER = {
+    "LARGE_INTEGER", sizeof(LARGE_INTEGER), 
+    {
+        (ULONGLONG)&g_LARGE_INTEGER_LowPart ,
+        (ULONGLONG)&g_LARGE_INTEGER_HighPart ,
+        0 }
+    
+};
+
+
+
+
+PO_HIBER_PERF gs_PO_HIBER_PERF;  
+
+FIELD_DEF g_PO_HIBER_PERF_IoTicks = 
+    { "IoTicks",
+      "ULONGLONG",
+      sizeof(ULONGLONG),
+      FIELD_OFFSET(PO_HIBER_PERF,IoTicks),
+      sizeof(gs_PO_HIBER_PERF.IoTicks),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_InitTicks = 
+    { "InitTicks",
+      "ULONGLONG",
+      sizeof(ULONGLONG),
+      FIELD_OFFSET(PO_HIBER_PERF,InitTicks),
+      sizeof(gs_PO_HIBER_PERF.InitTicks),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_CopyTicks = 
+    { "CopyTicks",
+      "ULONGLONG",
+      sizeof(ULONGLONG),
+      FIELD_OFFSET(PO_HIBER_PERF,CopyTicks),
+      sizeof(gs_PO_HIBER_PERF.CopyTicks),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_StartCount = 
+    { "StartCount",
+      "ULONGLONG",
+      sizeof(ULONGLONG),
+      FIELD_OFFSET(PO_HIBER_PERF,StartCount),
+      sizeof(gs_PO_HIBER_PERF.StartCount),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_ElapsedTime = 
+    { "ElapsedTime",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_HIBER_PERF,ElapsedTime),
+      sizeof(gs_PO_HIBER_PERF.ElapsedTime),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_IoTime = 
+    { "IoTime",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_HIBER_PERF,IoTime),
+      sizeof(gs_PO_HIBER_PERF.IoTime),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_CopyTime = 
+    { "CopyTime",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_HIBER_PERF,CopyTime),
+      sizeof(gs_PO_HIBER_PERF.CopyTime),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_InitTime = 
+    { "InitTime",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_HIBER_PERF,InitTime),
+      sizeof(gs_PO_HIBER_PERF.InitTime),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_PagesWritten = 
+    { "PagesWritten",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_HIBER_PERF,PagesWritten),
+      sizeof(gs_PO_HIBER_PERF.PagesWritten),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_PagesProcessed = 
+    { "PagesProcessed",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_HIBER_PERF,PagesProcessed),
+      sizeof(gs_PO_HIBER_PERF.PagesProcessed),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_BytesCopied = 
+    { "BytesCopied",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_HIBER_PERF,BytesCopied),
+      sizeof(gs_PO_HIBER_PERF.BytesCopied),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_DumpCount = 
+    { "DumpCount",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_HIBER_PERF,DumpCount),
+      sizeof(gs_PO_HIBER_PERF.DumpCount),
+      "" };
+    
+
+FIELD_DEF g_PO_HIBER_PERF_FileRuns = 
+    { "FileRuns",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_HIBER_PERF,FileRuns),
+      sizeof(gs_PO_HIBER_PERF.FileRuns),
+      "" };
+    
+
+STRUC_DEF g_PO_HIBER_PERF = {
+    "PO_HIBER_PERF", sizeof(PO_HIBER_PERF), 
+    {
+        (ULONGLONG)&g_PO_HIBER_PERF_IoTicks ,
+        (ULONGLONG)&g_PO_HIBER_PERF_InitTicks ,
+        (ULONGLONG)&g_PO_HIBER_PERF_CopyTicks ,
+        (ULONGLONG)&g_PO_HIBER_PERF_StartCount ,
+        (ULONGLONG)&g_PO_HIBER_PERF_ElapsedTime ,
+        (ULONGLONG)&g_PO_HIBER_PERF_IoTime ,
+        (ULONGLONG)&g_PO_HIBER_PERF_CopyTime ,
+        (ULONGLONG)&g_PO_HIBER_PERF_InitTime ,
+        (ULONGLONG)&g_PO_HIBER_PERF_PagesWritten ,
+        (ULONGLONG)&g_PO_HIBER_PERF_PagesProcessed ,
+        (ULONGLONG)&g_PO_HIBER_PERF_BytesCopied ,
+        (ULONGLONG)&g_PO_HIBER_PERF_DumpCount ,
+        (ULONGLONG)&g_PO_HIBER_PERF_FileRuns ,
+        0 }
+    
+};
+
+
+
+
+PO_MEMORY_IMAGE gs_PO_MEMORY_IMAGE;  
+
+FIELD_DEF g_PO_MEMORY_IMAGE_Signature = 
+    { "Signature",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,Signature),
+      sizeof(gs_PO_MEMORY_IMAGE.Signature),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_Version = 
+    { "Version",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,Version),
+      sizeof(gs_PO_MEMORY_IMAGE.Version),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_CheckSum = 
+    { "CheckSum",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,CheckSum),
+      sizeof(gs_PO_MEMORY_IMAGE.CheckSum),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_LengthSelf = 
+    { "LengthSelf",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,LengthSelf),
+      sizeof(gs_PO_MEMORY_IMAGE.LengthSelf),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_PageSelf = 
+    { "PageSelf",
+      "PFN_NUMBER",
+      sizeof(PFN_NUMBER),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,PageSelf),
+      sizeof(gs_PO_MEMORY_IMAGE.PageSelf),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_PageSize = 
+    { "PageSize",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,PageSize),
+      sizeof(gs_PO_MEMORY_IMAGE.PageSize),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_ImageType = 
+    { "ImageType",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,ImageType),
+      sizeof(gs_PO_MEMORY_IMAGE.ImageType),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_SystemTime = 
+    { "SystemTime",
+      "LARGE_INTEGER",
+      sizeof(LARGE_INTEGER),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,SystemTime),
+      sizeof(gs_PO_MEMORY_IMAGE.SystemTime),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_InterruptTime = 
+    { "InterruptTime",
+      "ULONGLONG",
+      sizeof(ULONGLONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,InterruptTime),
+      sizeof(gs_PO_MEMORY_IMAGE.InterruptTime),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_FeatureFlags = 
+    { "FeatureFlags",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,FeatureFlags),
+      sizeof(gs_PO_MEMORY_IMAGE.FeatureFlags),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_HiberFlags = 
+    { "HiberFlags",
+      "UCHAR",
+      sizeof(UCHAR),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,HiberFlags),
+      sizeof(gs_PO_MEMORY_IMAGE.HiberFlags),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_spare = 
+    { "spare",
+      "UCHAR",
+      sizeof(UCHAR),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,spare),
+      sizeof(gs_PO_MEMORY_IMAGE.spare),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_NoHiberPtes = 
+    { "NoHiberPtes",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,NoHiberPtes),
+      sizeof(gs_PO_MEMORY_IMAGE.NoHiberPtes),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_HiberVa = 
+    { "HiberVa",
+      "ULONG_PTR",
+      sizeof(ULONG_PTR),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,HiberVa),
+      sizeof(gs_PO_MEMORY_IMAGE.HiberVa),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_HiberPte = 
+    { "HiberPte",
+      "PHYSICAL_ADDRESS",
+      sizeof(PHYSICAL_ADDRESS),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,HiberPte),
+      sizeof(gs_PO_MEMORY_IMAGE.HiberPte),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_NoFreePages = 
+    { "NoFreePages",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,NoFreePages),
+      sizeof(gs_PO_MEMORY_IMAGE.NoFreePages),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_FreeMapCheck = 
+    { "FreeMapCheck",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,FreeMapCheck),
+      sizeof(gs_PO_MEMORY_IMAGE.FreeMapCheck),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_WakeCheck = 
+    { "WakeCheck",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,WakeCheck),
+      sizeof(gs_PO_MEMORY_IMAGE.WakeCheck),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_TotalPages = 
+    { "TotalPages",
+      "PFN_NUMBER",
+      sizeof(PFN_NUMBER),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,TotalPages),
+      sizeof(gs_PO_MEMORY_IMAGE.TotalPages),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_FirstTablePage = 
+    { "FirstTablePage",
+      "PFN_NUMBER",
+      sizeof(PFN_NUMBER),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,FirstTablePage),
+      sizeof(gs_PO_MEMORY_IMAGE.FirstTablePage),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_LastFilePage = 
+    { "LastFilePage",
+      "PFN_NUMBER",
+      sizeof(PFN_NUMBER),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,LastFilePage),
+      sizeof(gs_PO_MEMORY_IMAGE.LastFilePage),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_IMAGE_PerfInfo = 
+    { "PerfInfo",
+      "PO_HIBER_PERF",
+      sizeof(PO_HIBER_PERF),
+      FIELD_OFFSET(PO_MEMORY_IMAGE,PerfInfo),
+      sizeof(gs_PO_MEMORY_IMAGE.PerfInfo),
+      "" };
+    
+
+STRUC_DEF g_PO_MEMORY_IMAGE = {
+    "PO_MEMORY_IMAGE", sizeof(PO_MEMORY_IMAGE), 
+    {
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_Signature ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_Version ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_CheckSum ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_LengthSelf ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_PageSelf ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_PageSize ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_ImageType ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_SystemTime ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_InterruptTime ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_FeatureFlags ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_HiberFlags ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_spare ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_NoHiberPtes ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_HiberVa ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_HiberPte ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_NoFreePages ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_FreeMapCheck ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_WakeCheck ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_TotalPages ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_FirstTablePage ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_LastFilePage ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE_PerfInfo ,
+        0 }
+    
+};
+
+
+
+
+PO_MEMORY_RANGE_ARRAY_RANGE gs_PO_MEMORY_RANGE_ARRAY_RANGE;  
+
+FIELD_DEF g_PO_MEMORY_RANGE_ARRAY_RANGE_PageNo = 
+    { "PageNo",
+      "PFN_NUMBER",
+      sizeof(PFN_NUMBER),
+      FIELD_OFFSET(PO_MEMORY_RANGE_ARRAY_RANGE,PageNo),
+      sizeof(gs_PO_MEMORY_RANGE_ARRAY_RANGE.PageNo),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_RANGE_ARRAY_RANGE_StartPage = 
+    { "StartPage",
+      "PFN_NUMBER",
+      sizeof(PFN_NUMBER),
+      FIELD_OFFSET(PO_MEMORY_RANGE_ARRAY_RANGE,StartPage),
+      sizeof(gs_PO_MEMORY_RANGE_ARRAY_RANGE.StartPage),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_RANGE_ARRAY_RANGE_EndPage = 
+    { "EndPage",
+      "PFN_NUMBER",
+      sizeof(PFN_NUMBER),
+      FIELD_OFFSET(PO_MEMORY_RANGE_ARRAY_RANGE,EndPage),
+      sizeof(gs_PO_MEMORY_RANGE_ARRAY_RANGE.EndPage),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_RANGE_ARRAY_RANGE_CheckSum = 
+    { "CheckSum",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_RANGE_ARRAY_RANGE,CheckSum),
+      sizeof(gs_PO_MEMORY_RANGE_ARRAY_RANGE.CheckSum),
+      "" };
+    
+
+STRUC_DEF g_PO_MEMORY_RANGE_ARRAY_RANGE = {
+    "PO_MEMORY_RANGE_ARRAY_RANGE", sizeof(PO_MEMORY_RANGE_ARRAY_RANGE), 
+    {
+        (ULONGLONG)&g_PO_MEMORY_RANGE_ARRAY_RANGE_PageNo ,
+        (ULONGLONG)&g_PO_MEMORY_RANGE_ARRAY_RANGE_StartPage ,
+        (ULONGLONG)&g_PO_MEMORY_RANGE_ARRAY_RANGE_EndPage ,
+        (ULONGLONG)&g_PO_MEMORY_RANGE_ARRAY_RANGE_CheckSum ,
+        0 }
+    
+};
+
+
+
+
+PO_MEMORY_RANGE_ARRAY_LINK gs_PO_MEMORY_RANGE_ARRAY_LINK;  
+
+FIELD_DEF g_PO_MEMORY_RANGE_ARRAY_LINK_Next = 
+    { "Next",
+      "PPO_MEMORY_RANGE_ARRAY",
+      sizeof(PPO_MEMORY_RANGE_ARRAY),
+      FIELD_OFFSET(PO_MEMORY_RANGE_ARRAY_LINK,Next),
+      sizeof(gs_PO_MEMORY_RANGE_ARRAY_LINK.Next),
+      "" };
+    
+;
+FIELD_DEF g_PO_MEMORY_RANGE_ARRAY_LINK_NextTable = 
+    { "NextTable",
+      "PFN_NUMBER",
+      sizeof(PFN_NUMBER),
+      FIELD_OFFSET(PO_MEMORY_RANGE_ARRAY_LINK,NextTable),
+      sizeof(gs_PO_MEMORY_RANGE_ARRAY_LINK.NextTable),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_RANGE_ARRAY_LINK_CheckSum = 
+    { "CheckSum",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_RANGE_ARRAY_LINK,CheckSum),
+      sizeof(gs_PO_MEMORY_RANGE_ARRAY_LINK.CheckSum),
+      "" };
+    
+
+FIELD_DEF g_PO_MEMORY_RANGE_ARRAY_LINK_EntryCount = 
+    { "EntryCount",
+      "ULONG",
+      sizeof(ULONG),
+      FIELD_OFFSET(PO_MEMORY_RANGE_ARRAY_LINK,EntryCount),
+      sizeof(gs_PO_MEMORY_RANGE_ARRAY_LINK.EntryCount),
+      "" };
+    
+
+STRUC_DEF g_PO_MEMORY_RANGE_ARRAY_LINK = {
+    "PO_MEMORY_RANGE_ARRAY_LINK", sizeof(PO_MEMORY_RANGE_ARRAY_LINK), 
+    {
+        (ULONGLONG)&g_PO_MEMORY_RANGE_ARRAY_LINK_Next ,
+        (ULONGLONG)&g_PO_MEMORY_RANGE_ARRAY_LINK_NextTable ,
+        (ULONGLONG)&g_PO_MEMORY_RANGE_ARRAY_LINK_CheckSum ,
+        (ULONGLONG)&g_PO_MEMORY_RANGE_ARRAY_LINK_EntryCount ,
+        0 }
+    
+};
+
+
+
+DEFINITIONS Definitions = {
+    SIG_1, SIG_2,
+    {
+        (ULONGLONG)&g_PHYSICAL_ADDRESS ,
+        (ULONGLONG)&g_PROFILE_PARAMETER_BLOCK ,
+        (ULONGLONG)&g_UNICODE_STRING ,
+        (ULONGLONG)&g_LIST_ENTRY ,
+        ONLY64((ULONGLONG)&g_EPROCESS) ,
+        ONLY64((ULONGLONG)&g_ETHREAD) ,
+        ONLY64((ULONGLONG)&g_KTHREAD) ,
+        ONLY64((ULONGLONG)&g_KPRCB) ,
+        ONLY64((ULONGLONG)&g_KGDTENTRY64) ,
+        ONLY64((ULONGLONG)&g_KIDTENTRY64) ,
+        ONLY64((ULONGLONG)&g_KTSS64) ,
+        (ULONGLONG)&g_MEMORY_ALLOCATION_DESCRIPTOR ,
+        (ULONGLONG)&g_LDR_DATA_TABLE_ENTRY ,
+        (ULONGLONG)&g_BOOT_DRIVER_LIST_ENTRY ,
+        (ULONGLONG)&g_NLS_DATA_BLOCK ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT ,
+        (ULONGLONG)&g_CONFIGURATION_COMPONENT_DATA ,
+        (ULONGLONG)&g_BOOT_DRIVER_NODE ,
+        (ULONGLONG)&g_ARC_DISK_SIGNATURE ,
+        (ULONGLONG)&g_ARC_DISK_INFORMATION ,
+        (ULONGLONG)&g_DETECTED_DEVICE_REGISTRY ,
+        (ULONGLONG)&g_DETECTED_DEVICE_FILE ,
+        (ULONGLONG)&g_DETECTED_DEVICE ,
+        (ULONGLONG)&g_PNP_HARDWARE_ID ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK_SCALARS ,
+        (ULONGLONG)&g_SETUP_LOADER_BLOCK ,
+        (ULONGLONG)&g_I386_LOADER_BLOCK ,
+        (ULONGLONG)&g_LOADER_PARAMETER_EXTENSION ,
+        (ULONGLONG)&g_LOADER_PARAMETER_BLOCK ,
+        (ULONGLONG)&g_CM_PRD_GENERIC ,
+        (ULONGLONG)&g_CM_PRD_PORT ,
+        (ULONGLONG)&g_CM_PRD_INTERRUPT ,
+        (ULONGLONG)&g_CM_PRD_MEMORY ,
+        (ULONGLONG)&g_CM_PRD_DMA ,
+        (ULONGLONG)&g_CM_PRD_DEVICEPRIVATE ,
+        (ULONGLONG)&g_CM_PRD_BUSNUMBER ,
+        (ULONGLONG)&g_CM_PRD_DEVICESPECIFICDATA ,
+        (ULONGLONG)&g_CM_PARTIAL_RESOURCE_DESCRIPTOR ,
+        (ULONGLONG)&g_CM_PARTIAL_RESOURCE_LIST ,
+        (ULONGLONG)&g_LARGE_INTEGER ,
+        (ULONGLONG)&g_PO_HIBER_PERF ,
+        (ULONGLONG)&g_PO_MEMORY_IMAGE ,
+        (ULONGLONG)&g_PO_MEMORY_RANGE_ARRAY_RANGE ,
+        (ULONGLONG)&g_PO_MEMORY_RANGE_ARRAY_LINK ,
+        0 }
+}; 
+

@@ -1,0 +1,52 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\setupldr.res \
+    $(_OBJ_DIR)\i386\arcdisp.obj \
+    $(_OBJ_DIR)\i386\config.obj \
+    $(_OBJ_DIR)\i386\decomp.obj \
+    $(_OBJ_DIR)\i386\oemdisk.obj \
+    $(_OBJ_DIR)\i386\setup.obj \
+    $(_OBJ_DIR)\i386\x86dtect.obj \
+    $(_OBJ_DIR)\i386\initx86.obj
+
+PASS0_386_OBJECTS= \
+    $(PASS0_HEADERDIR)\msgs.h \
+    $(MC_SOURCEDIR)\msgs.rc
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\setupldr.res \
+    $(_OBJ_DIR)\ia64\initia64.obj \
+    $(_OBJ_DIR)\ia64\ia64dtect.obj \
+    $(_OBJ_DIR)\ia64\arcdisp.obj \
+    $(_OBJ_DIR)\ia64\config.obj \
+    $(_OBJ_DIR)\ia64\decomp.obj \
+    $(_OBJ_DIR)\ia64\oemdisk.obj \
+    $(_OBJ_DIR)\ia64\setup.obj
+
+PASS0_IA64_OBJECTS= \
+    $(PASS0_HEADERDIR)\msgs.h \
+    $(MC_SOURCEDIR)\msgs.rc
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\setupldr.res \
+    $(_OBJ_DIR)\amd64\arcdisp.obj \
+    $(_OBJ_DIR)\amd64\config.obj \
+    $(_OBJ_DIR)\amd64\decomp.obj \
+    $(_OBJ_DIR)\amd64\oemdisk.obj \
+    $(_OBJ_DIR)\amd64\setup.obj
+
+PASS0_AMD64_OBJECTS= \
+    $(PASS0_HEADERDIR)\msgs.h \
+    $(MC_SOURCEDIR)\msgs.rc
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\setupldr.res \
+    $(_OBJ_DIR)\arm\arcdisp.obj \
+    $(_OBJ_DIR)\arm\config.obj \
+    $(_OBJ_DIR)\arm\decomp.obj \
+    $(_OBJ_DIR)\arm\oemdisk.obj \
+    $(_OBJ_DIR)\arm\setup.obj
+
+PASS0_ARM_OBJECTS= \
+    $(PASS0_HEADERDIR)\msgs.h \
+    $(MC_SOURCEDIR)\msgs.rc
+

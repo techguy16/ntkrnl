@@ -1,0 +1,166 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\amd64s.obj \
+    $(_OBJ_DIR)\i386\wakea.obj \
+    $(_OBJ_DIR)\i386\wake64.obj \
+    $(_OBJ_DIR)\i386\misc.obj \
+    $(_OBJ_DIR)\i386\detmach.obj \
+    $(_OBJ_DIR)\i386\cpu386.obj \
+    $(_OBJ_DIR)\i386\ixcmos.obj \
+    $(_OBJ_DIR)\i386\xxioacc.obj \
+    $(_OBJ_DIR)\i386\lnkconst.obj \
+    $(_OBJ_DIR)\i386\rdcomp.obj \
+    $(_OBJ_DIR)\i386\pae.obj \
+    $(_OBJ_DIR)\i386\xsum.obj \
+    $(_OBJ_DIR)\i386\amd64.obj \
+    $(_OBJ_DIR)\i386\amd64x86.obj \
+    $(_OBJ_DIR)\i386\acpidtct.obj \
+    $(_OBJ_DIR)\i386\biosdrv.obj \
+    $(_OBJ_DIR)\i386\stubs.obj \
+    $(_OBJ_DIR)\i386\display.obj \
+    $(_OBJ_DIR)\i386\disp_gr.obj \
+    $(_OBJ_DIR)\i386\disp_tm.obj \
+    $(_OBJ_DIR)\i386\flopcach.obj \
+    $(_OBJ_DIR)\i386\entry.obj \
+    $(_OBJ_DIR)\i386\arcemul.obj \
+    $(_OBJ_DIR)\i386\haldtect.obj \
+    $(_OBJ_DIR)\i386\detsup.obj \
+    $(_OBJ_DIR)\i386\input.obj \
+    $(_OBJ_DIR)\i386\ixbusdat.obj \
+    $(_OBJ_DIR)\i386\ixhwsup.obj \
+    $(_OBJ_DIR)\i386\ixphwsup.obj \
+    $(_OBJ_DIR)\i386\ixpcibus.obj \
+    $(_OBJ_DIR)\i386\memory.obj \
+    $(_OBJ_DIR)\i386\port.obj \
+    $(_OBJ_DIR)\i386\wake.obj \
+    $(_OBJ_DIR)\i386\ntsetup.obj \
+    $(_OBJ_DIR)\i386\machine.obj \
+    $(_OBJ_DIR)\i386\arcdisk.obj \
+    $(_OBJ_DIR)\i386\blmemory.obj \
+    $(_OBJ_DIR)\i386\blbind.obj \
+    $(_OBJ_DIR)\i386\blconfig.obj \
+    $(_OBJ_DIR)\i386\blgpt.obj \
+    $(_OBJ_DIR)\i386\blio.obj \
+    $(_OBJ_DIR)\i386\blload.obj \
+    $(_OBJ_DIR)\i386\blres.obj \
+    $(_OBJ_DIR)\i386\debug.obj \
+    $(_OBJ_DIR)\i386\etfsboot.obj \
+    $(_OBJ_DIR)\i386\fatboot.obj \
+    $(_OBJ_DIR)\i386\ntfsboot.obj \
+    $(_OBJ_DIR)\i386\cdfsboot.obj \
+    $(_OBJ_DIR)\i386\udfsboot.obj \
+    $(_OBJ_DIR)\i386\netboot.obj \
+    $(_OBJ_DIR)\i386\nlsboot.obj \
+    $(_OBJ_DIR)\i386\parseini.obj \
+    $(_OBJ_DIR)\i386\hdlsterm.obj \
+    $(_OBJ_DIR)\i386\peldr.obj \
+    $(_OBJ_DIR)\i386\bllog.obj \
+    $(_OBJ_DIR)\i386\blmisc.obj \
+    $(_OBJ_DIR)\i386\blcache.obj \
+    $(_OBJ_DIR)\i386\blrange.obj \
+    $(_OBJ_DIR)\i386\vmode.obj \
+    $(_OBJ_DIR)\i386\vga.obj \
+    $(_OBJ_DIR)\i386\blsecret.obj \
+    $(_OBJ_DIR)\i386\blstring.obj \
+    $(_OBJ_DIR)\i386\ramdisk.obj \
+    $(_OBJ_DIR)\i386\scsiboot.obj \
+    $(_OBJ_DIR)\i386\scsidisk.obj \
+    $(_OBJ_DIR)\i386\netboot2.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\arcdisk.obj \
+    $(_OBJ_DIR)\ia64\blmemory.obj \
+    $(_OBJ_DIR)\ia64\blbind.obj \
+    $(_OBJ_DIR)\ia64\blconfig.obj \
+    $(_OBJ_DIR)\ia64\blgpt.obj \
+    $(_OBJ_DIR)\ia64\blio.obj \
+    $(_OBJ_DIR)\ia64\blload.obj \
+    $(_OBJ_DIR)\ia64\blres.obj \
+    $(_OBJ_DIR)\ia64\debug.obj \
+    $(_OBJ_DIR)\ia64\etfsboot.obj \
+    $(_OBJ_DIR)\ia64\fatboot.obj \
+    $(_OBJ_DIR)\ia64\ntfsboot.obj \
+    $(_OBJ_DIR)\ia64\cdfsboot.obj \
+    $(_OBJ_DIR)\ia64\udfsboot.obj \
+    $(_OBJ_DIR)\ia64\netboot.obj \
+    $(_OBJ_DIR)\ia64\nlsboot.obj \
+    $(_OBJ_DIR)\ia64\parseini.obj \
+    $(_OBJ_DIR)\ia64\hdlsterm.obj \
+    $(_OBJ_DIR)\ia64\peldr.obj \
+    $(_OBJ_DIR)\ia64\bllog.obj \
+    $(_OBJ_DIR)\ia64\blmisc.obj \
+    $(_OBJ_DIR)\ia64\blcache.obj \
+    $(_OBJ_DIR)\ia64\blrange.obj \
+    $(_OBJ_DIR)\ia64\vmode.obj \
+    $(_OBJ_DIR)\ia64\vga.obj \
+    $(_OBJ_DIR)\ia64\blsecret.obj \
+    $(_OBJ_DIR)\ia64\blstring.obj \
+    $(_OBJ_DIR)\ia64\ramdisk.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\arcdisk.obj \
+    $(_OBJ_DIR)\amd64\blmemory.obj \
+    $(_OBJ_DIR)\amd64\blbind.obj \
+    $(_OBJ_DIR)\amd64\blconfig.obj \
+    $(_OBJ_DIR)\amd64\blgpt.obj \
+    $(_OBJ_DIR)\amd64\blio.obj \
+    $(_OBJ_DIR)\amd64\blload.obj \
+    $(_OBJ_DIR)\amd64\blres.obj \
+    $(_OBJ_DIR)\amd64\debug.obj \
+    $(_OBJ_DIR)\amd64\etfsboot.obj \
+    $(_OBJ_DIR)\amd64\fatboot.obj \
+    $(_OBJ_DIR)\amd64\ntfsboot.obj \
+    $(_OBJ_DIR)\amd64\cdfsboot.obj \
+    $(_OBJ_DIR)\amd64\udfsboot.obj \
+    $(_OBJ_DIR)\amd64\netboot.obj \
+    $(_OBJ_DIR)\amd64\nlsboot.obj \
+    $(_OBJ_DIR)\amd64\parseini.obj \
+    $(_OBJ_DIR)\amd64\hdlsterm.obj \
+    $(_OBJ_DIR)\amd64\peldr.obj \
+    $(_OBJ_DIR)\amd64\bllog.obj \
+    $(_OBJ_DIR)\amd64\blmisc.obj \
+    $(_OBJ_DIR)\amd64\blcache.obj \
+    $(_OBJ_DIR)\amd64\blrange.obj \
+    $(_OBJ_DIR)\amd64\vmode.obj \
+    $(_OBJ_DIR)\amd64\vga.obj \
+    $(_OBJ_DIR)\amd64\blsecret.obj \
+    $(_OBJ_DIR)\amd64\blstring.obj \
+    $(_OBJ_DIR)\amd64\ramdisk.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\arcdisk.obj \
+    $(_OBJ_DIR)\arm\blmemory.obj \
+    $(_OBJ_DIR)\arm\blbind.obj \
+    $(_OBJ_DIR)\arm\blconfig.obj \
+    $(_OBJ_DIR)\arm\blgpt.obj \
+    $(_OBJ_DIR)\arm\blio.obj \
+    $(_OBJ_DIR)\arm\blload.obj \
+    $(_OBJ_DIR)\arm\blres.obj \
+    $(_OBJ_DIR)\arm\debug.obj \
+    $(_OBJ_DIR)\arm\etfsboot.obj \
+    $(_OBJ_DIR)\arm\fatboot.obj \
+    $(_OBJ_DIR)\arm\ntfsboot.obj \
+    $(_OBJ_DIR)\arm\cdfsboot.obj \
+    $(_OBJ_DIR)\arm\udfsboot.obj \
+    $(_OBJ_DIR)\arm\netboot.obj \
+    $(_OBJ_DIR)\arm\nlsboot.obj \
+    $(_OBJ_DIR)\arm\parseini.obj \
+    $(_OBJ_DIR)\arm\hdlsterm.obj \
+    $(_OBJ_DIR)\arm\peldr.obj \
+    $(_OBJ_DIR)\arm\bllog.obj \
+    $(_OBJ_DIR)\arm\blmisc.obj \
+    $(_OBJ_DIR)\arm\blcache.obj \
+    $(_OBJ_DIR)\arm\blrange.obj \
+    $(_OBJ_DIR)\arm\vmode.obj \
+    $(_OBJ_DIR)\arm\vga.obj \
+    $(_OBJ_DIR)\arm\blsecret.obj \
+    $(_OBJ_DIR)\arm\blstring.obj \
+    $(_OBJ_DIR)\arm\ramdisk.obj
+
+PASS0_ARM_OBJECTS=
+

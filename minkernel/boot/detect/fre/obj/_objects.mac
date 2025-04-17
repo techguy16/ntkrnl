@@ -1,0 +1,37 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\hweisaa.obj \
+    $(_OBJ_DIR)\i386\hwpcia.obj \
+    $(_OBJ_DIR)\i386\main.obj \
+    $(_OBJ_DIR)\i386\diska.obj \
+    $(_OBJ_DIR)\i386\hwmisca.obj \
+    $(_OBJ_DIR)\i386\videoa.obj \
+    $(_OBJ_DIR)\i386\keybda.obj \
+    $(_OBJ_DIR)\i386\mousea.obj \
+    $(_OBJ_DIR)\i386\pccarda.obj \
+    $(_OBJ_DIR)\i386\hweisac.obj \
+    $(_OBJ_DIR)\i386\display.obj \
+    $(_OBJ_DIR)\i386\diskc.obj \
+    $(_OBJ_DIR)\i386\hwheap.obj \
+    $(_OBJ_DIR)\i386\hwdetect.obj \
+    $(_OBJ_DIR)\i386\keybdc.obj \
+    $(_OBJ_DIR)\i386\comlptc.obj \
+    $(_OBJ_DIR)\i386\mousec.obj \
+    $(_OBJ_DIR)\i386\hwpbiosc.obj \
+    $(_OBJ_DIR)\i386\hwvbiosc.obj \
+    $(_OBJ_DIR)\i386\pccardc.obj \
+    $(_OBJ_DIR)\i386\pcibios.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS=
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS=
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS=
+
+PASS0_ARM_OBJECTS=
+

@@ -1,0 +1,73 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\state.obj \
+    $(_OBJ_DIR)\i386\trap.obj \
+    $(_OBJ_DIR)\i386\check.obj \
+    $(_OBJ_DIR)\i386\cpuapi.obj \
+    $(_OBJ_DIR)\i386\debug.obj \
+    $(_OBJ_DIR)\i386\print.obj \
+    $(_OBJ_DIR)\i386\port.obj \
+    $(_OBJ_DIR)\i386\reboot.obj \
+    $(_OBJ_DIR)\i386\break.obj \
+    $(_OBJ_DIR)\i386\comio.obj \
+    $(_OBJ_DIR)\i386\data.obj \
+    $(_OBJ_DIR)\i386\dbgio.obj \
+    $(_OBJ_DIR)\i386\file.obj \
+    $(_OBJ_DIR)\i386\init.obj \
+    $(_OBJ_DIR)\i386\message.obj \
+    $(_OBJ_DIR)\i386\move.obj \
+    $(_OBJ_DIR)\i386\poll.obj \
+    $(_OBJ_DIR)\i386\xxapi.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\check.obj \
+    $(_OBJ_DIR)\ia64\cpuapi.obj \
+    $(_OBJ_DIR)\ia64\debug.obj \
+    $(_OBJ_DIR)\ia64\miscc.obj \
+    $(_OBJ_DIR)\ia64\print.obj \
+    $(_OBJ_DIR)\ia64\port.obj \
+    $(_OBJ_DIR)\ia64\reboot.obj \
+    $(_OBJ_DIR)\ia64\trapc.obj \
+    $(_OBJ_DIR)\ia64\break.obj \
+    $(_OBJ_DIR)\ia64\comio.obj \
+    $(_OBJ_DIR)\ia64\data.obj \
+    $(_OBJ_DIR)\ia64\dbgio.obj \
+    $(_OBJ_DIR)\ia64\file.obj \
+    $(_OBJ_DIR)\ia64\init.obj \
+    $(_OBJ_DIR)\ia64\message.obj \
+    $(_OBJ_DIR)\ia64\move.obj \
+    $(_OBJ_DIR)\ia64\poll.obj \
+    $(_OBJ_DIR)\ia64\xxapi.obj \
+    $(_OBJ_DIR)\ia64\trap.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\break.obj \
+    $(_OBJ_DIR)\amd64\comio.obj \
+    $(_OBJ_DIR)\amd64\data.obj \
+    $(_OBJ_DIR)\amd64\dbgio.obj \
+    $(_OBJ_DIR)\amd64\file.obj \
+    $(_OBJ_DIR)\amd64\init.obj \
+    $(_OBJ_DIR)\amd64\message.obj \
+    $(_OBJ_DIR)\amd64\move.obj \
+    $(_OBJ_DIR)\amd64\poll.obj \
+    $(_OBJ_DIR)\amd64\xxapi.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\break.obj \
+    $(_OBJ_DIR)\arm\comio.obj \
+    $(_OBJ_DIR)\arm\data.obj \
+    $(_OBJ_DIR)\arm\dbgio.obj \
+    $(_OBJ_DIR)\arm\file.obj \
+    $(_OBJ_DIR)\arm\init.obj \
+    $(_OBJ_DIR)\arm\message.obj \
+    $(_OBJ_DIR)\arm\move.obj \
+    $(_OBJ_DIR)\arm\poll.obj \
+    $(_OBJ_DIR)\arm\xxapi.obj
+
+PASS0_ARM_OBJECTS=
+

@@ -1,0 +1,27 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\su.obj \
+    $(_OBJ_DIR)\i386\exp.obj \
+    $(_OBJ_DIR)\i386\sudata.obj \
+    $(_OBJ_DIR)\i386\eisaa.obj \
+    $(_OBJ_DIR)\i386\a20.obj \
+    $(_OBJ_DIR)\i386\trap.obj \
+    $(_OBJ_DIR)\i386\eisac.obj \
+    $(_OBJ_DIR)\i386\main.obj \
+    $(_OBJ_DIR)\i386\mtftp.obj \
+    $(_OBJ_DIR)\i386\trapdump.obj \
+    $(_OBJ_DIR)\i386\display.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS=
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS=
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS=
+
+PASS0_ARM_OBJECTS=
+

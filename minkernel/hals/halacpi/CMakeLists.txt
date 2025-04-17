@@ -83,7 +83,7 @@ target_compile_definitions(hal PRIVATE ${HAL_DEFS} APIC_HAL=1 ACPI_HAL=1 _HALPAE
 target_include_directories(hal PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/i386
                                             ${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_SYSTEM_PROCESSOR} ${HAL_INCDIRS}
                                             ${HALKIT_INC_PATH}/i386 ${WDM_INC_PATH} ${hals}/x86new)
-                                        target_link_options(hal PRIVATE -merge:PAGECONST=PAGE -merge:INITCONST=INIT /LARGEADDRESSAWARE -noentry -def:${hals}/hal.def)
+                                        target_link_options(hal PRIVATE -merge:PAGECONST=PAGE -merge:INITCONST=INIT /LARGEADDRESSAWARE -entry:HalInitSystem -subsystem:native -debug -release -def:${hals}/hal.def -base:0x80010000)
 target_link_libraries(hal PRIVATE ${HALKIT_LIB_PATH}/kdcom.lib x86new ${MINKERNEL_LIB_PATH}/ntoskrnl.lib clang)
 set_property(TARGET hal PROPERTY FOLDER "Hardware Abstraction Layer")
 

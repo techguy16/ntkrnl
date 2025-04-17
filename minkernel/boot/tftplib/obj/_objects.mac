@@ -1,0 +1,35 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\xsum.obj \
+    $(_OBJ_DIR)\i386\rom.obj \
+    $(_OBJ_DIR)\i386\conn.obj \
+    $(_OBJ_DIR)\i386\helper.obj \
+    $(_OBJ_DIR)\i386\tftp.obj \
+    $(_OBJ_DIR)\i386\udp.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\rom.obj \
+    $(_OBJ_DIR)\ia64\conn.obj \
+    $(_OBJ_DIR)\ia64\helper.obj \
+    $(_OBJ_DIR)\ia64\tftp.obj \
+    $(_OBJ_DIR)\ia64\udp.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\conn.obj \
+    $(_OBJ_DIR)\amd64\helper.obj \
+    $(_OBJ_DIR)\amd64\tftp.obj \
+    $(_OBJ_DIR)\amd64\udp.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\conn.obj \
+    $(_OBJ_DIR)\arm\helper.obj \
+    $(_OBJ_DIR)\arm\tftp.obj \
+    $(_OBJ_DIR)\arm\udp.obj
+
+PASS0_ARM_OBJECTS=
+

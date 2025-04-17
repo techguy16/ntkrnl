@@ -1,0 +1,12 @@
+-base:0x300000
+-debug
+-entry:NtProcessStartup@4
+-fixed
+-incremental:no
+-map
+-machine:ix86
+-opt:ref
+-opt:icf
+-subsystem:native
+-IGNORE:4010,4037,4039,4065,4070,4078,4087,4089,4221,4198
+ obj\i386\oscldr.lib  obj\i386\oschoice.res  D:\srv03rtm\base\boot\lib\daytona\obj\i386\boot.lib  D:\srv03rtm\base\boot\bd\daytona\obj\i386\bd.lib  D:\srv03rtm\base\boot\tftplib\obj\i386\tftplib.lib  D:\srv03rtm\base\boot\bootssp\boot\obj\i386\bootssp.lib  D:\srv03rtm\base\ntos\ke\up\obj\i386\ke.lib  D:\srv03rtm\base\ntos\rtl\boot\obj\i386\bldrrtl.lib  D:\srv03rtm\base\ntos\config\boot\obj\i386\bconfig.lib  D:\srv03rtm\public\sdk\lib\i386\libcntpr.lib  D:\srv03rtm\public\internal\DS\lib\i386\rsa32.lib

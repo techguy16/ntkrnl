@@ -1,0 +1,50 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\oschoice.res \
+    $(_OBJ_DIR)\i386\initx86.obj \
+    $(_OBJ_DIR)\i386\oschoice.obj \
+    $(_OBJ_DIR)\i386\parse.obj \
+    $(_OBJ_DIR)\i386\regboot.obj \
+    $(_OBJ_DIR)\i386\dcmpstub.obj \
+    $(_OBJ_DIR)\i386\oscheap.obj
+
+PASS0_386_OBJECTS= \
+    $(PASS0_HEADERDIR)\msg.h \
+    $(MC_SOURCEDIR)\msg.rc
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\oschoice.res \
+    $(_OBJ_DIR)\ia64\initia64.obj \
+    $(_OBJ_DIR)\ia64\oschoice.obj \
+    $(_OBJ_DIR)\ia64\parse.obj \
+    $(_OBJ_DIR)\ia64\regboot.obj \
+    $(_OBJ_DIR)\ia64\dcmpstub.obj \
+    $(_OBJ_DIR)\ia64\oscheap.obj
+
+PASS0_IA64_OBJECTS= \
+    $(PASS0_HEADERDIR)\msg.h \
+    $(MC_SOURCEDIR)\msg.rc
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\oschoice.res \
+    $(_OBJ_DIR)\amd64\oschoice.obj \
+    $(_OBJ_DIR)\amd64\parse.obj \
+    $(_OBJ_DIR)\amd64\regboot.obj \
+    $(_OBJ_DIR)\amd64\dcmpstub.obj \
+    $(_OBJ_DIR)\amd64\oscheap.obj
+
+PASS0_AMD64_OBJECTS= \
+    $(PASS0_HEADERDIR)\msg.h \
+    $(MC_SOURCEDIR)\msg.rc
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\oschoice.res \
+    $(_OBJ_DIR)\arm\oschoice.obj \
+    $(_OBJ_DIR)\arm\parse.obj \
+    $(_OBJ_DIR)\arm\regboot.obj \
+    $(_OBJ_DIR)\arm\dcmpstub.obj \
+    $(_OBJ_DIR)\arm\oscheap.obj
+
+PASS0_ARM_OBJECTS= \
+    $(PASS0_HEADERDIR)\msg.h \
+    $(MC_SOURCEDIR)\msg.rc
+

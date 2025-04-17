@@ -24,6 +24,46 @@ MAKE_CR_RDWR(0)
 MAKE_CR_RDWR(4)
 MAKE_CR_RDWR(8)
 
+void __writegsbyte(unsigned long offset, unsigned char data)
+{
+	__asm__ volatile("movb %[data], %%al\n"
+					 "movl %[offset], %%edx\n"
+					 "movb %%gs:(%%rdx), %%al\n"
+					 :
+					 : [data] "r"(data), [offset] "r"(offset)
+					 : "%al", "%edx");
+}
+
+void __writegsword(unsigned long offset, unsigned short data)
+{
+	__asm__ volatile("movw %[data], %%ax\n"
+					 "movl %[offset], %%edx\n"
+					 "movw %%gs:(%%rdx), %%ax\n"
+					 :
+					 : [data] "r"(data), [offset] "r"(offset)
+					 : "%ax", "%edx");
+}
+
+void __writegsdword(unsigned long offset, unsigned long data)
+{
+	__asm__ volatile("movl %[data], %%eax\n"
+					 "movl %[offset], %%edx\n"
+					 "movl %%gs:(%%rdx), %%eax\n"
+					 :
+					 : [data] "r"(data), [offset] "r"(offset)
+					 : "%eax", "%edx");
+}
+
+void __writegsqword(unsigned long offset, unsigned __int64 data)
+{
+	__asm__ volatile("movq %[data], %%rax\n"
+					 "movl %[offset], %%edx\n"
+					 "movq %%gs:(%%rdx), %%rax\n"
+					 :
+					 : [data] "r"(data), [offset] "r"(offset)
+					 : "%rax", "%edx");
+}
+
 void _enable(void)
 {
 	__asm__ volatile("sti");
@@ -101,6 +141,7 @@ void __outdwordstring(unsigned short Port, unsigned long* Buffer, unsigned long 
 	__asm__ volatile("rep outsl" : : "d"(Port), "S"(Buffer), "c"(Count) : "memory");
 }
 
+#ifdef CLANG_MISSING_INBYTE
 unsigned char __inbyte(unsigned short Port)
 {
 	unsigned char value;
@@ -136,4 +177,4 @@ void __outdword(unsigned short Port, unsigned long Value)
 {
 	__asm__ volatile("outl %0, %1" : : "a"(Value), "d"(Port));
 }
-
+#endif

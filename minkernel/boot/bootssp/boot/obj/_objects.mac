@@ -1,0 +1,68 @@
+386_OBJECTS= \
+    $(_OBJ_DIR)\i386\context.obj \
+    $(_OBJ_DIR)\i386\crc32.obj \
+    $(_OBJ_DIR)\i386\cred.obj \
+    $(_OBJ_DIR)\i386\ntlmssp.obj \
+    $(_OBJ_DIR)\i386\ntlmsspv2.obj \
+    $(_OBJ_DIR)\i386\debug.obj \
+    $(_OBJ_DIR)\i386\owf.obj \
+    $(_OBJ_DIR)\i386\response.obj \
+    $(_OBJ_DIR)\i386\sspstrng.obj \
+    $(_OBJ_DIR)\i386\alloc.obj \
+    $(_OBJ_DIR)\i386\cache.obj \
+    $(_OBJ_DIR)\i386\ticks.obj \
+    $(_OBJ_DIR)\i386\getuser.obj
+
+PASS0_386_OBJECTS=
+
+IA64_OBJECTS= \
+    $(_OBJ_DIR)\ia64\context.obj \
+    $(_OBJ_DIR)\ia64\crc32.obj \
+    $(_OBJ_DIR)\ia64\cred.obj \
+    $(_OBJ_DIR)\ia64\ntlmssp.obj \
+    $(_OBJ_DIR)\ia64\ntlmsspv2.obj \
+    $(_OBJ_DIR)\ia64\debug.obj \
+    $(_OBJ_DIR)\ia64\owf.obj \
+    $(_OBJ_DIR)\ia64\response.obj \
+    $(_OBJ_DIR)\ia64\sspstrng.obj \
+    $(_OBJ_DIR)\ia64\alloc.obj \
+    $(_OBJ_DIR)\ia64\cache.obj \
+    $(_OBJ_DIR)\ia64\ticks.obj \
+    $(_OBJ_DIR)\ia64\getuser.obj
+
+PASS0_IA64_OBJECTS=
+
+AMD64_OBJECTS= \
+    $(_OBJ_DIR)\amd64\context.obj \
+    $(_OBJ_DIR)\amd64\crc32.obj \
+    $(_OBJ_DIR)\amd64\cred.obj \
+    $(_OBJ_DIR)\amd64\ntlmssp.obj \
+    $(_OBJ_DIR)\amd64\ntlmsspv2.obj \
+    $(_OBJ_DIR)\amd64\debug.obj \
+    $(_OBJ_DIR)\amd64\owf.obj \
+    $(_OBJ_DIR)\amd64\response.obj \
+    $(_OBJ_DIR)\amd64\sspstrng.obj \
+    $(_OBJ_DIR)\amd64\alloc.obj \
+    $(_OBJ_DIR)\amd64\cache.obj \
+    $(_OBJ_DIR)\amd64\ticks.obj \
+    $(_OBJ_DIR)\amd64\getuser.obj
+
+PASS0_AMD64_OBJECTS=
+
+ARM_OBJECTS= \
+    $(_OBJ_DIR)\arm\context.obj \
+    $(_OBJ_DIR)\arm\crc32.obj \
+    $(_OBJ_DIR)\arm\cred.obj \
+    $(_OBJ_DIR)\arm\ntlmssp.obj \
+    $(_OBJ_DIR)\arm\ntlmsspv2.obj \
+    $(_OBJ_DIR)\arm\debug.obj \
+    $(_OBJ_DIR)\arm\owf.obj \
+    $(_OBJ_DIR)\arm\response.obj \
+    $(_OBJ_DIR)\arm\sspstrng.obj \
+    $(_OBJ_DIR)\arm\alloc.obj \
+    $(_OBJ_DIR)\arm\cache.obj \
+    $(_OBJ_DIR)\arm\ticks.obj \
+    $(_OBJ_DIR)\arm\getuser.obj
+
+PASS0_ARM_OBJECTS=
+

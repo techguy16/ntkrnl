@@ -1,8 +1,0 @@
-TARGETTYPE=LIBRARY
-
-!include ..\sources.inc
-
-PASS1_PUBLISH = \
-    {$(O)\kdcom.lib=$(HALKIT_LIB_PATH)\kdcomlib.lib}
-
-
