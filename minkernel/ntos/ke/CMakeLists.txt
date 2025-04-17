@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(KE_HEADERS genxx.h
+set(TARGET ke)
+
+set(${TARGET}_HEADERS genxx.h
         ki.h)
-set(KE_SOURCES apcobj.c
+set(${TARGET}_SOURCES apcobj.c
         apcsup.c
         balmgr.c
         bugcheck.c
@@ -33,8 +35,8 @@ set(KE_SOURCES apcobj.c
         waitsup.c
         xipi.c
         yield.c)
-set(KE_AMD64_HEADERS amd64/kiamd64.h)
-set(KE_AMD64_SOURCES amd64/allproc.c
+set(${TARGET}_AMD64_HEADERS amd64/kiamd64.h)
+set(${TARGET}_AMD64_SOURCES amd64/allproc.c
         amd64/apcuser.c
         amd64/callback.c
         amd64/exceptn.c
@@ -71,7 +73,8 @@ set(KE_AMD64_SOURCES amd64/allproc.c
         # amd64/xcpt4.c # this file is a test, and it actually crashes Clang
         )
 
-add_library(ke STATIC ${KE_HEADERS} ${KE_SOURCES} ${KE_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${KE_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
-target_compile_definitions(ke PRIVATE ${NT_DEFS})
-target_include_directories(ke PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS})
-set_property(TARGET ke PROPERTY FOLDER "Kernel")
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS})
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")

@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(EX_HEADERS exp.h)
-set(EX_SOURCES callback.c
+set(TARGET ex)
+
+set(${TARGET}_HEADERS exp.h)
+set(${TARGET}_SOURCES callback.c
                callperf.c
                dbgctrl.c
                delay.c
@@ -39,12 +41,13 @@ set(EX_SOURCES callback.c
                pushlock.c
                xipdisp.c
                keyedevent.c)
-set(EX_AMD64_SOURCES amd64/hifreqlk.asm
+set(${TARGET}_AMD64_SOURCES amd64/hifreqlk.asm
                      amd64/intrlock.asm
                      amd64/wowinfo.c)
 
-add_library(ex STATIC ${EX_HEADERS} ${EX_SOURCES} ${EX_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${EX_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
-target_compile_definitions(ex PRIVATE ${NT_DEFS})
-target_include_directories(ex PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${ntos}/ke ${ntos}/kd64
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${ntos}/ke ${ntos}/kd64
                                       ${HALKIT_INC_PATH} ${minkernel}/fs/fastfat)
-set_property(TARGET ex PROPERTY FOLDER "Kernel")
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")

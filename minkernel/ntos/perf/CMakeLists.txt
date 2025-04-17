@@ -1,15 +1,18 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(PERF_HEADERS perfinfokrn.h
+set(TARGET perf)
+
+set(${TARGET}_HEADERS perfinfokrn.h
                  perfp.h)
-set(PERF_SOURCES hooks.c
+set(${TARGET}_SOURCES hooks.c
                  logging.c
                  perfdata.c
                  perfsup.c
 
                  ${CMAKE_SYSTEM_PROCESSOR}/setlog.c)
 
-add_library(perf STATIC ${PERF_HEADERS} ${PERF_SOURCES})
-target_compile_definitions(perf PRIVATE ${NT_DEFS})
-target_include_directories(perf PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${SDKTOOLS_INC_PATH})
-set_property(TARGET perf PROPERTY FOLDER "Kernel")
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${SDKTOOLS_INC_PATH})
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")

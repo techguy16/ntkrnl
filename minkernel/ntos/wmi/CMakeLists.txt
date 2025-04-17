@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(WMI_HEADERS tracep.h
+set(TARGET wmi)
+
+set(${TARGET}_HEADERS tracep.h
                 wmikmp.h
                 wmiumds.h)
-set(WMI_SOURCES wmi.c
+set(${TARGET}_SOURCES wmi.c
                 register.c
                 api.c
                 notify.c
@@ -23,7 +25,8 @@ set(WMI_SOURCES wmi.c
                 smbios.c
                 mca.c)
 
-add_library(wmi STATIC ${WMI_HEADERS} ${WMI_SOURCES})
-target_compile_definitions(wmi PRIVATE ${NT_DEFS})
-target_include_directories(wmi PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${minkernel}/win32/inc ${SDKTOOLS_INC_PATH})
-set_property(TARGET wmi PROPERTY FOLDER "Kernel")
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${minkernel}/win32/inc ${SDKTOOLS_INC_PATH})
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")

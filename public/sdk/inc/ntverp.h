@@ -22,7 +22,7 @@
 #pragma once
 #endif
 
-#define VER_PRODUCTBUILD            /* NT */   6969
+#define VER_PRODUCTBUILD            /* NT */   3790
 
 #define VER_PRODUCTBUILD_QFE        0
 
@@ -31,8 +31,8 @@
 #include <ieverp.h>
 #else
 
-#define VER_PRODUCTMAJORVERSION     12
-#define VER_PRODUCTMINORVERSION     0
+#define VER_PRODUCTMAJORVERSION     5
+#define VER_PRODUCTMINORVERSION     2
 
 #define VER_PRODUCTBETA_STR         /* NT */     ""
 
@@ -52,8 +52,8 @@
 /* this value is used by third party drivers build with the DDK */
 /* and internally, to avoid version number conflicts.           */
 /*--------------------------------------------------------------*/
-#define VER_DDK_PRODUCTVERSION       12,00
-#define VER_DDK_PRODUCTVERSION_STR  "12.00"
+#define VER_DDK_PRODUCTVERSION       5,02
+#define VER_DDK_PRODUCTVERSION_STR  "5.02"
 
 #endif
 
@@ -125,9 +125,9 @@
 
 #define VER_COMPANYNAME_STR         "Microsoft Corporation"
 #ifdef RC_INVOKED
-#define VER_PRODUCTNAME_STR         L"Microsoft\256 Windows\256 Operating System (MobSlicer152 edition)"
+#define VER_PRODUCTNAME_STR         L"Microsoft\256 Windows\256 Operating System (LLVM edition)"
 #else
-#define VER_PRODUCTNAME_STR         "Microsoft\256 Windows\256 Operating System (MobSlicer152 edition)"
+#define VER_PRODUCTNAME_STR         "Microsoft\256 Windows\256 Operating System (LLVM edition)"
 #endif
 #define VER_LEGALTRADEMARKS_STR     \
 "Microsoft\256 is a registered trademark of Microsoft Corporation. Windows\256 is a registered trademark of Microsoft Corporation. Additional modifications have been made by MobSlicer152"

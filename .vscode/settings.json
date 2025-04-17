@@ -26,5 +26,6 @@
         "windows.h": "c",
         "winpr.h": "c",
         "windef.h": "c"
-    }
+    },
+    "clangd.arguments": []
 }

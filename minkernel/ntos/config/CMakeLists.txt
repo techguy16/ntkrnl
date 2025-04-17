@@ -1,10 +1,12 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(CONFIG_HEADERS cmp.h
+set(TARGET config)
+
+set(${TARGET}_HEADERS cmp.h
                    cmpbug.h
                    cmplock.h
                    hive.h)
-set(CONFIG_SOURCES cmapi.c
+set(${TARGET}_SOURCES cmapi.c
                    cmapi2.c
                    cmboot.c
                    cmchek.c
@@ -58,17 +60,18 @@ set(CONFIG_SOURCES cmapi.c
                    hivehint.c
                    ntapi.c
                    hwprofil.c)
-set(CONFIG_AMD64_HEADERS i386/geninst.h
+set(${TARGET}_AMD64_HEADERS i386/geninst.h
                          i386/parseini.h
                          i386/rules.h)
-set(CONFIG_AMD64_SOURCES i386/geninst.c
+set(${TARGET}_AMD64_SOURCES i386/geninst.c
                          i386/init386.c
                          i386/initdat.c
                          i386/parseini.c
                          i386/rules.c)
 
-add_library(config STATIC ${CONFIG_HEADERS} ${CONFIG_SOURCES} ${CONFIG_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${CONFIG_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
-target_include_directories(config PRIVATE ${NTOSINC} ${ntos}/ke ${PUBLISHEDDIR} ${PUBLISHEDDIR}/${CMAKE_SYSTEM_PROCESSOR} ${HALKIT_INC_PATH} ${SDK_INC_PATH}
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
+target_include_directories(${TARGET} PRIVATE ${NTOSINC} ${ntos}/ke ${PUBLISHEDDIR} ${PUBLISHEDDIR}/${CMAKE_SYSTEM_PROCESSOR} ${HALKIT_INC_PATH} ${SDK_INC_PATH}
                                           ${SDK_INC_PATH}/crt ${MINKERNEL_INC_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
-target_compile_definitions(config PRIVATE ${NT_DEFS})
-set_property(TARGET config PROPERTY FOLDER "Kernel")
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")

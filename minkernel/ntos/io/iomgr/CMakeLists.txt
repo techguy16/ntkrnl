@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(IOMGR_HEADERS dumpctl.h
+set(TARGET iomgr)
+
+set(${TARGET}_HEADERS dumpctl.h
 		  iomgr.h)
-set(IOMGR_SOURCES arcsec.c
+set(${TARGET}_SOURCES arcsec.c
                   cancelapi.c
                   complete.c
                   create.c
@@ -10,7 +12,7 @@ set(IOMGR_SOURCES arcsec.c
                   dev2dos.c
                   dumpctl.c
                   dir.c
-		  errorlog.c
+		          errorlog.c
                   fsctrl.c
                   internal.c
                   iodata.c
@@ -33,8 +35,9 @@ set(IOMGR_SOURCES arcsec.c
 		  triage.c
                   write.c)
 
-add_library(iomgr STATIC ${IOMGR_HEADERS} ${IOMGR_SOURCES})
-target_compile_definitions(iomgr PRIVATE ${NT_DEFS})
-target_include_directories(iomgr PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/.. ${NT_INCDIRS} ${DDK_INC_PATH})
-set_property(TARGET iomgr PROPERTY FOLDER "Kernel")
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/.. ${NT_INCDIRS} ${DDK_INC_PATH})
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")
 

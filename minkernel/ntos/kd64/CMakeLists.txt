@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(KD64_HEADERS kdp.h)
-set(KD64_SOURCES file.c
+set(TARGET kd64)
+
+set(${TARGET}_HEADERS kdp.h)
+set(${TARGET}_SOURCES file.c
                  kdinit.c
                  kdbreak.c
                  kdlock.c
@@ -11,11 +13,12 @@ set(KD64_SOURCES file.c
                  kddata.c
                  print.c
                  query.c)
-set(KD64_AMD64_SOURCES amd64/kdtrap.c
+set(${TARGET}_AMD64_SOURCES amd64/kdtrap.c
                        amd64/kdcmsup.c
                        amd64/kdcpuapi.c)
 
-add_library(kd64 STATIC ${KD64_HEADERS} ${KD64_SOURCES} ${KD64_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
-target_include_directories(kd64 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${ntos}/ke)
-target_compile_definitions(kd64 PRIVATE ${NT_DEFS})
-set_property(TARGET kd64 PROPERTY FOLDER "Kernel")
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${ntos}/ke)
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")

@@ -1,13 +1,16 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(INIT_HEADERS anim.h)
-set(INIT_SOURCES init.c
+set(TARGET init)
+
+set(${TARGET}_HEADERS anim.h)
+set(${TARGET}_SOURCES init.c
                  anim.c
                  port.c
                  bootvid.c
                  ntoskrnl.rc)
 
-add_library(init STATIC ${INIT_HEADERS} ${INIT_SOURCES} ${INIT_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${INIT_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
-target_compile_definitions(init PRIVATE ${NT_DEFS})
-target_include_directories(init PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS})
-set_property(TARGET init PROPERTY FOLDER "Kernel")
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS})
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")

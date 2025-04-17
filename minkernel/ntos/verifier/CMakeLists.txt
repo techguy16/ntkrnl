@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(VERIFIER_HEADERS halverifier.h
+set(TARGET verifier)
+
+set(${TARGET}_HEADERS halverifier.h
                      vfbugcheck.h
                      vfddi.h
                      vfdeadlock.h
@@ -39,7 +41,7 @@ set(VERIFIER_HEADERS halverifier.h
                      vimajor.h
                      vipnp.h
                      visettings.h)
-set(VERIFIER_SOURCES vfbugcheck.c
+set(${TARGET}_SOURCES vfbugcheck.c
                      vfddi.c
                      vfdeadlock.c
                      vfdebug.c
@@ -64,7 +66,8 @@ set(VERIFIER_SOURCES vfbugcheck.c
                      vfutil.c
                      vfwmi.c
                      vfzwapi.c)
-add_library(verifier STATIC ${VERIFIER_HEADERS} ${VERIFIER_SOURCES})
-target_compile_definitions(verifier PRIVATE ${NT_DEFS})
-target_include_directories(verifier PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${SDKTOOLS_INC_PATH})
-set_property(TARGET verifier PROPERTY FOLDER "Kernel")
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${SDKTOOLS_INC_PATH})
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")

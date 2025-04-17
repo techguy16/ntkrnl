@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(MM_HEADERS mi.h)
-set(MM_SOURCES acceschk.c
+set(TARGET mm)
+
+set(${TARGET}_HEADERS mi.h)
+set(${TARGET}_SOURCES acceschk.c
                addrsup.c
                allocpag.c
                allocvm.c
@@ -61,11 +63,12 @@ set(MM_SOURCES acceschk.c
                wrtfault.c
                wrtwatch.c
                zeropage.c)
-set(MM_AMD64_HEADERS amd64/miamd.h)
-set(MM_AMD64_SOURCES amd64/dataamd.c
+set(${TARGET}_AMD64_HEADERS amd64/miamd.h)
+set(${TARGET}_AMD64_SOURCES amd64/dataamd.c
                      amd64/initamd.c)
 
-add_library(mm STATIC ${MM_HEADERS} ${MM_SOURCES} ${MM_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${MM_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
-target_compile_definitions(mm PRIVATE ${NT_DEFS})
-target_include_directories(mm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${ntos}/ke ${ntos}/kd64)
-set_property(TARGET mm PROPERTY FOLDER "Kernel")
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${ntos}/ke ${ntos}/kd64)
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")

@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(PNPMGR_HEADERS pnpmgrp.h)
-set(PNPMGR_SOURCES assign.c
+set(TARGET pnpmgr)
+
+set(${TARGET}_HEADERS pnpmgrp.h)
+set(${TARGET}_SOURCES assign.c
                    devices.c
                    devnode.c
                    devintrf.c
@@ -41,8 +43,9 @@ set(PNPMGR_SOURCES assign.c
                    remlock.c
                    report.c)
 
-add_library(pnpmgr STATIC ${PNPMGR_HEADERS} ${PNPMGR_SOURCES})
-target_compile_definitions(pnpmgr PRIVATE ${NT_DEFS})
-target_include_directories(pnpmgr PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/.. ${NT_INCDIRS} ${WINDOWS_INC_PATH} ${DDK_INC_PATH})
-set_property(TARGET pnpmgr PROPERTY FOLDER "Kernel")
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/.. ${NT_INCDIRS} ${WINDOWS_INC_PATH} ${DDK_INC_PATH})
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")
 

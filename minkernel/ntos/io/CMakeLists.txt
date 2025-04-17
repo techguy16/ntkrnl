@@ -1,23 +1,26 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(IO_HEADERS iop.h
+set(TARGET io)
+
+set(${TARGET}_HEADERS iop.h
 	       iopcmn.h
 	       ioverifier.h
 	       iovputil.h
 	       sessnirp.h
 	       trackirp.h)
-set(IO_SOURCES ioguid.c
+set(${TARGET}_SOURCES ioguid.c
 	       iovutil.c
 	       netboot.c
 	       sessnirp.c
 	       trackirp.c)
 
-add_library(io STATIC ${IO_HEADERS} ${IO_SOURCES})
-target_compile_definitions(io PRIVATE ${NT_DEFS})
-target_include_directories(io PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/iomgr
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/iomgr
 									  ${CMAKE_CURRENT_SOURCE_DIR}/pnpmgr ${NT_INCDIRS} ${DDK_INC_PATH}
 									  ${NET_INC_PATH})
-set_property(TARGET io PROPERTY FOLDER "Kernel")
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")
 
 add_subdirectory(iomgr)
 add_subdirectory(pnpmgr)

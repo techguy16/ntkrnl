@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.29)
 
-set(OB_HEADERS obp.h
+set(TARGET ob)
+
+set(${TARGET}_HEADERS obp.h
                obvutil.h)
-set(OB_SOURCES obinit.c
+set(${TARGET}_SOURCES obinit.c
                obcreate.c
                obhandle.c
                obinsert.c
@@ -20,7 +22,8 @@ set(OB_SOURCES obinit.c
                obvutil.c
                fastref.c)
 
-add_library(ob STATIC ${OB_HEADERS} ${OB_SOURCES})
-target_compile_definitions(ob PRIVATE ${NT_DEFS})
-target_include_directories(ob PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS})
-set_property(TARGET ob PROPERTY FOLDER "Kernel")
+add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
+target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS})
+set_property(TARGET ${TARGET} PROPERTY FOLDER "Kernel")
