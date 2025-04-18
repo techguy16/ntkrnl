@@ -27,5 +27,7 @@
         "winpr.h": "c",
         "windef.h": "c"
     },
-    "clangd.arguments": []
+    "clangd.arguments": [
+        "-header-insertion=never"
+    ]
 }

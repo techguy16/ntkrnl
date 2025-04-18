@@ -1,5 +1,8 @@
 /build/
 /cmake-build-*
-/.*cache*/
+.*cache*/
+.vs/
+*.ilk
+*.pdb
 *.obj
 

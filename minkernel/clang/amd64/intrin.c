@@ -1,3 +1,22 @@
+/*++
+
+Copyright (c) 2025 MobSlicer152
+
+
+Module Name:
+
+    intrin.c
+
+Abstract:
+
+    This file implements some intrinsics missing in Clang
+
+Author:
+
+    MobSlicer152   18-Apr-25
+
+--*/
+
 #include <nt.h>
 #include <ntclang.h>
 
