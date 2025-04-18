@@ -9,9 +9,13 @@ You need Clang, LLVM, and CMake.
 
 To compile things, this should work:
 ```shell
-# add -DNT_MSVC=1 to build with modern MSVC
-cmake -S. -Bbuild -DCMAKE_TOOLCHAIN_FILE=nt.cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE -GNinja -DCMAKE_BUILD_TYPE=Debug
-cmake --build build
+# LLVM build
+tools\generate-clang.bat
+
+# MSVC build
+tools\generate-msvc.bat
+
+cmake --build cmake-build-debug
 ```
 
 To install the binaries, mount your install and do `tools\copybins <drive letter>`. It backs up the original files.
@@ -20,6 +24,9 @@ You can also go to `minkernel/llvmtests` and run `compile.bat`, then run `testlo
 
 ## To do
 
-- make libcntpr.lib compile with Clang
+- make `libcntpr.lib` compile with Clang
 - figure out the hang on `SYSTEM32\acpitabl.dat` in NTLDR
+- make shell scripts to do what batch files do
+- write a program to convert simpler `sources` files to CMake?
+- add Clang to original build system?
 
