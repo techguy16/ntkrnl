@@ -4,7 +4,7 @@ set(ntos ${CMAKE_CURRENT_SOURCE_DIR})
 set(NT_DEFS ${MINKERNEL_DEFS} _WINNT_=1 WINNT=1 _NTSYSTEM_=1 _CRTIMP=)
 set(NT_INCDIRS ${MINKERNEL_INCDIRS} ${ntos}/inc)
 set(NT_C_FLAGS -Os)
-if (${CMAKE_C_COMPILER_ID} MATCHES "Clang")
+if (NOT DEFINED NT_MSVC)
     set(NT_C_FLAGS ${NT_C_FLAGS} -Xclang=-ffunction-sections -Xclang=-fdata-sections -Xclang=-flto=full)
 endif()
 
@@ -34,7 +34,7 @@ add_subdirectory(init)
 
 add_library(ntoskrnl SHARED init/ntkrnlmp.c init/ntoskrnl.rc)
 target_include_directories(ntoskrnl PRIVATE ${ntos}/nls/obj/${CMAKE_SYSTEM_PROCESSOR})
-target_link_libraries(ntoskrnl PRIVATE ntosrtl config kd64 ex ob se mm ke po ps arb io iomgr pnpmgr cache lpc dbgk raw fstub fsrtl vdm verifier wmi perf init sdbapint clang
+target_link_libraries(ntoskrnl PRIVATE ntosrtl config kd64 ex ob se mm ke po ps arb io iomgr pnpmgr cache lpc dbgk raw fstub fsrtl vdm verifier wmi perf init sdbapint ${NT_COMPILER_LIBS}
                       ${SDK_LIB_PATH}/libcntpr.lib ${DDK_LIB_PATH}/hal.lib ${DS_LIB_PATH}/lsakrnlp.lib ${MINKERNEL_LIB_PATH}/bootvid.lib ${HALKIT_LIB_PATH}/kdcom.lib ${WINDOWS_LIB_PATH}/apphelp.lib)
 target_link_options(ntoskrnl PRIVATE -subsystem:native,5.2 -def:${CMAKE_CURRENT_SOURCE_DIR}/init/ntoskrnl.def -entry:KiSystemStartup -base:0x400000 -map -merge:PAGECONST=PAGE
                                      -merge:INITCONST=INIT -merge:INITDATA=INIT -merge:PAGELKCONST=PAGELK

@@ -9,7 +9,8 @@ You need Clang, LLVM, and CMake.
 
 To compile things, this should work:
 ```shell
-cmake -S. -Bbuild -DCMAKE_TOOLCHAIN_FILE=nt.cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE -GNinja
+# add -DNT_MSVC=1 to build with modern MSVC
+cmake -S. -Bbuild -DCMAKE_TOOLCHAIN_FILE=nt.cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=TRUE -GNinja -DCMAKE_BUILD_TYPE=Debug
 cmake --build build
 ```
 

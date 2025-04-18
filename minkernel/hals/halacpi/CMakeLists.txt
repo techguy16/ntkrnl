@@ -85,7 +85,7 @@ target_include_directories(hal PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRE
                                             ${HALKIT_INC_PATH}/i386 ${WDM_INC_PATH} ${hals}/x86new)
                                         target_link_options(hal PRIVATE -merge:PAGECONST=PAGE -merge:INITCONST=INIT /LARGEADDRESSAWARE -entry:HalInitSystem -subsystem:native -debug -release -def:${hals}/hal.def -base:0x80010000)
 target_link_directories(hal PRIVATE ${SDK_LIB_PATH})
-target_link_libraries(hal PRIVATE ${HALKIT_LIB_PATH}/kdcom.lib x86new ${MINKERNEL_LIB_PATH}/ntoskrnl.lib clang)
+target_link_libraries(hal PRIVATE ${HALKIT_LIB_PATH}/kdcom.lib x86new ${MINKERNEL_LIB_PATH}/ntoskrnl.lib ${NT_COMPILER_LIBS})
 set_property(TARGET hal PROPERTY FOLDER "Hardware Abstraction Layer")
 
 #add_custom_command(TARGET hal PRE_LINK COMMAND "${CMAKE_C_COMPILER} -nologo -EP -P ${CMAKE_CURRENT_BINARY_DIR}/hal.def -Tc ${hals}/hal.src ${CMAKE_C_FLAGS}" VERBATIM)

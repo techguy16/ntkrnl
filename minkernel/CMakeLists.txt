@@ -6,7 +6,9 @@ set(MINKERNEL_DEFS _WIN32_WINNT=0x1200)
 set(MINKERNEL_INCDIRS ${SDK_INC_PATH} ${SDK_INC_PATH}/crt ${MINKERNEL_INC_PATH} ${NTOSINC} ${SDKTOOLS_INC_PATH} ${PUBLISHEDDIR}
 	${PUBLISHEDDIR}/$<LOWER_CASE:${CMAKE_SYSTEM_PROCESSOR}> ${minkernelinc})
 
-add_subdirectory(clang)
+if (NOT DEFINED NT_MSVC)
+	add_subdirectory(clang)
+endif()
 add_subdirectory(urtl)
 add_subdirectory(ntos)
 add_subdirectory(boot)
