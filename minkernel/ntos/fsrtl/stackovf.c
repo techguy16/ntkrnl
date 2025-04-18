@@ -22,7 +22,7 @@ Revision History:
 
 --*/
 
-#include "FsRtlP.h"
+#include "fsrtlp.h"
 //
 // Queue object that is used to hold work queue entries and synchronize
 // worker thread activity.

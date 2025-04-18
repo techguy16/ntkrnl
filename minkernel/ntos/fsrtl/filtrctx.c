@@ -54,7 +54,7 @@ Revision History:
     Neal Christiansen [nealch]    25-Apr-2001   Marked all of this code as pageable
 --*/
 
-#include "FsRtlP.h"
+#include "fsrtlp.h"
 
 #define MySearchList(pHdr, Ptr) \
     for ( Ptr = (pHdr)->Flink;  Ptr != (pHdr);  Ptr = Ptr->Flink )

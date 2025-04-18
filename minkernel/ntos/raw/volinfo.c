@@ -19,7 +19,7 @@ Revision History:
 
 --*/
 
-#include "RawProcs.h"
+#include "rawprocs.h"
 
 NTSTATUS
 RawQueryFsVolumeInfo (

@@ -19,7 +19,7 @@ Revision History:
 
 --*/
 
-#include "FsRtlP.h"
+#include "fsrtlp.h"
 
 #ifdef ALLOC_PRAGMA
 #pragma alloc_text(PAGE, FsRtlBalanceReads)

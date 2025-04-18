@@ -9,7 +9,7 @@ set(${TARGET}_SOURCES hooks.c
                  perfdata.c
                  perfsup.c
 
-                 ${CMAKE_SYSTEM_PROCESSOR}/setlog.c)
+		 $<LOWER_CASE:${CMAKE_SYSTEM_PROCESSOR}>/setlog.c)
 
 add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES})
 target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})

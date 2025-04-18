@@ -28,8 +28,8 @@ Revision History:
 #pragma warning(disable:4706)   // assignment within conditional expression
 
 #include <ntos.h>
-#include <FsRtl.h>
-#include <NtDdFt.h>
+#include <fsrtl.h>
+#include <ntddft.h>
 #include <zwapi.h>
 
 #define FsRtlAllocatePool(PoolType, NumberOfBytes )                \

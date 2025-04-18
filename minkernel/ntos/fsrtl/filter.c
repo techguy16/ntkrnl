@@ -36,7 +36,7 @@ Revision History:
 
 --*/
 
-#include "FsRtlP.h"
+#include "fsrtlp.h"
 
 //
 //  Trace level for the module

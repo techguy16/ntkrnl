@@ -4,7 +4,7 @@ set(minkernel ${CMAKE_CURRENT_SOURCE_DIR})
 set(minkernelinc ${minkernel}/inc)
 set(MINKERNEL_DEFS _WIN32_WINNT=0x1200)
 set(MINKERNEL_INCDIRS ${SDK_INC_PATH} ${SDK_INC_PATH}/crt ${MINKERNEL_INC_PATH} ${NTOSINC} ${SDKTOOLS_INC_PATH} ${PUBLISHEDDIR}
-        ${PUBLISHEDDIR}/${CMAKE_SYSTEM_PROCESSOR} ${minkernelinc})
+	${PUBLISHEDDIR}/$<LOWER_CASE:${CMAKE_SYSTEM_PROCESSOR}> ${minkernelinc})
 
 add_subdirectory(clang)
 add_subdirectory(urtl)

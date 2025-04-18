@@ -24,12 +24,12 @@ Revision History:
 
 --*/
 
-#include "FsRtlP.h"
+#include "fsrtlp.h"
 
 #ifndef FAR
 #define FAR
 #endif
-#include <IoEvent.h>
+#include <ioevent.h>
 
 #ifdef ALLOC_PRAGMA
 #pragma alloc_text(PAGE, FsRtlNotifyVolumeEvent)

@@ -20,7 +20,7 @@ Revision History:
 
 --*/
 
-#include "FsRtlP.h"
+#include "fsrtlp.h"
 
 #define FS_FILTER_MAX_COMPLETION_STACK_SIZE    30
 

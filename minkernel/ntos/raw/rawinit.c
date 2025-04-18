@@ -22,7 +22,7 @@ Revision History:
 
 --*/
 
-#include "RawProcs.h"
+#include "rawprocs.h"
 #include <zwapi.h>
 
 NTSTATUS

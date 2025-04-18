@@ -18,7 +18,7 @@ Revision History:
 
 --*/
 
-#include "FsRtlP.h"
+#include "fsrtlp.h"
 
 #define COMPATIBILITY_MODE_KEY_NAME L"\\Registry\\Machine\\System\\CurrentControlSet\\Control\\FileSystem"
 #define COMPATIBILITY_MODE_VALUE_NAME L"Win95TruncatedExtensions"

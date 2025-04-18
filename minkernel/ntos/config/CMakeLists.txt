@@ -70,7 +70,7 @@ set(${TARGET}_AMD64_SOURCES i386/geninst.c
                          i386/rules.c)
 
 add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
-target_include_directories(${TARGET} PRIVATE ${NTOSINC} ${ntos}/ke ${PUBLISHEDDIR} ${PUBLISHEDDIR}/${CMAKE_SYSTEM_PROCESSOR} ${HALKIT_INC_PATH} ${SDK_INC_PATH}
+target_include_directories(${TARGET} PRIVATE ${NTOSINC} ${ntos}/ke ${PUBLISHEDDIR} ${PUBLISHEDDIR}/$<LOWER_CASE:${CMAKE_SYSTEM_PROCESSOR}> ${HALKIT_INC_PATH} ${SDK_INC_PATH}
                                           ${SDK_INC_PATH}/crt ${MINKERNEL_INC_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
 target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
