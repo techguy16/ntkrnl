@@ -12,14 +12,14 @@ set(${TARGET}_SOURCES arcsec.c
                   dev2dos.c
                   dumpctl.c
                   dir.c
-		          errorlog.c
+	          errorlog.c
                   fsctrl.c
                   internal.c
                   iodata.c
                   ioinit.c
                   iosubs.c
                   ioverifier.c
-                  ioPerf.c
+                  ioperf.c
                   loadunld.c
                   lock.c
                   misc.c

@@ -34,7 +34,7 @@ else()
 endif()
 
 set(LINK_FLAGS "-nodefaultlib -errorlimit:0 -force:multiple")
-set(LIBRARIES_AMD64 "clang_rt.builtins-x86_64.lib")
+set(LIBRARIES_AMD64 "${CMAKE_SOURCE_DIR}/public/sdk/lib/amd64/clang_rt.builtins.lib")
 set(CMAKE_LINKER lld-link)
 set(CMAKE_C_LINK_EXECUTABLE "<CMAKE_LINKER> ${LINK_FLAGS} <LINK_FLAGS> <OBJECTS> <LINK_LIBRARIES> ${LIBRARIES_${CMAKE_SYSTEM_PROCESSOR}} -out:<TARGET>")
 set(CMAKE_CXX_LINK_EXECUTABLE "<CMAKE_LINKER> ${LINK_FLAGS} <LINK_FLAGS> <OBJECTS> <LINK_LIBRARIES> ${LIBRARIES_${CMAKE_SYSTEM_PROCESSOR}} -out:<TARGET>")

@@ -57,7 +57,7 @@ Revision History:
 
 --*/
 
-#include "FsRtlP.h"
+#include "fsrtlp.h"
 
 #ifndef INLINE
 #define INLINE __inline

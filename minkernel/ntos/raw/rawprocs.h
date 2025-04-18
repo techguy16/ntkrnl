@@ -4,7 +4,7 @@ Copyright (c) 1989  Microsoft Corporation
 
 Module Name:
 
-    RawProcs.h
+    rawprocs.h
 
 Abstract:
 
@@ -31,11 +31,11 @@ Revision History:
 #include <string.h>
 #include <ntos.h>
 #include <zwapi.h>
-#include <FsRtl.h>
+#include <fsrtl.h>
 #include <ntdddisk.h>
 
 #include "nodetype.h"
-#include "RawStruc.h"
+#include "rawstruc.h"
 
 
 //

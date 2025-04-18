@@ -19,7 +19,7 @@ Revision History:
 --*/
 
 #include "pnpmgrp.h"
-#include "IopFileUtil.h"
+#include "iopfileutil.h"
 #pragma hdrstop
 
 #ifdef ALLOC_PRAGMA

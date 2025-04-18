@@ -20,7 +20,7 @@ Revision History:
 
 --*/
 
-#include "RawProcs.h"
+#include "rawprocs.h"
 
 #ifdef ALLOC_PRAGMA
 #pragma alloc_text(PAGE, RawDispatch)
