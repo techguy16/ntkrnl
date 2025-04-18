@@ -370,10 +370,6 @@ Return Value:
 
 {
 
-#ifdef __clang__
-    KdPrint(("Initializing LLVM built NT\n"));
-#endif
-
     switch ( InitializationPhase ) {
 
     case 0:
@@ -796,8 +792,8 @@ ExpWatchProductTypeWork(
 
             if (wcscmp(ExpStrings[EXP_ST_WINNT], (wchar_t *)ExpProductTypeValueInfo->Data) && RegistryLocked) {
                 ASSERT(ExpProductTypeValueInfo->DataLength == ValueInfo->DataLength); // 980
-                ASSERT(ExpProductTypeValueInfo->Type == ValueInfo->Type); // 981                
-                
+                ASSERT(ExpProductTypeValueInfo->Type == ValueInfo->Type); // 981
+
                 memcpy(ExpProductTypeValueInfo, ValueBuffer, sizeof(ValueBuffer));
 
                 IllegalChange = FALSE;

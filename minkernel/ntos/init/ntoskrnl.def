@@ -1642,15 +1642,15 @@ EXPORTS
     KeIpiInterrupt
 
     InitializeSListHead
-    
+    ExQueryDepthSList
     ExpInterlockedFlushSList
     ExpInterlockedPopEntrySList
     ExpInterlockedPushEntrySList
 
     ExAllocateFromPagedLookasideList
+    ExFreeToPagedLookasideList
 
-
-  
+    ExQueryDepthSList
 
     KeSetProfileIrql
 

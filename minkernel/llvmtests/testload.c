@@ -5,7 +5,7 @@ Copyright (c) 2025 MobSlicer152
 
 Module Name:
 
-	intrin.c
+	testkrnl.c
 
 Abstract:
 
@@ -20,43 +20,7 @@ Author:
 
 --*/
 
-#ifdef _M_AMD64
-#define _AMD64_ 1
-#endif
-
-#include <nt.h>
-#include <ntrtl.h>
-#include <stdio.h>
-
-#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
-
-NTSTATUS LoadImage(PCWSTR path, PCWSTR name, PVOID* base)
-{
-	if (!path || !name || !base)
-	{
-		return STATUS_INVALID_PARAMETER;
-	}
-
-	*base = NULL;
-
-	wprintf(L"loading file %s\\%s\n", path, name);
-
-	UNICODE_STRING nameStr = {0};
-	RtlInitUnicodeString(&nameStr, name);
-
-	// this makes it skip imports
-	ULONG characteristics = IMAGE_FILE_EXECUTABLE_IMAGE;
-	return LdrLoadDll(path, &characteristics, &nameStr, base);
-}
-
-#define LOAD_IMAGE(name)                                                                                                         \
-	PVOID name##Base = NULL;                                                                                                     \
-	status = LoadImage(system32, L#name, &name##Base);                                                                           \
-	if (!NT_SUCCESS(status))                                                                                                     \
-	{                                                                                                                            \
-		wprintf(L"failed to load " L#name L": NTSTATUS 0x%08X\n", status);                                                       \
-		NtTerminateProcess(NtCurrentProcess(), status);                                                                          \
-	}
+#include "util.h"
 
 typedef struct _DLLINFO
 {
@@ -80,7 +44,7 @@ NTSTATUS ParseHeaders(PDLLINFO dllInfo)
 	NTSTATUS status = RtlImageNtHeaderEx(RTL_IMAGE_NT_HEADER_EX_FLAG_NO_RANGE_CHECK, dllInfo->base, 0, &dllInfo->ntHdrs);
 	if (!NT_SUCCESS(status))
 	{
-		wprintf(L"failed to get NT header in %hs 0x%016llX: NTSTATUS 0x%08X\n", dllInfo->name, dllInfo->base, status);
+		wprintf(L"failed to get NT header in %hs 0x%016llX: NTSTATUS 0x%08X\n", dllInfo->name, (ULONG_PTR)dllInfo->base, status);
 		return status;
 	}
 
@@ -102,22 +66,22 @@ PVOID RvaToVa(PDLLINFO dll, ULONG rva)
 
 NTSTATUS CheckImport(PCSTR name, UINT16 ordinal, PCSTR dllName, PVOID dll)
 {
-	printf("Checking if %s/%hu exists in %s\n", name, ordinal, dllName);
+	printf("checking if %s/%hu exists in %s\n", name, ordinal, dllName);
 
-    ANSI_STRING procName = {0};
-    RtlInitAnsiString(&procName, name);
+	ANSI_STRING procName = {0};
+	RtlInitAnsiString(&procName, name);
 
-    PVOID proc = NULL;
-    NTSTATUS status = LdrGetProcedureAddress(dll, name ? &procName : NULL, ordinal, &proc);
-    if (!NT_SUCCESS(status))
-    {
-        printf("failed to get procedure address: NTSTATUS 0x%08X\n", status);
-        return status;
-    }
+	PVOID proc = NULL;
+	NTSTATUS status = LdrGetProcedureAddress(dll, name ? &procName : NULL, ordinal, &proc);
+	if (!NT_SUCCESS(status))
+	{
+		printf("\nfailed to get address of %s/%hu: NTSTATUS 0x%08X\n\n", name, ordinal, status);
+		return status;
+	}
 
-    printf("%s/%hu found in %s\n", name, ordinal, dllName);
+	printf("%s/%hu found in %s\n", name, ordinal, dllName);
 
-    return STATUS_SUCCESS;
+	return STATUS_SUCCESS;
 }
 
 NTSTATUS CheckOneDll(PDLLINFO dll, PIMAGE_IMPORT_DESCRIPTOR import, PUINT32 missingCount)
@@ -128,45 +92,39 @@ NTSTATUS CheckOneDll(PDLLINFO dll, PIMAGE_IMPORT_DESCRIPTOR import, PUINT32 miss
 	}
 
 	PCSTR dllName = RvaToVa(dll, import->Name);
-	if (_strnicmp(dllName, "ntoskrnl", 8) == 0)
-	{
-	    // LdrLoadDll only likes things with .dll at the end,
-	    // but things import it as ntoskrnl.exe, so fix that
-		dllName = "ntoskrnl.dll";
-	}
 
-    ANSI_STRING nameStr = {0};
-    RtlInitAnsiString(&nameStr, dllName);
-    UNICODE_STRING nameUStr = {0};
-    RtlAnsiStringToUnicodeString(&nameUStr, &nameStr, TRUE);
+	ANSI_STRING nameStr = {0};
+	RtlInitAnsiString(&nameStr, dllName);
+	UNICODE_STRING nameUStr = {0};
+	RtlAnsiStringToUnicodeString(&nameUStr, &nameStr, TRUE);
 
-    PVOID dllBase = NULL;
+	PVOID dllBase = NULL;
 
-    NTSTATUS status = LdrGetDllHandle(NULL, NULL, &nameUStr, &dllBase);
+	NTSTATUS status = LdrGetDllHandle(NULL, NULL, &nameUStr, &dllBase);
 	if (!NT_SUCCESS(status))
 	{
 		printf("failed to get module handle for %s: NTSTATUS 0x%08X\n", dllName, status);
 		return status;
 	}
 
-	printf("checking what %s imports from %s\n", dll->name, dllName);
+	printf("checking what %s imports from %s\n\n", dll->name, dllName);
 
 	*missingCount = 0;
 
 	PUINT64 ilt = RvaToVa(dll, import->OriginalFirstThunk);
 	for (SIZE_T i = 0; ilt[i] != 0; i++)
 	{
-        if (ilt[i] & IMPORT_LOOKUP_IS_ORDINAL)
-        {
-            UINT16 ordinal = ilt[i] & 0xFFFF; // 16 bits
-            status = CheckImport(NULL, ordinal, dllName, dllBase);
-        }
-        else
-        {
-            UINT32 rva = ilt[i] & 0x7FFFFFFF; // 31 bits
-            PIMAGE_IMPORT_BY_NAME name = RvaToVa(dll, rva);
-            status = CheckImport((PCSTR)name->Name, 0, dllName, dllBase);
-        }
+		if (ilt[i] & IMPORT_LOOKUP_IS_ORDINAL)
+		{
+			UINT16 ordinal = ilt[i] & 0xFFFF; // 16 bits
+			status = CheckImport(NULL, ordinal, dllName, dllBase);
+		}
+		else
+		{
+			UINT32 rva = ilt[i] & 0x7FFFFFFF; // 31 bits
+			PIMAGE_IMPORT_BY_NAME name = RvaToVa(dll, rva);
+			status = CheckImport((PCSTR)name->Name, 0, dllName, dllBase);
+		}
 
 		if (!NT_SUCCESS(status))
 		{
@@ -174,12 +132,12 @@ NTSTATUS CheckOneDll(PDLLINFO dll, PIMAGE_IMPORT_DESCRIPTOR import, PUINT32 miss
 		}
 	}
 
-	printf("%u imports by %s missing from %s\n", *missingCount, dll->name, dllName);
+	printf("%u imports by %s missing from %s\n\n", *missingCount, dll->name, dllName);
 
-    if (NT_SUCCESS(status))
-    {
-        RtlFreeUnicodeString(&nameUStr);
-    }
+	if (NT_SUCCESS(status))
+	{
+		RtlFreeUnicodeString(&nameUStr);
+	}
 
 	return STATUS_SUCCESS;
 }
@@ -230,35 +188,32 @@ int wmain(int argc, wchar_t* argv[])
 		return STATUS_INVALID_PARAMETER;
 	}
 
-	PCWSTR system32 = argv[1];
-
-	wchar_t ntoskrnlPath[261] = {0};
-	_snwprintf(ntoskrnlPath, ARRAY_SIZE(ntoskrnlPath), L"\\??\\%s\\ntoskrnl.dll", system32);
-	wchar_t halPath[261] = {0};
-	_snwprintf(halPath, ARRAY_SIZE(halPath), L"\\??\\%s\\hal.dll", system32);
-	wchar_t kdcomPath[261] = {0};
-	_snwprintf(kdcomPath, ARRAY_SIZE(kdcomPath), L"\\??\\%s\\kdcom.dll", system32);
-	wchar_t bootvidPath[261] = {0};
-	_snwprintf(bootvidPath, ARRAY_SIZE(bootvidPath), L"\\??\\%s\\bootvid.dll", system32);
+	wchar_t system32[261] = {0};
+	_snwprintf(system32, ARRAY_SIZE(system32), L"%s", argv[1]);
+	wchar_t drivers[261] = {0};
+	_snwprintf(drivers, ARRAY_SIZE(drivers), L"%s\\drivers", system32);
 
 	wprintf(L"checking these binaries:\n");
-	wprintf(L"\tntoskrnl: %s\n", ntoskrnlPath);
-	wprintf(L"\thal: %s\n", halPath);
-	wprintf(L"\tkdcom: %s\n", kdcomPath);
-	wprintf(L"\tbootvid: %s\n", bootvidPath);
+	wprintf(L"\tntoskrnl: %s\\ntoskrnl.exe\n", system32);
+	wprintf(L"\thal: %s\\hal.dll\n", system32);
+	wprintf(L"\tkdcom: %s\\kdcom.dll\n", system32);
+	wprintf(L"\tbootvid: %s\\bootvid.dll\n", system32);
+	wprintf(L"\tfastfat: %s\\fastfat.sys\n", drivers);
 	wprintf(L"\n");
 
 	NTSTATUS status;
-	LOAD_IMAGE(ntoskrnl);
-	LOAD_IMAGE(hal);
-	LOAD_IMAGE(kdcom);
-	LOAD_IMAGE(bootvid);
+	LOAD_IMAGE(ntoskrnl, L".exe");
+	LOAD_IMAGE(hal, L".dll");
+	LOAD_IMAGE(kdcom, L".dll");
+	LOAD_IMAGE(bootvid, L".dll");
+	LOAD_DRIVER(fastfat);
 
 	DLLINFO dlls[] = {
-		{"ntoskrnl.dll", {ntoskrnlBase}},
+		{"ntoskrnl.exe", {ntoskrnlBase}},
         {     "hal.dll",      {halBase}},
         {   "kdcom.dll",    {kdcomBase}},
-        { "bootvid.dll",  {bootvidBase}}
+        { "bootvid.dll",  {bootvidBase}},
+        { "fastfat.sys",  {fastfatBase}}
     };
 
 	return CheckImports(dlls, ARRAY_SIZE(dlls));

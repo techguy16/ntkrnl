@@ -29,6 +29,7 @@ set(${TARGET}_SOURCES callback.c
                raise.c
                resource.c
                semphore.c
+               slist.c
                sysenv.c
                sysinfo.c
                systime.c
@@ -46,7 +47,7 @@ set(${TARGET}_AMD64_SOURCES amd64/hifreqlk.asm
                      amd64/wowinfo.c)
 
 add_library(${TARGET} STATIC ${${TARGET}_HEADERS} ${${TARGET}_SOURCES} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_HEADERS} ${${TARGET}_${CMAKE_SYSTEM_PROCESSOR}_SOURCES})
-target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS})
+target_compile_definitions(${TARGET} PRIVATE ${NT_DEFS} _WIN2K_COMPAT_SLIST_USAGE)
 target_compile_options(${TARGET} PRIVATE ${NT_C_FLAGS})
 target_include_directories(${TARGET} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${NT_INCDIRS} ${ntos}/ke ${ntos}/kd64
                                       ${HALKIT_INC_PATH} ${minkernel}/fs/fastfat)

@@ -204,6 +204,10 @@ Return Value:
 
 {
 
+#ifdef __clang__
+    KdPrint(("Initializing LLVM built NT for AMD64\n"));
+#endif
+
     ULONG64 DirectoryTableBase[2];
     ULONG FeatureBits;
 
@@ -260,13 +264,13 @@ Return Value:
         //
         // Flush the entire TB and enable global pages.
         //
-    
+
         KeFlushCurrentTb();
-    
+
         //
         // Set page attributes table and flush cache.
         //
-    
+
         KiSetPageAttributesTable();
         WritebackInvalidate();
 
@@ -643,7 +647,7 @@ Return Value:
     //
 
     if (Number == 0) {
-    
+
         IdtBase = Pcr->IdtBase;
         IntInitRec = KiInterruptInitTable;
         for (Index = 0; Index < MAXIMUM_IDTVECTOR; Index += 1) {
@@ -655,7 +659,7 @@ Return Value:
             //
             // Otherwise set the IDT to reference the unexpected interrupt
             // handler.
-            // 
+            //
 
             if (Index == IntInitRec->Vector) {
 
@@ -853,7 +857,7 @@ Return Value:
     CacheSize = (CpuInfo.Ecx >> 16) << 10;
 
     //
-    // Compute the L2 cache associativity. 
+    // Compute the L2 cache associativity.
     //
 
     switch ((CpuInfo.Ecx >> 12) & 0xf) {
@@ -1042,7 +1046,7 @@ Return Value:
     Prcb->LogicalProcessorsPerPhysicalProcessor = 1;
     Prcb->FeatureBits = FeatureBits;
     return;
-}              
+}
 
 VOID
 KiSetProcessorType (

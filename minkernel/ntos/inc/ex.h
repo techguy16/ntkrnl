@@ -1041,7 +1041,7 @@ Return Value:
 
 #if defined(_WIN64)
 
-#if (defined(_NTDRIVER_) || defined(_NTDDK_) || defined(_NTIFS_) || defined(_NTHAL_) || defined(_NTOSP_))
+//#if (defined(_NTDRIVER_) || defined(_NTDDK_) || defined(_NTIFS_) || defined(_NTHAL_) || defined(_NTOSP_))
 
 NTKERNELAPI
 USHORT
@@ -1049,20 +1049,20 @@ ExQueryDepthSList (
     IN PSLIST_HEADER SListHead
     );
 
-#else
+// #else
 
-__inline
-USHORT
-ExQueryDepthSList (
-    IN PSLIST_HEADER SListHead
-    )
+// __inline
+// USHORT
+// ExQueryDepthSList (
+//     IN PSLIST_HEADER SListHead
+//     )
 
-{
+// {
 
-    return (USHORT)(SListHead->Alignment & 0xffff);
-}
+//     return (USHORT)(SListHead->Alignment & 0xffff);
+// }
 
-#endif
+// #endif
 
 #else
 
@@ -1512,7 +1512,7 @@ Return Value:
 
 #endif
 
-#if defined(_WIN2K_COMPAT_SLIST_USAGE) && defined(_X86_)
+//#if defined(_WIN2K_COMPAT_SLIST_USAGE) && defined(_X86_)
 
 NTKERNELAPI
 VOID
@@ -1521,51 +1521,51 @@ ExFreeToPagedLookasideList(
     IN PVOID Entry
     );
 
-#else
+// #else
 
-__inline
-VOID
-ExFreeToPagedLookasideList(
-    IN PPAGED_LOOKASIDE_LIST Lookaside,
-    IN PVOID Entry
-    )
+// __inline
+// VOID
+// ExFreeToPagedLookasideList(
+//     IN PPAGED_LOOKASIDE_LIST Lookaside,
+//     IN PVOID Entry
+//     )
 
-/*++
+// /*++
 
-Routine Description:
+// Routine Description:
 
-    This function inserts (pushes) the specified entry into the specified
-    paged lookaside list.
+//     This function inserts (pushes) the specified entry into the specified
+//     paged lookaside list.
 
-Arguments:
+// Arguments:
 
-    Lookaside - Supplies a pointer to a nonpaged lookaside list structure.
+//     Lookaside - Supplies a pointer to a nonpaged lookaside list structure.
 
-    Entry - Supples a pointer to the entry that is inserted in the
-        lookaside list.
+//     Entry - Supples a pointer to the entry that is inserted in the
+//         lookaside list.
 
-Return Value:
+// Return Value:
 
-    None.
+//     None.
 
---*/
+// --*/
 
-{
+// {
 
-    Lookaside->L.TotalFrees += 1;
-    if (ExQueryDepthSList(&Lookaside->L.ListHead) >= Lookaside->L.Depth) {
-        Lookaside->L.FreeMisses += 1;
-        (Lookaside->L.Free)(Entry);
+//     Lookaside->L.TotalFrees += 1;
+//     if (ExQueryDepthSList(&Lookaside->L.ListHead) >= Lookaside->L.Depth) {
+//         Lookaside->L.FreeMisses += 1;
+//         (Lookaside->L.Free)(Entry);
 
-    } else {
-        InterlockedPushEntrySList(&Lookaside->L.ListHead,
-                                  (PSLIST_ENTRY)Entry);
-    }
+//     } else {
+//         InterlockedPushEntrySList(&Lookaside->L.ListHead,
+//                                   (PSLIST_ENTRY)Entry);
+//     }
 
-    return;
-}
+//     return;
+// }
 
-#endif
+// #endif
 
 // end_ntddk end_nthal end_ntifs end_wdm end_ntosp
 

@@ -211,43 +211,43 @@ Return Value:
         Target = 0;
 
     } else {
-    
+
         //
         // If the allocate rate is less than the mimimum threshold, then lower
         // the maximum depth of the lookaside list. Otherwise, if the miss rate
         // is less than .5%, then lower the maximum depth. Otherwise, raise the
         // maximum depth based on the miss rate.
         //
-    
+
         MaximumDepth = Lookaside->MaximumDepth;
         Target = Lookaside->Depth;
         if (Allocates < (ScanPeriod * MINIMUM_ALLOCATION_THRESHOLD)) {
             if ((Target -= 10) < MINIMUM_LOOKASIDE_DEPTH) {
                 Target = MINIMUM_LOOKASIDE_DEPTH;
             }
-    
+
         } else {
-    
+
             //
             // N.B. The number of allocates is guaranteed to be greater than
-            //      zero because of the above test. 
+            //      zero because of the above test.
             //
             // N.B. It is possible that the number of misses are greater than the
             //      number of allocates, but this won't cause the an incorrect
             //      computation of the depth adjustment.
-            //      
-    
+            //
+
             Ratio = (Misses * 1000) / Allocates;
             if (Ratio < 5) {
                 if ((Target -= 1) < MINIMUM_LOOKASIDE_DEPTH) {
                     Target = MINIMUM_LOOKASIDE_DEPTH;
                 }
-        
+
             } else {
                 if ((Delta = ((Ratio * (MaximumDepth - Target)) / (1000 * 2)) + 5) > 30) {
                     Delta = 30;
                 }
-        
+
                 if ((Target += Delta) > MaximumDepth) {
                     Target = MaximumDepth;
                 }
@@ -376,7 +376,7 @@ Return Value:
     // depth as necessary. Either a set of per processor small pool lookaside
     // lists or the global small pool lookaside lists are scanned during a
     // scan period.
-    // 
+    //
     // N.B. All lookaside list descriptors are treated as if they were
     //      paged descriptors even though they may be nonpaged descriptors.
     //      This is possible since both structures are identical except
@@ -411,7 +411,7 @@ Return Value:
             //
             // Compute target depth of nonpaged lookaside list.
             //
-    
+
             Lookaside = &ExpSmallNPagedPoolLookasideLists[Index];
             Hits = Lookaside->AllocateHits - Lookaside->LastAllocateHits;
             Lookaside->LastAllocateHits = Lookaside->AllocateHits;
@@ -423,7 +423,7 @@ Return Value:
             //
             // Compute target depth of paged lookaside list.
             //
-    
+
             Lookaside = &ExpSmallPagedPoolLookasideLists[Index];
             Hits = Lookaside->AllocateHits - Lookaside->LastAllocateHits;
             Lookaside->LastAllocateHits = Lookaside->AllocateHits;
@@ -460,7 +460,7 @@ Return Value:
             //
             // Compute target depth of nonpaged lookaside list.
             //
-    
+
             Lookaside = Prcb->PPNPagedLookasideList[Index].P;
             Hits = Lookaside->AllocateHits - Lookaside->LastAllocateHits;
             Lookaside->LastAllocateHits = Lookaside->AllocateHits;
@@ -472,7 +472,7 @@ Return Value:
             //
             // Compute target depth of paged lookaside list.
             //
-    
+
             Lookaside = Prcb->PPPagedLookasideList[Index].P;
             Hits = Lookaside->AllocateHits - Lookaside->LastAllocateHits;
             Lookaside->LastAllocateHits = Lookaside->AllocateHits;
@@ -572,7 +572,7 @@ Return Value:
 
     Lookaside->L.LastTotalAllocates = 0;
     Lookaside->L.LastAllocateMisses = 0;
-    
+
     //
     // For IA64 we have to correctly initialize the region field in the S-list.
     //
@@ -865,4 +865,45 @@ Return Value:
     UNREFERENCED_PARAMETER (NumberOfBytes);
     UNREFERENCED_PARAMETER (Tag);
     return NULL;
+}
+
+VOID
+ExFreeToPagedLookasideList(
+    IN PPAGED_LOOKASIDE_LIST Lookaside,
+    IN PVOID Entry
+    )
+
+/*++
+
+Routine Description:
+
+    This function inserts (pushes) the specified entry into the specified
+    paged lookaside list.
+
+Arguments:
+
+    Lookaside - Supplies a pointer to a nonpaged lookaside list structure.
+
+    Entry - Supples a pointer to the entry that is inserted in the
+        lookaside list.
+
+Return Value:
+
+    None.
+
+--*/
+
+{
+
+    Lookaside->L.TotalFrees += 1;
+    if (ExQueryDepthSList(&Lookaside->L.ListHead) >= Lookaside->L.Depth) {
+        Lookaside->L.FreeMisses += 1;
+        (Lookaside->L.Free)(Entry);
+
+    } else {
+        InterlockedPushEntrySList(&Lookaside->L.ListHead,
+                                  (PSLIST_ENTRY)Entry);
+    }
+
+    return;
 }
