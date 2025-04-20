@@ -30,6 +30,10 @@ Revision History:
 #include <bugcodes.h>
 #include <ntiologc.h>
 
+#ifdef __clang__
+#include <ntclang.h>
+#endif
+
 //
 // Define types that are not exported.
 //
@@ -128,29 +132,29 @@ UCHAR
 __readfsbyte (
     IN ULONG Offset
     );
- 
+
 USHORT
 __readfsword (
     IN ULONG Offset
     );
- 
+
 ULONG
 __readfsdword (
     IN ULONG Offset
     );
- 
+
 VOID
 __writefsbyte (
     IN ULONG Offset,
     IN UCHAR Data
     );
- 
+
 VOID
 __writefsword (
     IN ULONG Offset,
     IN USHORT Data
     );
- 
+
 VOID
 __writefsdword (
     IN ULONG Offset,
@@ -160,7 +164,7 @@ __writefsdword (
 #ifdef __cplusplus
 }
 #endif
- 
+
 #pragma intrinsic(__readfsbyte)
 #pragma intrinsic(__readfsword)
 #pragma intrinsic(__readfsdword)
@@ -213,7 +217,7 @@ typedef EXCEPTION_REGISTRATION_RECORD *PEXCEPTION_REGISTRATION_RECORD;
 #ifdef _X86_
 // end_ntddk
 
-// begin_ntddk begin_winnt 
+// begin_ntddk begin_winnt
 
 #if !defined(MIDL_PASS) && defined(_M_IX86)
 
@@ -241,7 +245,7 @@ MemoryBarrier (
 // PreFetchCacheLine level defines.
 //
 
-#define PF_TEMPORAL_LEVEL_1 
+#define PF_TEMPORAL_LEVEL_1
 #define PF_NON_TEMPORAL_LEVEL_ALL
 // end_ntddk
 
@@ -269,7 +273,7 @@ _inline PVOID GetCurrentFiber( void ) { __asm mov eax, fs:[0x10] }
 #endif
 #endif
 
-// begin_ntddk 
+// begin_ntddk
 #endif
 
 // begin_wx86
@@ -619,10 +623,10 @@ VOID
 _mm_sfence (
     VOID
     );
-        
-void 
+
+void
 _mm_prefetch(
-    CHAR CONST *a, 
+    CHAR CONST *a,
     int sel
     );
 
@@ -637,7 +641,7 @@ _mm_prefetch(
 #pragma intrinsic(_mm_mfence)
 #pragma intrinsic(_mm_sfence)
 
-#define YieldProcessor() 
+#define YieldProcessor()
 #define MemoryBarrier _mm_mfence
 #define PreFetchCacheLine(l, a)  _mm_prefetch((CHAR CONST *) a, l)
 
@@ -833,7 +837,7 @@ __writegsqword (
 
 #ifdef __cplusplus
 }
-#endif 
+#endif
 
 #endif // defined(_M_AMD64) && !defined(RC_INVOKED) && !defined(MIDL_PASS)
 
@@ -861,7 +865,7 @@ __writegsqword (
 
 #define KERNEL_MCA_EXCEPTION_STACK_SIZE 0x2000
 
-//              
+//
 // Define stack alignment and rounding values.
 //
 
@@ -1091,7 +1095,7 @@ typedef struct DECLSPEC_ALIGN(16) _CONTEXT {
 //      added to, then it is very likely the code in context swap will
 //      have to be change.
 //
-     
+
 #define KGDT64_NULL (0 * 16)            // NULL descriptor
 #define KGDT64_R0_CODE (1 * 16)         // kernel mode 64-bit code
 #define KGDT64_R0_DATA (1 * 16) + 8     // kernel mode 64-bit data (stack)
@@ -1168,7 +1172,7 @@ typedef struct _EXCEPTION_REGISTRATION_RECORD {
 } EXCEPTION_REGISTRATION_RECORD;
 
 
-void 
+void
 __yield(
    void
    );
@@ -1178,15 +1182,15 @@ __mf(
     void
     );
 
-void 
+void
 __lfetch(
-    int Level, 
+    int Level,
     VOID CONST *Address
     );
 
-void 
+void
 __lfetchfault(
-    int Level, 
+    int Level,
     VOID CONST *Address
     );
 
@@ -5663,56 +5667,56 @@ typedef enum _FILE_INFORMATION_CLASS {
 // Define the various structures which are returned on query operations
 //
 
-typedef struct _FILE_BASIC_INFORMATION {                    
-    LARGE_INTEGER CreationTime;                             
-    LARGE_INTEGER LastAccessTime;                           
-    LARGE_INTEGER LastWriteTime;                            
-    LARGE_INTEGER ChangeTime;                               
-    ULONG FileAttributes;                                   
-} FILE_BASIC_INFORMATION, *PFILE_BASIC_INFORMATION;         
-                                                            
-typedef struct _FILE_STANDARD_INFORMATION {                 
-    LARGE_INTEGER AllocationSize;                           
-    LARGE_INTEGER EndOfFile;                                
-    ULONG NumberOfLinks;                                    
-    BOOLEAN DeletePending;                                  
-    BOOLEAN Directory;                                      
-} FILE_STANDARD_INFORMATION, *PFILE_STANDARD_INFORMATION;   
-                                                            
-typedef struct _FILE_POSITION_INFORMATION {                 
-    LARGE_INTEGER CurrentByteOffset;                        
-} FILE_POSITION_INFORMATION, *PFILE_POSITION_INFORMATION;   
-                                                            
-typedef struct _FILE_ALIGNMENT_INFORMATION {                
-    ULONG AlignmentRequirement;                             
-} FILE_ALIGNMENT_INFORMATION, *PFILE_ALIGNMENT_INFORMATION; 
-                                                            
-typedef struct _FILE_NETWORK_OPEN_INFORMATION {                 
-    LARGE_INTEGER CreationTime;                                 
-    LARGE_INTEGER LastAccessTime;                               
-    LARGE_INTEGER LastWriteTime;                                
-    LARGE_INTEGER ChangeTime;                                   
-    LARGE_INTEGER AllocationSize;                               
-    LARGE_INTEGER EndOfFile;                                    
-    ULONG FileAttributes;                                       
-} FILE_NETWORK_OPEN_INFORMATION, *PFILE_NETWORK_OPEN_INFORMATION;   
-                                                                
-typedef struct _FILE_ATTRIBUTE_TAG_INFORMATION {               
-    ULONG FileAttributes;                                       
-    ULONG ReparseTag;                                           
-} FILE_ATTRIBUTE_TAG_INFORMATION, *PFILE_ATTRIBUTE_TAG_INFORMATION;  
-                                                                
-typedef struct _FILE_DISPOSITION_INFORMATION {                  
-    BOOLEAN DeleteFile;                                         
-} FILE_DISPOSITION_INFORMATION, *PFILE_DISPOSITION_INFORMATION; 
-                                                                
-typedef struct _FILE_END_OF_FILE_INFORMATION {                  
-    LARGE_INTEGER EndOfFile;                                    
-} FILE_END_OF_FILE_INFORMATION, *PFILE_END_OF_FILE_INFORMATION; 
-                                                                
-typedef struct _FILE_VALID_DATA_LENGTH_INFORMATION {                                    
-    LARGE_INTEGER ValidDataLength;                                                      
-} FILE_VALID_DATA_LENGTH_INFORMATION, *PFILE_VALID_DATA_LENGTH_INFORMATION;             
+typedef struct _FILE_BASIC_INFORMATION {
+    LARGE_INTEGER CreationTime;
+    LARGE_INTEGER LastAccessTime;
+    LARGE_INTEGER LastWriteTime;
+    LARGE_INTEGER ChangeTime;
+    ULONG FileAttributes;
+} FILE_BASIC_INFORMATION, *PFILE_BASIC_INFORMATION;
+
+typedef struct _FILE_STANDARD_INFORMATION {
+    LARGE_INTEGER AllocationSize;
+    LARGE_INTEGER EndOfFile;
+    ULONG NumberOfLinks;
+    BOOLEAN DeletePending;
+    BOOLEAN Directory;
+} FILE_STANDARD_INFORMATION, *PFILE_STANDARD_INFORMATION;
+
+typedef struct _FILE_POSITION_INFORMATION {
+    LARGE_INTEGER CurrentByteOffset;
+} FILE_POSITION_INFORMATION, *PFILE_POSITION_INFORMATION;
+
+typedef struct _FILE_ALIGNMENT_INFORMATION {
+    ULONG AlignmentRequirement;
+} FILE_ALIGNMENT_INFORMATION, *PFILE_ALIGNMENT_INFORMATION;
+
+typedef struct _FILE_NETWORK_OPEN_INFORMATION {
+    LARGE_INTEGER CreationTime;
+    LARGE_INTEGER LastAccessTime;
+    LARGE_INTEGER LastWriteTime;
+    LARGE_INTEGER ChangeTime;
+    LARGE_INTEGER AllocationSize;
+    LARGE_INTEGER EndOfFile;
+    ULONG FileAttributes;
+} FILE_NETWORK_OPEN_INFORMATION, *PFILE_NETWORK_OPEN_INFORMATION;
+
+typedef struct _FILE_ATTRIBUTE_TAG_INFORMATION {
+    ULONG FileAttributes;
+    ULONG ReparseTag;
+} FILE_ATTRIBUTE_TAG_INFORMATION, *PFILE_ATTRIBUTE_TAG_INFORMATION;
+
+typedef struct _FILE_DISPOSITION_INFORMATION {
+    BOOLEAN DeleteFile;
+} FILE_DISPOSITION_INFORMATION, *PFILE_DISPOSITION_INFORMATION;
+
+typedef struct _FILE_END_OF_FILE_INFORMATION {
+    LARGE_INTEGER EndOfFile;
+} FILE_END_OF_FILE_INFORMATION, *PFILE_END_OF_FILE_INFORMATION;
+
+typedef struct _FILE_VALID_DATA_LENGTH_INFORMATION {
+    LARGE_INTEGER ValidDataLength;
+} FILE_VALID_DATA_LENGTH_INFORMATION, *PFILE_VALID_DATA_LENGTH_INFORMATION;
 //
 // Define the file system information class values
 //
@@ -5732,11 +5736,11 @@ typedef enum _FSINFOCLASS {
     FileFsMaximumInformation
 } FS_INFORMATION_CLASS, *PFS_INFORMATION_CLASS;
 
-typedef struct _FILE_FS_DEVICE_INFORMATION {                    
-    DEVICE_TYPE DeviceType;                                     
-    ULONG Characteristics;                                      
-} FILE_FS_DEVICE_INFORMATION, *PFILE_FS_DEVICE_INFORMATION;     
-                                                                
+typedef struct _FILE_FS_DEVICE_INFORMATION {
+    DEVICE_TYPE DeviceType;
+    ULONG Characteristics;
+} FILE_FS_DEVICE_INFORMATION, *PFILE_FS_DEVICE_INFORMATION;
+
 
 //
 // Define segement buffer structure for scatter/gather read/write.
@@ -6249,9 +6253,9 @@ typedef struct _KUSER_SHARED_DATA {
 
 #define SYMBOLIC_LINK_ALL_ACCESS (STANDARD_RIGHTS_REQUIRED | 0x1)
 
-typedef struct _OBJECT_NAME_INFORMATION {               
-    UNICODE_STRING Name;                                
-} OBJECT_NAME_INFORMATION, *POBJECT_NAME_INFORMATION;   
+typedef struct _OBJECT_NAME_INFORMATION {
+    UNICODE_STRING Name;
+} OBJECT_NAME_INFORMATION, *POBJECT_NAME_INFORMATION;
 // begin_winnt
 //
 // Predefined Value Types.
@@ -8224,8 +8228,8 @@ typedef struct _MDL {
 #define PAGED_CODE() NOP_FUNCTION;
 #endif
 
-#define NTKERNELAPI DECLSPEC_IMPORT     
-#define NTHALAPI                            
+#define NTKERNELAPI DECLSPEC_IMPORT
+#define NTHALAPI
 //
 // Common dispatcher object header
 //
@@ -8368,7 +8372,7 @@ typedef ULONG PFN_NUMBER, *PPFN_NUMBER;
 #if defined(NT_UP)
 
 // synchronization level - UP system
-#define SYNCH_LEVEL DISPATCH_LEVEL  
+#define SYNCH_LEVEL DISPATCH_LEVEL
 
 #else
 
@@ -8668,12 +8672,12 @@ WRITE_PORT_BUFFER_ULONG(
 
 #define KeGetDcacheFillSize() 1L
 
-NTKERNELAPI                                         
-VOID                                                
-KeFlushCurrentTb (                                  
-    VOID                                            
-    );                                              
-                                                    
+NTKERNELAPI
+VOID
+KeFlushCurrentTb (
+    VOID
+    );
+
 
 #define KeFlushIoBuffers(Mdl, ReadOperation, DmaOperation)
 
@@ -9571,7 +9575,7 @@ Exfi386InterlockedExchangeUlong (
     IN ULONG Value
     );
 
-#if !defined(_WINBASE_) && !defined(NONTOSPINTERLOCK) 
+#if !defined(_WINBASE_) && !defined(NONTOSPINTERLOCK)
 #if !defined(MIDL_PASS) // wdm
 #if defined(NO_INTERLOCKED_INTRINSICS) || defined(_CROSS_PLATFORM_)
 // begin_wdm
@@ -10623,7 +10627,7 @@ __writecr8 (
 #if defined(NT_UP)
 
 // synchronization level (UP)
-#define SYNCH_LEVEL DISPATCH_LEVEL      
+#define SYNCH_LEVEL DISPATCH_LEVEL
 
 #else
 
@@ -11068,7 +11072,7 @@ _enable (
 
 #define KeQuerySystemTime(CurrentCount)                                     \
     *((PULONG64)(CurrentCount)) = *((volatile ULONG64 *)(SharedSystemTime))
-    
+
 #define KeQueryTickCount(CurrentCount)                                      \
     *((PULONG64)(CurrentCount)) = *((volatile ULONG64 *)(SharedTickCount))
 
@@ -12559,8 +12563,8 @@ KiCpuId (
 #define MSR_GS_BASE 0xc0000101          // gs long mode base address register
 #define MSR_GS_SWAP 0xc0000102          // gs long mode swap GS base register
 #define MSR_PERF_EVT_SEL0 0xc0010000    // performance event select registers
-#define MSR_PERF_EVT_SEL1 0xc0010001    // 
-#define MSR_PERF_EVT_SEL2 0xc0010002    // 
+#define MSR_PERF_EVT_SEL1 0xc0010001    //
+#define MSR_PERF_EVT_SEL2 0xc0010002    //
 #define MSR_PERF_EVT_SEL3 0xc0010003    //
 #define MSR_PERF_CTR0 0xc0010004        // performance counter registers
 #define MSR_PERF_CTR1 0xc0010005        //
@@ -13239,8 +13243,8 @@ InterlockedXor (
 #define MM_EPC_VA (KADDRESS_BASE + 0xFFA00000)
 
 //
-// Define Base Address of PAL Mapping 
-// 
+// Define Base Address of PAL Mapping
+//
 //
 
 #define HAL_PAL_VIRTUAL_ADDRESS (KADDRESS_BASE + 0xE0000000)
@@ -13341,7 +13345,7 @@ _ReadWriteBarrier (
 //
 // Routine Description:
 //
-//    This function cases ordering of memory acceses as generated by the compiler and 
+//    This function cases ordering of memory acceses as generated by the compiler and
 //    as seen by other processors.
 //
 //
@@ -14801,7 +14805,7 @@ typedef struct _KPROCESSOR_STATE {
 
 #endif // _IA64_
 
-// end_windbgkd 
+// end_windbgkd
 
 //
 // DPC data structure definition.
@@ -14951,21 +14955,21 @@ typedef struct _PAL_MINI_SAVE_AREA {
     ULONGLONG IntT6;
 
     ULONGLONG B0R16;        // Bank 0 registers 16-31
-    ULONGLONG B0R17;        
-    ULONGLONG B0R18;        
-    ULONGLONG B0R19;        
-    ULONGLONG B0R20;        
-    ULONGLONG B0R21;        
-    ULONGLONG B0R22;        
-    ULONGLONG B0R23;        
-    ULONGLONG B0R24;        
-    ULONGLONG B0R25;        
-    ULONGLONG B0R26;        
-    ULONGLONG B0R27;        
-    ULONGLONG B0R28;        
-    ULONGLONG B0R29;        
-    ULONGLONG B0R30;        
-    ULONGLONG B0R31;        
+    ULONGLONG B0R17;
+    ULONGLONG B0R18;
+    ULONGLONG B0R19;
+    ULONGLONG B0R20;
+    ULONGLONG B0R21;
+    ULONGLONG B0R22;
+    ULONGLONG B0R23;
+    ULONGLONG B0R24;
+    ULONGLONG B0R25;
+    ULONGLONG B0R26;
+    ULONGLONG B0R27;
+    ULONGLONG B0R28;
+    ULONGLONG B0R29;
+    ULONGLONG B0R30;
+    ULONGLONG B0R31;
 
     ULONGLONG IntT7;        // Bank 1 registers 16-31
     ULONGLONG IntT8;
@@ -14993,7 +14997,7 @@ typedef struct _PAL_MINI_SAVE_AREA {
     ULONGLONG XIP;          //  Event IP
     ULONGLONG XPSR;         //  Event Processor Status
     ULONGLONG XFS;          //  Event Function State
-    
+
 } PAL_MINI_SAVE_AREA, *PPAL_MINI_SAVE_AREA;
 
 // begin_ntddk begin_ntosp
@@ -15739,20 +15743,20 @@ KeRemoveEntryDeviceQueue (
 // Interrupt object
 //
 
-NTKERNELAPI                                         
-VOID                                                
-KeInitializeInterrupt (                             
-    IN PKINTERRUPT Interrupt,                       
-    IN PKSERVICE_ROUTINE ServiceRoutine,            
-    IN PVOID ServiceContext,                        
-    IN PKSPIN_LOCK SpinLock OPTIONAL,               
-    IN ULONG Vector,                                
-    IN KIRQL Irql,                                  
-    IN KIRQL SynchronizeIrql,                       
-    IN KINTERRUPT_MODE InterruptMode,               
-    IN BOOLEAN ShareVector,                         
-    IN CCHAR ProcessorNumber,                       
-    IN BOOLEAN FloatingSave                         
+NTKERNELAPI
+VOID
+KeInitializeInterrupt (
+    IN PKINTERRUPT Interrupt,
+    IN PKSERVICE_ROUTINE ServiceRoutine,
+    IN PVOID ServiceContext,
+    IN PKSPIN_LOCK SpinLock OPTIONAL,
+    IN ULONG Vector,
+    IN KIRQL Irql,
+    IN KIRQL SynchronizeIrql,
+    IN KINTERRUPT_MODE InterruptMode,
+    IN BOOLEAN ShareVector,
+    IN CCHAR ProcessorNumber,
+    IN BOOLEAN FloatingSave
     );
 
 #if defined(_AMD64_)
@@ -15761,12 +15765,12 @@ KeInitializeInterrupt (
 
 #endif
 
-                                                    
-NTKERNELAPI                                         
-BOOLEAN                                             
-KeConnectInterrupt (                                
-    IN PKINTERRUPT Interrupt                        
-    );                                              
+
+NTKERNELAPI
+BOOLEAN
+KeConnectInterrupt (
+    IN PKINTERRUPT Interrupt
+    );
 
 
 NTKERNELAPI
@@ -15929,27 +15933,27 @@ KeReleaseSemaphore (
     IN BOOLEAN Wait
     );
 
-NTKERNELAPI                                         
-NTSTATUS                                            
-KeDelayExecutionThread (                            
-    IN KPROCESSOR_MODE WaitMode,                    
-    IN BOOLEAN Alertable,                           
-    IN PLARGE_INTEGER Interval                      
-    );                                              
-                                                    
-NTKERNELAPI                                         
-KPRIORITY                                           
-KeQueryPriorityThread (                             
-    IN PKTHREAD Thread                              
-    );                                              
-                                                    
-NTKERNELAPI                                         
-ULONG                                               
-KeQueryRuntimeThread (                              
-    IN PKTHREAD Thread,                             
-    OUT PULONG UserTime                             
-    );                                              
-                                                    
+NTKERNELAPI
+NTSTATUS
+KeDelayExecutionThread (
+    IN KPROCESSOR_MODE WaitMode,
+    IN BOOLEAN Alertable,
+    IN PLARGE_INTEGER Interval
+    );
+
+NTKERNELAPI
+KPRIORITY
+KeQueryPriorityThread (
+    IN PKTHREAD Thread
+    );
+
+NTKERNELAPI
+ULONG
+KeQueryRuntimeThread (
+    IN PKTHREAD Thread,
+    OUT PULONG UserTime
+    );
+
 
 VOID
 KeRevertToUserAffinityThread (
@@ -15962,20 +15966,20 @@ KeSetSystemAffinityThread (
     IN KAFFINITY Affinity
     );
 
-NTKERNELAPI                                         
-LONG                                                
-KeSetBasePriorityThread (                           
-    IN PKTHREAD Thread,                             
-    IN LONG Increment                               
-    );                                              
-                                                    
-NTKERNELAPI                                         
-KPRIORITY                                           
-KeSetPriorityThread (                               
-    IN PKTHREAD Thread,                             
-    IN KPRIORITY Priority                           
-    );                                              
-                                                    
+NTKERNELAPI
+LONG
+KeSetBasePriorityThread (
+    IN PKTHREAD Thread,
+    IN LONG Increment
+    );
+
+NTKERNELAPI
+KPRIORITY
+KeSetPriorityThread (
+    IN PKTHREAD Thread,
+    IN KPRIORITY Priority
+    );
+
 
 #if ((defined(_NTDRIVER_) || defined(_NTDDK_) || defined(_NTIFS_) ||defined(_NTHAL_)) && !defined(_NTSYSTEM_DRIVER_) || defined(_NTOSP_))
 
@@ -16129,7 +16133,7 @@ VOID
 NTAPI
 KeInitializeSpinLock (
     IN PKSPIN_LOCK SpinLock
-    ) 
+    )
 {
     *SpinLock = 0;
 }
@@ -16568,22 +16572,22 @@ KiIpiServiceRoutine (
     IN struct _KEXCEPTION_FRAME *ExceptionFrame
     );
 
-#define DMA_READ_DCACHE_INVALIDATE 0x1              
-#define DMA_READ_ICACHE_INVALIDATE 0x2              
-#define DMA_WRITE_DCACHE_SNOOP 0x4                  
-                                                    
-NTKERNELAPI                                         
-VOID                                                
-KeSetDmaIoCoherency (                               
-    IN ULONG Attributes                             
-    );                                              
-                                                    
-NTKERNELAPI                                         
-VOID                                                
-KeSetProfileIrql (                                  
-    IN KIRQL ProfileIrql                            
-    );                                              
-                                                    
+#define DMA_READ_DCACHE_INVALIDATE 0x1
+#define DMA_READ_ICACHE_INVALIDATE 0x2
+#define DMA_WRITE_DCACHE_SNOOP 0x4
+
+NTKERNELAPI
+VOID
+KeSetDmaIoCoherency (
+    IN ULONG Attributes
+    );
+
+NTKERNELAPI
+VOID
+KeSetProfileIrql (
+    IN KIRQL ProfileIrql
+    );
+
 
 #if !defined(_AMD64_)
 
@@ -16666,7 +16670,7 @@ KeFindConfigurationNextEntry (
     IN PCONFIGURATION_COMPONENT_DATA *Resume
     );
 
-extern NTSYSAPI CCHAR KeNumberProcessors;           
+extern NTSYSAPI CCHAR KeNumberProcessors;
 
 #if defined(_IA64_)
 
@@ -18657,21 +18661,21 @@ typedef struct _CONTROLLER_OBJECT {
 //
 // Define Device Object (DO) flags
 //
-#define DO_VERIFY_VOLUME                0x00000002      
-#define DO_BUFFERED_IO                  0x00000004      
-#define DO_EXCLUSIVE                    0x00000008      
-#define DO_DIRECT_IO                    0x00000010      
-#define DO_MAP_IO_BUFFER                0x00000020      
-#define DO_DEVICE_HAS_NAME              0x00000040      
-#define DO_DEVICE_INITIALIZING          0x00000080      
-#define DO_SYSTEM_BOOT_PARTITION        0x00000100      
-#define DO_LONG_TERM_REQUESTS           0x00000200      
-#define DO_NEVER_LAST_DEVICE            0x00000400      
-#define DO_SHUTDOWN_REGISTERED          0x00000800      
-#define DO_BUS_ENUMERATED_DEVICE        0x00001000      
-#define DO_POWER_PAGABLE                0x00002000      
-#define DO_POWER_INRUSH                 0x00004000      
-#define DO_LOW_PRIORITY_FILESYSTEM      0x00010000      
+#define DO_VERIFY_VOLUME                0x00000002
+#define DO_BUFFERED_IO                  0x00000004
+#define DO_EXCLUSIVE                    0x00000008
+#define DO_DIRECT_IO                    0x00000010
+#define DO_MAP_IO_BUFFER                0x00000020
+#define DO_DEVICE_HAS_NAME              0x00000040
+#define DO_DEVICE_INITIALIZING          0x00000080
+#define DO_SYSTEM_BOOT_PARTITION        0x00000100
+#define DO_LONG_TERM_REQUESTS           0x00000200
+#define DO_NEVER_LAST_DEVICE            0x00000400
+#define DO_SHUTDOWN_REGISTERED          0x00000800
+#define DO_BUS_ENUMERATED_DEVICE        0x00001000
+#define DO_POWER_PAGABLE                0x00002000
+#define DO_POWER_INRUSH                 0x00004000
+#define DO_LOW_PRIORITY_FILESYSTEM      0x00010000
 //
 // Device Object structure definition
 //
@@ -20323,15 +20327,15 @@ IoFreeMdl(
     IN PMDL Mdl
     );
 
-NTKERNELAPI                                 
-PDEVICE_OBJECT                              
-IoGetAttachedDeviceReference(               
-    IN PDEVICE_OBJECT DeviceObject          
-    );                                      
-                                            
-NTKERNELAPI                                 
-PCONFIGURATION_INFORMATION                  
-IoGetConfigurationInformation( VOID );      
+NTKERNELAPI
+PDEVICE_OBJECT
+IoGetAttachedDeviceReference(
+    IN PDEVICE_OBJECT DeviceObject
+    );
+
+NTKERNELAPI
+PCONFIGURATION_INFORMATION
+IoGetConfigurationInformation( VOID );
 
 //++
 //
@@ -21004,11 +21008,11 @@ IoUpdateShareAccess(
     IN OUT PSHARE_ACCESS ShareAccess
     );
 
-NTKERNELAPI                                     
-VOID                                            
-IoWriteErrorLogEntry(                           
-    IN PVOID ElEntry                            
-    );                                          
+NTKERNELAPI
+VOID
+IoWriteErrorLogEntry(
+    IN PVOID ElEntry
+    );
 
 NTKERNELAPI
 NTSTATUS
@@ -23164,16 +23168,16 @@ ObInsertObject(
     OUT PHANDLE Handle OPTIONAL
     );
 
-NTKERNELAPI                                                     
-NTSTATUS                                                        
-ObReferenceObjectByHandle(                                      
-    IN HANDLE Handle,                                           
-    IN ACCESS_MASK DesiredAccess,                               
-    IN POBJECT_TYPE ObjectType OPTIONAL,                        
-    IN KPROCESSOR_MODE AccessMode,                              
-    OUT PVOID *Object,                                          
-    OUT POBJECT_HANDLE_INFORMATION HandleInformation OPTIONAL   
-    );                                                          
+NTKERNELAPI
+NTSTATUS
+ObReferenceObjectByHandle(
+    IN HANDLE Handle,
+    IN ACCESS_MASK DesiredAccess,
+    IN POBJECT_TYPE ObjectType OPTIONAL,
+    IN KPROCESSOR_MODE AccessMode,
+    OUT PVOID *Object,
+    OUT POBJECT_HANDLE_INFORMATION HandleInformation OPTIONAL
+    );
 
 #define ObDereferenceObject(a)                                     \
         ObfDereferenceObject(a)
@@ -24722,7 +24726,7 @@ typedef struct _MAP_REGISTER_ENTRY {
 } MAP_REGISTER_ENTRY, *PMAP_REGISTER_ENTRY;
 // end_ntndis
 
-// end_ntddk 
+// end_ntddk
 typedef
 NTSTATUS
 (*pHalAllocateMapRegisters)(

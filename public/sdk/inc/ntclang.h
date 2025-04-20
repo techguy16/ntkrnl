@@ -34,9 +34,7 @@ Author:
 #undef __writecr8
 
 //
-// These warnings are mostly because of Clang not being entirely compatible
-// with the MSVC features used, but some are to reduce noise. I'm also pretty
-// sure they're disabled in the MSVC build anyway.
+// The MSVC build is free from warnings
 //
 
 #pragma clang diagnostic ignored "-Wmicrosoft-enum-forward-reference"
@@ -60,9 +58,30 @@ Author:
 #pragma clang diagnostic ignored "-Wextern-initializer"
 #pragma clang diagnostic ignored "-Wunsequenced"
 #pragma clang diagnostic ignored "-Wincompatible-pointer-types-discards-qualifiers"
-
-// This is probably not a good idea, but it shuts Clang up when I include <intrin.h>
+#pragma clang diagnostic ignored "-Wenum-compare"
+#pragma clang diagnostic ignored "-Wint-to-pointer-cast"
+#pragma clang diagnostic ignored "-Wswitch"
+#pragma clang diagnostic ignored "-Wunused-value"
+#pragma clang diagnostic ignored "-Wcompare-distinct-pointer-types"
+#pragma clang diagnostic ignored "-Wmissing-declarations"
+#pragma clang diagnostic ignored "-Wtautological-constant-out-of-range-compare"
+#pragma clang diagnostic ignored "-Wextra-tokens"
+#pragma clang diagnostic ignored "-Wvisibility"
+#pragma clang diagnostic ignored "-Wignored-pragma-intrinsic"
+#pragma clang diagnostic ignored "-Winconsistent-dllimport"
+#pragma clang diagnostic ignored "-Wextra-tokens"
+#pragma clang diagnostic ignored "-Warray-bounds"
+#pragma clang diagnostic ignored "-Wdeprecated-non-prototype"
 #pragma clang diagnostic ignored "-Wmacro-redefined"
+#pragma clang diagnostic ignored "-Wbitfield-constant-conversion"
+#pragma clang diagnostic ignored "-Wmultichar"
+#pragma clang diagnostic ignored "-Winvalid-noreturn"
+#pragma clang diagnostic ignored "-Winteger-overflow"
+#pragma clang diagnostic ignored "-Wtentative-definition-array"
+#pragma clang diagnostic ignored "-W#pragma-messages"
+#pragma clang diagnostic ignored "-Wvarargs"
+#pragma clang diagnostic ignored "-Wpointer-type-mismatch"
+#pragma clang diagnostic ignored "-Wsizeof-array-div"
 
 #define __forceinline __attribute__((always_inline))
 

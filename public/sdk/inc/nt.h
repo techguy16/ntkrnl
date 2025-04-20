@@ -53,10 +53,6 @@ Revision History:
 #define _CTYPE_DISABLE_MACROS
 #endif
 
-#ifdef __clang__
-#include <ntclang.h>
-#endif
-
 #include <excpt.h>
 #include <stdarg.h>
 #include <ntdef.h>

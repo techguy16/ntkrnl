@@ -5,6 +5,8 @@ cmake_policy(SET CMP0091 NEW) # MSVC_RUNTIME_LIBRARY
 
 project(ntkrnl VERSION 5.2 LANGUAGES C ASM_MASM)
 
+include(util.cmake)
+
 set(CMAKE_C_STANDARD 90)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 set(CMAKE_CXX_STANDARD 03)
@@ -46,6 +48,7 @@ set(WINDOWS_INC_PATH ${CMAKE_SOURCE_DIR}/public/internal/windows/inc)
 set(WINDOWS_LIB_PATH ${CMAKE_SOURCE_DIR}/public/internal/windows/lib/$<LOWER_CASE:${CMAKE_SYSTEM_PROCESSOR}>)
 
 add_compile_definitions(_NO_CRT_STDIO_INLINE _CRT_SECURE_NO_WARNINGS _WIN2K_COMPAT_SLIST_USAGE)
+add_compile_options(-FI${SDK_INC_PATH}/ntclang.h)
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 	add_compile_definitions(DEVL=1 DBG=1)
 else()

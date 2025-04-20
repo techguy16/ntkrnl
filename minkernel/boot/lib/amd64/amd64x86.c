@@ -591,6 +591,8 @@ Return Value:
 {
     UNREFERENCED_PARAMETER( BlLoaderBlock );
 
+    __debugbreak();
+
     BlAmd64LoaderParameterBlock = PTR_64(BlAmd64LoaderBlock64);
     BlAmd64KernelEntry = PTR_64(SystemEntry);
     BlAmd64SwitchToLongMode();
@@ -2969,7 +2971,7 @@ Return Value:
     return detectedAmd64;
 }
 
-VOID   
+VOID
 BlCheckForAmd64Image(
     PPO_MEMORY_IMAGE MemImage
     )
@@ -2992,13 +2994,13 @@ Return Value:
 --*/
 
 {
-    
+
     //
-    // It is assumed that "version" and "LengthSelf" field can be reference 
+    // It is assumed that "version" and "LengthSelf" field can be reference
     // in same way between a x86 and an Amd64 image header.
     //
 
-    if((MemImage->Version == 0) && 
+    if((MemImage->Version == 0) &&
        (MemImage->LengthSelf == sizeof(PO_MEMORY_IMAGE_64))) {
         BlAmd64UseLongMode = TRUE;
     }
@@ -3007,16 +3009,16 @@ Return Value:
 ULONG
 BlAmd64FieldOffset_PO_MEMORY_IMAGE(
     ULONG offset32
-    ) 
+    )
 
 /*++
 
 Routine Description:
 
     This routine helps to access 64-bit version of PO_MEMORY_IMAGE from
-    its 32-bit definition. It calculates the offset of a field in 64-bit 
+    its 32-bit definition. It calculates the offset of a field in 64-bit
     definition from the offset of same field in 32-bit definiation.
-    
+
 
 Arguments:
 
@@ -3045,16 +3047,16 @@ Return Value:
 ULONG
 BlAmd64FieldOffset_PO_MEMORY_RANGE_ARRAY_LINK(
     ULONG offset32
-    ) 
+    )
 
 /*++
 
 Routine Description:
 
-    This routine helps to access 64-bit version of PO_MEMORY_RANGE_ARRAY_LINK 
-    from its 32-bit definition. It calculates the offset of a field in 64-bit 
+    This routine helps to access 64-bit version of PO_MEMORY_RANGE_ARRAY_LINK
+    from its 32-bit definition. It calculates the offset of a field in 64-bit
     definition from the offset of same field in 32-bit definiation.
-    
+
 
 Arguments:
 
@@ -3083,14 +3085,14 @@ Return Value:
 ULONG
 BlAmd64FieldOffset_PO_MEMORY_RANGE_ARRAY_RANGE(
     ULONG offset32
-    ) 
+    )
 
 /*++
 
 Routine Description:
 
     This routine helps to access 64-bit version of PO_MEMORY_RANGE_ARRAY_RANGE
-    from its 32-bit definition. It calculates the offset of a field in 64-bit 
+    from its 32-bit definition. It calculates the offset of a field in 64-bit
     definition from the offset of same field in 32-bit definiation.
 
 Arguments:
@@ -3126,7 +3128,7 @@ BlAmd64ElementOffset_PO_MEMORY_RANGE_ARRAY_LINK(
 
 Routine Description:
 
-    This routine calculates the offset of a element in a structure array. 
+    This routine calculates the offset of a element in a structure array.
     Each element in this array is defined as PO_MORY_RANGE_ARRAY_LINK in
     it 64-bit format.
 
@@ -3153,7 +3155,7 @@ BlAmd64ElementOffset_PO_MEMORY_RANGE_ARRAY_RANGE(
 
 Routine Description:
 
-    This routine calculates the offset of a element in a structure array. 
+    This routine calculates the offset of a element in a structure array.
     Each element in this array is defined as PO_MEMORY_RANGE_ARRAY_RANGE
     in its 64-bit format.
 
@@ -3316,7 +3318,7 @@ Return Value:
         descriptorLimit = descriptorBase + descriptor->PageCount - 1;
 
         if ((descriptorBase <= oldLimit) && (descriptorLimit >= oldBase)) {
-        
+
             //
             // Some or all of this memory descriptor lies within the
             // relocated region.
@@ -3573,7 +3575,7 @@ Return Value:
         slotNumber.u.AsULONG = 0;
         slotNumber.u.bits.DeviceNumber = NB_DEVICE_BASE + nodeCount;
         slotNumber.u.bits.FunctionNumber = 1;
-    
+
         length = HalGetBusDataByOffset( PCIConfiguration,
                                         0,
                                         slotNumber.u.AsULONG,
@@ -3644,7 +3646,7 @@ Return Value:
         slotNumber.u.AsULONG = 0;
         slotNumber.u.bits.DeviceNumber = NB_DEVICE_BASE + nodeIndex;
         slotNumber.u.bits.FunctionNumber = 1;
-    
+
         length = HalSetBusDataByOffset( PCIConfiguration,
                                         0,
                                         slotNumber.u.AsULONG,
@@ -3780,7 +3782,7 @@ Return Value:
 
     //
     // A second northbridge exists, the relocation can be performed.
-    // 
+    //
 
     base = nodeConfig.DRAMMap[1].Base;
     size = nodeConfig.DRAMMap[1].Limit - base + 1;
