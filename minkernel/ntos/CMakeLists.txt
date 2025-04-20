@@ -36,10 +36,12 @@ add_library(ntoskrnl SHARED init/ntkrnlmp.c init/ntoskrnl.rc)
 target_include_directories(ntoskrnl PRIVATE ${ntos}/nls/obj/${CMAKE_SYSTEM_PROCESSOR})
 target_link_libraries(ntoskrnl PRIVATE ntosrtl config kd64 ex ob se mm ke po ps arb io iomgr pnpmgr cache lpc dbgk raw fstub fsrtl vdm verifier wmi perf init sdbapint ${NT_COMPILER_LIBS}
                       ${SDK_LIB_PATH}/libcntpr.lib ${DDK_LIB_PATH}/hal.lib ${DS_LIB_PATH}/lsakrnlp.lib ${MINKERNEL_LIB_PATH}/bootvid.lib ${HALKIT_LIB_PATH}/kdcom.lib ${WINDOWS_LIB_PATH}/apphelp.lib)
-target_link_options(ntoskrnl PRIVATE -subsystem:native,5.2 -def:${CMAKE_CURRENT_SOURCE_DIR}/init/ntoskrnl.def -entry:KiSystemStartup -base:0x400000 -map -merge:PAGECONST=PAGE
+target_link_options(ntoskrnl PRIVATE -subsystem:native,5.2 -def:${CMAKE_CURRENT_BINARY_DIR}/init/ntoskrnl.def -entry:KiSystemStartup -base:0x400000 -map -merge:PAGECONST=PAGE
                                      -merge:INITCONST=INIT -merge:INITDATA=INIT -merge:PAGELKCONST=PAGELK
 									 -merge:PAGEVRFY_CONST=PAGEVRFY -debug -release -ltcg)
 set_target_properties(ntoskrnl PROPERTIES SUFFIX .exe)
+add_custom_command(TARGET ntoskrnl PRE_BUILD
+                   COMMAND ${CMAKE_C_COMPILER} /EP ${CMAKE_C_FLAGS} ${NT_C_FLAGS} /TC ${CMAKE_CURRENT_SOURCE_DIR}/init/ntoskrnl_$<LOWER_CASE:${CMAKE_SYSTEM_PROCESSOR}>.src > ${CMAKE_CURRENT_BINARY_DIR}/init/ntoskrnl.def)
 #add_custom_command(TARGET ntoskrnl POST_BUILD
 #                   COMMAND ${CMAKE_LINKER} -edit -section:.rsrc,!d $<TARGET_FILE:ntoskrnl>)
 #add_custom_command(TARGET ntoskrnl POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ntoskrnl> $<TARGET_FILE_DIR:ntoskrnl>/ntoskrnl.exe)

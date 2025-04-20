@@ -77,7 +77,7 @@ ExpAssertResource(
 #endif
 
 //
-// Define locking primitives. 
+// Define locking primitives.
 // On UP systems, fastlocks are used.
 // On MP systems, a queued spinlock is used.
 //
@@ -726,6 +726,38 @@ retry:
     return Result;
 }
 
+
+PVOID
+ExEnterCriticalRegionAndAcquireResourceExclusive(
+    IN OUT PERESOURCE Resource
+    )
+
+/*++
+
+Routine Description:
+
+    The routine enters a critical region and acquires the specified resource
+    for exclusive access.
+
+    N.B. This is a win32k accelerator routine.
+
+Arguments:
+
+    Resource - Supplies a pointer to the resource that is acquired for
+        exclusive access.
+
+Return Value:
+
+    The address of the current win32 thread is returned as the function value.
+
+--*/
+
+{
+    KeEnterCriticalRegion();
+    ExAcquireResourceExclusiveLite(Resource, TRUE);
+    return _PsGetCurrentThread()->Tcb.Win32Thread;
+}
+
 BOOLEAN
 ExTryToAcquireResourceExclusiveLite(
     IN PERESOURCE Resource
@@ -966,6 +998,39 @@ retry:
     return TRUE;
 }
 
+
+PVOID
+ExEnterCriticalRegionAndAcquireResourceShared(
+    IN OUT PERESOURCE Resource
+    )
+
+/*++
+
+Routine Description:
+
+    This routine enters a critical region and acquires the specified resource
+    for shared access.
+
+     N.B. This is a win32k accelerator routine.
+
+Arguments:
+
+    Resource - Supplies a pointer to the resource that is acquired for shared
+        access.
+
+Return Value:
+
+    The address of the current win32 thread is returned as the function value.
+
+--*/
+
+{
+
+    KeEnterCriticalRegion();
+    ExAcquireResourceSharedLite(Resource, TRUE);
+    return _PsGetCurrentThread()->Tcb.Win32Thread;
+}
+
 BOOLEAN
 ExAcquireSharedStarveExclusive(
     IN PERESOURCE Resource,
@@ -1367,6 +1432,43 @@ retry:
     return TRUE;
 }
 
+
+PVOID
+ExEnterCriticalRegionAndAcquireSharedWaitForExclusive(
+    IN OUT PERESOURCE Resource
+    )
+
+/*++
+
+Routine Description:
+
+    This routine acquires the specified resource for shared access, but
+    waits for any pending exclusive owners.
+
+    N.B. This is a win32k accelerator routine.
+
+Arguments:
+
+    Resource - Supplies a pointer to the resource that is acquired
+        for shared access.
+
+    Wait - A boolean value that specifies whether to wait for the
+        resource to become available if access cannot be granted
+        immediately.
+
+Return Value:
+
+    The address of the current win32 thread is returned as the function value..
+
+--*/
+
+{
+
+    KeEnterCriticalRegion();
+    ExAcquireSharedWaitForExclusive(Resource, TRUE);
+    return _PsGetCurrentThread()->Tcb.Win32Thread;
+}
+
 VOID
 FASTCALL
 ExReleaseResourceLite(
@@ -1604,6 +1706,38 @@ Return Value:
     return;
 }
 
+
+VOID
+FASTCALL
+ExReleaseResourceAndLeaveCriticalRegion(
+    IN OUT PERESOURCE Resource
+    )
+
+/*++
+
+Routine Description:
+
+    This routine releases the specified resource for the current thread,
+    decrements the recursion count, and leave a critical region.. If the
+    count reaches zero, then the resource may also be released.
+
+Arguments:
+
+    Resource - Supplies a pointer to the resource to release.
+
+Return Value:
+
+    None.
+
+--*/
+
+{
+    ExReleaseResourceLite(Resource);
+    KeLeaveCriticalRegion();
+    return;
+}
+
+
 VOID
 ExReleaseResourceForThreadLite(
     IN PERESOURCE Resource,
@@ -2970,7 +3104,7 @@ ExpCheckForResource (
 
         //
         //  Save the last ptr in a volatile variable for debugging when a flink is bad
-        //  
+        //
 
         Last1 = Last;
         Last = Next;
@@ -3020,7 +3154,7 @@ ExCheckIfResourceOwned (
 
         //
         //  Save the last ptr in a volatile variable for debugging when a flink is bad
-        //  
+        //
 
         Last1 = Last;
         Last = Next;
@@ -3028,6 +3162,6 @@ ExCheckIfResourceOwned (
     }
 
     KeReleaseInStackQueuedSpinLock (&LockHandle);
-    return;    
+    return;
 }
 #endif

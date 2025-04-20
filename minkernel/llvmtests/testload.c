@@ -193,27 +193,23 @@ int wmain(int argc, wchar_t* argv[])
 	wchar_t drivers[261] = {0};
 	_snwprintf(drivers, ARRAY_SIZE(drivers), L"%s\\drivers", system32);
 
-	wprintf(L"checking these binaries:\n");
-	wprintf(L"\tntoskrnl: %s\\ntoskrnl.exe\n", system32);
-	wprintf(L"\thal: %s\\hal.dll\n", system32);
-	wprintf(L"\tkdcom: %s\\kdcom.dll\n", system32);
-	wprintf(L"\tbootvid: %s\\bootvid.dll\n", system32);
-	wprintf(L"\tfastfat: %s\\fastfat.sys\n", drivers);
-	wprintf(L"\n");
-
 	NTSTATUS status;
 	LOAD_IMAGE(ntoskrnl, L".exe");
 	LOAD_IMAGE(hal, L".dll");
 	LOAD_IMAGE(kdcom, L".dll");
 	LOAD_IMAGE(bootvid, L".dll");
 	LOAD_DRIVER(fastfat);
+	LOAD_DRIVER(ntfs);
+	LOAD_DRIVER(ksecdd);
 
 	DLLINFO dlls[] = {
 		{"ntoskrnl.exe", {ntoskrnlBase}},
         {     "hal.dll",      {halBase}},
         {   "kdcom.dll",    {kdcomBase}},
         { "bootvid.dll",  {bootvidBase}},
-        { "fastfat.sys",  {fastfatBase}}
+        { "fastfat.sys",  {fastfatBase}},
+        {    "ntfs.sys",     {ntfsBase}},
+        {  "ksecdd.sys",   {ksecddBase}}
     };
 
 	return CheckImports(dlls, ARRAY_SIZE(dlls));
