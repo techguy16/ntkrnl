@@ -169,6 +169,9 @@ EXPORTS
     ExSystemExceptionFilter
     ExSystemTimeToLocalTime
 //    ExTryToAcquireFastMutexUnsafe
+    ExEnterCriticalRegionAndAcquireResourceExclusive
+    ExReleaseResourceAndLeaveCriticalRegion
+    ExEnterCriticalRegionAndAcquireResourceShared
     ExEnterCriticalRegionAndAcquireSharedWaitForExclusive
     ExUnregisterCallback
     ExUuidCreate
